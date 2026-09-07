@@ -1,0 +1,822 @@
+{
+  "version": 1,
+  "exportedAt": "2026-08-31T15:50:00.501Z",
+  "components": {
+    "fx-01": {
+      "name": "英文标签+主标题+渐变分割线",
+      "props": {
+        "accent": "#00a8ff",
+        "enText": "DOUBAO AUTO EDIT",
+        "titleText": "{{自动}}剪辑",
+        "enSize": 30,
+        "enColor": "#00a8ff",
+        "titleSize": 126,
+        "titleColor": "#FFFFFF",
+        "posX": 160,
+        "posY": 250,
+        "scale": 100
+      }
+    },
+    "fx-02": {
+      "name": "英文标签+主标题+渐变线+线下方小字",
+      "props": {
+        "accent": "#2DD98A",
+        "enText": "OPEN SKILL RELEASE",
+        "titleText": "现在{{公开}}",
+        "subText": "SKILL：现在公開",
+        "enSize": 30,
+        "enColor": "#2DD98A",
+        "titleSize": 126,
+        "titleColor": "#FFFFFF",
+        "subSize": 22,
+        "subColor": "#FFFFFF",
+        "posX": 160,
+        "posY": 250,
+        "scale": 100
+      }
+    },
+    "fx-03": {
+      "name": "渐变警示条(菱形感叹号)",
+      "props": {
+        "accent": "#FF6B6B",
+        "enText": "NO MANUL EDITING",
+        "cnText": "这条视频，没有经过人工剪辑",
+        "enSize": 16,
+        "enColor": "#FF6B6B",
+        "cnSize": 36,
+        "cnColor": "#FFFFFF",
+        "posX": 130,
+        "posY": 260,
+        "scale": 100
+      }
+    },
+    "fx-04": {
+      "name": "大标题+指标块列表",
+      "props": {
+        "tagText": "顶部标签放在这里",
+        "titleText": "大标题在此可编辑",
+        "items": "[{\"name\":\"算力\",\"val\":\"80\",\"color\":\"#9357a0\"},{\"name\":\"能效\",\"val\":\"85\",\"color\":\"#3f63ae\"},{\"name\":\"精度\",\"val\":\"90\",\"color\":\"#f5d859\"},{\"name\":\"速度\",\"val\":\"75\",\"color\":\"#8cc453\"}]",
+        "tagSize": 24,
+        "tagColor": "#d0df67",
+        "bgColor": "#231815aa",
+        "titleSize": 46,
+        "titleColor": "#e9f4f1",
+        "nameSize": 19,
+        "pSize": 30,
+        "pColor": "#e9f4f1",
+        "posX": 130,
+        "posY": 240,
+        "scale": 100
+      }
+    },
+    "fx-05": {
+      "name": "竖线+胶囊标签+双行标题",
+      "props": {
+        "tagText": "标签标签",
+        "title1": "这是我的主标题",
+        "title2": "标题的第二行",
+        "tags": "[{\"t\":\"小标签一\"},{\"t\":\"小标签二\"},{\"t\":\"小标签三\"}]",
+        "tagSize": 16,
+        "themeColor": "#d0df67",
+        "bgColor": "rgba(12,14,11,0.6)",
+        "titleSize": 52,
+        "titleColor": "rgba(255,255,255,0.96)",
+        "gSize": 16,
+        "gColor": "#d0df67",
+        "posX": 160,
+        "posY": 210,
+        "scale": 100
+      }
+    },
+    "fx-06": {
+      "name": "大标题+多行列表",
+      "props": {
+        "tagText": "顶部标签",
+        "titleText": "大标题在此可编辑",
+        "steps": "[{\"n\":\"01\",\"t\":\"数据采集\",\"d\":\"全域信息抓取收录\"},{\"n\":\"02\",\"t\":\"智能解析\",\"d\":\"算法深度处理\"},{\"n\":\"03\",\"t\":\"结果输出\",\"d\":\"结果实时反馈\"}]",
+        "footText": "补充说明1234567890",
+        "tagSize": 21,
+        "tagColor": "#d0df67",
+        "themeColor": "#d0df67",
+        "bgColor": "rgba(12,14,11,0.6)",
+        "titleSize": 44,
+        "titleColor": "#e9f4f1",
+        "nSize": 16,
+        "nColor": "#d0df67",
+        "tSize": 25,
+        "tColor": "#e9f4f1",
+        "dSize": 17,
+        "dColor": "#e9f4f1",
+        "footSize": 20,
+        "footColor": "#e9f4f1",
+        "posX": 130,
+        "posY": 240,
+        "scale": 100
+      }
+    },
+    "fx-07": {
+      "name": "大标题+多行列表卡片",
+      "props": {
+        "tagText": "顶部标签",
+        "titleText": "大标题在此可编辑",
+        "cards": "[{\"t\":\"小标题1\",\"d\":\"小标题1说明放在这里\"},{\"t\":\"小标题2\",\"d\":\"小标题2说明放在这里\"},{\"t\":\"小标题3\",\"d\":\"小标题3说明放在这里\"},{\"t\":\"小标题4\",\"d\":\"小标题4说明放在这里\"}]",
+        "footText": "补充说明1234567890",
+        "tagSize": 21,
+        "tagColor": "#d0df67",
+        "themeColor": "#d0df67",
+        "bgColor": "rgba(12,14,11,0.6)",
+        "titleSize": 44,
+        "titleColor": "#e9f4f1",
+        "ctSize": 24,
+        "ctColor": "#e9f4f1",
+        "cdSize": 20,
+        "cdColor": "#e9f4f1",
+        "footSize": 20,
+        "footColor": "#e9f4f1",
+        "posX": 130,
+        "posY": 240,
+        "scale": 100
+      }
+    },
+    "fx-08": {
+      "name": "大标题+多进度条",
+      "props": {
+        "tagText": "顶部标签",
+        "titleText": "大标题在此可编辑",
+        "bars": "[{\"n\":\"小标题一\",\"g\":\"80\",\"color\":\"#9357a0\"},{\"n\":\"小标题二\",\"g\":\"50\",\"color\":\"#3f63ae\"},{\"n\":\"小标题三\",\"g\":\"73\",\"color\":\"#f5d859\"},{\"n\":\"小标题四\",\"g\":\"60\",\"color\":\"#8cc453\"}]",
+        "tagSize": 20,
+        "tagColor": "#d0df67",
+        "bgColor": "rgba(12,14,11,0.6)",
+        "titleSize": 42,
+        "titleColor": "#e9f4f1",
+        "nSize": 22,
+        "nColor": "#e9f4f1",
+        "gSize": 22,
+        "posX": 130,
+        "posY": 240,
+        "scale": 100
+      }
+    },
+    "fx-09": {
+      "name": "深色渐变数字卡片",
+      "props": {
+        "bgColor": "rgba(0,0,0,0.69)",
+        "tagText": "LAST EPISODE",
+        "subText": "全网观看数",
+        "plusText": "+",
+        "sourceText": "2026年累计AI 视频的播放量",
+        "numText": 48837,
+        "numSize": 110,
+        "numColor": "#FFFFFF",
+        "tagSize": 21,
+        "tagColor": "#8B7FD4",
+        "subSize": 22,
+        "subColor": "#999999",
+        "plusSize": 46,
+        "plusColor": "#8B7FD4",
+        "sourceSize": 20,
+        "sourceColor": "#A0A0AA",
+        "posX": 130,
+        "posY": 240,
+        "scale": 100
+      }
+    },
+    "t1-01": {
+      "name": "顶部标签+英文标签+主标题副标题",
+      "props": {
+        "tagText": "LOOP",
+        "enText": "TECHNOLOGY ANALYSIS",
+        "titleText": "AI智能算法迭代升级",
+        "subText": "基于深度学习的全新算力优化方案",
+        "titleSize": 61,
+        "titleColor": "#FFFFFF",
+        "subSize": 26,
+        "subColor": "#E6E6E6",
+        "accentColor": "#4CC9F0",
+        "tagSize": 20,
+        "enSize": 21,
+        "posX": 1220,
+        "posY": 160,
+        "scale": 100
+      }
+    },
+    "t1-02": {
+      "name": "左侧竖线引用注释",
+      "props": {
+        "quoteText": "“技术迭代的核心，是效率与体验的双向突破”",
+        "noteText": "行业核心共识 · 2026技术发展准则",
+        "lineColor": "#4CC9F0",
+        "subSize": 46,
+        "titleColor": "#FFFFFF",
+        "titleSize": 25,
+        "noteColor": "#E6E6E6",
+        "posX": 140,
+        "posY": 220,
+        "scale": 100
+      }
+    },
+    "t1-03": {
+      "name": "顶部小字注解+主标题",
+      "props": {
+        "noteText": "核心技术亮点",
+        "titleText": "全域智能感知系统",
+        "subSize": 30,
+        "subColor": "#4CC9F0",
+        "titleSize": 58,
+        "titleColor": "#FFFFFF",
+        "posX": 130,
+        "posY": 180,
+        "scale": 100
+      }
+    },
+    "t1-04": {
+      "name": "小标题-主标题-副标题层级",
+      "props": {
+        "tagText": "TECH PROGRESS",
+        "titleText": "算力效能全面升级",
+        "descText": "突破传统算力瓶颈，实现全域效率提升",
+        "subSize": 23,
+        "accentColor": "#4CC9F0",
+        "titleSize": 60,
+        "titleColor": "#FFFFFF",
+        "descSize": 25,
+        "descColor": "rgba(255,255,255,0.36)",
+        "posX": 130,
+        "posY": 180,
+        "scale": 100
+      }
+    },
+    "t1-05": {
+      "name": "主标题副标题+底部渐变线",
+      "props": {
+        "titleText": "智能化场景落地应用",
+        "descText": "多场景适配 · 高兼容 · 低损耗运行机制",
+        "lineColor": "#4CC9F0",
+        "titleSize": 58,
+        "titleColor": "#FFFFFF",
+        "subSize": 26,
+        "descColor": "#E6E6E6",
+        "posX": 130,
+        "posY": 200,
+        "scale": 100
+      }
+    },
+    "t1-06": {
+      "name": "英文标签+主标题副标题+底部渐变线",
+      "props": {
+        "enText": "SUMMARY",
+        "titleText": "技术体系整体总结",
+        "descText": "完成全链路技术闭环，实现高效稳定运行",
+        "lineColor": "#4CC9F0",
+        "subSize": 20,
+        "accentColor": "#4CC9F0",
+        "titleSize": 59,
+        "titleColor": "#FFFFFF",
+        "descSize": 24,
+        "descColor": "#E6E6E6",
+        "posX": 130,
+        "posY": 200,
+        "scale": 100
+      }
+    },
+    "t1-07": {
+      "name": "顶部标签+主标题+辅助说明",
+      "props": {
+        "kickerText": "DATA DRIVEN",
+        "topText": "数据驱动智能升级",
+        "descText": "以数据为核心，重构智能运行逻辑",
+        "titleSize": 56,
+        "titleColor": "#FFFFFF",
+        "kickerSize": 23,
+        "kickerColor": "rgba(255,255,255,0.28)",
+        "descSize": 25,
+        "descColor": "#E6E6E6",
+        "posX": 130,
+        "posY": 200,
+        "scale": 100
+      }
+    },
+    "t1-08": {
+      "name": "顶部锚点标签+主标题+正文段落",
+      "props": {
+        "tagText": "CORE LOGIC",
+        "titleText": "核心运行逻辑解析",
+        "bodyText": "依托自适应算法，系统可实时调整运行策略，规避无效算力消耗，实现高效运转。",
+        "hlColor": "#4CC9F0",
+        "subSize": 25,
+        "accentColor": "#C77DFF",
+        "titleSize": 60,
+        "titleColor": "#FFFFFF",
+        "bodySize": 27,
+        "bodyColor": "#E6E6E6",
+        "posX": 130,
+        "posY": 180,
+        "scale": 100
+      }
+    },
+    "t1-09": {
+      "name": "主文本块底部注释",
+      "props": {
+        "bodyText": "全链路智能化改造，实现降本增效核心目标",
+        "noteText": "数据统计周期：2026全年",
+        "titleSize": 50,
+        "titleColor": "#FFFFFF",
+        "subSize": 32,
+        "accentColor": "#4CC9F0",
+        "posX": 130,
+        "posY": 300,
+        "scale": 100
+      }
+    },
+    "t2-01": {
+      "name": "单侧渐变发光边框文本卡片",
+      "props": {
+        "contentText": "核心技术突破，实现行业领先层级效能",
+        "borderStart": "#4CC9F0",
+        "borderEnd": "#C77DFF",
+        "titleSize": 52,
+        "titleColor": "#FFFFFF",
+        "posX": 130,
+        "posY": 240,
+        "scale": 100
+      }
+    },
+    "t2-02": {
+      "name": "半透底色发光圆角标题卡片",
+      "props": {
+        "tagText": "CORE ACHIEVEMENT",
+        "titleText": "核心技术成果落地",
+        "lineColor": "#4CC9F0",
+        "subSize": 25,
+        "accentColor": "#4CC9F0",
+        "titleSize": 52,
+        "titleColor": "#FFFFFF",
+        "posX": 130,
+        "posY": 220,
+        "scale": 100
+      }
+    },
+    "t2-03": {
+      "name": "弱底色高亮信息模块",
+      "props": {
+        "titleText": "核心优势亮点",
+        "descText": "低功耗、高效率、高兼容的一体化运行体系",
+        "accentColor": "rgba(76,201,240,0.08)",
+        "titleSize": 54,
+        "titleColor": "#FFFFFF",
+        "subSize": 25,
+        "descColor": "#E6E6E6",
+        "posX": 130,
+        "posY": 240,
+        "scale": 100
+      }
+    },
+    "t3-01": {
+      "name": "大数字+单位底部说明",
+      "props": {
+        "noteText": "整体运算效率",
+        "unitText": "FPS",
+        "descText": "超高帧率稳定运行，无卡顿延迟",
+        "value": 120,
+        "titleSize": 200,
+        "titleColor": "#FFFFFF",
+        "unitSize": 80,
+        "accentColor": "#4CC9F0",
+        "subSize": 36,
+        "noteColor": "#E6E6E6",
+        "descSize": 38,
+        "descColor": "#E6E6E6",
+        "posX": 130,
+        "posY": 200,
+        "scale": 70
+      }
+    },
+    "t3-02": {
+      "name": "前缀标签-数值-单位单行",
+      "props": {
+        "tagText": "算力提升",
+        "unitText": "%",
+        "descText": "核心指标对比基准",
+        "value": 58,
+        "subSize": 48,
+        "accentColor": "#4CC9F0",
+        "titleSize": 180,
+        "titleColor": "#FFFFFF",
+        "unitSize": 64,
+        "descSize": 36,
+        "descColor": "#E6E6E6",
+        "posX": 130,
+        "posY": 240,
+        "scale": 70
+      }
+    },
+    "t3-03": {
+      "name": "双栏对比数据",
+      "props": {
+        "labelL": "优化前",
+        "labelR": "优化后",
+        "descL": "基础算力水准",
+        "descR": "全新算力水准",
+        "valueL": 45,
+        "valueR": 92,
+        "accentColor": "#4CC9F0",
+        "accent2": "#F72585",
+        "labelSize": 40,
+        "titleSize": 160,
+        "titleColor": "#FFFFFF",
+        "descSize": 34,
+        "descColor": "#E6E6E6",
+        "posX": 130,
+        "posY": 240,
+        "scale": 100
+      }
+    },
+    "t3-04": {
+      "name": "多行key-value数据条目",
+      "props": {
+        "titleText": "核心参数指标",
+        "rows": "[{\"k\":\"延迟\",\"v\":\"8ms\",\"d\":\"超低运行延迟\",\"at\":0},{\"k\":\"功耗\",\"v\":\"12W\",\"d\":\"低功耗运行\",\"at\":0.5},{\"k\":\"准确率\",\"v\":\"99.6%\",\"d\":\"超高识别精度\",\"at\":1},{\"k\":\"参数\",\"v\":\"100\",\"d\":\"做出解释\",\"at\":1.5}]",
+        "titleSize": 56,
+        "titleColor": "#FFFFFF",
+        "subSize": 33,
+        "accentColor": "#4CC9F0",
+        "descColor": "#E6E6E6",
+        "dSize": 27,
+        "posX": 130,
+        "posY": 220,
+        "scale": 100
+      }
+    },
+    "t4-01": {
+      "name": "多步横向流程",
+      "props": {
+        "titleText": "多步闭环运行流程",
+        "steps": "[{\"n\":\"01\",\"t\":\"数据采集\",\"d\":\"全域信息抓取收录\"},{\"n\":\"02\",\"t\":\"数据清洗\",\"d\":\"无效信息过滤剔除\"},{\"n\":\"03\",\"t\":\"运算分析\",\"d\":\"智能算法解析处理\"},{\"n\":\"04\",\"t\":\"结果输出\",\"d\":\"精准结果落地反馈\"}]",
+        "titleSize": 56,
+        "titleColor": "#FFFFFF",
+        "subSize": 34,
+        "accentColor": "#4CC9F0",
+        "descSize": 19,
+        "dColor": "#E6E6E6",
+        "numSize": 30,
+        "posX": 130,
+        "posY": 240,
+        "scale": 100
+      }
+    },
+    "t4-02": {
+      "name": "渐变节点阶段演进时间轴",
+      "props": {
+        "titleText": "IDEA TO REAL APPLICATION",
+        "nodes": "[{\"cn\":\"学习研究\",\"en\":\"IDEA\",\"color\":\"#36d8f0\"},{\"cn\":\"个人创作\",\"en\":\"PROTOTYPE\",\"color\":\"#36d8f0\"},{\"cn\":\"产品开发\",\"en\":\"PRODUCT\",\"color\":\"#42d2b8\"},{\"cn\":\"商业应用\",\"en\":\"BUSINESS\",\"color\":\"#f8b04e\"}]",
+        "titleSize": 38,
+        "titleColor": "#b4c8e0",
+        "frameColor": "#406085",
+        "lineC1": "#36d8f0",
+        "lineC2": "#42d2b8",
+        "lineC3": "#f8b04e",
+        "ringColor": "#102035",
+        "ringR": 42,
+        "cnSize": 52,
+        "cnColor": "#FFFFFF",
+        "enSize": 30,
+        "enColor": "#94acc8",
+        "scale": 35,
+        "posX": 70,
+        "posY": 320
+      }
+    },
+    "t5-01": {
+      "name": "圆点标记竖向清单",
+      "props": {
+        "titleText": "核心能力清单",
+        "items": "[{\"t\":\"高速推理\",\"d\":\"大模型本地高速推理，降低云端依赖\"},{\"t\":\"低资源占用\",\"d\":\"硬件开销可控，适配中端设备\"},{\"t\":\"高扩展性\",\"d\":\"插件化架构，支持自定义模块接入\"}]",
+        "titleSize": 54,
+        "titleColor": "#FFFFFF",
+        "subSize": 29,
+        "accentColor": "#4CC9F0",
+        "descSize": 22,
+        "descColor": "#E6E6E6",
+        "posX": 130,
+        "posY": 220,
+        "scale": 100
+      }
+    },
+    "t5-02": {
+      "name": "三色状态标签条目清单",
+      "props": {
+        "titleText": "迭代任务状态",
+        "items": "[{\"tag\":\"DONE\",\"t\":\"内核模块重构\",\"d\":\"完成底层调度重写\",\"color\":\"#06D6A0\"},{\"tag\":\"PROGRESS\",\"t\":\"多模型调度\",\"d\":\"兼容第三方模型接入\",\"color\":\"#4CC9F0\"},{\"tag\":\"WARN\",\"t\":\"内存回收\",\"d\":\"极端场景存在泄漏风险\",\"color\":\"#F72585\"}]",
+        "titleSize": 54,
+        "tTitleColor": "#FFFFFF",
+        "subSize": 33,
+        "tColor": "#FFFFFF",
+        "tagSize": 17,
+        "descSize": 22,
+        "descColor": "#E6E6E6",
+        "doneColor": "#06D6A0",
+        "warnColor": "#F72585",
+        "accentColor": "#4CC9F0",
+        "posX": 130,
+        "posY": 240,
+        "scale": 100
+      }
+    },
+    "t5-03": {
+      "name": "序号+大小标题列表",
+      "props": {
+        "titleText": "系统优化三大方向",
+        "items": "[{\"n\":\"01\",\"t\":\"算力调度\",\"d\":\"重新分配硬件资源，降低无效占用\"},{\"n\":\"02\",\"t\":\"缓存策略\",\"d\":\"构建多级缓存，缩短数据读取耗时\"},{\"n\":\"03\",\"t\":\"链路裁剪\",\"d\":\"剔除冗余逻辑，压缩整体执行链路\"}]",
+        "titleSize": 56,
+        "titleColor": "#FFFFFF",
+        "subSize": 38,
+        "accentColor": "#4CC9F0",
+        "numSize": 28,
+        "descSize": 25,
+        "descColor": "#E6E6E6",
+        "posX": 130,
+        "posY": 200,
+        "scale": 100
+      }
+    },
+    "t5-04": {
+      "name": "双列Key-Value信息清单",
+      "props": {
+        "titleText": "版本基础信息",
+        "items": "[{\"k\":\"版本号\",\"v\":\"V2.5.1\"},{\"k\":\"发布时间\",\"v\":\"2026-08\"},{\"k\":\"目标平台\",\"v\":\"Windows / MacOS\"},{\"k\":\"内核\",\"v\":\"Hyper-engine-v4\"}]",
+        "titleSize": 54,
+        "titleColor": "#FFFFFF",
+        "subSize": 25,
+        "accentColor": "#4CC9F0",
+        "subColor": "#E6E6E6",
+        "posX": 130,
+        "posY": 240,
+        "scale": 100
+      }
+    },
+    "t5-05": {
+      "name": "侧边竖向堆叠标签卡片组",
+      "props": {
+        "cards": "[{\"small\":\"工作强度\",\"main\":\"持续上升\",\"color\":\"#ffaa44\"},{\"small\":\"人员经验\",\"main\":\"存在差异\",\"color\":\"#f24e78\"},{\"small\":\"现场环境\",\"main\":\"复杂多变\",\"color\":\"#22ccf2\"}]",
+        "smallSize": 32,
+        "smallColor": "#b8d0e8",
+        "mainSize": 51,
+        "mainColor": "#FFFFFF",
+        "cardBg": "rgba(12,26,44,0.72)",
+        "cardW": 728,
+        "gap": 44,
+        "scale": 67,
+        "posX": 60,
+        "posY": 80
+      }
+    },
+    "t5-06": {
+      "name": "横向多列标签标题列表",
+      "props": {
+        "titleText": "组件问题排查清单",
+        "items": "[{\"label\":\"01 / 时间问题\",\"title\":\"标题出场过早/动效拥挤\",\"color\":\"#4CC9F0\"},{\"label\":\"02 / 位置问题\",\"title\":\"数字遮挡人物/框体偏大\",\"color\":\"#FF5580\"},{\"label\":\"03 / 交互问题\",\"title\":\"按钮反馈缺失/手势不响应\",\"color\":\"#FF5580\"}]",
+        "titleSize": 93,
+        "titleColor": "#FFFFFF",
+        "labelSize": 24,
+        "labelColor": "#FF5580",
+        "itemSize": 30,
+        "itemColor": "#FFFFFF",
+        "lineW": 336,
+        "lineH": 3,
+        "lineColor2": "rgba(178,136,255,0.3)",
+        "colW": 381,
+        "labelGap": 26,
+        "lineGap": 22,
+        "itemGap": 40,
+        "scale": 60,
+        "posX": 130,
+        "posY": 200
+      }
+    },
+    "t6-01": {
+      "name": "竖向时间轴时间线",
+      "props": {
+        "titleText": "产品演进时间线",
+        "accentColor": "#4CC9F0",
+        "nodes": "[{\"time\":\"2025-03\",\"t\":\"V1.0正式发布\",\"d\":\"基础推理能力落地\"},{\"time\":\"2025-11\",\"t\":\"V2.0大版本更新\",\"d\":\"新增多任务调度模块\"},{\"time\":\"2026-08\",\"t\":\"V2.5重大升级\",\"d\":\"重构底层内核架构\"}]",
+        "titleSize": 54,
+        "titleColor": "#FFFFFF",
+        "subSize": 32,
+        "nodeColor": "#FFFFFF",
+        "timeSize": 27,
+        "timeColor": "#4CC9F0",
+        "descSize": 22,
+        "descColor": "#E6E6E6",
+        "posX": 130,
+        "posY": 200,
+        "scale": 92
+      }
+    },
+    "t6-02": {
+      "name": "多节点横向箭头数据流",
+      "props": {
+        "titleText": "数据流转链路",
+        "accentColor": "#4CC9F0",
+        "nodes": "[{\"t\":\"输入\",\"d\":\"原始数据接入\"},{\"t\":\"处理\",\"d\":\"算法运算解析\"},{\"t\":\"输出\",\"d\":\"结果对外返回\"},{\"t\":\"打印\",\"d\":\"数据打印输出\"}]",
+        "titleSize": 54,
+        "titleColor": "#FFFFFF",
+        "subSize": 30,
+        "nodeColor": "#FFFFFF",
+        "descSize": 20,
+        "descColor": "#E6E6E6",
+        "posX": 130,
+        "posY": 260,
+        "scale": 100
+      }
+    },
+    "t6-03": {
+      "name": "分段进度条指标",
+      "props": {
+        "titleText": "项目整体完成度",
+        "descText": "整体开发任务进度",
+        "lineColor": "#4CC9F0",
+        "titleSize": 54,
+        "titleColor": "#FFFFFF",
+        "subSize": 40,
+        "descSize": 25,
+        "descColor": "#E6E6E6",
+        "posX": 130,
+        "posY": 300,
+        "scale": 100
+      }
+    },
+    "t6-04": {
+      "name": "单输入双分支分叉流向",
+      "props": {
+        "titleText": "分支调度逻辑",
+        "inText": "输入任务",
+        "aText": "高速路径",
+        "bText": "深度路径",
+        "titleSize": 54,
+        "titleColor": "#FFFFFF",
+        "branchA": "#4CC9F0",
+        "branchB": "#F72585",
+        "subSize": 24,
+        "inSize": 24,
+        "inColor": "#FFFFFF",
+        "posX": 392,
+        "posY": 230,
+        "scale": 80
+      }
+    },
+    "t6-05": {
+      "name": "节点分步入场时间线",
+      "props": {
+        "stepText": "STEP 02",
+        "sloganText": "做完一步 · 都会跟你对齐",
+        "accentColor": "#8B7CF0",
+        "nodes": "[{\"num\":\"01\",\"t\":\"跟你对齐几个关键点\",\"en\":\"SYNC\"},{\"num\":\"02\",\"t\":\"这一步在做什么\",\"en\":\"WHAT NOW\"},{\"num\":\"03\",\"t\":\"推进到哪了\",\"en\":\"HOW FAR\"},{\"num\":\"04\",\"t\":\"想加想改随时改\",\"en\":\"TWEAK\"}]",
+        "stepSize": 48,
+        "sloganSize": 26,
+        "sloganColor": "#9999AA",
+        "numSize": 20,
+        "numColor": "#FFFFFF",
+        "subSize": 29,
+        "nodeColor": "#FFFFFF",
+        "enSize": 21,
+        "enColor": "#9999AA",
+        "posX": 128,
+        "posY": 40,
+        "scale": 100
+      }
+    },
+    "t6-06": {
+      "name": "多步骤向上浮动递进时间线",
+      "props": {
+        "titleText": "AI 迭代调试 · 循环推进",
+        "steps": "[{\"num\":\"01\",\"t\":\"描述问题\"},{\"num\":\"02\",\"t\":\"AI 改代码\"},{\"num\":\"03\",\"t\":\"重新渲染\"},{\"num\":\"04\",\"t\":\"打开看结果\"}]",
+        "footerText": "位置或时间还差一点，就重新循环",
+        "titleSize": 64,
+        "titleColor": "#FFFFFF",
+        "stepNumSize": 26,
+        "stepNumColor": "#9388FF",
+        "stepLabelSize": 30,
+        "stepLabelColor": "#FFFFFF",
+        "stepGap": 12,
+        "arrowSize": 26,
+        "arrowColor": "#B8AAFF",
+        "footerSize": 30,
+        "footerColor": "#B0B8E0",
+        "posX": 0,
+        "posY": 0,
+        "scale": 100
+      }
+    },
+    "t7-01": {
+      "name": "标题+竖向柱状图",
+      "props": {
+        "titleText": "各版本推理速度对比",
+        "items": "[{\"cat\":\"V1.0\",\"val\":\"28\",\"hl\":\"0\"},{\"cat\":\"V2.0\",\"val\":\"47\"},{\"cat\":\"V2.4\",\"val\":\"66\"},{\"cat\":\"V2.5\",\"val\":\"92\",\"hl\":\"1\"}]",
+        "titleSize": 54,
+        "titleColor": "#FFFFFF",
+        "barA": "#4CC9F0",
+        "barB": "#F72585",
+        "subSize": 25,
+        "valColor": "#FFFFFF",
+        "catSize": 25,
+        "catColor": "#E6E6E6",
+        "posX": 130,
+        "posY": 220,
+        "scale": 100
+      }
+    },
+    "t7-02": {
+      "name": "横向条形对比图",
+      "props": {
+        "titleText": "资源占用对比",
+        "lineColor": "#4CC9F0",
+        "nodes": "[{\"cat\":\"CPU占用\",\"val\":\"62\"},{\"cat\":\"内存占用\",\"val\":\"48\"},{\"cat\":\"GPU占用\",\"val\":\"76\"}]",
+        "titleSize": 54,
+        "titleColor": "#FFFFFF",
+        "catSize": 30,
+        "catColor": "#FFFFFF",
+        "valSize": 30,
+        "valColor": "#FFFFFF",
+        "posX": 130,
+        "posY": 240,
+        "scale": 100
+      }
+    },
+    "t7-03": {
+      "name": "多段环形占比图",
+      "props": {
+        "titleText": "算力资源分配",
+        "centerText": "总计",
+        "segs": "[{\"name\":\"推理算力\",\"pct\":\"60\",\"color\":\"#4CC9F0\"},{\"name\":\"缓存开销\",\"pct\":\"25\",\"color\":\"#06D6A0\"},{\"name\":\"其他开销\",\"pct\":\"15\",\"color\":\"#F72585\"}]",
+        "titleSize": 54,
+        "titleColor": "#FFFFFF",
+        "centerSize": 27,
+        "centerColor": "#E6E6E6",
+        "centerNumSize": 38,
+        "nameSize": 26,
+        "nameColor": "#E6E6E6",
+        "pctSize": 26,
+        "pctColor": "#FFFFFF",
+        "posX": 130,
+        "posY": 200,
+        "scale": 100
+      }
+    },
+    "t7-04": {
+      "name": "双线条迷你折线图",
+      "props": {
+        "titleText": "吞吐量随负载变化",
+        "lines": "[{\"name\":\"A模型\",\"color\":\"#4CC9F0\",\"data\":\"82,27,44,61,78\"},{\"name\":\"B模型\",\"color\":\"#F72585\",\"data\":\"58,39,51,66,82\"}]",
+        "xlText": "1月,2月,3月,4月,5月,6月",
+        "xLabelColor": "#E6E6E6",
+        "titleSize": 54,
+        "titleColor": "#FFFFFF",
+        "subSize": 24,
+        "legendSize": 30,
+        "legendColor": "#FFFFFF",
+        "posX": 130,
+        "posY": 260,
+        "scale": 100
+      }
+    },
+    "t7-05": {
+      "name": "多卡片指标快照",
+      "props": {
+        "titleText": "核心指标快照",
+        "cards": "[{\"name\":\"平均延迟\",\"val\":\"24ms\",\"delta\":\"↓18%\",\"dir\":\"down\"},{\"name\":\"成功率\",\"val\":\"97.2%\",\"delta\":\"↑2.1%\",\"dir\":\"up\"},{\"name\":\"指标\",\"val\":\"30\",\"delta\":\"↑10%\",\"dir\":\"up\"}]",
+        "upColor": "#06D6A0",
+        "downColor": "#F72585",
+        "titleSize": 54,
+        "titleColor": "#FFFFFF",
+        "nameSize": 36,
+        "nameColor": "#E6E6E6",
+        "valSize": 72,
+        "valColor": "#FFFFFF",
+        "deltaSize": 32,
+        "posX": 130,
+        "posY": 240,
+        "scale": 100
+      }
+    },
+    "t7-06": {
+      "name": "半环形占比仪表盘",
+      "props": {
+        "percent": 85,
+        "labelText": "关键占比",
+        "trackColor": "#444852",
+        "arcColor": "#2288dd",
+        "numSize": 140,
+        "numColor": "#e6e8ed",
+        "labelSize": 48,
+        "labelColor": "#b0b4bc",
+        "sliderFill": "#f0f2f6",
+        "glowColor": "#88ffbb",
+        "radius": 320,
+        "strokeW": 36,
+        "scale": 40,
+        "posX": 60,
+        "posY": 220
+      }
+    }
+  }
+}

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_图层_1" data-name="图层 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 510.08 256.45">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke: #f5d859;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5 {
+        stroke-miterlimit: 10;
+      }
+
+      .cls-1, .cls-2, .cls-4, .cls-5 {
+        fill: none;
+      }
+
+      .cls-6 {
+        fill: #d0df67;
+        font-family: MicrosoftYaHeiLight, 'Microsoft YaHei';
+        font-size: 12px;
+      }
+
+      .cls-7 {
+        opacity: .61;
+      }
+
+      .cls-7, .cls-8, .cls-9, .cls-10, .cls-11 {
+        font-family: MicrosoftYaHei, 'Microsoft YaHei';
+      }
+
+      .cls-7, .cls-12, .cls-13 {
+        fill: #fffef3;
+      }
+
+      .cls-7, .cls-13 {
+        font-size: 21px;
+      }
+
+      .cls-8 {
+        fill: #9357a0;
+      }
+
+      .cls-8, .cls-9, .cls-10, .cls-11 {
+        font-size: 14px;
+        opacity: .7;
+      }
+
+      .cls-2 {
+        stroke: #8cc453;
+      }
+
+      .cls-9 {
+        fill: #f5d859;
+      }
+
+      .cls-10 {
+        fill: #3f63ae;
+      }
+
+      .cls-3 {
+        fill: #231815;
+        opacity: .6;
+        stroke: #d0df67;
+        stroke-width: 2px;
+      }
+
+      .cls-11 {
+        fill: #8cc453;
+      }
+
+      .cls-12 {
+        font-size: 42px;
+      }
+
+      .cls-12, .cls-13 {
+        font-family: MicrosoftYaHei-Bold, 'Microsoft YaHei';
+        font-weight: 700;
+      }
+
+      .cls-4 {
+        stroke: #9357a0;
+      }
+
+      .cls-5 {
+        stroke: #3f63ae;
+      }
+    </style>
+  </defs>
+  <rect class="cls-3" x="1" y="1" width="508.08" height="254.45" rx="16.16" ry="16.16"/>
+  <text class="cls-6" transform="translate(31.59 32.86)"><tspan x="0" y="0">顶部标签放在这里</tspan></text>
+  <text class="cls-12" transform="translate(35.34 91.57)"><tspan x="0" y="0">大标题在此可编辑</tspan></text>
+  <text class="cls-13" transform="translate(42.43 217.04)"><tspan x="0" y="0">80%</tspan></text>
+  <text class="cls-8" transform="translate(41.03 182.69)"><tspan x="0" y="0">小标题一</tspan></text>
+  <rect class="cls-4" x="31.14" y="159.77" width="104.22" height="73.58" rx="8.15" ry="8.15"/>
+  <text class="cls-13" transform="translate(158.52 217.04)"><tspan x="0" y="0">80%</tspan></text>
+  <text class="cls-10" transform="translate(157.13 182.69)"><tspan x="0" y="0">小标题一</tspan></text>
+  <rect class="cls-5" x="147.24" y="159.77" width="104.22" height="73.58" rx="8.15" ry="8.15"/>
+  <text class="cls-13" transform="translate(274.62 217.04)"><tspan x="0" y="0">80%</tspan></text>
+  <text class="cls-9" transform="translate(273.22 182.69)"><tspan x="0" y="0">小标题一</tspan></text>
+  <rect class="cls-1" x="263.34" y="159.77" width="104.22" height="73.58" rx="8.15" ry="8.15"/>
+  <text class="cls-13" transform="translate(389.26 217.04)"><tspan x="0" y="0">80%</tspan></text>
+  <text class="cls-11" transform="translate(387.86 182.69)"><tspan x="0" y="0">小标题一</tspan></text>
+  <rect class="cls-2" x="377.97" y="159.77" width="104.22" height="73.58" rx="8.15" ry="8.15"/>
+  <text class="cls-7" transform="translate(36 140.79)"><tspan x="0" y="0">小标题放在这里</tspan></text>
+</svg>

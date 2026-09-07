@@ -1,0 +1,23 @@
+# Dependencies and build output
+node_modules/
+dist/
+
+# Test and bundler caches
+coverage/
+.vite/
+*.tsbuildinfo
+.eslintcache
+
+# Superpowers transient files only; plans and reports remain tracked.
+.superpowers/
+.superpowers/**/tmp/
+.superpowers/**/*.tmp
+
+# Local operating-system and package-manager noise
+.DS_Store
+Thumbs.db
+*.log
+vite.config.ts.timestamp-*.mjs
+
+# WorkBuddy workspace data
+.workbuddy/

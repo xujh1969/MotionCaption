@@ -1,0 +1,3347 @@
+{
+  "components": [
+    {
+      "avoidFor": [
+        "Avoid lists, processes, metric comparisons, charts, and long paragraphs."
+      ],
+      "category": "card-glow",
+      "componentVersion": 1,
+      "content": {
+        "contentText": {
+          "constraints": "none beyond the declared type",
+          "default": "核心技术突破，实现行业领先层级效能",
+          "required": true,
+          "role": "content",
+          "semanticRole": "body",
+          "type": "text"
+        }
+      },
+      "id": "t2-01",
+      "name": "单侧渐变发光边框文本卡片",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "body"
+        ]
+      },
+      "referencePath": "references/components/t2-01.md",
+      "selectionSummary": "单侧渐变发光边框文本卡片",
+      "semanticFamilies": [
+        "body"
+      ],
+      "suitableFor": [
+        "Key viewpoint, quotation, reminder, or conclusion card; use 1-3 body lines."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid lists, processes, metric comparisons, charts, and long paragraphs."
+      ],
+      "category": "card-glow",
+      "componentVersion": 1,
+      "content": {
+        "tagText": {
+          "constraints": "none beyond the declared type",
+          "default": "CORE ACHIEVEMENT",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "核心技术成果落地",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "t2-02",
+      "name": "半透底色发光圆角标题卡片",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "label",
+          "title"
+        ]
+      },
+      "referencePath": "references/components/t2-02.md",
+      "selectionSummary": "半透底色发光圆角标题卡片",
+      "semanticFamilies": [
+        "label",
+        "title"
+      ],
+      "suitableFor": [
+        "Section label plus core title for a transition or product feature heading."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid lists, processes, metric comparisons, charts, and long paragraphs."
+      ],
+      "category": "card-glow",
+      "componentVersion": 1,
+      "content": {
+        "descText": {
+          "constraints": "none beyond the declared type",
+          "default": "低功耗、高效率、高兼容的一体化运行体系",
+          "required": true,
+          "role": "content",
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "核心优势亮点",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "t2-03",
+      "name": "弱底色高亮信息模块",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "title",
+          "body"
+        ]
+      },
+      "referencePath": "references/components/t2-03.md",
+      "selectionSummary": "弱底色高亮信息模块",
+      "semanticFamilies": [
+        "title",
+        "body"
+      ],
+      "suitableFor": [
+        "Title plus short explanation for a concept, feature, or key information."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid unrelated prose, processes, lists, timelines, charts, and content beyond the stated capacity."
+      ],
+      "category": "data-show",
+      "componentVersion": 1,
+      "content": {
+        "descText": {
+          "constraints": "none beyond the declared type",
+          "default": "超高帧率稳定运行，无卡顿延迟",
+          "required": true,
+          "role": "content",
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "noteText": {
+          "constraints": "none beyond the declared type",
+          "default": "整体运算效率",
+          "required": true,
+          "role": "content",
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "unitText": {
+          "constraints": "none beyond the declared type",
+          "default": "FPS",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "value": {
+          "constraints": "minimum 1; maximum 9999",
+          "default": 120,
+          "max": 9999,
+          "min": 1,
+          "required": true,
+          "role": "content",
+          "semanticRole": "metric",
+          "type": "number"
+        }
+      },
+      "id": "t3-01",
+      "name": "大数字+单位底部说明",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "body",
+          "label",
+          "metric"
+        ]
+      },
+      "referencePath": "references/components/t3-01.md",
+      "selectionSummary": "大数字+单位底部说明",
+      "semanticFamilies": [
+        "body",
+        "label",
+        "metric"
+      ],
+      "suitableFor": [
+        "Single KPI or numeric data display."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid unrelated prose, processes, lists, timelines, charts, and content beyond the stated capacity."
+      ],
+      "category": "data-show",
+      "componentVersion": 1,
+      "content": {
+        "descText": {
+          "constraints": "none beyond the declared type",
+          "default": "核心指标对比基准",
+          "required": true,
+          "role": "content",
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "tagText": {
+          "constraints": "none beyond the declared type",
+          "default": "算力提升",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "unitText": {
+          "constraints": "none beyond the declared type",
+          "default": "%",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "value": {
+          "constraints": "minimum 1; maximum 9999",
+          "default": 58,
+          "max": 9999,
+          "min": 1,
+          "required": true,
+          "role": "content",
+          "semanticRole": "metric",
+          "type": "number"
+        }
+      },
+      "id": "t3-02",
+      "name": "前缀标签-数值-单位单行",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "label",
+          "body",
+          "metric"
+        ]
+      },
+      "referencePath": "references/components/t3-02.md",
+      "selectionSummary": "前缀标签-数值-单位单行",
+      "semanticFamilies": [
+        "label",
+        "body",
+        "metric"
+      ],
+      "suitableFor": [
+        "Single metric with a prefix label and unit."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid unrelated prose, processes, lists, timelines, charts, and content beyond the stated capacity."
+      ],
+      "category": "data-show",
+      "componentVersion": 1,
+      "content": {
+        "descL": {
+          "constraints": "none beyond the declared type",
+          "default": "基础算力水准",
+          "required": true,
+          "role": "content",
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "descR": {
+          "constraints": "none beyond the declared type",
+          "default": "全新算力水准",
+          "required": true,
+          "role": "content",
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "labelL": {
+          "constraints": "none beyond the declared type",
+          "default": "优化前",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "labelR": {
+          "constraints": "none beyond the declared type",
+          "default": "优化后",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "valueL": {
+          "constraints": "minimum 1; maximum 200",
+          "default": 45,
+          "max": 200,
+          "min": 1,
+          "required": true,
+          "role": "content",
+          "semanticRole": "metric",
+          "type": "number"
+        },
+        "valueR": {
+          "constraints": "minimum 1; maximum 200",
+          "default": 92,
+          "max": 200,
+          "min": 1,
+          "required": true,
+          "role": "content",
+          "semanticRole": "metric",
+          "type": "number"
+        }
+      },
+      "id": "t3-03",
+      "name": "双栏对比数据",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "label",
+          "body",
+          "metric"
+        ]
+      },
+      "referencePath": "references/components/t3-03.md",
+      "selectionSummary": "双栏对比数据",
+      "semanticFamilies": [
+        "label",
+        "body",
+        "metric"
+      ],
+      "suitableFor": [
+        "Two-value metric comparison."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid narrative paragraphs, processes, timelines, and more than 4 rows."
+      ],
+      "capacity": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "category": "data-show",
+      "componentVersion": 1,
+      "content": {
+        "rows": {
+          "constraints": "2-4 items; all listed item fields are required strings",
+          "default": [
+            {
+              "d": "超低运行延迟",
+              "k": "延迟",
+              "v": "8ms"
+            },
+            {
+              "d": "低功耗运行",
+              "k": "功耗",
+              "v": "12W"
+            },
+            {
+              "d": "超高识别精度",
+              "k": "准确率",
+              "v": "99.6%"
+            },
+            {
+              "d": "做出解释",
+              "k": "参数",
+              "v": "100"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "d",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "k",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "v",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 4,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "核心参数指标",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "t3-04",
+      "name": "多行key-value数据条目",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "title",
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t3-04.md",
+      "selectionSummary": "多行key-value数据条目",
+      "semanticFamilies": [
+        "title",
+        "items"
+      ],
+      "suitableFor": [
+        "Multi-row key-value data display with 2-4 rows."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid scalar summaries, unrelated charts, and more than 4 steps."
+      ],
+      "capacity": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "category": "flow-track",
+      "componentVersion": 1,
+      "content": {
+        "steps": {
+          "constraints": "2-4 items; all listed item fields are required strings",
+          "default": [
+            {
+              "d": "全域信息抓取收录",
+              "n": "01",
+              "t": "数据采集"
+            },
+            {
+              "d": "无效信息过滤剔除",
+              "n": "02",
+              "t": "数据清洗"
+            },
+            {
+              "d": "智能算法解析处理",
+              "n": "03",
+              "t": "运算分析"
+            },
+            {
+              "d": "精准结果落地反馈",
+              "n": "04",
+              "t": "结果输出"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "d",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "n",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "t",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 4,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "多步闭环运行流程",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "t4-01",
+      "name": "多步横向流程",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "title",
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t4-01.md",
+      "selectionSummary": "多步横向流程",
+      "semanticFamilies": [
+        "title",
+        "items"
+      ],
+      "suitableFor": [
+        "Process or step explanation with 2-4 steps."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid unrelated prose, metrics, charts, and more than 4 nodes."
+      ],
+      "capacity": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "category": "flow-track",
+      "componentVersion": 1,
+      "content": {
+        "nodes": {
+          "constraints": "2-4 items; all listed item fields are required strings",
+          "default": [
+            {
+              "cn": "学习研究",
+              "en": "IDEA"
+            },
+            {
+              "cn": "个人创作",
+              "en": "PROTOTYPE"
+            },
+            {
+              "cn": "产品开发",
+              "en": "PRODUCT"
+            },
+            {
+              "cn": "商业应用",
+              "en": "BUSINESS"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "cn",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "en",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 4,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "IDEA TO REAL APPLICATION",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "t4-02",
+      "name": "渐变节点阶段演进时间轴",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "title",
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t4-02.md",
+      "selectionSummary": "渐变节点阶段演进时间轴",
+      "semanticFamilies": [
+        "title",
+        "items"
+      ],
+      "suitableFor": [
+        "Stage progression or process timeline with 2-4 nodes."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid charts, long paragraphs, and more than 3 items."
+      ],
+      "capacity": {
+        "maxItems": 3,
+        "minItems": 2
+      },
+      "category": "list-item",
+      "componentVersion": 1,
+      "content": {
+        "items": {
+          "constraints": "2-3 items; all listed item fields are required strings",
+          "default": [
+            {
+              "d": "大模型本地高速推理，降低云端依赖",
+              "t": "高速推理"
+            },
+            {
+              "d": "硬件开销可控，适配中端设备",
+              "t": "低资源占用"
+            },
+            {
+              "d": "插件化架构，支持自定义模块接入",
+              "t": "高扩展性"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "d",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "t",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 3,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "核心能力清单",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "t5-01",
+      "name": "圆点标记竖向清单",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "title",
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t5-01.md",
+      "selectionSummary": "圆点标记竖向清单",
+      "semanticFamilies": [
+        "title",
+        "items"
+      ],
+      "suitableFor": [
+        "Vertical capability or item list with 2-3 items."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid charts, long paragraphs, and more than 3 items."
+      ],
+      "capacity": {
+        "maxItems": 3,
+        "minItems": 2
+      },
+      "category": "list-item",
+      "componentVersion": 1,
+      "content": {
+        "items": {
+          "constraints": "2-3 items; all listed item fields are required strings",
+          "default": [
+            {
+              "d": "完成底层调度重写",
+              "t": "内核模块重构",
+              "tag": "DONE"
+            },
+            {
+              "d": "兼容第三方模型接入",
+              "t": "多模型调度",
+              "tag": "PROGRESS"
+            },
+            {
+              "d": "极端场景存在泄漏风险",
+              "t": "内存回收",
+              "tag": "WARN"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "d",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "t",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "tag",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 3,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "迭代任务状态",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "t5-02",
+      "name": "三色状态标签条目清单",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "title",
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t5-02.md",
+      "selectionSummary": "三色状态标签条目清单",
+      "semanticFamilies": [
+        "title",
+        "items"
+      ],
+      "suitableFor": [
+        "Status-tagged task list with 2-3 items."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid charts, long paragraphs, and more than 3 items."
+      ],
+      "capacity": {
+        "maxItems": 3,
+        "minItems": 2
+      },
+      "category": "list-item",
+      "componentVersion": 1,
+      "content": {
+        "items": {
+          "constraints": "2-3 items; all listed item fields are required strings",
+          "default": [
+            {
+              "d": "重新分配硬件资源，降低无效占用",
+              "n": "01",
+              "t": "算力调度"
+            },
+            {
+              "d": "构建多级缓存，缩短数据读取耗时",
+              "n": "02",
+              "t": "缓存策略"
+            },
+            {
+              "d": "剔除冗余逻辑，压缩整体执行链路",
+              "n": "03",
+              "t": "链路裁剪"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "d",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "n",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "t",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 3,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "系统优化三大方向",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "t5-03",
+      "name": "序号+大小标题列表",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "title",
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t5-03.md",
+      "selectionSummary": "序号+大小标题列表",
+      "semanticFamilies": [
+        "title",
+        "items"
+      ],
+      "suitableFor": [
+        "Numbered optimization directions with 2-3 items."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid charts, long paragraphs, and more than 4 items."
+      ],
+      "capacity": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "category": "list-item",
+      "componentVersion": 1,
+      "content": {
+        "items": {
+          "constraints": "2-4 items; all listed item fields are required strings",
+          "default": [
+            {
+              "k": "版本号",
+              "v": "V2.5.1"
+            },
+            {
+              "k": "发布时间",
+              "v": "2026-08"
+            },
+            {
+              "k": "目标平台",
+              "v": "Windows / MacOS"
+            },
+            {
+              "k": "内核",
+              "v": "Hyper-engine-v4"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "k",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "v",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 4,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "版本基础信息",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "t5-04",
+      "name": "双列Key-Value信息清单",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "title",
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t5-04.md",
+      "selectionSummary": "双列Key-Value信息清单",
+      "semanticFamilies": [
+        "title",
+        "items"
+      ],
+      "suitableFor": [
+        "Key-value information list with 2-4 items."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid charts, long paragraphs, and more than 3 cards."
+      ],
+      "capacity": {
+        "maxItems": 3,
+        "minItems": 2
+      },
+      "category": "list-item",
+      "componentVersion": 1,
+      "content": {
+        "cards": {
+          "constraints": "2-3 items; all listed item fields are required strings",
+          "default": [
+            {
+              "main": "持续上升",
+              "small": "工作强度"
+            },
+            {
+              "main": "存在差异",
+              "small": "人员经验"
+            },
+            {
+              "main": "复杂多变",
+              "small": "现场环境"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "main",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "small",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 3,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        }
+      },
+      "id": "t5-05",
+      "name": "侧边竖向堆叠标签卡片组",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t5-05.md",
+      "selectionSummary": "侧边竖向堆叠标签卡片组",
+      "semanticFamilies": [
+        "items"
+      ],
+      "suitableFor": [
+        "Parallel status or label cards with 2-3 cards."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid charts, long paragraphs, and more than 3 items."
+      ],
+      "capacity": {
+        "maxItems": 3,
+        "minItems": 2
+      },
+      "category": "list-item",
+      "componentVersion": 1,
+      "content": {
+        "items": {
+          "constraints": "2-3 items; all listed item fields are required strings",
+          "default": [
+            {
+              "label": "01 / 时间问题",
+              "title": "标题出场过早/动效拥挤"
+            },
+            {
+              "label": "02 / 位置问题",
+              "title": "数字遮挡人物/框体偏大"
+            },
+            {
+              "label": "03 / 交互问题",
+              "title": "按钮反馈缺失/手势不响应"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "label",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "title",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 3,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "组件问题排查清单",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "t5-06",
+      "name": "横向多列标签标题列表",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "title",
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t5-06.md",
+      "selectionSummary": "横向多列标签标题列表",
+      "semanticFamilies": [
+        "title",
+        "items"
+      ],
+      "suitableFor": [
+        "Multi-column issue list with 2-3 items."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid large datasets, precision analysis, complex axes, and more than 4 bars."
+      ],
+      "capacity": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "category": "mini-chart",
+      "componentVersion": 1,
+      "content": {
+        "items": {
+          "constraints": "2-4 items; all listed item fields are required strings",
+          "default": [
+            {
+              "cat": "V1.0",
+              "val": "28"
+            },
+            {
+              "cat": "V2.0",
+              "val": "47"
+            },
+            {
+              "cat": "V2.4",
+              "val": "66"
+            },
+            {
+              "cat": "V2.5",
+              "val": "92"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "cat",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "val",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 4,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "各版本推理速度对比",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "t7-01",
+      "name": "标题+竖向柱状图",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "title",
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t7-01.md",
+      "selectionSummary": "标题+竖向柱状图",
+      "semanticFamilies": [
+        "title",
+        "items"
+      ],
+      "suitableFor": [
+        "Vertical category-value comparison with 2-4 bars."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid large datasets, precision analysis, complex axes, and more than 3 bars."
+      ],
+      "capacity": {
+        "maxItems": 3,
+        "minItems": 2
+      },
+      "category": "mini-chart",
+      "componentVersion": 1,
+      "content": {
+        "nodes": {
+          "constraints": "2-3 items; all listed item fields are required strings",
+          "default": [
+            {
+              "cat": "CPU占用",
+              "val": "62"
+            },
+            {
+              "cat": "内存占用",
+              "val": "48"
+            },
+            {
+              "cat": "GPU占用",
+              "val": "76"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "cat",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "val",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 3,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "资源占用对比",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "t7-02",
+      "name": "横向条形对比图",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "title",
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t7-02.md",
+      "selectionSummary": "横向条形对比图",
+      "semanticFamilies": [
+        "title",
+        "items"
+      ],
+      "suitableFor": [
+        "Horizontal ranking or option comparison with 2-3 bars."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid large datasets, precision analysis, complex axes, and more than 3 segments."
+      ],
+      "capacity": {
+        "maxItems": 3,
+        "minItems": 2
+      },
+      "category": "mini-chart",
+      "componentVersion": 1,
+      "content": {
+        "centerText": {
+          "constraints": "none beyond the declared type",
+          "default": "总计",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "segs": {
+          "constraints": "2-3 items; all listed item fields are required strings",
+          "default": [
+            {
+              "name": "推理算力",
+              "pct": "60"
+            },
+            {
+              "name": "缓存开销",
+              "pct": "25"
+            },
+            {
+              "name": "其他开销",
+              "pct": "15"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "name",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "pct",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 3,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "算力资源分配",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "t7-03",
+      "name": "多段环形占比图",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "title",
+          "label",
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t7-03.md",
+      "selectionSummary": "多段环形占比图",
+      "semanticFamilies": [
+        "title",
+        "label",
+        "items"
+      ],
+      "suitableFor": [
+        "Composition or proportion with 2-3 segments; total should be 100 percent."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid more than 2 lines, fewer than 3 or more than 6 time points, large datasets, and complex axes."
+      ],
+      "capacity": {
+        "maxItems": 2,
+        "minItems": 2
+      },
+      "category": "mini-chart",
+      "componentVersion": 1,
+      "content": {
+        "lines": {
+          "constraints": "2 items exactly; all listed item fields are required strings",
+          "default": [
+            {
+              "data": "82,27,44,61,78",
+              "name": "A模型"
+            },
+            {
+              "data": "58,39,51,66,82",
+              "name": "B模型"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "data",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "name",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "吞吐量随负载变化",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "xlText": {
+          "constraints": "none beyond the declared type",
+          "default": "1月,2月,3月,4月,5月,6月",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        }
+      },
+      "id": "t7-04",
+      "name": "双线条迷你折线图",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "title",
+          "items",
+          "label"
+        ]
+      },
+      "referencePath": "references/components/t7-04.md",
+      "selectionSummary": "双线条迷你折线图",
+      "semanticFamilies": [
+        "title",
+        "items",
+        "label"
+      ],
+      "suitableFor": [
+        "Two-subject trend comparison with exactly 2 lines and 3-6 time points."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid large datasets, precision analysis, complex axes, and more than 3 cards."
+      ],
+      "capacity": {
+        "maxItems": 3,
+        "minItems": 2
+      },
+      "category": "mini-chart",
+      "componentVersion": 1,
+      "content": {
+        "cards": {
+          "constraints": "2-3 items; all listed item fields are required strings",
+          "default": [
+            {
+              "delta": "↓18%",
+              "dir": "down",
+              "name": "平均延迟",
+              "val": "24ms"
+            },
+            {
+              "delta": "↑2.1%",
+              "dir": "up",
+              "name": "成功率",
+              "val": "97.2%"
+            },
+            {
+              "delta": "↑10%",
+              "dir": "up",
+              "name": "指标",
+              "val": "30"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "delta",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "dir",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "name",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "val",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 3,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "核心指标快照",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "t7-05",
+      "name": "多卡片指标快照",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "title",
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t7-05.md",
+      "selectionSummary": "多卡片指标快照",
+      "semanticFamilies": [
+        "title",
+        "items"
+      ],
+      "suitableFor": [
+        "KPI snapshot cards with 2-3 cards."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid large datasets, precision analysis, complex axes, and multiple metrics."
+      ],
+      "category": "mini-chart",
+      "componentVersion": 1,
+      "content": {
+        "labelText": {
+          "constraints": "none beyond the declared type",
+          "default": "关键占比",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "percent": {
+          "constraints": "minimum 0; maximum 100",
+          "default": 85,
+          "max": 100,
+          "min": 0,
+          "required": true,
+          "role": "content",
+          "semanticRole": "metric",
+          "type": "number"
+        }
+      },
+      "id": "t7-06",
+      "name": "半环形占比仪表盘",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "metric",
+          "label"
+        ]
+      },
+      "referencePath": "references/components/t7-06.md",
+      "selectionSummary": "半环形占比仪表盘",
+      "semanticFamilies": [
+        "metric",
+        "label"
+      ],
+      "suitableFor": [
+        "Single completion rate, score, or percentage from 0-100 percent."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid paragraphs and data lists."
+      ],
+      "category": "s",
+      "componentVersion": 1,
+      "content": {
+        "enText": {
+          "constraints": "none beyond the declared type",
+          "default": "DOUBAO AUTO EDIT",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "{{自动}}剪辑",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "fx-01",
+      "name": "英文标签+主标题+渐变分割线",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "label",
+          "title"
+        ]
+      },
+      "referencePath": "references/components/fx-01.md",
+      "selectionSummary": "英文标签+主标题+渐变分割线",
+      "semanticFamilies": [
+        "label",
+        "title"
+      ],
+      "suitableFor": [
+        "Chapter title or core viewpoint with a short English label and short title."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid long body copy and data."
+      ],
+      "category": "s",
+      "componentVersion": 1,
+      "content": {
+        "enText": {
+          "constraints": "none beyond the declared type",
+          "default": "OPEN SKILL RELEASE",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "subText": {
+          "constraints": "none beyond the declared type",
+          "default": "SKILL：现在公開",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "现在{{公开}}",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "fx-02",
+      "name": "英文标签+主标题+渐变线+线下方小字",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "label",
+          "title"
+        ]
+      },
+      "referencePath": "references/components/fx-02.md",
+      "selectionSummary": "英文标签+主标题+渐变线+线下方小字",
+      "semanticFamilies": [
+        "label",
+        "title"
+      ],
+      "suitableFor": [
+        "Chapter title with a short supporting line."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid neutral exposition."
+      ],
+      "category": "s",
+      "componentVersion": 1,
+      "content": {
+        "cnText": {
+          "constraints": "none beyond the declared type",
+          "default": "这条视频，没有经过人工剪辑",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "enText": {
+          "constraints": "none beyond the declared type",
+          "default": "NO MANUL EDITING",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        }
+      },
+      "id": "fx-03",
+      "name": "渐变警示条(菱形感叹号)",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "label"
+        ]
+      },
+      "referencePath": "references/components/fx-03.md",
+      "selectionSummary": "渐变警示条(菱形感叹号)",
+      "semanticFamilies": [
+        "label"
+      ],
+      "suitableFor": [
+        "Warning, risk, or negative conclusion."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid fewer or more than 4 items and prose paragraphs."
+      ],
+      "capacity": {
+        "maxItems": 4,
+        "minItems": 4
+      },
+      "category": "s",
+      "componentVersion": 1,
+      "content": {
+        "items": {
+          "constraints": "4 items exactly; all listed item fields are required strings",
+          "default": [
+            {
+              "name": "算力",
+              "val": "80"
+            },
+            {
+              "name": "能效",
+              "val": "85"
+            },
+            {
+              "name": "精度",
+              "val": "90"
+            },
+            {
+              "name": "速度",
+              "val": "75"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "name",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "val",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 4,
+          "minItems": 4,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "tagText": {
+          "constraints": "none beyond the declared type",
+          "default": "顶部标签放在这里",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "大标题在此可编辑",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "fx-04",
+      "name": "大标题+指标块列表",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "label",
+          "title",
+          "items"
+        ]
+      },
+      "referencePath": "references/components/fx-04.md",
+      "selectionSummary": "大标题+指标块列表",
+      "semanticFamilies": [
+        "label",
+        "title",
+        "items"
+      ],
+      "suitableFor": [
+        "Capability or metric overview with exactly 4 items."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid long paragraphs and more than 3 tags."
+      ],
+      "capacity": {
+        "maxItems": 3,
+        "minItems": 1
+      },
+      "category": "s",
+      "componentVersion": 1,
+      "content": {
+        "tags": {
+          "constraints": "1-3 items; all listed item fields are required strings",
+          "default": [
+            {
+              "t": "小标签一"
+            },
+            {
+              "t": "小标签二"
+            },
+            {
+              "t": "小标签三"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "t",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 3,
+          "minItems": 1,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "tagText": {
+          "constraints": "none beyond the declared type",
+          "default": "标签标签",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "title1": {
+          "constraints": "none beyond the declared type",
+          "default": "这是我的主标题",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "title2": {
+          "constraints": "none beyond the declared type",
+          "default": "标题的第二行",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "fx-05",
+      "name": "竖线+胶囊标签+双行标题",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "label",
+          "title",
+          "items"
+        ]
+      },
+      "referencePath": "references/components/fx-05.md",
+      "selectionSummary": "竖线+胶囊标签+双行标题",
+      "semanticFamilies": [
+        "label",
+        "title",
+        "items"
+      ],
+      "suitableFor": [
+        "Two-line theme title with category tags; use 1-3 tags."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid a single scalar summary and more than 3 steps."
+      ],
+      "capacity": {
+        "maxItems": 3,
+        "minItems": 2
+      },
+      "category": "s",
+      "componentVersion": 1,
+      "content": {
+        "footText": {
+          "constraints": "none beyond the declared type",
+          "default": "补充说明1234567890",
+          "required": true,
+          "role": "content",
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "steps": {
+          "constraints": "2-3 items; all listed item fields are required strings",
+          "default": [
+            {
+              "d": "全域信息抓取收录",
+              "n": "01",
+              "t": "数据采集"
+            },
+            {
+              "d": "算法深度处理",
+              "n": "02",
+              "t": "智能解析"
+            },
+            {
+              "d": "结果实时反馈",
+              "n": "03",
+              "t": "结果输出"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "d",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "n",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "t",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 3,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "tagText": {
+          "constraints": "none beyond the declared type",
+          "default": "顶部标签",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "大标题在此可编辑",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "fx-06",
+      "name": "大标题+多行列表",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "label",
+          "title",
+          "items",
+          "body"
+        ]
+      },
+      "referencePath": "references/components/fx-06.md",
+      "selectionSummary": "大标题+多行列表",
+      "semanticFamilies": [
+        "label",
+        "title",
+        "items",
+        "body"
+      ],
+      "suitableFor": [
+        "Process or step explanation with 2-3 steps."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid a single narrative and more than 4 cards."
+      ],
+      "capacity": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "category": "s",
+      "componentVersion": 1,
+      "content": {
+        "cards": {
+          "constraints": "2-4 items; all listed item fields are required strings",
+          "default": [
+            {
+              "d": "小标题1说明放在这里",
+              "t": "小标题1"
+            },
+            {
+              "d": "小标题2说明放在这里",
+              "t": "小标题2"
+            },
+            {
+              "d": "小标题3说明放在这里",
+              "t": "小标题3"
+            },
+            {
+              "d": "小标题4说明放在这里",
+              "t": "小标题4"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "d",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "t",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 4,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "footText": {
+          "constraints": "none beyond the declared type",
+          "default": "补充说明1234567890",
+          "required": true,
+          "role": "content",
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "tagText": {
+          "constraints": "none beyond the declared type",
+          "default": "顶部标签",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "大标题在此可编辑",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "fx-07",
+      "name": "大标题+多行列表卡片",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "label",
+          "title",
+          "items",
+          "body"
+        ]
+      },
+      "referencePath": "references/components/fx-07.md",
+      "selectionSummary": "大标题+多行列表卡片",
+      "semanticFamilies": [
+        "label",
+        "title",
+        "items",
+        "body"
+      ],
+      "suitableFor": [
+        "Parallel feature or viewpoint cards with 2-4 cards."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid non-comparative prose and more than 4 bars."
+      ],
+      "capacity": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "category": "s",
+      "componentVersion": 1,
+      "content": {
+        "bars": {
+          "constraints": "2-4 items; all listed item fields are required strings",
+          "default": [
+            {
+              "g": "80",
+              "n": "小标题一"
+            },
+            {
+              "g": "50",
+              "n": "小标题二"
+            },
+            {
+              "g": "73",
+              "n": "小标题三"
+            },
+            {
+              "g": "60",
+              "n": "小标题四"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "g",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "n",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 4,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "tagText": {
+          "constraints": "none beyond the declared type",
+          "default": "顶部标签",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "大标题在此可编辑",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "fx-08",
+      "name": "大标题+多进度条",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "label",
+          "title",
+          "items"
+        ]
+      },
+      "referencePath": "references/components/fx-08.md",
+      "selectionSummary": "大标题+多进度条",
+      "semanticFamilies": [
+        "label",
+        "title",
+        "items"
+      ],
+      "suitableFor": [
+        "Progress, score, or percentage comparison with 2-4 bars."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid multiple metrics and paragraphs."
+      ],
+      "category": "s",
+      "componentVersion": 1,
+      "content": {
+        "numText": {
+          "constraints": "none beyond the declared type",
+          "default": "48837",
+          "required": true,
+          "role": "content",
+          "semanticRole": "metric",
+          "type": "text"
+        },
+        "plusText": {
+          "constraints": "none beyond the declared type",
+          "default": "+",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "sourceText": {
+          "constraints": "none beyond the declared type",
+          "default": "2026年累计AI 视频的播放量",
+          "required": true,
+          "role": "content",
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "subText": {
+          "constraints": "none beyond the declared type",
+          "default": "全网观看数",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "tagText": {
+          "constraints": "none beyond the declared type",
+          "default": "LAST EPISODE",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        }
+      },
+      "id": "fx-09",
+      "name": "深色渐变数字卡片",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "label",
+          "title",
+          "body",
+          "metric"
+        ]
+      },
+      "referencePath": "references/components/fx-09.md",
+      "selectionSummary": "深色渐变数字卡片",
+      "semanticFamilies": [
+        "label",
+        "title",
+        "body",
+        "metric"
+      ],
+      "suitableFor": [
+        "Single core KPI, count, or growth value."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid metrics, processes, lists, charts, and long overflow text."
+      ],
+      "category": "text-line",
+      "componentVersion": 1,
+      "content": {
+        "enText": {
+          "constraints": "none beyond the declared type",
+          "default": "TECHNOLOGY ANALYSIS",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "subText": {
+          "constraints": "none beyond the declared type",
+          "default": "基于深度学习的全新算力优化方案",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "tagText": {
+          "constraints": "none beyond the declared type",
+          "default": "LOOP",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "AI智能算法迭代升级",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "t1-01",
+      "name": "顶部标签+英文标签+主标题副标题",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 700
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "label",
+          "title"
+        ]
+      },
+      "referencePath": "references/components/t1-01.md",
+      "selectionSummary": "顶部标签+英文标签+主标题副标题",
+      "semanticFamilies": [
+        "label",
+        "title"
+      ],
+      "suitableFor": [
+        "Chapter opening or technology topic introduction."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid metrics, processes, lists, charts, and long overflow text."
+      ],
+      "category": "text-line",
+      "componentVersion": 1,
+      "content": {
+        "noteText": {
+          "constraints": "none beyond the declared type",
+          "default": "行业核心共识 · 2026技术发展准则",
+          "required": true,
+          "role": "content",
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "quoteText": {
+          "constraints": "none beyond the declared type",
+          "default": "“技术迭代的核心，是效率与体验的双向突破”",
+          "required": true,
+          "role": "content",
+          "semanticRole": "body",
+          "type": "text"
+        }
+      },
+      "id": "t1-02",
+      "name": "左侧竖线引用注释",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "body"
+        ]
+      },
+      "referencePath": "references/components/t1-02.md",
+      "selectionSummary": "左侧竖线引用注释",
+      "semanticFamilies": [
+        "body"
+      ],
+      "suitableFor": [
+        "Quote, highlighted viewpoint, or key sentence; use 1-3 text lines."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid metrics, processes, lists, charts, and long overflow text."
+      ],
+      "category": "text-line",
+      "componentVersion": 1,
+      "content": {
+        "noteText": {
+          "constraints": "none beyond the declared type",
+          "default": "核心技术亮点",
+          "required": true,
+          "role": "content",
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "全域智能感知系统",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "t1-03",
+      "name": "顶部小字注解+主标题",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "body",
+          "title"
+        ]
+      },
+      "referencePath": "references/components/t1-03.md",
+      "selectionSummary": "顶部小字注解+主标题",
+      "semanticFamilies": [
+        "body",
+        "title"
+      ],
+      "suitableFor": [
+        "Small annotation plus core conclusion with knowledge or fact emphasis."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid metrics, processes, lists, charts, and long overflow text."
+      ],
+      "category": "text-line",
+      "componentVersion": 1,
+      "content": {
+        "descText": {
+          "constraints": "none beyond the declared type",
+          "default": "突破传统算力瓶颈，实现全域效率提升",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "tagText": {
+          "constraints": "none beyond the declared type",
+          "default": "TECH PROGRESS",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "算力效能全面升级",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "t1-04",
+      "name": "小标题-主标题-副标题层级",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "title"
+        ]
+      },
+      "referencePath": "references/components/t1-04.md",
+      "selectionSummary": "小标题-主标题-副标题层级",
+      "semanticFamilies": [
+        "title"
+      ],
+      "suitableFor": [
+        "Three-level section hierarchy."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid metrics, processes, lists, charts, and long overflow text."
+      ],
+      "category": "text-line",
+      "componentVersion": 1,
+      "content": {
+        "descText": {
+          "constraints": "none beyond the declared type",
+          "default": "多场景适配 · 高兼容 · 低损耗运行机制",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "智能化场景落地应用",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "t1-05",
+      "name": "主标题副标题+底部渐变线",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "title"
+        ]
+      },
+      "referencePath": "references/components/t1-05.md",
+      "selectionSummary": "主标题副标题+底部渐变线",
+      "semanticFamilies": [
+        "title"
+      ],
+      "suitableFor": [
+        "Main title plus short explanation for a viewpoint summary or transition."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid metrics, processes, lists, charts, and long overflow text."
+      ],
+      "category": "text-line",
+      "componentVersion": 1,
+      "content": {
+        "descText": {
+          "constraints": "none beyond the declared type",
+          "default": "完成全链路技术闭环，实现高效稳定运行",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "enText": {
+          "constraints": "none beyond the declared type",
+          "default": "SUMMARY",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "技术体系整体总结",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "t1-06",
+      "name": "英文标签+主标题副标题+底部渐变线",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "label",
+          "title"
+        ]
+      },
+      "referencePath": "references/components/t1-06.md",
+      "selectionSummary": "英文标签+主标题副标题+底部渐变线",
+      "semanticFamilies": [
+        "label",
+        "title"
+      ],
+      "suitableFor": [
+        "English label plus topic title for a technology or product chapter opening."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid metrics, processes, lists, charts, and long overflow text."
+      ],
+      "category": "text-line",
+      "componentVersion": 1,
+      "content": {
+        "descText": {
+          "constraints": "none beyond the declared type",
+          "default": "以数据为核心，重构智能运行逻辑",
+          "required": true,
+          "role": "content",
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "kickerText": {
+          "constraints": "none beyond the declared type",
+          "default": "DATA DRIVEN",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "topText": {
+          "constraints": "none beyond the declared type",
+          "default": "数据驱动智能升级",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "t1-07",
+      "name": "顶部标签+主标题+辅助说明",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "label",
+          "title",
+          "body"
+        ]
+      },
+      "referencePath": "references/components/t1-07.md",
+      "selectionSummary": "顶部标签+主标题+辅助说明",
+      "semanticFamilies": [
+        "label",
+        "title",
+        "body"
+      ],
+      "suitableFor": [
+        "Section label, main title, and one-line explanation for a feature introduction."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid metrics, processes, lists, charts, and long overflow text."
+      ],
+      "category": "text-line",
+      "componentVersion": 1,
+      "content": {
+        "bodyText": {
+          "constraints": "none beyond the declared type",
+          "default": "依托自适应算法，系统可实时调整运行策略，规避无效算力消耗，实现高效运转。",
+          "required": true,
+          "role": "content",
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "tagText": {
+          "constraints": "none beyond the declared type",
+          "default": "CORE LOGIC",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "核心运行逻辑解析",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "t1-08",
+      "name": "顶部锚点标签+主标题+正文段落",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "label",
+          "title",
+          "body"
+        ]
+      },
+      "referencePath": "references/components/t1-08.md",
+      "selectionSummary": "顶部锚点标签+主标题+正文段落",
+      "semanticFamilies": [
+        "label",
+        "title",
+        "body"
+      ],
+      "suitableFor": [
+        "Topic label, main title, and explanatory paragraph; use 2-4 body lines."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid metrics, processes, lists, charts, and long overflow text."
+      ],
+      "category": "text-line",
+      "componentVersion": 1,
+      "content": {
+        "bodyText": {
+          "constraints": "none beyond the declared type",
+          "default": "全链路智能化改造，实现降本增效核心目标",
+          "required": true,
+          "role": "content",
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "noteText": {
+          "constraints": "none beyond the declared type",
+          "default": "数据统计周期：2026全年",
+          "required": true,
+          "role": "content",
+          "semanticRole": "body",
+          "type": "text"
+        }
+      },
+      "id": "t1-09",
+      "name": "主文本块底部注释",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "body"
+        ]
+      },
+      "referencePath": "references/components/t1-09.md",
+      "selectionSummary": "主文本块底部注释",
+      "semanticFamilies": [
+        "body"
+      ],
+      "suitableFor": [
+        "Highlighted body with footnote or source for a definition, quotation, or supporting note."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid unrelated prose, metrics, charts, and more than 3 nodes."
+      ],
+      "capacity": {
+        "maxItems": 3,
+        "minItems": 2
+      },
+      "category": "timeline-flow",
+      "componentVersion": 1,
+      "content": {
+        "nodes": {
+          "constraints": "2-3 items; all listed item fields are required strings",
+          "default": [
+            {
+              "d": "基础推理能力落地",
+              "t": "V1.0正式发布",
+              "time": "2025-03"
+            },
+            {
+              "d": "新增多任务调度模块",
+              "t": "V2.0大版本更新",
+              "time": "2025-11"
+            },
+            {
+              "d": "重构底层内核架构",
+              "t": "V2.5重大升级",
+              "time": "2026-08"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "d",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "t",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "time",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 3,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "产品演进时间线",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "t6-01",
+      "name": "竖向时间轴时间线",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "title",
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t6-01.md",
+      "selectionSummary": "竖向时间轴时间线",
+      "semanticFamilies": [
+        "title",
+        "items"
+      ],
+      "suitableFor": [
+        "Product or project evolution timeline with 2-3 nodes."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid unrelated prose, metrics, charts, and more than 4 nodes."
+      ],
+      "capacity": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "category": "timeline-flow",
+      "componentVersion": 1,
+      "content": {
+        "nodes": {
+          "constraints": "2-4 items; all listed item fields are required strings",
+          "default": [
+            {
+              "d": "原始数据接入",
+              "t": "输入"
+            },
+            {
+              "d": "算法运算解析",
+              "t": "处理"
+            },
+            {
+              "d": "结果对外返回",
+              "t": "输出"
+            },
+            {
+              "d": "数据打印输出",
+              "t": "打印"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "d",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "t",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 4,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "数据流转链路",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "t6-02",
+      "name": "多节点横向箭头数据流",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "title",
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t6-02.md",
+      "selectionSummary": "多节点横向箭头数据流",
+      "semanticFamilies": [
+        "title",
+        "items"
+      ],
+      "suitableFor": [
+        "Data flow or pipeline with 2-4 nodes."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid unrelated prose, processes, lists, timelines, charts, and content beyond the stated capacity."
+      ],
+      "category": "timeline-flow",
+      "componentVersion": 1,
+      "content": {
+        "descText": {
+          "constraints": "none beyond the declared type",
+          "default": "整体开发任务进度",
+          "required": true,
+          "role": "content",
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "项目整体完成度",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "t6-03",
+      "name": "分段进度条指标",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "title",
+          "body"
+        ]
+      },
+      "referencePath": "references/components/t6-03.md",
+      "selectionSummary": "分段进度条指标",
+      "semanticFamilies": [
+        "title",
+        "body"
+      ],
+      "suitableFor": [
+        "Single completion or progress metric."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid unrelated lists, timelines, charts, and long paragraphs."
+      ],
+      "category": "timeline-flow",
+      "componentVersion": 1,
+      "content": {
+        "aText": {
+          "constraints": "none beyond the declared type",
+          "default": "高速路径",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "bText": {
+          "constraints": "none beyond the declared type",
+          "default": "深度路径",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "inText": {
+          "constraints": "none beyond the declared type",
+          "default": "输入任务",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "分支调度逻辑",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "t6-04",
+      "name": "单输入双分支分叉流向",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "title",
+          "label"
+        ]
+      },
+      "referencePath": "references/components/t6-04.md",
+      "selectionSummary": "单输入双分支分叉流向",
+      "semanticFamilies": [
+        "title",
+        "label"
+      ],
+      "suitableFor": [
+        "Single input with two branch paths."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid unrelated prose, metrics, charts, and more than 4 nodes."
+      ],
+      "capacity": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "category": "timeline-flow",
+      "componentVersion": 1,
+      "content": {
+        "nodes": {
+          "constraints": "2-4 items; all listed item fields are required strings",
+          "default": [
+            {
+              "en": "SYNC",
+              "num": "01",
+              "t": "跟你对齐几个关键点"
+            },
+            {
+              "en": "WHAT NOW",
+              "num": "02",
+              "t": "这一步在做什么"
+            },
+            {
+              "en": "HOW FAR",
+              "num": "03",
+              "t": "推进到哪了"
+            },
+            {
+              "en": "TWEAK",
+              "num": "04",
+              "t": "想加想改随时改"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "en",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "num",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "t",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 4,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "sloganText": {
+          "constraints": "none beyond the declared type",
+          "default": "做完一步 · 都会跟你对齐",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "stepText": {
+          "constraints": "none beyond the declared type",
+          "default": "STEP 02",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        }
+      },
+      "id": "t6-05",
+      "name": "节点分步入场时间线",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "label",
+          "title",
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t6-05.md",
+      "selectionSummary": "节点分步入场时间线",
+      "semanticFamilies": [
+        "label",
+        "title",
+        "items"
+      ],
+      "suitableFor": [
+        "Step-by-step workflow timeline with 2-4 nodes."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid unrelated prose, metrics, charts, and more than 4 steps."
+      ],
+      "capacity": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "category": "timeline-flow",
+      "componentVersion": 1,
+      "content": {
+        "footerText": {
+          "constraints": "none beyond the declared type",
+          "default": "位置或时间还差一点，就重新循环",
+          "required": true,
+          "role": "content",
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "steps": {
+          "constraints": "2-4 items; all listed item fields are required strings",
+          "default": [
+            {
+              "num": "01",
+              "t": "描述问题"
+            },
+            {
+              "num": "02",
+              "t": "AI 改代码"
+            },
+            {
+              "num": "03",
+              "t": "重新渲染"
+            },
+            {
+              "num": "04",
+              "t": "打开看结果"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "num",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "t",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 4,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "AI 迭代调试 · 循环推进",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "t6-06",
+      "name": "多步骤向上浮动递进时间线",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "title",
+          "items",
+          "body"
+        ]
+      },
+      "referencePath": "references/components/t6-06.md",
+      "selectionSummary": "多步骤向上浮动递进时间线",
+      "semanticFamilies": [
+        "title",
+        "items",
+        "body"
+      ],
+      "suitableFor": [
+        "Iterative multi-step process with 2-4 steps."
+      ]
+    }
+  ],
+  "libraryVersion": 1
+}

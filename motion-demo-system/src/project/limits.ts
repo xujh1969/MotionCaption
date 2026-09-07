@@ -1,0 +1,4 @@
+export const MAX_TRACK_INDEX = 63;
+export const MAX_TRACK_COUNT = MAX_TRACK_INDEX + 1;
+export const MAX_EFFECT_INSTANCES = 256;
+export const MAX_ALLOCATION_SEARCH_STEPS = 50_000;
