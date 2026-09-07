@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { MotionEffectInstance, MotionProject } from '../project/types';
-import { editableEffectsAtFrame, projectForEditorPreview, subtitleCuesAtFrame } from './VideoStage';
+import { editableEffectsAtFrame, projectForEditableSelection, subtitleCuesAtFrame } from './VideoStage';
 
 const effect = (
   instanceId: string,
@@ -13,8 +13,8 @@ const effect = (
   transform: { x: 0, y: 0, scale: 1, rotation: 0 },
 });
 
-describe('projectForEditorPreview', () => {
-  it('filters hidden subtitle and effect tracks without mutating the export project', () => {
+describe('projectForEditableSelection', () => {
+  it('keeps hidden-track instances out of the editable selection without mutating the export project', () => {
     const lower = effect('lower', 0, 30, 1);
     const upper = { ...effect('upper', 0, 30, 2), track: 2 };
     const project: MotionProject = {
@@ -24,13 +24,13 @@ describe('projectForEditorPreview', () => {
       effects: [lower, upper],
     };
 
-    const preview = projectForEditorPreview(project, ['subtitles', 'effect-track-2']);
+    const selection = projectForEditableSelection(project, ['subtitles', 'effect-track-2']);
 
-    expect(preview.cues).toEqual([]);
-    expect(preview.effects.map(({ instanceId }) => instanceId)).toEqual(['lower']);
+    expect(selection.cues).toEqual(project.cues);
+    expect(selection.effects.map(({ instanceId }) => instanceId)).toEqual(['lower']);
     expect(project.cues).toHaveLength(1);
     expect(project.effects).toHaveLength(2);
-    expect(preview).not.toBe(project);
+    expect(selection).not.toBe(project);
   });
 });
 

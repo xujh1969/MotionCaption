@@ -95,7 +95,7 @@ describe('Timeline tracks', () => {
     expect(markup).toContain('调整 effect 起点');
   });
 
-  it('hides only the selected row contents while keeping its label and visibility control', () => {
+  it('dims hidden row contents instead of removing them', () => {
     useEditorStore.getState().replaceEffects([effect]);
     useEditorStore.getState().toggleTimelineTrack('effect-track-1');
 
@@ -103,8 +103,22 @@ describe('Timeline tracks', () => {
 
     expect(markup).toContain('data-timeline-row="effect-track-1"');
     expect(markup).toContain('显示轨 2');
-    expect(markup).toContain('已隐藏');
-    expect(markup).not.toContain('data-timeline-instance="effect"');
+    expect(markup).toContain('data-timeline-instance="effect"');
+    expect(markup).toContain('timeline-block formal dimmed');
+    expect(markup).not.toContain('已隐藏');
+  });
+
+  it('dims the subtitle row blocks while keeping them readable', () => {
+    useEditorStore.getState().setCues([
+      { cueId: 'cue-1', startMs: 0, endMs: 1000, text: '只读字幕' },
+    ]);
+    useEditorStore.getState().toggleTimelineTrack('subtitles');
+
+    const markup = renderTimeline();
+
+    expect(markup).toContain('timeline-block subtitle dimmed');
+    expect(markup).toContain('只读字幕');
+    expect(markup).not.toContain('已隐藏');
   });
 
   it('renders adaptive ticks and the current-frame playhead on the same pixel scale as blocks', () => {

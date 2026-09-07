@@ -6,6 +6,8 @@ import { EffectInstanceFrame } from './EffectInstanceFrame';
 export interface ProjectCompositionProps {
   project: MotionProject;
   editorMode?: boolean;
+  /** Timeline track ids whose instances stay mounted but render dimmed (editor preview only). */
+  dimTrackIds?: readonly string[];
 }
 
 export function sortEffectsForComposition(
@@ -21,8 +23,9 @@ export function sortEffectsForComposition(
     .map(({ effect }) => effect);
 }
 
-export const ProjectComposition: React.FC<ProjectCompositionProps> = ({ project }) => {
+export const ProjectComposition: React.FC<ProjectCompositionProps> = ({ project, dimTrackIds }) => {
   const effects = sortEffectsForComposition(project.effects);
+  const dimmedTracks = dimTrackIds ? new Set(dimTrackIds) : null;
 
   return (
     <div style={{
@@ -41,7 +44,15 @@ export const ProjectComposition: React.FC<ProjectCompositionProps> = ({ project 
         >
           <div
             data-effect-root={effect.instanceId}
-            style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              pointerEvents: 'none',
+              ...(dimmedTracks?.has(`effect-track-${effect.track}`) ? {
+                opacity: 0.28,
+                filter: 'grayscale(0.7) brightness(0.75)',
+              } : {}),
+            }}
           >
             <EffectInstanceFrame effect={effect} />
           </div>

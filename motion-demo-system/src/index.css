@@ -656,7 +656,7 @@ body {
 .timeline-eye.off { border-color: rgba(247,37,133,.28); background: rgba(247,37,133,.1); color: var(--magenta); }
 .timeline-eye-slash { stroke-width: 1.8; }
 .timeline-row-canvas { position: relative; height: 44px; touch-action: none; cursor: crosshair; overflow: hidden; }
-.timeline-hidden-hint { position: absolute; inset: 0; display: grid; place-items: center; color: rgba(154,167,196,.45); font-size: 9px; letter-spacing: .8px; }
+.timeline-block.dimmed { opacity: .35; filter: grayscale(.65); }
 .timeline-block {
   position: absolute;
   top: 5px;
@@ -960,6 +960,7 @@ body {
   text-shadow: 0 2px 5px #000, 0 0 2px #000;
   pointer-events: none;
 }
+.editor-subtitle-layer.dimmed { opacity: .3; filter: grayscale(.6); }
 .selection-layer { z-index: 4; pointer-events: none; }
 .stage-playback-overlay {
   position: relative;

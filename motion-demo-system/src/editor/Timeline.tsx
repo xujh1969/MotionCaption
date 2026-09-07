@@ -346,13 +346,13 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
           <div className={`timeline-row${hidden.has('subtitles') ? ' hidden' : ''}`} data-timeline-row="subtitles">
             <TrackLabel id="subtitles" label="字幕轨" hidden={hidden.has('subtitles')} onToggle={toggleTrack} />
             <div className="timeline-row-canvas" style={{ width: timeWidth }} onPointerMove={trackPointer} onPointerLeave={() => { pointerAnchor.current = null; }} onPointerDown={seekEmptyTrackAtClientX}>
-              {hidden.has('subtitles') ? <span className="timeline-hidden-hint">已隐藏</span> : cues.map((cue) => {
+              {cues.map((cue) => {
                 const frames = cueFrameInterval(cue, fps, duration);
                 if (!frames) return null;
                 return (
                   <span
                     key={cue.cueId}
-                    className="timeline-block subtitle"
+                    className={`timeline-block subtitle${hidden.has('subtitles') ? ' dimmed' : ''}`}
                     data-readonly="true"
                     data-start-frame={frames.startFrame}
                     data-end-frame={frames.endFrame}
@@ -375,10 +375,10 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
               <div key={trackId} className={`timeline-row${trackHidden ? ' hidden' : ''}`} data-timeline-row={trackId}>
                 <TrackLabel id={trackId} label={`轨 ${track + 1}`} hidden={trackHidden} onToggle={toggleTrack} />
                 <div className="timeline-row-canvas" style={{ width: timeWidth }} onPointerMove={trackPointer} onPointerLeave={() => { pointerAnchor.current = null; }} onPointerDown={seekEmptyTrackAtClientX}>
-                  {trackHidden ? <span className="timeline-hidden-hint">已隐藏</span> : effects.filter((effect) => effect.track === track).map((effect) => (
+                  {effects.filter((effect) => effect.track === track).map((effect) => (
                     <div
                       key={effect.instanceId}
-                      className={`timeline-block formal${selectedId === effect.instanceId ? ' selected' : ''}`}
+                      className={`timeline-block formal${selectedId === effect.instanceId ? ' selected' : ''}${trackHidden ? ' dimmed' : ''}`}
                       data-timeline-instance={effect.instanceId}
                       data-start-frame={effect.startFrame}
                       data-end-frame={effect.startFrame + effect.durationInFrames}

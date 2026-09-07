@@ -3,7 +3,7 @@ import { Sequence } from 'remotion';
 import { describe, expect, it } from 'vitest';
 import { effectRegistry } from '../effects/registry';
 import { twoComponentSceneProject } from '../project/fixtures/two-component-scene';
-import type { MotionEffectInstance } from '../project/types';
+import type { MotionEffectInstance, MotionProject } from '../project/types';
 import { ConfigProvider, type ConfigState } from '../remotion/config';
 import { EffectInstanceFrame } from './EffectInstanceFrame';
 import { ProjectComposition } from './ProjectComposition';
@@ -62,6 +62,31 @@ describe('ProjectComposition element tree', () => {
       && props.children.props['data-effect-root'] === props.children.props.children!.props.effect.instanceId
       && props.children.props.children!.type === EffectInstanceFrame
     ))).toBe(true);
+  });
+
+  it('dims instances on hidden tracks without unmounting them', () => {
+    const instance = (instanceId: string, track: number, zIndex: number): MotionEffectInstance => ({
+      instanceId, componentId: 't1-05', componentVersion: 1, sourceCueIds: [],
+      startFrame: 0, durationInFrames: 60, track, zIndex, props: {},
+      transform: { x: 0, y: 0, scale: 1, rotation: 0 },
+    });
+    const project: MotionProject = {
+      kind: 'captionforge.project', schemaVersion: 1,
+      video: { width: 1920, height: 1080, fps: 30, durationInFrames: 60 },
+      cues: [],
+      effects: [instance('lower', 0, 1), instance('upper', 1, 2)],
+    };
+
+    const tree = ProjectComposition({ project, dimTrackIds: ['effect-track-0'] }) as React.ReactElement<{
+      children: React.ReactNode;
+    }>;
+    const sequences = React.Children.toArray(tree.props.children) as SequenceElement[];
+
+    expect(sequences).toHaveLength(2);
+    const dimmedStyle = sequences[0].props.children.props.style!;
+    expect(dimmedStyle.opacity).toBeLessThan(0.5);
+    expect(String(dimmedStyle.filter)).toContain('grayscale');
+    expect(sequences[1].props.children.props.style!.opacity).toBeUndefined();
   });
 
   it('returns an independent formal ConfigProvider for each fixture instance', () => {

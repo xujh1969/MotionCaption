@@ -22,14 +22,13 @@ export function editableEffectsAtFrame(
   ));
 }
 
-export function projectForEditorPreview(
+export function projectForEditableSelection(
   project: MotionProject,
   hiddenTrackIds: readonly string[],
 ): MotionProject {
   const hidden = new Set(hiddenTrackIds);
   return {
     ...project,
-    cues: hidden.has('subtitles') ? [] : project.cues,
     effects: project.effects.filter((effect) => !hidden.has(`effect-track-${effect.track}`)),
   };
 }
@@ -130,11 +129,14 @@ export const VideoStage: React.FC<VideoStageProps> = ({
   const [stageSize, setStageSize] = useState({ width: video.width, height: video.height });
   const [instanceRects, setInstanceRects] = useState<Record<string, InstanceRect>>({});
   const project = { kind: 'captionforge.project' as const, schemaVersion: 1 as const, video, cues, effects };
-  const previewProject = projectForEditorPreview(project, hiddenTrackIds);
   const projectSize = { width: video.width, height: video.height };
   const fittedRect = fitProjectToRect({ left: 0, top: 0, ...stageSize }, projectSize);
-  const editableEffects = editableEffectsAtFrame(previewProject.effects, currentFrame);
-  const visibleCues = subtitleCuesAtFrame(previewProject.cues, currentFrame, video.fps, video.durationInFrames);
+  const editableEffects = editableEffectsAtFrame(
+    projectForEditableSelection(project, hiddenTrackIds).effects,
+    currentFrame,
+  );
+  const visibleCues = subtitleCuesAtFrame(project.cues, currentFrame, video.fps, video.durationInFrames);
+  const subtitlesDimmed = hiddenTrackIds.includes('subtitles');
 
   useEffect(() => {
     playerRef.current?.seekTo(currentFrame);
@@ -194,7 +196,7 @@ export const VideoStage: React.FC<VideoStageProps> = ({
       <Player
         ref={playerRef}
         component={ProjectComposition}
-        inputProps={{ project: previewProject, editorMode: false }}
+        inputProps={{ project, editorMode: false, dimTrackIds: hiddenTrackIds }}
         durationInFrames={video.durationInFrames}
         fps={video.fps}
         compositionWidth={video.width}
