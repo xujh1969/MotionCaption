@@ -1,0 +1,10 @@
+{
+  "identifier": "default",
+  "description": "MotionCaption 基础能力：文件对话框与原生 AI / Skill 命令。不授予任意 shell 执行或不受限的文件系统访问。",
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+    "dialog:allow-open",
+    "dialog:allow-save"
+  ]
+}

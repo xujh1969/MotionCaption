@@ -2,6 +2,10 @@
 node_modules/
 dist/
 
+# Rust / Tauri build output (always regenerable, hundreds of MB)
+src-tauri/target/
+src-tauri/gen/
+
 # Test and bundler caches
 coverage/
 .vite/

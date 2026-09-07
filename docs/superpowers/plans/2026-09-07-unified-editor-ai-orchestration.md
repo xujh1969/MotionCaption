@@ -393,27 +393,27 @@ export interface NativeBridge {
 }
 ```
 
-- [ ] **Step 1: Scaffold minimal Tauri 2 shell**
+- [x] **Step 1: Scaffold minimal Tauri 2 shell**
 
 Pin mutually compatible Tauri 2 packages in lockfiles. Enable only required dialog, native commands, and later sidecar permissions. Do not grant arbitrary shell execution or unrestricted filesystem scopes.
 
-- [ ] **Step 2: Add secure-key contract tests**
+- [x] **Step 2: Add secure-key contract tests**
 
 Pin `keyring = { version = "=4.2.0", features = ["v1"] }`. Rust tests verify Key never appears in serialized settings, errors, command args, or logs. Store service `motioncaption.llm` and account `openai-compatible-api-key` through the native credential store; on Windows this is Windows Credential Manager. Frontend receives only `hasApiKey`.
 
-- [ ] **Step 3: Implement native OpenAI-compatible request**
+- [x] **Step 3: Implement native OpenAI-compatible request**
 
 Native code reads the Key internally, applies `Authorization: Bearer`, sends Base URL/model/messages, enforces a response-size cap and timeout, and returns text only. Redact auth headers from every error.
 
-- [ ] **Step 4: Write skill-diff tests**
+- [x] **Step 4: Write skill-diff tests**
 
 Cover added source file, removed registry ID, changed props/version, unchanged component, unregistered component, and rejected/unreviewed AI metadata. Applying a proposal uses temp files plus atomic rename and preserves old generated files on failure.
 
-- [ ] **Step 5: Implement sync dialog**
+- [x] **Step 5: Implement sync dialog**
 
 Top-level `同步组件 Skill` opens added/changed/removed/uncertain groups. LLM proposals are editable but unchecked by default. Only confirmed items call `applyComponentSkill()`, then `generate:skill` and `check:skill` must pass.
 
-- [ ] **Step 6: Export installable skill**
+- [x] **Step 6: Export installable skill**
 
 Export a folder or ZIP containing `SKILL.md` and `references/`, with no API Key, local paths, source code, or project files.
 

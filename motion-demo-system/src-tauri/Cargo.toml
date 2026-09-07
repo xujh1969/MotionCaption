@@ -1,0 +1,27 @@
+[package]
+name = "motioncaption"
+version = "0.1.0"
+description = "MotionCaption desktop shell: secure AI provider and component-skill sync"
+authors = ["MotionCaption"]
+edition = "2021"
+rust-version = "1.77.2"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-dialog = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+# Pinned: the credential store is the only place the API Key may live.
+keyring = { version = "=4.2.0", features = ["v1"] }
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+tokio = { version = "1", features = ["time", "macros"] }
+thiserror = "2"
+
+[profile.release]
+codegen-units = 1
+lto = true
+panic = "abort"
+strip = true

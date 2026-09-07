@@ -1,9 +1,10 @@
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import type { MotionEffectInstance, MotionProject } from '../project/types';
 import type { OrchestrationResult } from '../llm/orchestrate';
-import { AiOrchestrationDialog, applyOrchestrationResult } from './AiOrchestrationDialog';
+import { AiOrchestrationDialog, applyOrchestrationResult, resolveLlmRuntime } from './AiOrchestrationDialog';
+import type { NativeBridge } from '../tauri/bridge';
 
 const project = (cueCount = 0): MotionProject => ({
   kind: 'captionforge.project', schemaVersion: 1,
@@ -94,5 +95,44 @@ describe('applyOrchestrationResult', () => {
 
     expect(replaceEffects).not.toHaveBeenCalled();
     expect(message).toContain('草稿校验失败。');
+  });
+});
+describe('resolveLlmRuntime', () => {
+  const bridge = {
+    saveApiKey: async () => {},
+    hasApiKey: async () => true,
+    completeOpenAiCompatible: async () => '{}',
+    scanComponentSkill: async () => ({ libraryVersion: 1, components: [], aiProposals: [] }),
+    applyComponentSkill: async () => {},
+    exportComponentSkill: async () => 0,
+  } as unknown as NativeBridge;
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it('prefers the native provider when an endpoint is configured', () => {
+    vi.stubGlobal('window', {
+      __captionforgeLlmConfig: { baseUrl: 'https://api.example.com/v1', model: 'gpt-x' },
+    });
+
+    const runtime = resolveLlmRuntime(bridge);
+
+    expect(runtime?.profileName).toBe('原生安全通道');
+    expect(Object.keys(runtime?.provider ?? {})).toEqual(['complete']);
+  });
+
+  it('falls back to the injected browser provider', () => {
+    vi.stubGlobal('window', {
+      __captionforgeLlm: { provider: { complete: vi.fn() }, profileName: '脚本模型' },
+    });
+
+    expect(resolveLlmRuntime(null)?.profileName).toBe('脚本模型');
+    // A desktop shell without endpoint config falls back too.
+    expect(resolveLlmRuntime(bridge)?.profileName).toBe('脚本模型');
+  });
+
+  it('has no runtime without a window', () => {
+    expect(resolveLlmRuntime(bridge)).toBeNull();
   });
 });

@@ -9,6 +9,7 @@ interface ToolbarProps {
   onSaveProject: () => void;
   onImportAgent: (file: File | undefined) => void;
   onOpenAiOrchestration: () => void;
+  onOpenSkillSync?: () => void;
 }
 
 export const Toolbar: React.FC<ToolbarProps> = ({
@@ -19,6 +20,7 @@ export const Toolbar: React.FC<ToolbarProps> = ({
   onSaveProject,
   onImportAgent,
   onOpenAiOrchestration,
+  onOpenSkillSync,
 }) => {
   const background = useEditorStore((state) => state.previewBackground);
   const setBackground = useEditorStore((state) => state.setPreviewBackground);
@@ -44,7 +46,13 @@ export const Toolbar: React.FC<ToolbarProps> = ({
           <label className="toolbar-button">导入字幕<input hidden type="file" accept=".srt,text/plain" onChange={(event) => onImportSubtitle?.(event.target.files?.[0])} /></label>
           <label className="toolbar-button">导入 Agent JSON<input hidden type="file" accept="application/json,.json" onChange={(event) => onImportAgent(event.target.files?.[0])} /></label>
           <button type="button" aria-label="AI 编排" onClick={onOpenAiOrchestration}>AI 编排</button>
-          <button type="button" disabled title="Task 13">同步组件 Skill</button>
+          <button
+            type="button"
+            aria-label="同步组件 Skill"
+            disabled={!onOpenSkillSync}
+            title={onOpenSkillSync ? '对比注册表与已生成 Skill 的差异' : '当前环境不支持组件 Skill 同步'}
+            onClick={() => onOpenSkillSync?.()}
+          >同步组件 Skill</button>
           <label className="toolbar-button">打开工程<input hidden type="file" accept="application/json,.json" onChange={(event) => onOpenProject(event.target.files?.[0])} /></label>
           <button type="button" onClick={onSaveProject}>保存工程</button>
           <button type="button" disabled title="后续任务">工程设置</button>

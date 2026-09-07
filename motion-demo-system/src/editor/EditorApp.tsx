@@ -6,7 +6,12 @@ import { serializeProject, type ParseProjectResult } from '../project/serialize'
 import type { MotionEffectInstance, MotionProject, SubtitleCue } from '../project/types';
 import { parseSRT } from '../subtitle/parse';
 import { useEditorStore } from '../store/editorStore';
-import { AiOrchestrationDialog, readLlmRuntime } from './AiOrchestrationDialog';
+import { AiOrchestrationDialog, resolveLlmRuntime } from './AiOrchestrationDialog';
+import { SkillSyncDialog } from './SkillSyncDialog';
+import { resolveNativeBridge, type NativeBridge } from '../tauri/bridge';
+import { describeSkillComponent, diffComponentSkill, type ComponentManifest, type ComponentSkillDiff } from '../skill/sync';
+import { effectRegistry } from '../effects/registry';
+import componentManifest from '../agent/generated/componentManifest.json';
 import { ComponentLibrary } from './ComponentLibrary';
 import { InspectorPanel } from './InspectorPanel';
 import { Timeline } from './Timeline';
@@ -252,6 +257,9 @@ export const EditorApp: React.FC = () => {
   const [inspectorCollapsed, setInspectorCollapsed] = useState(() => (
     typeof window !== 'undefined' && shouldStartCollapsed(window.innerWidth)
   ));
+  const [skillSyncOpen, setSkillSyncOpen] = useState(false);
+  const [nativeBridge, setNativeBridge] = useState<NativeBridge | null>(null);
+  const [nativeSkillDiff, setNativeSkillDiff] = useState<ComponentSkillDiff | null>(null);
   const [timelineHeight, setTimelineHeight] = useState(DEFAULT_TIMELINE_HEIGHT);
   const workspaceRef = useRef<HTMLElement>(null);
   const timelineResizeRef = useRef<{ startY: number; startHeight: number } | null>(null);
@@ -285,6 +293,29 @@ export const EditorApp: React.FC = () => {
   const setPreviewBackground = useEditorStore((state) => state.setPreviewBackground);
   const project = useEditorStore((state) => state.project);
   const selectedInstanceId = useEditorStore((state) => state.selectedInstanceId);
+
+  useEffect(() => {
+    let active = true;
+    void resolveNativeBridge().then((bridge) => {
+      if (active) setNativeBridge(bridge);
+    });
+    return () => { active = false; };
+  }, []);
+
+  const openSkillSync = () => {
+    setSkillSyncOpen(true);
+    if (!nativeBridge) return;
+    setNativeSkillDiff(null);
+    void nativeBridge.scanComponentSkill()
+      .then(setNativeSkillDiff)
+      .catch(() => setNativeSkillDiff(null));
+  };
+
+  /** Browser fallback: diff the registry against the committed manifest (read-only). */
+  const skillDiff: ComponentSkillDiff = React.useMemo(() => diffComponentSkill(
+    effectRegistry.list().map(describeSkillComponent),
+    componentManifest as unknown as ComponentManifest,
+  ), []);
 
   useEffect(() => () => {
     if (videoSource) URL.revokeObjectURL(videoSource.url);
@@ -412,9 +443,10 @@ export const EditorApp: React.FC = () => {
         onSaveProject={saveProject}
         onImportAgent={(file) => void readAgentSequence(file)}
         onOpenAiOrchestration={() => {
-          setLlmRuntime(readLlmRuntime());
+          setLlmRuntime(resolveLlmRuntime(nativeBridge));
           setAiDialogOpen(true);
         }}
+        onOpenSkillSync={openSkillSync}
       />
       {message && <div className="workspace-notice" role="status">{message}</div>}
       <ComponentLibrary
@@ -466,6 +498,13 @@ export const EditorApp: React.FC = () => {
           />
         );
       })()}
+      <SkillSyncDialog
+        open={skillSyncOpen}
+        onClose={() => setSkillSyncOpen(false)}
+        diff={nativeBridge ? nativeSkillDiff : skillDiff}
+        bridge={nativeBridge}
+        onApplied={() => setMessage('组件 Skill 已更新，建议重新运行 generate:skill 与 check:skill 校验。')}
+      />
       <section className="workspace-timeline" aria-label="时间轴区域">
         <div
           className="timeline-resizer"

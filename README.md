@@ -41,6 +41,20 @@ npm run verify    # 全量验证：vitest + tsc --noEmit + vite build
 
 其他脚本：`npm run build`（类型检查 + 构建）、`npm run typecheck`、`npm run generate:skill`（导出组件 Skill）。
 
+### 桌面端（Tauri 2）
+
+```bash
+cd motion-demo-system
+npm run tauri:dev     # 桌面开发模式（前端仍走 Vite 8011）
+npm run tauri:build   # 打包桌面安装包
+```
+
+桌面端与浏览器版的差异：
+
+- **AI 编排走原生安全通道**：模型 API Key 保存在系统凭据管理器（Windows 凭据管理器，服务 `motioncaption.llm`），前端永远拿不到明文，只显示是否已配置；补全请求由 Rust 发出，强制响应体上限与超时，错误统一脱敏。
+- **`同步组件 Skill` 可写**：浏览器模式下弹窗只读，桌面端可将确认的差异以临时文件 + 原子重命名写入生成物，并一键导出 `SKILL.md` + `references/`。
+- Rust 侧单测：`cargo test`（`src-tauri/` 下运行，覆盖凭据安全契约与 Skill 应用/导出逻辑）。
+
 ## 目录结构
 
 ```

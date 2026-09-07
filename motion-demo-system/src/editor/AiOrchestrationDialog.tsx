@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react';
 import type { OrchestrationResult } from '../llm/orchestrate';
 import { orchestrateEffects, type ComponentSummary } from '../llm/orchestrate';
 import type { LlmProvider } from '../llm/provider';
+import { createTauriProvider } from '../llm/tauriProvider';
+import type { NativeBridge } from '../tauri/bridge';
 import { effectRegistry } from '../effects/registry';
 import type { MotionEffectInstance, MotionProject } from '../project/types';
 
@@ -14,12 +16,34 @@ export const AI_ORCHESTRATION_LIBRARY_VERSION = 1;
 declare global {
   interface Window {
     __captionforgeLlm?: { provider: LlmProvider; profileName: string };
+    /** Base URL and model only — never an API Key, which lives in the OS credential store. */
+    __captionforgeLlmConfig?: { baseUrl: string; model: string; profileName?: string };
   }
 }
 
 export const readLlmRuntime = (): { provider: LlmProvider; profileName: string } | null => (
   typeof window !== 'undefined' ? window.__captionforgeLlm ?? null : null
 );
+
+/**
+ * Desktop shells run completions through Tauri so the Key never reaches the
+ * renderer; without a bridge (or without an endpoint config) the browser keeps
+ * using the injected provider.
+ */
+export const resolveLlmRuntime = (
+  bridge: NativeBridge | null,
+): { provider: LlmProvider; profileName: string } | null => {
+  if (bridge) {
+    const config = typeof window !== 'undefined' ? window.__captionforgeLlmConfig : undefined;
+    if (config && config.baseUrl && config.model) {
+      return {
+        provider: createTauriProvider(bridge, { baseUrl: config.baseUrl, model: config.model }),
+        profileName: config.profileName ?? '原生安全通道',
+      };
+    }
+  }
+  return readLlmRuntime();
+};
 
 export const buildComponentSummaries = (): ComponentSummary[] => (
   effectRegistry.list().map((definition) => ({
