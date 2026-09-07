@@ -27,6 +27,19 @@ export const frameFromMediaTime = (
   Math.max(0, Math.round(currentTime * fps)),
 );
 
+/**
+ * Maps a Remotion Player frame index (already a frame, NOT media seconds) into
+ * the project frame range. Unlike {@link frameFromMediaTime}, it must not be
+ * multiplied by fps — doing so would teleport the timeline to its end.
+ */
+export const frameFromPlayerFrame = (
+  playerFrame: number,
+  durationInFrames: number,
+): number => {
+  const lastFrame = Math.max(0, durationInFrames - 1);
+  return Math.min(lastFrame, Math.max(0, Math.round(playerFrame)));
+};
+
 type EndedEventSource = {
   addEventListener: (name: 'ended', listener: () => void) => void;
   removeEventListener: (name: 'ended', listener: () => void) => void;
@@ -374,7 +387,7 @@ export const EditorApp: React.FC = () => {
       const media = videoRef.current;
       const frame = media
         ? frameFromMediaTime(media.currentTime, fps, durationInFrames)
-        : frameFromMediaTime(effectsPlayerRef.current?.getCurrentFrame() ?? 0, fps, durationInFrames);
+        : frameFromPlayerFrame(effectsPlayerRef.current?.getCurrentFrame() ?? 0, durationInFrames);
       setCurrentFrame(frame);
       animationFrame = requestAnimationFrame(updateFrame);
     };

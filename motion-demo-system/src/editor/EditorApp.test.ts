@@ -7,6 +7,7 @@ import { createEditorStore } from '../store/editorStore';
 import {
   connectPlayerEnded,
   frameFromMediaTime,
+  frameFromPlayerFrame,
   importAgentSequenceFile,
   importSubtitleFile,
   playPlayerFromFrame,
@@ -52,6 +53,16 @@ describe('frameFromMediaTime', () => {
   it('rounds an in-range media time and clamps negative values', () => {
     expect(frameFromMediaTime(1.02, 30, 300)).toBe(31);
     expect(frameFromMediaTime(-1, 30, 300)).toBe(0);
+  });
+
+  it('keeps a Player frame index unchanged instead of re-scaling it as media seconds', () => {
+    // Regression: getCurrentFrame() is already a frame number. Treating frame 1
+    // as "1 second" and multiplying by fps made playback jump to the timeline end.
+    expect(frameFromPlayerFrame(1, 623)).toBe(1);
+    expect(frameFromPlayerFrame(30, 623)).toBe(30);
+    expect(frameFromPlayerFrame(622, 623)).toBe(622);
+    expect(frameFromPlayerFrame(9999, 623)).toBe(622);
+    expect(frameFromPlayerFrame(-4, 623)).toBe(0);
   });
 
   it('clamps a scrubber seek, pauses playback, and synchronizes the reference media', () => {
