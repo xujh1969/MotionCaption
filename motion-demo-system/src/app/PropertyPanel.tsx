@@ -8,8 +8,12 @@ interface Props {
   componentId: string;
   config: ConfigState;
   onChange: (key: string, value: number | string) => void;
-  onReset: () => void;
-  onClose: () => void;
+  /** 嵌入到统一编辑器属性面板时隐藏自带标题栏，并去掉浮层定位 */
+  embedded?: boolean;
+  /** 由宿主接管的属性（例如统一编辑器用 transform 管理 posX/posY/scale） */
+  hiddenKeys?: readonly string[];
+  onReset?: () => void;
+  onClose?: () => void;
 }
 
 // 解析 list 条目：接受 JSON 字符串或数组，出错时返回空数组
@@ -200,8 +204,14 @@ const ColorField: React.FC<{
   );
 };
 
-export const PropertyPanel: React.FC<Props> = ({ componentId, config, onChange, onReset, onClose }) => {
-  const defs = useMemo(() => panelDefinitionsFor(componentId), [componentId]);
+export const PropertyPanel: React.FC<Props> = (
+  { componentId, config, onChange, embedded = false, hiddenKeys, onReset, onClose },
+) => {
+  const hidden = useMemo(() => new Set(hiddenKeys ?? []), [hiddenKeys]);
+  const defs = useMemo(
+    () => panelDefinitionsFor(componentId).filter((d) => !hidden.has(d.key)),
+    [componentId, hidden],
+  );
   const [openColor, setOpenColor] = useState<{ id: string; anchor: HTMLElement } | null>(null);
   const [openT, setOpenT] = useState<Record<string, boolean>>({});
 
@@ -222,6 +232,7 @@ export const PropertyPanel: React.FC<Props> = ({ componentId, config, onChange, 
         if (d.sizeKey) s.add(d.sizeKey);
         if (d.colorKey) s.add(d.colorKey);
         if (d.hlColorKey) s.add(d.hlColorKey);
+        if (d.hlSizeKey) s.add(d.hlSizeKey);
       }
       if (d.kind === 'list') {
         for (const f of d.listFields ?? []) {
@@ -271,17 +282,23 @@ export const PropertyPanel: React.FC<Props> = ({ componentId, config, onChange, 
   };
 
   return (
-    <div className="prop-panel">
-      <div className="prop-head">
-        <div className="prop-head-row">
-          <span className="prop-title">属性设置</span>
-          <button className="prop-close" onClick={onClose} title="收起属性面板">×</button>
+    <div className={embedded ? 'prop-panel embedded' : 'prop-panel'}>
+      {!embedded && (
+        <div className="prop-head">
+          <div className="prop-head-row">
+            <span className="prop-title">属性设置</span>
+            {onClose && (
+              <button className="prop-close" onClick={onClose} title="收起属性面板">×</button>
+            )}
+          </div>
+          <span className="prop-hint">文本旁的 T 可展开字号与颜色 · 数字/透明度聚焦后滚动鼠标微调</span>
+          {(onReset || onClose) && (
+            <div className="prop-tools">
+              {onReset && <button className="prop-reset" onClick={onReset}>重置默认</button>}
+            </div>
+          )}
         </div>
-        <span className="prop-hint">文本旁的 T 可展开字号与颜色 · 数字/透明度聚焦后滚动鼠标微调</span>
-        <div className="prop-tools">
-          <button className="prop-reset" onClick={onReset}>重置默认</button>
-        </div>
-      </div>
+      )}
       {defs.length === 0 ? (
         <div className="prop-empty">该组件暂无可调属性</div>
       ) : (
@@ -295,6 +312,7 @@ export const PropertyPanel: React.FC<Props> = ({ componentId, config, onChange, 
             const sizeDef = d.sizeKey ? defByKey[d.sizeKey] : undefined;
             const colorDef = d.colorKey ? defByKey[d.colorKey] : undefined;
             const hlColorDef = d.hlColorKey ? defByKey[d.hlColorKey] : undefined;
+            const hlSizeDef = d.hlSizeKey ? defByKey[d.hlSizeKey] : undefined;
             return (
               <div className="prop-item" key={d.key}>
                 {d.kind !== 'color' && <label className="prop-label">{d.label}</label>}
@@ -357,6 +375,16 @@ export const PropertyPanel: React.FC<Props> = ({ componentId, config, onChange, 
                               anchor={openColor?.id === `sub:${d.key}` ? openColor.anchor : null}
                               onToggle={toggleColor}
                               onClose={() => setOpenColor(null)}
+                            />
+                          </div>
+                        )}
+                        {hlSizeDef && (
+                          <div className="prop-sub-row">
+                            <span className="prop-sub-label">{hlSizeDef.label}</span>
+                            <NumField
+                              d={hlSizeDef}
+                              value={config[hlSizeDef.key] ?? hlSizeDef.default}
+                              onChange={(v) => onChange(hlSizeDef.key, v)}
                             />
                           </div>
                         )}

@@ -1,6 +1,14 @@
 import { create } from 'zustand';
 import { createStore } from 'zustand/vanilla';
 import { effectRegistry } from '../effects/registry';
+import { toInstanceConfig } from '../composition/instanceConfig';
+import type { PaletteState } from '../effects/paletteSlots';
+import {
+  applyPaletteToInstance,
+  applyStylesToTarget,
+  collectStyleValues,
+  mergeUserStyleDefaults,
+} from '../effects/stylePrefs';
 import { parseProject, type ParseProjectResult } from '../project/serialize';
 import type { MotionEffectInstance, MotionProject, SubtitleCue } from '../project/types';
 import { MAX_EFFECT_INSTANCES, MAX_TRACK_INDEX } from '../project/limits';
@@ -27,6 +35,10 @@ export interface EditorStoreState {
   setCues: (cues: SubtitleCue[]) => void;
   replaceEffects: (effects: readonly MotionEffectInstance[]) => void;
   addEffect: (componentId: string, atFrame: number) => string;
+  /** 当前实例的样式键覆盖到工程内所有同类组件；返回被更新的实例数。 */
+  applySameStyle: (instanceId: string) => number;
+  /** 按语义色槽把调色板颜色写进全工程实例；返回被更新的实例数。 */
+  applyPaletteToProject: (palette: PaletteState) => number;
   selectInstance: (instanceId: string | null) => void;
   deleteEffect: (instanceId: string) => void;
   updateEffect: (instanceId: string, update: EffectUpdate) => void;
@@ -85,6 +97,7 @@ const createInstanceId = (): string => {
 
 const stateCreator = (initialProject: MotionProject) => (
   set: (updater: Partial<EditorStoreState> | ((state: EditorStoreState) => Partial<EditorStoreState>)) => void,
+  get: () => EditorStoreState,
 ): EditorStoreState => ({
   project: cloneProject(initialProject),
   selectedInstanceId: null,
@@ -144,9 +157,12 @@ const stateCreator = (initialProject: MotionProject) => (
       const requestedFrame = Number.isFinite(atFrame) ? Math.round(atFrame) : 0;
       const startFrame = Math.min(projectDuration - 1, Math.max(0, requestedFrame));
       const durationInFrames = Math.min(projectDuration - startFrame, Math.max(1, Math.round(state.project.video.fps * 3)));
-      const defaults = structuredClone(Object.fromEntries(
-        Object.entries(definition.props).map(([key, prop]) => [key, prop.default]),
-      ));
+      const defaults = mergeUserStyleDefaults(
+        componentId,
+        structuredClone(Object.fromEntries(
+          Object.entries(definition.props).map(([key, prop]) => [key, prop.default]),
+        )),
+      );
       const requestedScale = typeof defaults.scale === 'number' ? defaults.scale / 100 : 1;
       const scale = Math.max(0.05, Math.min(
         requestedScale,
@@ -187,6 +203,49 @@ const stateCreator = (initialProject: MotionProject) => (
     return instanceId;
   },
   selectInstance: (selectedInstanceId) => set({ selectedInstanceId }),
+  applySameStyle: (instanceId) => {
+    const { effects } = get().project;
+    const source = effects.find((effect) => effect.instanceId === instanceId);
+    if (!source) return 0;
+    const definition = effectRegistry.get(source.componentId);
+    const sourceStyles = collectStyleValues(definition, toInstanceConfig(source, { source: 'formal-project' }));
+    const targets = effects.filter((effect) => (
+      effect.instanceId !== instanceId && effect.componentId === source.componentId
+    ));
+    if (!targets.length) return 0;
+    let updated = 0;
+    set((state) => ({
+      project: {
+        ...state.project,
+        effects: state.project.effects.map((effect) => {
+          if (effect.instanceId === instanceId || effect.componentId !== source.componentId) return effect;
+          const { props, changed } = applyStylesToTarget(sourceStyles, effect.props);
+          if (changed === 0) return effect;
+          updated += 1;
+          return { ...effect, props };
+        }),
+      },
+    }));
+    return updated;
+  },
+  applyPaletteToProject: (palette) => {
+    const { effects } = get().project;
+    if (!effects.length) return 0;
+    let updated = 0;
+    set((state) => ({
+      project: {
+        ...state.project,
+        effects: state.project.effects.map((effect) => {
+          const definition = effectRegistry.get(effect.componentId);
+          const { props, changed } = applyPaletteToInstance(effect.componentId, definition, effect.props, palette);
+          if (changed === 0) return effect;
+          updated += 1;
+          return { ...effect, props };
+        }),
+      },
+    }));
+    return updated;
+  },
   deleteEffect: (instanceId) => set((state) => ({
     project: {
       ...state.project,

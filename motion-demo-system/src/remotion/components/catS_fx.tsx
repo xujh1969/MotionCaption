@@ -4,7 +4,7 @@ import { COLORS, FONT_STACK } from '../theme';
 import { useEnter, useEnterOpacity, useBreath, useGrow, useCount } from '../anim';
 import { useConfigKey, useConfigList } from '../config';
 import { measureText, weightNum } from '../measure';
-import { parseKeyText, shadeHex, tint } from './shared';
+import { parseKeyText, shadeHex, stripKeyText, tint } from './shared';
 
 // FX 系列卡片框架色（边框/底色，文案色已全部可配置）
 const GOLD = '#d0df67', CREAM = '#e9f4f1';
@@ -15,6 +15,23 @@ const TX: React.FC<{ x: number; y: number; size: number; color: string; text: st
   ({ x, y, size, color, text, weight = 400, opacity = 1, spacing = 0, maxWidth }) => (
     <div style={{ ...base, left: x, top: y, fontSize: size, fontWeight: weight, color, opacity,
       letterSpacing: spacing, whiteSpace: maxWidth ? 'normal' : 'nowrap', lineHeight: 1.3, maxWidth }}>{text}</div>
+  );
+
+/**
+ * 支持 {{重点文字}} 的文本行：普通片段用正文色/正文字号，
+ * 重点片段用重点色/重点字号，重点字号缺省时继承正文字号。
+ */
+const HLTX: React.FC<{ x: number; y: number; size: number; color: string; text: string;
+  hlColor: string; hlSize?: number; weight?: number; opacity?: number }> =
+  ({ x, y, size, color, text, hlColor, hlSize, weight = 400, opacity = 1 }) => (
+    <div style={{ ...base, left: x, top: y, fontSize: size, fontWeight: weight, color, opacity, lineHeight: 1 }}>
+      {parseKeyText(text).map((part, idx) => (
+        <span
+          key={idx}
+          style={part.hl ? { color: hlColor, fontSize: hlSize ?? size } : undefined}
+        >{part.t}</span>
+      ))}
+    </div>
   );
 
 /* ---------- FX-1 双色分割横幅标题（蓝/白） ---------- */
@@ -147,14 +164,17 @@ export const FX_04: React.FC = () => {
       {items.map((it, i) => {
         const o = useEnterOpacity(frame, 26 + i * 10);
         const col = it.color || GOLD;
-        const v = String(it.val ?? '').replace(/%$/, '');
+        // val 语义为指标数值：纯数字或带 % 时按百分比展示；填入短文本（如“行业第一”）时原样显示，不强行加 %。
+        const valRaw = String(it.val ?? '').trim();
+        const v = valRaw.replace(/%$/, '').trim();
+        const showPercent = /%$/.test(valRaw) || /^-?\d+(\.\d+)?$/.test(v);
         return (
           <div key={i} style={{ position: 'absolute', left: pad + i * (barW + gap), top: 168, width: barW, height: barH, borderRadius: 10,
             border: `2px solid ${col}`, opacity: o, background: tint(col, 0.078),
             display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', gap: 6,
             paddingLeft: 20, boxSizing: 'border-box' }}>
             <span style={{ color: col, fontSize: nameSize, fontWeight: 700, whiteSpace: 'nowrap' }}>{it.name}</span>
-            <span style={{ color: pColor, fontSize: pSize, fontWeight: 700, whiteSpace: 'nowrap' }}>{v}%</span>
+            <span style={{ color: pColor, fontSize: pSize, fontWeight: 700, whiteSpace: 'nowrap' }}>{v}{showPercent ? '%' : ''}</span>
           </div>
         );
       })}
@@ -174,11 +194,15 @@ export const FX_05: React.FC = () => {
   const t2 = useConfigKey('fx-05', 'title2') as string;
   const titleSize = useConfigKey('fx-05', 'titleSize') as number;
   const titleColor = useConfigKey('fx-05', 'titleColor') as string;
+  const hlColor = useConfigKey('fx-05', 'hlColor') as string;
+  const hlSize = useConfigKey('fx-05', 'hlSize') as number;
   const tags = useConfigList('fx-05', 'tags');
   const gSize = useConfigKey('fx-05', 'gSize') as number;
   const gColor = useConfigKey('fx-05', 'gColor') as string;
   // 布局计算
   const subSize = Math.round(titleSize * 0.5);
+  // 第二行重点文字按副标题比例缩放，保证两行重点视觉一致
+  const subHlSize = Math.round((hlSize ?? titleSize) * (titleSize > 0 ? subSize / titleSize : 0.5));
   const capsuleH = tagSize + 24;
   const title1Y = capsuleH + 30;
   const subY = title1Y + titleSize + 14;
@@ -190,8 +214,8 @@ export const FX_05: React.FC = () => {
   // 内容宽度（按实际文字测量，最小 300）
   const contentW = Math.max(
     measureText(tag, tagSize, 'Bold') + 44,
-    measureText(t1, titleSize, 'Bold'),
-    measureText(t2, subSize, 'Regular'),
+    measureText(stripKeyText(t1), titleSize, 'Bold'),
+    measureText(stripKeyText(t2), subSize, 'Regular'),
     tags.reduce((s, r, i) => s + measureText(r.t, gSize, 'Regular') + 52 + (i > 0 ? 18 : 0), 0),
     300,
   );
@@ -211,10 +235,10 @@ export const FX_05: React.FC = () => {
       <div style={{ position: 'absolute', left: 26, top: 0, height: capsuleH, display: 'flex', alignItems: 'center', padding: '0 22px', borderRadius: capsuleH / 2, background: theme }}>
         <span style={{ fontFamily: FONT_STACK, fontSize: tagSize, fontWeight: weightNum('Bold'), color: '#000000', whiteSpace: 'nowrap', lineHeight: 1 }}>{tag}</span>
       </div>
-      {/* 主标题 */}
-      <TX x={26} y={title1Y} size={titleSize} color={titleColor} text={t1} weight={700} />
-      {/* 主标题下方：80% 透明的白色小标题 */}
-      <TX x={26} y={subY} size={subSize} color="#ffffff" text={t2} weight={400} opacity={0.8} />
+      {/* 主标题（支持 {{重点文字}} 高亮） */}
+      <HLTX x={26} y={title1Y} size={titleSize} color={titleColor} text={t1} hlColor={hlColor} hlSize={hlSize} weight={700} />
+      {/* 主标题下方：80% 透明的白色小标题（同样支持 {{重点文字}} 高亮） */}
+      <HLTX x={26} y={subY} size={subSize} color="#ffffff" text={t2} hlColor={hlColor} hlSize={subHlSize} weight={400} opacity={0.8} />
       {/* 小标签数组：透明底，边线与文字均为主色，胶囊包裹文字 */}
       {tags.map((r, i) => (
         <div key={i} style={{ position: 'absolute', left: 26 + tags.slice(0, i).reduce((s, it) => s + measureText(it.t, gSize, 'Regular') + 52 + 18, 0), top: gY, height: tagH, display: 'flex', alignItems: 'center', padding: '0 24px', borderRadius: tagH / 2, border: `2px solid ${gColor}`, background: 'transparent', boxSizing: 'border-box' }}>

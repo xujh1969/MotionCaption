@@ -1,10 +1,10 @@
 import React from 'react';
-import { Easing, useCurrentFrame, interpolate } from 'remotion';
+import { Easing, useCurrentFrame, interpolate, useVideoConfig } from 'remotion';
 import { COLORS, FONT_STACK } from '../theme';
 import { easeOutExpo, useEnter, useEnterOpacity, useBreath, useGrowDown, useGrow, useCount } from '../anim';
-import { useConfigKey, useConfigList } from '../config';
-import { weightNum } from '../measure';
-import { tint } from './shared';
+import { useConfigKey, useConfigList, useEffectClipLength } from '../config';
+import { weightNum, measureText } from '../measure';
+import { tint, mixColor } from './shared';
 
 const base: React.CSSProperties = { position: 'absolute', fontFamily: FONT_STACK, whiteSpace: 'nowrap' };
 const T: React.FC<{ x: number; y: number; size: number; weight?: 'Heavy' | 'Bold' | 'Regular';
@@ -474,6 +474,158 @@ export const T6_06: React.FC = () => {
         position: 'absolute', left: 50, top: 585, fontSize: footerSize, fontWeight: 400,
         color: footerColor, opacity: footP, textShadow: SH, whiteSpace: 'nowrap',
       }}>{footerText}</div>
+    </div>
+  );
+};
+
+/* ---------------- t6-07 有序序号步骤列表（焦点滚动切换） ----------------
+ * 设计约束：左侧安全区渲染（默认 x=120），透明叠加，无自带底色；
+ * 行结构 = 序号方块(96) + 右侧连接线 + 步骤文本；新行逐条入场、焦点切换。
+ * 每条目按其所在场景时段（按实例总时长均分）依次成为焦点：
+ *   当前：大字号高亮 + 红色方块；历史：缩小白色；未到达：隐藏。
+ * 末段整体 600ms 淡出（用实例时长上下文 useEffectClipLength 计算）。 */
+export const T6_07: React.FC = () => {
+  const frame = useCurrentFrame();
+  const fps = useVideoConfig().fps;
+  const clipFrames = useEffectClipLength() || Math.max(1, Math.round(4 * fps));
+  const posX = (useConfigKey('t6-07', 'posX') as number) ?? 120;
+  const posY = (useConfigKey('t6-07', 'posY') as number) ?? 160;
+  const scale = (useConfigKey('t6-07', 'scale') as number) ?? 100;
+  const titleText = useConfigKey('t6-07', 'titleText') as string;
+  const titleSize = (useConfigKey('t6-07', 'titleSize') as number) ?? 50;
+  const titleColor = (useConfigKey('t6-07', 'titleColor') as string) ?? '#FFFFFF';
+  const boxSize = (useConfigKey('t6-07', 'boxSize') as number) ?? 96;
+  const boxRadius = (useConfigKey('t6-07', 'boxRadius') as number) ?? 16;
+  const rowPitch = (useConfigKey('t6-07', 'rowPitch') as number) ?? 140;
+  const boxActiveColor = (useConfigKey('t6-07', 'boxActiveColor') as string) ?? '#ff3322';
+  const boxPastColor = (useConfigKey('t6-07', 'boxPastColor') as string) ?? 'rgba(60,60,60,0.65)';
+  const numSize = (useConfigKey('t6-07', 'numSize') as number) ?? 48;
+  const numColor = (useConfigKey('t6-07', 'numColor') as string) ?? '#FFFFFF';
+  const lineThickness = (useConfigKey('t6-07', 'lineThickness') as number) ?? 4;
+  const lineActiveColor = (useConfigKey('t6-07', 'lineActiveColor') as string) ?? '#ff3322';
+  const activeSize = (useConfigKey('t6-07', 'textActiveSize') as number) ?? 88;
+  const pastSize = (useConfigKey('t6-07', 'textPastSize') as number) ?? 54;
+  const activeColor = (useConfigKey('t6-07', 'textActiveColor') as string) ?? '#ff5522';
+  const pastColor = (useConfigKey('t6-07', 'textPastColor') as string) ?? '#FFFFFF';
+  const pastOpacity = ((useConfigKey('t6-07', 'pastOpacity') as number) ?? 92) / 100;
+  const stepMs = (useConfigKey('t6-07', 'stepMs') as number) ?? 420;
+
+  const raw = useConfigList('t6-07', 'items') as { label?: string }[];
+  const list = raw.length > 0 ? raw : [{ label: '机器人' }, { label: '智能体' }, { label: '复杂软件' }];
+  const n = list.length;
+
+  const msToF = (ms: number) => Math.max(1, Math.round((ms * fps) / 1000));
+  const Tf = msToF(stepMs);          // 步骤焦点切换过渡
+  const exitF = msToF(600);          // 整体出场淡出
+  const introF = msToF(300);         // 入场淡入
+  const seg = Math.max(1, Math.max(0, clipFrames - exitF) / n); // 每条目焦点窗口
+
+  const hasTitle = typeof titleText === 'string' && titleText.trim().length > 0;
+  const listTop = hasTitle ? titleSize + 54 : 0; // 首行顶部（标题下方留 54px 呼吸）
+  const boxRight = boxSize;                       // 方块右边缘（本地 x）
+  const lineX = boxRight + 3;                     // 连接线紧贴方块右侧
+  const textX = boxRight + 32;                    // 步骤文本距方块右边缘 32px
+  const rowBottom = (i: number) => listTop + i * rowPitch + boxSize;
+
+  // 组透明度：入场淡入 × 末段整体淡出
+  const groupIn = interpolate(frame, [0, introF], [0, 1], {
+    easing: easeOutExpo, extrapolateLeft: 'clamp', extrapolateRight: 'clamp',
+  });
+  const groupOut = interpolate(frame, [clipFrames - exitF, clipFrames], [1, 0], {
+    easing: easeOutExpo, extrapolateLeft: 'clamp', extrapolateRight: 'clamp',
+  });
+  const groupOp = groupIn * groupOut;
+
+  // 焦点序号：f = floor(frame / seg)，随新行到达逐步下移
+  const focus = Math.max(0, Math.min(n - 1, Math.floor(frame / seg)));
+  // 连接线：已走过的红色段自顶向下生长
+  const trackH = rowBottom(n - 1) - listTop;
+  const redGrow = interpolate(frame, [0, introF], [0, 1], {
+    easing: easeOutExpo, extrapolateLeft: 'clamp', extrapolateRight: 'clamp',
+  });
+  const redEnd = focus === 0
+    ? (listTop + (rowBottom(0) - listTop) * redGrow)
+    : (rowBottom(focus - 1) + (rowBottom(focus) - rowBottom(focus - 1))
+      * interpolate(frame, [focus * seg, focus * seg + Tf], [0, 1], {
+        easing: Easing.out(Easing.cubic), extrapolateLeft: 'clamp', extrapolateRight: 'clamp',
+      }));
+
+  // 单条 ease-out 过渡系数
+  const easeOutCubic = (v: number) => 1 - Math.pow(1 - Math.max(0, Math.min(1, v)), 3);
+
+  return (
+    <div style={{ position: 'absolute', left: posX, top: posY, fontFamily: FONT_STACK,
+      transformOrigin: 'top left', transform: `scale(${scale / 100})`, opacity: groupOp }}>
+      {hasTitle && (
+        <div style={{
+          position: 'absolute', left: textX, top: 0, fontSize: titleSize, fontWeight: 700,
+          color: titleColor, whiteSpace: 'nowrap', lineHeight: 1.1, letterSpacing: 1,
+          opacity: groupIn, textShadow: '0 3px 12px rgba(0,0,0,0.45)',
+        }}>{titleText}</div>
+      )}
+      {/* 连接线：整轨淡痕 + 红色已走段 */}
+      <div style={{
+        position: 'absolute', left: lineX, top: listTop, width: lineThickness, height: trackH,
+        background: tint(lineActiveColor, 0.32), opacity: 0.9, transformOrigin: 'top',
+      }} />
+      <div style={{
+        position: 'absolute', left: lineX, top: listTop, width: lineThickness,
+        height: Math.max(0, redEnd - listTop), background: lineActiveColor,
+        opacity: 0.92, boxShadow: `0 0 8px ${tint(lineActiveColor, 0.5)}`, transformOrigin: 'top',
+      }} />
+      {/* 行条目 */}
+      {list.map((item, i) => {
+        const label = String(item.label ?? '');
+        const actStart = i * seg;
+        const pastStart = i < n - 1 ? (i + 1) * seg : null;
+        if (i > 0 && frame < actStart) return <div key={i} />; // 未到达：占位隐藏
+        const aIn = i === 0 ? 1 : easeOutCubic((frame - actStart) / Tf); // 到达入场
+        const past = pastStart !== null && frame >= pastStart;
+        const pFrac = past && pastStart !== null ? easeOutCubic((frame - pastStart) / Tf) : 0;
+        // 字号/颜色在 焦点↔历史 之间平滑插值；行垂直中线始终对齐方块中线
+        const size = past
+          ? pastSize + (activeSize - pastSize) * (1 - pFrac)
+          : pastSize + (activeSize - pastSize) * aIn;
+        const color = past
+          ? mixColor(activeColor, pastColor, pFrac)
+          : mixColor(pastColor, activeColor, aIn);
+        const boxBg = past
+          ? mixColor(boxActiveColor, boxPastColor, pFrac)
+          : boxActiveColor;
+        const op = (i === 0 ? 1 : aIn) * (past ? pastOpacity : 1);
+        const rowY = listTop + i * rowPitch;
+        const cy = rowY + boxSize / 2;
+        // 超宽文本按比例缩号（不小于 0.5x），避免侵入画面中央人物区
+        const maxW = 760;
+        const rawW = measureText(label, size, 'Bold');
+        const shrink = rawW > maxW ? Math.max(0.5, maxW / rawW) : 1;
+        const tSize = size * shrink;
+        const glow = past ? 0 : (i === 0 ? 1 : aIn);
+        const boxScale = past ? 1 : (i === 0 ? 1 : 0.86 + 0.14 * aIn);
+        return (
+          <div key={i} style={{ position: 'absolute', left: 0, top: 0 }}>
+            {/* 序号方块 */}
+            <div style={{
+              position: 'absolute', left: 0, top: rowY, width: boxSize, height: boxSize,
+              borderRadius: boxRadius, background: boxBg, opacity: op,
+              boxShadow: '0 4px 12px rgba(0,0,0,0.35)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              transform: `scale(${boxScale})`, transformOrigin: 'center',
+            }}>
+              <span style={{
+                fontSize: numSize, fontWeight: 700, color: numColor, lineHeight: 1,
+                textShadow: '0 2px 6px rgba(0,0,0,0.4)',
+              }}>{i + 1}</span>
+            </div>
+            {/* 步骤文本 */}
+            <div style={{
+              position: 'absolute', left: textX, top: cy - tSize / 2, fontSize: tSize,
+              fontWeight: 700, color, opacity: op, whiteSpace: 'nowrap', lineHeight: 1,
+              textShadow: glow > 0 ? `0 0 14px ${tint(activeColor, 0.22 * glow)}` : undefined,
+            }}>{label}</div>
+          </div>
+        );
+      })}
     </div>
   );
 };

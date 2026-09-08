@@ -115,7 +115,7 @@ describe('migrated effect registry', () => {
     expect(effectRegistry.get('t1-01').layout.footprint).not.toEqual({ width: 1920, height: 1080 });
   });
 
-  it('keeps all 45 IDs in the frozen category order', () => {
+  it('keeps all 46 IDs in the frozen category order', () => {
     expect(effectRegistry.list().map(({ id }) => id)).toEqual([
       'fx-01', 'fx-02', 'fx-03', 'fx-04', 'fx-05', 'fx-06', 'fx-07', 'fx-08', 'fx-09',
       't1-01', 't1-02', 't1-03', 't1-04', 't1-05', 't1-06', 't1-07', 't1-08', 't1-09',
@@ -123,7 +123,7 @@ describe('migrated effect registry', () => {
       't3-01', 't3-02', 't3-03', 't3-04',
       't4-01', 't4-02',
       't5-01', 't5-02', 't5-03', 't5-04', 't5-05', 't5-06',
-      't6-01', 't6-02', 't6-03', 't6-04', 't6-05', 't6-06',
+      't6-01', 't6-02', 't6-03', 't6-04', 't6-05', 't6-06', 't6-07',
       't7-01', 't7-02', 't7-03', 't7-04', 't7-05', 't7-06',
     ]);
   });
@@ -246,6 +246,7 @@ describe('migrated effect registry', () => {
       't6-02': [2, 4],
       't6-05': [2, 4],
       't6-06': [2, 4],
+      't6-07': [2, 5],
       't7-01': [2, 4],
       't7-02': [2, 3],
       't7-03': [2, 3],

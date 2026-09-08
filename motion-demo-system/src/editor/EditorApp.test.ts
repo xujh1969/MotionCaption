@@ -13,11 +13,13 @@ import {
   playPlayerFromFrame,
   readProjectFile,
   seekPlaybackFrame,
+  shouldDeleteSelectedOnKey,
   shouldDeselectOnKey,
   shouldStartCollapsed,
   StagePlaybackControls,
   clampTimelineHeight,
   timelineHeightFromPointer,
+  type DeletionKeyEvent,
 } from './EditorApp';
 
 const playerEmitter = () => {
@@ -42,6 +44,43 @@ describe('shouldDeselectOnKey', () => {
     expect(shouldDeselectOnKey('Escape', false)).toBe(true);
     expect(shouldDeselectOnKey('Escape', true)).toBe(false);
     expect(shouldDeselectOnKey('Enter', false)).toBe(false);
+  });
+});
+
+describe('shouldDeleteSelectedOnKey', () => {
+  const event = (
+    key: string,
+    extra: Partial<Pick<DeletionKeyEvent, 'target' | 'isComposing'>> = {},
+  ): DeletionKeyEvent => ({
+    key,
+    target: { tagName: 'BODY' },
+    isComposing: false,
+    ...extra,
+  });
+
+  it('deletes on Delete/Backspace with focus outside a text control', () => {
+    expect(shouldDeleteSelectedOnKey(event('Delete'), false)).toBe(true);
+    expect(shouldDeleteSelectedOnKey(event('Backspace'), false)).toBe(true);
+  });
+
+  it('never deletes while a modal dialog is open or an IME composition is in flight', () => {
+    expect(shouldDeleteSelectedOnKey(event('Delete'), true)).toBe(false);
+    expect(shouldDeleteSelectedOnKey(event('Delete', { isComposing: true }), false)).toBe(false);
+  });
+
+  it('ignores keys that are not Delete/Backspace', () => {
+    expect(shouldDeleteSelectedOnKey(event('Escape'), false)).toBe(false);
+    expect(shouldDeleteSelectedOnKey(event('Enter'), false)).toBe(false);
+    expect(shouldDeleteSelectedOnKey(event('x'), false)).toBe(false);
+  });
+
+  it('keeps Delete/Backspace for text editing inside inputs, textareas, and contenteditable', () => {
+    expect(shouldDeleteSelectedOnKey(event('Delete', { target: { tagName: 'INPUT' } }), false)).toBe(false);
+    expect(shouldDeleteSelectedOnKey(event('Backspace', { target: { tagName: 'TEXTAREA' } }), false)).toBe(false);
+    expect(
+      shouldDeleteSelectedOnKey(event('Delete', { target: { tagName: 'DIV', isContentEditable: true } }), false),
+    ).toBe(false);
+    expect(shouldDeleteSelectedOnKey(event('Delete', { target: null }), false)).toBe(true);
   });
 });
 

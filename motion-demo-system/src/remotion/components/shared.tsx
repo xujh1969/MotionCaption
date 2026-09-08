@@ -80,6 +80,11 @@ export function parseKeyText(text: string): KeyTextPart[] {
   return parts;
 }
 
+/** 去掉 {{}} 标记，返回纯文本（用于宽度测量、导出等不需要高亮信息的场合） */
+export function stripKeyText(text: string): string {
+  return String(text ?? '').replace(/\{\{([^}]+)\}\}/g, '$1');
+}
+
 /* ==================== 颜色工具 ==================== */
 
 export interface RGB { r: number; g: number; b: number; a: number }
@@ -116,6 +121,27 @@ export function parseColor(c: string): RGB | null {
 export function alphaOf(c: string): number {
   const p = parseColor(c);
   return p ? Math.max(0, Math.min(1, p.a)) : 1;
+}
+
+/**
+ * 颜色线性插值（t=0 → a，t=1 → b），支持 #rrggbb / #rgb / rgb() / rgba()。
+ * 结果 alpha ≥ 0.999 时返回 hex，否则返回 rgba()。
+ */
+export function mixColor(a: string, b: string, t: number): string {
+  const pa = parseColor(a);
+  const pb = parseColor(b);
+  if (!pa || !pb) return t >= 0.5 ? b : a;
+  const k = Math.max(0, Math.min(1, t));
+  const rgb: RGB = {
+    r: Math.round(pa.r + (pb.r - pa.r) * k),
+    g: Math.round(pa.g + (pb.g - pa.g) * k),
+    b: Math.round(pa.b + (pb.b - pa.b) * k),
+    a: Math.round((pa.a + (pb.a - pa.a) * k) * 100) / 100,
+  };
+  if (rgb.a >= 0.999) {
+    return '#' + ((1 << 24) | (rgb.r << 16) | (rgb.g << 8) | rgb.b).toString(16).slice(1);
+  }
+  return `rgba(${rgb.r},${rgb.g},${rgb.b},${rgb.a})`;
 }
 
 /** 取 #rrggbb（丢弃透明度），解析失败原样返回 */

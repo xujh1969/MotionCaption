@@ -1634,7 +1634,7 @@
       "avoidFor": [
         "Avoid paragraphs and data lists."
       ],
-      "category": "s",
+      "category": "special-fx",
       "componentVersion": 1,
       "content": {
         "enText": {
@@ -1655,6 +1655,7 @@
         }
       },
       "id": "fx-01",
+      "motionFeel": "整组淡入+上浮一次成型（Expo 缓出），无分步无点缀；稳重开场横幅。",
       "name": "英文标签+主标题+渐变分割线",
       "planning": {
         "exclusive": false,
@@ -1684,7 +1685,7 @@
       "avoidFor": [
         "Avoid long body copy and data."
       ],
-      "category": "s",
+      "category": "special-fx",
       "componentVersion": 1,
       "content": {
         "enText": {
@@ -1713,6 +1714,7 @@
         }
       },
       "id": "fx-02",
+      "motionFeel": "整组淡入+上浮一次成型，标题下多一行半透明小字；适合带副句的章头。",
       "name": "英文标签+主标题+渐变线+线下方小字",
       "planning": {
         "exclusive": false,
@@ -1742,7 +1744,7 @@
       "avoidFor": [
         "Avoid neutral exposition."
       ],
-      "category": "s",
+      "category": "special-fx",
       "componentVersion": 1,
       "content": {
         "cnText": {
@@ -1763,6 +1765,7 @@
         }
       },
       "id": "fx-03",
+      "motionFeel": "警示条整条淡入上浮；红调渐变底+发光描边+菱形感叹号，静态强调，无往复。",
       "name": "渐变警示条(菱形感叹号)",
       "planning": {
         "exclusive": false,
@@ -1794,7 +1797,7 @@
         "maxItems": 4,
         "minItems": 4
       },
-      "category": "s",
+      "category": "special-fx",
       "componentVersion": 1,
       "content": {
         "items": {
@@ -1854,6 +1857,7 @@
         }
       },
       "id": "fx-04",
+      "motionFeel": "金边外框先淡入，4 个指标块自左向右逐个淡入（每块间隔约 0.33s）。",
       "name": "大标题+指标块列表",
       "planning": {
         "exclusive": false,
@@ -1889,7 +1893,7 @@
         "maxItems": 3,
         "minItems": 1
       },
-      "category": "s",
+      "category": "special-fx",
       "componentVersion": 1,
       "content": {
         "tags": {
@@ -1945,6 +1949,7 @@
         }
       },
       "id": "fx-05",
+      "motionFeel": "整组淡入+上浮一次成型（主题色竖线+实心胶囊+双行标题+小标签组），无逐层；信息密度高。",
       "name": "竖线+胶囊标签+双行标题",
       "planning": {
         "exclusive": false,
@@ -1980,7 +1985,7 @@
         "maxItems": 3,
         "minItems": 2
       },
-      "category": "s",
+      "category": "special-fx",
       "componentVersion": 1,
       "content": {
         "footText": {
@@ -2052,6 +2057,7 @@
         }
       },
       "id": "fx-06",
+      "motionFeel": "外框淡入后标题单独淡入，步骤行逐个浮现（每行间隔约 0.47s），底部脚注随之出现。",
       "name": "大标题+多行列表",
       "planning": {
         "exclusive": false,
@@ -2089,7 +2095,7 @@
         "maxItems": 4,
         "minItems": 2
       },
-      "category": "s",
+      "category": "special-fx",
       "componentVersion": 1,
       "content": {
         "cards": {
@@ -2157,6 +2163,7 @@
         }
       },
       "id": "fx-07",
+      "motionFeel": "外框淡入后标题单独淡入，小卡片逐个浮现（两列网格、每张间隔约 0.4s）。",
       "name": "大标题+多行列表卡片",
       "planning": {
         "exclusive": false,
@@ -2194,7 +2201,7 @@
         "maxItems": 4,
         "minItems": 2
       },
-      "category": "s",
+      "category": "special-fx",
       "componentVersion": 1,
       "content": {
         "bars": {
@@ -2254,6 +2261,7 @@
         }
       },
       "id": "fx-08",
+      "motionFeel": "外框淡入后标题单独淡入，进度条逐行从左向右生长并淡入（每行间隔约 0.4s）；运动感最强的 fx 组件。",
       "name": "大标题+多进度条",
       "planning": {
         "exclusive": false,
@@ -2285,7 +2293,7 @@
       "avoidFor": [
         "Avoid multiple metrics and paragraphs."
       ],
-      "category": "s",
+      "category": "special-fx",
       "componentVersion": 1,
       "content": {
         "numText": {
@@ -2330,6 +2338,7 @@
         }
       },
       "id": "fx-09",
+      "motionFeel": "整卡淡入，核心数字滚动计数约 1.3s 并带渐变与呼吸微光，底部出处随后淡入；单 KPI 高光。",
       "name": "深色渐变数字卡片",
       "planning": {
         "exclusive": false,
@@ -2400,6 +2409,7 @@
         }
       },
       "id": "t1-01",
+      "motionFeel": "右侧四层文字（标签/英文/主标题/副标题）逐层上浮入场，每层间隔约 0.5s，顶部标签带呼吸。",
       "name": "顶部标签+英文标签+主标题副标题",
       "planning": {
         "exclusive": false,
@@ -2450,6 +2460,7 @@
         }
       },
       "id": "t1-02",
+      "motionFeel": "左侧竖线先自上而下生长，引用文字与底部注释先后淡入（注释轻微呼吸）；观点/引用质感。",
       "name": "左侧竖线引用注释",
       "planning": {
         "exclusive": false,
@@ -2498,6 +2509,7 @@
         }
       },
       "id": "t1-03",
+      "motionFeel": "小字注解先上浮，主标题稍后上浮；两段式、轻快利落。",
       "name": "顶部小字注解+主标题",
       "planning": {
         "exclusive": false,
@@ -2556,6 +2568,7 @@
         }
       },
       "id": "t1-04",
+      "motionFeel": "小标题、主标题、副标题三层逐层上浮入场，每层间隔约 0.5s；标准章节层级。",
       "name": "小标题-主标题-副标题层级",
       "planning": {
         "exclusive": false,
@@ -2581,7 +2594,7 @@
     },
     {
       "avoidFor": [
-        "Avoid metrics, processes, lists, charts, and long overflow text."
+        "Avoid two-sided comparisons that emphasise one side (e.g. quantity contrasts such as \"150 vs 10\"), metrics, lists, and long paragraphs."
       ],
       "category": "text-line",
       "componentVersion": 1,
@@ -2604,6 +2617,7 @@
         }
       },
       "id": "t1-05",
+      "motionFeel": "标题与副标题先后淡入，底部渐变线随后从左向右生长并带呼吸；收尾有动感。",
       "name": "主标题副标题+底部渐变线",
       "planning": {
         "exclusive": false,
@@ -2660,6 +2674,7 @@
         }
       },
       "id": "t1-06",
+      "motionFeel": "英文标签、主标题、副标题逐层上浮，底部线最后自中心向两侧展开并带呼吸；比 t1-05 更对称。",
       "name": "英文标签+主标题副标题+底部渐变线",
       "planning": {
         "exclusive": false,
@@ -2718,6 +2733,7 @@
         }
       },
       "id": "t1-07",
+      "motionFeel": "顶部小标先淡入，主标题与说明文字依次上浮；三行快节奏，适合功能条目。",
       "name": "顶部标签+主标题+辅助说明",
       "planning": {
         "exclusive": false,
@@ -2778,6 +2794,7 @@
         }
       },
       "id": "t1-08",
+      "motionFeel": "标签与标题依次上浮，正文整体淡入，{{重点词}} 高亮并带呼吸；适合观点段+强调词。",
       "name": "顶部锚点标签+主标题+正文段落",
       "planning": {
         "exclusive": false,
@@ -2830,6 +2847,7 @@
         }
       },
       "id": "t1-09",
+      "motionFeel": "正文块先上浮淡入，底部注释随后淡入并轻微呼吸；定义/出处引用。",
       "name": "主文本块底部注释",
       "planning": {
         "exclusive": false,
@@ -3340,6 +3358,80 @@
       ],
       "suitableFor": [
         "Iterative multi-step process with 2-4 steps."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid scalar summaries, unordered lists, metric charts, and more than 5 items."
+      ],
+      "capacity": {
+        "maxItems": 5,
+        "minItems": 2
+      },
+      "category": "timeline-flow",
+      "componentVersion": 1,
+      "content": {
+        "items": {
+          "constraints": "2-5 items; all listed item fields are required strings",
+          "default": [
+            {
+              "label": "机器人"
+            },
+            {
+              "label": "智能体"
+            },
+            {
+              "label": "复杂软件"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "label",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 5,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "构建智能应用的三个阶段",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "t6-07",
+      "motionFeel": "左侧安全区步骤列表（序号方块+连接线+步骤文本）：首条即高亮，之后每条目在自身时段渐入放大成当前焦点（前一条目同步缩小变白），连接线红色段逐段下行，末段整体 600ms 淡出。",
+      "name": "有序序号步骤列表·焦点滚动切换",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "title",
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t6-07.md",
+      "selectionSummary": "有序序号步骤列表·焦点滚动切换",
+      "semanticFamilies": [
+        "title",
+        "items"
+      ],
+      "suitableFor": [
+        "Vertical ordered steps where each step is narrated in its own cue and should be highlighted one by one (focus-scroll stepper)."
       ]
     }
   ],

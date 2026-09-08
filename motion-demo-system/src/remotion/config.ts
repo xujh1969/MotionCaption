@@ -33,6 +33,8 @@ export interface PropDef {
   colorKey?: string;
   // 文本二级属性（仅 kind:'text'）：重点词{{}}颜色属性 key（一级隐藏）
   hlColorKey?: string;
+  // 文本二级属性（仅 kind:'text'）：重点词{{}}字号属性 key（一级隐藏，缺省则继承正文字号）
+  hlSizeKey?: string;
   // 一级提示：边框/线段颜色跟随该文本属性修改
   note?: string;
 }
@@ -43,8 +45,17 @@ export const mkNum = (key: string, label: string, def: number, min: number, max:
 export const mkColor = (key: string, label: string, def: string): PropDef =>
   ({ key, label, kind: 'color', default: def });
 // 文本：一级只显示输入框 + T 图标，字号/颜色为二级属性（sizeKey/colorKey），重点词{{}}颜色为三级二级属性（hlColorKey）
-export const mkText = (key: string, label: string, def: string, sizeKey: string, colorKey: string, note?: string, hlColorKey?: string): PropDef =>
-  ({ key, label, kind: 'text', default: def, sizeKey, colorKey, note, hlColorKey });
+export const mkText = (
+  key: string,
+  label: string,
+  def: string,
+  sizeKey: string,
+  colorKey: string,
+  note?: string,
+  hlColorKey?: string,
+  hlSizeKey?: string,
+): PropDef =>
+  ({ key, label, kind: 'text', default: def, sizeKey, colorKey, note, hlColorKey, hlSizeKey });
 // list：数据条目列表，default 为 JSON 字符串(数组)
 export const mkList = (
   key: string,
@@ -613,6 +624,36 @@ export const CONFIGS: Record<string, PropDef[]> = {
     mkNum('posY', '顶部位置Y', 0, 0, 1080, 1, 'px'),
     mkNum('scale', '整体缩放', 100, 20, 200, 1, '%'),
   ],
+  't6-07': [
+    mkText('titleText', '步骤标题文案', '构建智能应用的三个阶段', 'titleSize', 'titleColor'),
+    mkList('items', '步骤条目', JSON.stringify([
+      { label: '机器人' },
+      { label: '智能体' },
+      { label: '复杂软件' },
+    ]), [
+      { key: 'label', label: '步骤文本', placeholder: '步骤文字', default: '步骤' },
+    ], ['label']),
+    mkNum('titleSize', '标题字号', 50, 30, 96),
+    mkColor('titleColor', '标题颜色', '#FFFFFF'),
+    mkNum('boxSize', '序号方块尺寸', 96, 56, 200),
+    mkNum('boxRadius', '序号方块圆角', 16, 4, 48),
+    mkNum('rowPitch', '条目行距', 140, 96, 320),
+    mkColor('boxActiveColor', '激活方块背景', '#ff3322'),
+    mkColor('boxPastColor', '历史方块背景', 'rgba(60,60,60,0.65)'),
+    mkNum('numSize', '序号字号', 48, 24, 96),
+    mkColor('numColor', '序号颜色', '#FFFFFF'),
+    mkNum('lineThickness', '连接线粗细', 4, 1, 10),
+    mkColor('lineActiveColor', '连接线已走颜色', '#ff3322'),
+    mkNum('textActiveSize', '当前步骤字号', 88, 36, 140),
+    mkNum('textPastSize', '历史步骤字号', 54, 20, 110),
+    mkColor('textActiveColor', '当前步骤颜色', '#ff5522'),
+    mkColor('textPastColor', '历史步骤颜色', '#FFFFFF'),
+    mkNum('pastOpacity', '历史步骤透明度', 92, 30, 100, 1, '%'),
+    mkNum('stepMs', '步骤切换时长', 420, 120, 1200, 20, 'ms'),
+  mkNum('posX', '左位置X', 120, 0, 1920, 1, 'px'),
+    mkNum('posY', '顶部位置Y', 160, 0, 1080, 1, 'px'),
+    mkNum('scale', '整体缩放', 100, 20, 200, 1, '%'),
+  ],
   // ================= 第七大类 迷你图表 =================
   't7-01': [
     mkText('titleText', '图表标题文案', '各版本推理速度对比', 'titleSize', 'titleColor'),
@@ -813,8 +854,8 @@ export const CONFIGS: Record<string, PropDef[]> = {
   ],
   'fx-05': [
     mkText('tagText', '胶囊标签文案', '标签标签', 'tagSize', 'themeColor'),
-    mkText('title1', '标题第一行', '这是我的主标题', 'titleSize', 'titleColor'),
-    mkText('title2', '标题第二行', '标题的第二行', 'titleSize', 'titleColor'),
+    mkText('title1', '标题第一行', '这是我的主标题', 'titleSize', 'titleColor', undefined, 'hlColor', 'hlSize'),
+    mkText('title2', '标题第二行', '标题的第二行', 'titleSize', 'titleColor', undefined, 'hlColor', 'hlSize'),
     mkList('tags', '小标签数组', JSON.stringify([
       { t: '小标签一' },
       { t: '小标签二' },
@@ -827,6 +868,8 @@ export const CONFIGS: Record<string, PropDef[]> = {
     mkColor('bgColor', '组件背景色', '#00000099'),
     mkNum('titleSize', '标题字号', 52, 24, 90),
     mkColor('titleColor', '标题颜色', '#e9f4f1'),
+    mkColor('hlColor', '重点文字颜色', '#4CC9F0'),
+    mkNum('hlSize', '重点文字字号', 52, 16, 120),
     mkNum('gSize', '小标签字号', 20, 14, 44),
     mkColor('gColor', '小标签颜色', '#d0df67'),
   mkNum('posX', '左位置X', 160, 0, 1920, 1, 'px'),
@@ -986,7 +1029,7 @@ export const DEFAULTS: Record<string, ConfigState> = {
     tagText: '标签标签', title1: '这是我的主标题', title2: '标题的第二行',
     tags: JSON.stringify([{ t: '小标签一' }, { t: '小标签二' }, { t: '小标签三' }]),
     tagSize: 16, themeColor: '#d0df67', bgColor: 'rgba(12,14,11,0.6)', titleSize: 52,
-    titleColor: 'rgba(255,255,255,0.96)', gSize: 16, gColor: '#d0df67',
+    titleColor: 'rgba(255,255,255,0.96)', hlColor: '#4CC9F0', hlSize: 52, gSize: 16, gColor: '#d0df67',
   posX: 160,
     posY: 210,
     scale: 100,
@@ -1357,6 +1400,24 @@ export const DEFAULTS: Record<string, ConfigState> = {
     posY: 0,
     scale: 100,
   },
+  't6-07': {
+    titleText: '构建智能应用的三个阶段', titleSize: 50, titleColor: '#FFFFFF',
+    boxSize: 96, boxRadius: 16, rowPitch: 140,
+    boxActiveColor: '#ff3322', boxPastColor: 'rgba(60,60,60,0.65)',
+    numSize: 48, numColor: '#FFFFFF',
+    lineThickness: 4, lineActiveColor: '#ff3322',
+    textActiveSize: 88, textPastSize: 54,
+    textActiveColor: '#ff5522', textPastColor: '#FFFFFF',
+    pastOpacity: 92, stepMs: 420,
+    items: JSON.stringify([
+      { label: '机器人' },
+      { label: '智能体' },
+      { label: '复杂软件' },
+    ]),
+  posX: 120,
+    posY: 160,
+    scale: 100,
+  },
   't7-01': {
     titleText: '各版本推理速度对比',
     items: JSON.stringify([
@@ -1476,4 +1537,12 @@ export function useConfigList(id: string, key: string): Record<string, string>[]
     }
   }
   return [];
+}
+
+/** 组件渲染时的实例级上下文：当前特效实例总时长（帧）。EffectInstanceFrame 注入。 */
+export const EffectClipCtx = createContext<number>(0);
+
+/** 供特效渲染器读取自己实例的总时长（帧）；未注入时返回 0。 */
+export function useEffectClipLength(): number {
+  return useContext(EffectClipCtx);
 }

@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { effectRegistry } from '../effects/registry';
 import { twoComponentSceneProject } from '../project/fixtures/two-component-scene';
 import type { MotionEffectInstance, MotionProject } from '../project/types';
-import { ConfigProvider, type ConfigState } from '../remotion/config';
+import { ConfigProvider, EffectClipCtx, type ConfigState } from '../remotion/config';
 import { EffectInstanceFrame } from './EffectInstanceFrame';
 import { ProjectComposition } from './ProjectComposition';
 
@@ -110,7 +110,12 @@ describe('ProjectComposition element tree', () => {
     });
     expect(titleProvider.props.value).not.toHaveProperty('percent');
     expect(gaugeProvider.props.value).not.toHaveProperty('titleText');
-    expect(titleProvider.props.children.type).toBe(effectRegistry.get('t1-05').component);
-    expect(gaugeProvider.props.children.type).toBe(effectRegistry.get('t7-06').component);
+    // EffectInstanceFrame 先包 ConfigProvider，再包实例时长上下文，最内层才是组件
+    expect(titleProvider.props.children.type).toBe(EffectClipCtx.Provider);
+    expect(titleProvider.props.children.props.value).toBe(titleEffect.durationInFrames);
+    expect(titleProvider.props.children.props.children.type).toBe(effectRegistry.get('t1-05').component);
+    expect(gaugeProvider.props.children.type).toBe(EffectClipCtx.Provider);
+    expect(gaugeProvider.props.children.props.value).toBe(gaugeEffect.durationInFrames);
+    expect(gaugeProvider.props.children.props.children.type).toBe(effectRegistry.get('t7-06').component);
   });
 });

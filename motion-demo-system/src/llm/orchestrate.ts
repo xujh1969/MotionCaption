@@ -3,6 +3,7 @@ import { AgentDraftSchema } from '../project/schema';
 import type { AgentDraft, MotionProject } from '../project/types';
 import type { DraftDiagnostic } from '../project/validateDraft';
 import { LlmAbortedError, throwIfAborted, type LlmChatMessage, type LlmProvider } from './provider';
+import { convertCnNumerals } from './cnNumbers';
 
 export interface ComponentSummary {
   componentId: string;
@@ -10,6 +11,8 @@ export interface ComponentSummary {
   name: string;
   suitableFor: string[];
   avoidFor: string[];
+  /** One-line motion sketch (entry style + pacing), optional while only fx/t1 carry it. */
+  motionFeel?: string;
 }
 
 export interface OrchestrationOptions {
@@ -32,6 +35,32 @@ const SYSTEM_PROMPT = [
   '1. 只输出一个 JSON 对象，禁止输出任何解释、注释或 Markdown 代码围栏以外的文字。',
   '2. 内容字段只能使用组件资料中明确列为可编辑的键；风格、布局、坐标等一切样式属性由系统锁定，禁止出现在 JSON 中。',
   '3. 内容必须基于字幕原文，不得编造字幕里不存在的事实。',
+  '4. 结构先行：先按叙事把字幕划分为场景角色（开场/章节标题、并列要点组、单个指标强调、警示/结论、收尾），再为每个角色挑组件；多条连续的同构短句应合并进一个列表/卡片/流程场景，而不是逐句套标题类组件。',
+  '5. 组件复用由你按内容形态判断，不做死板的相邻/次数限制：一组可列表化表达且观点多于 3 条时，应合并进一个支持数组的列表/卡片/流程组件（如 fx-04/fx-06/fx-07、t5-*、t7-05）一次性表达，不要用同一个组件多次重复地逐条表达；观点 ≤3 条或各场景结构确实不同时，允许跨场景复用同一组件。唯一要避免的是让某个组件包办整片绝大多数场景，此时改用语义最接近的其他组件。',
+  '6. 同刻叠加（多轨）：同一时刻/同一时间段允许叠加多个特效，引擎会把重叠效果自动分配到不同轨道。做法：把同时出现的元素放进同一个 scene 的 components 数组，或让多个 scene 引用同一段/重叠的字幕区间。每层用不同 placementPreset 分占屏幕区域（如上方标题 + 下方指标），避免都留 auto 居中互相遮挡；每个 scene 的 role 需互不相同，同一时刻最多 2-3 层。',
+  '7. 文案守则（展示字段是改写，不是照搬）：标题/标签/说明等展示字段（titleText、topText、title/title1/title2、tagText、kickerText、descText，以及列表项的名称/说明）应提炼字幕而不是整句照抄。单行标题字段尽量短（中文 ≤12 字、英文 ≤28 字符）——超长会触发单行自动缩号，影响观感；标题字段内不要用逗号/分号断开长句，多条并列观点应交给列表/卡片/流程场景；枚举优先用数字标识（1/2/3 或 01/02），不要用"其一/其二"式中文序数。数值类字段（如 fx-04 items[].val）只填数字或百分比（如 "80" 或 "80%"），不要填描述性文字；展示文案中的汉字数字一律改写为阿拉伯数字（一百五十→150、百分之二十→20%），字幕已给出的阿拉伯数字保持原样。',
+  '8. 对比与取舍内容：字幕出现 A/B 双方优劣或数量的对比且强调某一方（例如"150 种不如意 vs 10 种精要，重点是后者"）时，必须选用能并列呈现双方数值/条目的组件（t3-03 双值对比、t7-01/t7-02/fx-08 条形、t5-* 列表/卡片），并把被强调的一方的数字与结论放进展示字段做视觉侧重；不要用单行标题类组件（t1-*、fx-01/fx-02/fx-05）把这种对比压成一句标题——它们表达不了两边的量级差。',
+].join('\n');
+
+/**
+ * Static cue-shape → component shortlist table, mirrored in the generated
+ * skill (scripts/generate-skill.mjs). A shortcut, not a complete mapping.
+ */
+const QUICK_NAV_ROWS = [
+  ['开场 / 章节标题', 'fx-01, fx-02, fx-05, t1-01, t1-06, t2-02'],
+  ['观点 / 引用 / 警示 / 结论', 't1-02, t1-09, t2-01, fx-03'],
+  ['单个数字 / 指标', 't3-01, t3-02, fx-09, t6-03, t7-06'],
+  ['多条并列要点（合并为一个场景）', 'fx-04, fx-06, fx-07, t5-01, t5-02, t5-03, t5-04, t5-05, t5-06, t7-05'],
+  ['流程 / 步骤 / 时间轴', 't4-01, t4-02, t6-01, t6-02, t6-04, t6-05, t6-06'],
+  ['图表 / 占比 / 对比', 't3-03, t7-01, t7-02, t7-03, t7-04, fx-08'],
+] as const;
+
+const QUICK_NAV_BLOCK = [
+  '先按字幕形态缩小候选，再在组件清单中确认（此表是捷径而非穷举）：',
+  '',
+  '| 字幕形态 | 优先候选组件 |',
+  '| --- | --- |',
+  ...QUICK_NAV_ROWS.map(([shape, ids]) => `| ${shape} | ${ids} |`),
 ].join('\n');
 
 const SELECTION_INSTRUCTION = [
@@ -47,7 +76,10 @@ const SELECTION_INSTRUCTION = [
   '## 风格偏好',
   '{{STYLE}}',
   '',
-  '## 组件清单（ID | 名称 | 适用 | 不适用）',
+  '## 快速定位',
+  '{{NAV}}',
+  '',
+  '## 组件清单（ID | 名称 | 动效 | 适用 | 不适用）',
   '{{COMPONENTS}}',
 ].join('\n');
 
@@ -56,6 +88,9 @@ const DRAFT_INSTRUCTION = [
   '只输出一个符合以下结构的 JSON 对象：',
   '{"kind":"captionforge.agent-draft","schemaVersion":1,"componentLibraryVersion":1,"scenes":[{"sceneId":"scene-1","sourceCueIds":["..."],"components":[{"componentId":"...","componentVersion":1,"role":"...","content":{...},"placementPreset":"auto"}]}]}',
   '每个组件的 content 只能包含其资料中列出的可编辑键。',
+  '展示文案是提炼不是照抄：标题/标签保持精简（中文 ≤12 字、勿用逗号断句、枚举用数字标识），数值类字段只填数字或百分比。',
+  '场景按时间顺序覆盖整批字幕；多条字幕合并进一个场景时，sourceCueIds 必须列出该场景引用的全部 cue。',
+  '需要同刻多轨叠加时：把同时出现的元素放进同一个 scene 的 components（不同 placementPreset 分区），或用多个 scene 引用同一字幕区间——重叠效果会自动落到不同轨道。',
   '',
   '## 画布',
   '{{CANVAS}}',
@@ -87,7 +122,7 @@ const canvasBlock = (project: MotionProject): string => (
 const cuesBlock = (project: MotionProject): string => (
   project.cues.length
     ? project.cues.map((cue) => (
-      `[${cue.cueId}] ${cue.startMs}-${cue.endMs}ms ${cue.text}`
+      `[${cue.cueId}] ${cue.startMs}-${cue.endMs}ms ${convertCnNumerals(cue.text)}`
     )).join('\n')
     : '（无字幕）'
 );
@@ -95,6 +130,7 @@ const cuesBlock = (project: MotionProject): string => (
 const componentsBlock = (components: ComponentSummary[]): string => (
   components.map((component) => (
     `${component.componentId} v${component.componentVersion} | ${component.name}`
+    + ` | 动效: ${component.motionFeel || '—'}`
     + ` | ${component.suitableFor.join('；') || '—'}`
     + ` | ${component.avoidFor.join('；') || '—'}`
   )).join('\n')
@@ -206,6 +242,7 @@ export async function orchestrateEffects(
       provider,
       [{ role: 'user', content: fill(SELECTION_INSTRUCTION, {
         ...shared,
+        NAV: QUICK_NAV_BLOCK,
         COMPONENTS: componentsBlock(components),
       }) }],
       signal,

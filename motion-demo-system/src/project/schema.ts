@@ -68,6 +68,7 @@ export const AgentDraftSchema = z.object({
   schemaVersion: z.literal(1),
   componentLibraryVersion: z.literal(1),
   scenes: z.array(AgentDraftSceneSchema),
+  cues: z.array(SubtitleCueSchema).optional(),
 }).strict().superRefine(({ scenes }, context) => {
   const componentCount = scenes.reduce((total, scene) => total + scene.components.length, 0);
   if (componentCount <= MAX_EFFECT_INSTANCES) return;

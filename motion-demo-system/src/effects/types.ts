@@ -49,6 +49,8 @@ export interface EffectDefinition {
     suitableFor: string[];
     avoidFor: string[];
     semanticFamilies: string[];
+    /** One-line motion sketch (entry style + information pacing) for selector LLMs. */
+    motion?: string;
     minItems?: number;
     maxItems?: number;
   };

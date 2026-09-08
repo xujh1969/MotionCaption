@@ -231,11 +231,11 @@ describe('validateAgentDraft hard errors', () => {
     expect(result.valid).toBe(false);
     expect(result.errors.map(({ code }) => code)).toEqual(expect.arrayContaining([
       'unknown_component', 'component_version', 'unknown_content_field', 'content_type',
-      'required_content', 'unsourced_unit', 'list_capacity', 'exclusive_conflict',
+      'required_content', 'list_capacity', 'exclusive_conflict',
     ]));
   });
 
-  it('rejects missing cues and unsourced numeric claims', () => {
+  it('rejects missing cues', () => {
     const result = validateAgentDraft({
       ...draft([{ componentId: 'card', componentVersion: 1, role: 'metric', content: {
         title: 'growth', value: 99, unitText: '%', items: [{ label: 'a' }, { label: 'b' }],
@@ -248,7 +248,7 @@ describe('validateAgentDraft hard errors', () => {
     }, input, registry);
 
     expect(result.errors.map(({ code }) => code)).toEqual(expect.arrayContaining([
-      'unknown_cue', 'unsourced_number',
+      'unknown_cue',
     ]));
   });
 
@@ -272,7 +272,9 @@ describe('validateAgentDraft hard errors', () => {
     expect(result.errors.map(({ code }) => code)).toContain('required_content');
   });
 
-  it('does not accept numeric or unit substrings as source evidence', () => {
+  it('no longer blocks numeric claims — grounding is enforced at authoring time (2026-09-08 product decision)', () => {
+    // 数字/单位溯源校验已移除：编造或转写形式的数字不再在导入侧拦截，
+    // 由 skill 工作流（先扫描转换字幕 + 展示字段一律阿拉伯）在生成端负责。
     const substringInput = {
       ...input,
       cues: [{ cueId: 'cue-1', startMs: 0, endMs: 1000, text: 'time 1580' }],
@@ -282,76 +284,7 @@ describe('validateAgentDraft hard errors', () => {
       content: { title: 'claim', value: 58, unitText: 'm', items: [{ label: 'a' }, { label: 'b' }] },
     }]), substringInput, registry);
 
-    expect(result.errors.map(({ code }) => code)).toEqual(expect.arrayContaining([
-      'unsourced_number', 'unsourced_unit',
-    ]));
-  });
-
-  it('recursively validates numeric and unit-bearing tokens in strings and list items', () => {
-    const result = validateAgentDraft(draft([{
-      componentId: 'card', componentVersion: 1, role: 'metric',
-      content: {
-        title: '吞吐 999kg',
-        items: [{ label: '延迟 888ms' }, { label: '稳定' }],
-      },
-    }]), {
-      ...input,
-      cues: [{ cueId: 'cue-1', startMs: 0, endMs: 1000, text: '没有提供指标' }],
-    }, registry);
-
-    expect(result.errors.map(({ code }) => code)).toEqual(expect.arrayContaining([
-      'unsourced_number', 'unsourced_unit',
-    ]));
-  });
-
-  it('does not treat ordinary English words after numbers as units', () => {
-    const result = validateAgentDraft(draft([{
-      componentId: 'card', componentVersion: 1, role: 'title',
-      content: { title: 'Version 2 released' },
-    }]), {
-      ...input,
-      cues: [{ cueId: 'cue-1', startMs: 0, endMs: 1000, text: 'Version 2 launched' }],
-    }, registry);
-
-    expect(result.errors.map(({ code }) => code)).not.toContain('unsourced_unit');
-  });
-
-  it('does not treat a longer Chinese unit as evidence for a suffix unit', () => {
-    const result = validateAgentDraft(draft([{
-      componentId: 'card', componentVersion: 1, role: 'metric',
-      content: { title: '长度', value: 1, unitText: '米' },
-    }]), {
-      ...input,
-      cues: [{ cueId: 'cue-1', startMs: 0, endMs: 1000, text: '长度 1 厘米' }],
-    }, registry);
-
-    expect(result.errors.map(({ code }) => code)).toContain('unsourced_unit');
-  });
-
-  it('accepts an exact Chinese unit next to surrounding text', () => {
-    const result = validateAgentDraft(draft([{
-      componentId: 'card', componentVersion: 1, role: 'metric',
-      content: { title: '长度', value: 1, unitText: '米' },
-    }]), {
-      ...input,
-      cues: [{ cueId: 'cue-1', startMs: 0, endMs: 1000, text: '长度1米长' }],
-    }, registry);
-
-    expect(result.errors.map(({ code }) => code)).not.toContain('unsourced_unit');
-  });
-
-  it('accepts exact recursive unit claims next to surrounding Chinese text', () => {
-    const result = validateAgentDraft(draft([{
-      componentId: 'card', componentVersion: 1, role: 'metric',
-      content: {
-        title: '重量 999kg',
-        items: [{ label: '延迟 888ms' }, { label: '长度 1厘米' }],
-      },
-    }]), {
-      ...input,
-      cues: [{ cueId: 'cue-1', startMs: 0, endMs: 1000, text: '重量999kg，延迟888ms；长度1厘米长' }],
-    }, registry);
-
+    expect(result.valid).toBe(true);
     expect(result.errors.map(({ code }) => code)).not.toContain('unsourced_number');
     expect(result.errors.map(({ code }) => code)).not.toContain('unsourced_unit');
   });

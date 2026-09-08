@@ -25,35 +25,42 @@ interface TextProps {
   scale?: number;
   letterSpacing?: number;
   wrap?: boolean;
+  /** 单行自适应：文本超出 maxWidth 时等比例缩小字号，保持不折行不重叠。 */
+  autoShrink?: boolean;
   maxWidth?: number;
 }
 
 const T: React.FC<TextProps> = ({
   x, y, size, weight = 'Heavy', color, align = 'left', text, opacity = 1,
-  translateY = 0, scale = 1, letterSpacing = 0, wrap = false, maxWidth,
-}) => (
-  <div
-    style={{
-      ...baseStyle,
-      left: x,
-      top: y,
-      fontSize: size,
-      fontWeight: weightNum(weight),
-      color,
-      textAlign: align,
-      whiteSpace: wrap ? 'normal' : 'nowrap',
-      maxWidth,
-      lineHeight: wrap ? 1.35 : undefined,
-      opacity,
-      transform: `translateY(${translateY}px) scale(${scale})`,
-      transformOrigin: align === 'right' ? 'right top' : 'left top',
-      letterSpacing,
-      textShadow: '0 3px 12px rgba(0,0,0,0.45)',
-    }}
-  >
-    {text}
-  </div>
-);
+  translateY = 0, scale = 1, letterSpacing = 0, wrap = false, autoShrink = false, maxWidth,
+}) => {
+  const fitted = autoShrink && maxWidth && text
+    ? Math.max(0.5, Math.min(1, maxWidth / Math.max(1, measureText(text, size, weight))))
+    : 1;
+  return (
+    <div
+      style={{
+        ...baseStyle,
+        left: x,
+        top: y,
+        fontSize: size * fitted,
+        fontWeight: weightNum(weight),
+        color,
+        textAlign: align,
+        whiteSpace: wrap && !autoShrink ? 'normal' : 'nowrap',
+        maxWidth,
+        lineHeight: wrap && !autoShrink ? 1.35 : undefined,
+        opacity,
+        transform: `translateY(${translateY}px) scale(${scale})`,
+        transformOrigin: align === 'right' ? 'right top' : 'left top',
+        letterSpacing,
+        textShadow: '0 3px 12px rgba(0,0,0,0.45)',
+      }}
+    >
+      {text}
+    </div>
+  );
+};
 
 /* ---------------- t1-01 顶部状态标签+主标题副标题组合 (右侧) ---------------- */
 export const T1_01: React.FC = () => {
@@ -90,7 +97,7 @@ export const T1_01: React.FC = () => {
       <T x={0} y={enY} size={enSize} weight="Bold" color={accent} align="right"
         text={enText} opacity={en.opacity} translateY={en.translateY} letterSpacing={2} />
       <T x={0} y={titleY} size={titleSize} weight="Heavy" color={titleColor} align="right"
-        text={titleText} opacity={title.opacity} translateY={title.translateY} scale={title.scale} wrap maxWidth={570} />
+        text={titleText} opacity={title.opacity} translateY={title.translateY} scale={title.scale} autoShrink maxWidth={570} />
       <T x={0} y={subY} size={subSize} weight="Regular" color={subColor} align="right"
         text={subText} opacity={sub.opacity} translateY={sub.translateY} wrap maxWidth={570} />
     </div>
@@ -151,7 +158,7 @@ export const T1_03: React.FC = () => {
       <T x={0} y={0} size={noteSize} weight="Regular" color={noteColor}
         text={noteText} opacity={note.opacity} translateY={note.translateY} />
       <T x={0} y={titleY} size={titleSize} weight="Heavy" color={titleColor}
-        text={titleText} opacity={title.opacity} translateY={title.translateY} scale={title.scale} wrap maxWidth={590} />
+        text={titleText} opacity={title.opacity} translateY={title.translateY} scale={title.scale} autoShrink maxWidth={590} />
     </div>
   );
 };
@@ -179,7 +186,7 @@ export const T1_04: React.FC = () => {
       <T x={0} y={0} size={tagSize} weight="Bold" color={tagColor}
         text={tagText} opacity={tag.opacity} translateY={tag.translateY} letterSpacing={2} />
       <T x={0} y={titleY} size={titleSize} weight="Heavy" color={titleColor}
-        text={titleText} opacity={title.opacity} translateY={title.translateY} scale={title.scale} wrap maxWidth={590} />
+        text={titleText} opacity={title.opacity} translateY={title.translateY} scale={title.scale} autoShrink maxWidth={590} />
       <T x={0} y={titleY + titleSize + 34} size={descSize} weight="Regular" color={COLORS.textSecondary}
         text={descText} opacity={desc.opacity} translateY={desc.translateY} wrap maxWidth={590} />
     </div>
@@ -206,7 +213,7 @@ export const T1_05: React.FC = () => {
   const scale = (useConfigKey('t1-05', 'scale') as number) ?? 100;
   return (
     <div style={{ position: 'absolute', left: posX, top: posY, width: 590, transformOrigin: 'top left', transform: `scale(${scale / 100})` }}>
-      <T x={0} y={0} size={titleSize} weight="Heavy" color={titleColor} text={title} opacity={tOpacity} wrap maxWidth={590} />
+      <T x={0} y={0} size={titleSize} weight="Heavy" color={titleColor} text={title} opacity={tOpacity} autoShrink maxWidth={590} />
       <T x={0} y={titleSize + 22} size={descSize} weight="Regular" color={COLORS.textSecondary} text={desc} opacity={dOpacity} wrap maxWidth={590} />
       {/* 单条渐变线，从左向右延展，渐变方向：左侧实色 → 右侧透明 */}
       <div style={{
@@ -243,7 +250,7 @@ export const T1_06: React.FC = () => {
       <T x={0} y={0} size={enSize} weight="Bold" color={enColor}
         text={enText} opacity={en.opacity} translateY={en.translateY} letterSpacing={3} />
       <T x={0} y={22} size={titleSize} weight="Heavy" color={COLORS.textPrimary}
-        text={titleText} opacity={title.opacity} translateY={title.translateY} scale={title.scale} wrap maxWidth={570} />
+        text={titleText} opacity={title.opacity} translateY={title.translateY} scale={title.scale} autoShrink maxWidth={570} />
       <T x={0} y={titleSize + 56} size={descSize} weight="Regular" color={COLORS.textSecondary}
         text={descText} opacity={desc.opacity} translateY={desc.translateY} wrap maxWidth={570} />
       {/* 单条渐变线，从左侧生长，渐变方向：左侧实色 → 右侧透明 */}
@@ -281,7 +288,7 @@ export const T1_07: React.FC = () => {
         text={kickerText} opacity={bg} letterSpacing={4} />
       {/* 第二行：主标题（与第一行分离，避免重叠） */}
       <T x={0} y={kickerY} size={topSize} weight="Heavy" color={topColor}
-        text={topText} opacity={title.opacity} translateY={title.translateY} scale={title.scale} wrap maxWidth={570} />
+        text={topText} opacity={title.opacity} translateY={title.translateY} scale={title.scale} autoShrink maxWidth={570} />
       {/* 第三行：辅助说明小字（字号显著更小） */}
       <T x={0} y={kickerY + topSize + 14} size={descSize} weight="Regular" color={COLORS.textSecondary}
         text={descText} opacity={desc.opacity} translateY={desc.translateY} wrap maxWidth={570} />
@@ -322,7 +329,7 @@ export const T1_08: React.FC = () => {
       <T x={0} y={0} size={tagSize} weight="Bold" color={tagColor}
         text={tagText} opacity={tag.opacity} translateY={tag.translateY} letterSpacing={3} />
       <T x={0} y={48} size={titleSize} weight="Heavy" color={COLORS.textPrimary}
-        text={titleText} opacity={title.opacity} translateY={title.translateY} scale={title.scale} wrap maxWidth={570} />
+        text={titleText} opacity={title.opacity} translateY={title.translateY} scale={title.scale} autoShrink maxWidth={570} />
       <div style={{ position: 'absolute', left: 0, top: titleSize + 96, opacity: body, width: 590, lineHeight: 1.5 }}>
         <span style={{ fontSize: bodySize, fontWeight: 400, color: COLORS.textSecondary, whiteSpace: 'normal' }}>
           {parts.map((p, idx) =>

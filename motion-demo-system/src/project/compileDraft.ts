@@ -1,4 +1,5 @@
 import { effectRegistry, type EffectRegistry } from '../effects/registry';
+import { mergeUserStyleDefaults, type UserStyleDefaults } from '../effects/stylePrefs';
 import type { EffectDefinition, PlacementPreset } from '../effects/types';
 import type { AgentDraft, MotionEffectInstance, MotionProject, SubtitleCue } from './types';
 import { cueFrameInterval } from './cueTiming';
@@ -9,6 +10,8 @@ export interface CompileAgentDraftOptions {
   registry?: EffectRegistry;
   createInstanceId?: () => string;
   searchStepLimit?: number;
+  /** 测试注入的用户全局默认；缺省读 localStorage（无记录时空操作）。 */
+  userStyleDefaults?: UserStyleDefaults;
 }
 
 const randomInstanceId = (): string => {
@@ -155,13 +158,17 @@ export function compileAgentDraft(
     const defaults = Object.fromEntries(
       Object.entries(definition.props).map(([key, prop]) => [key, cloneValue(prop.default)]),
     );
-    const props = cloneValue({
-      ...defaults,
-      ...Object.fromEntries(Object.entries(component.content).map(([key, value]) => [
-        key,
-        mergeAgentListContent(definition.props[key], value),
-      ])),
-    });
+    const props = mergeUserStyleDefaults(
+      component.componentId,
+      cloneValue({
+        ...defaults,
+        ...Object.fromEntries(Object.entries(component.content).map(([key, value]) => [
+          key,
+          mergeAgentListContent(definition.props[key], value),
+        ])),
+      }),
+      options.userStyleDefaults,
+    );
     const transform = transformFor(definition, component.placementPreset, project, defaults);
     const effect: MotionEffectInstance = {
       instanceId: createInstanceId(),

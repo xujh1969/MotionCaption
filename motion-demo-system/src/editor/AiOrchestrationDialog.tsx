@@ -52,6 +52,7 @@ export const buildComponentSummaries = (): ComponentSummary[] => (
     name: definition.name,
     suitableFor: definition.selection.suitableFor,
     avoidFor: definition.selection.avoidFor,
+    motionFeel: definition.selection.motion,
   }))
 );
 

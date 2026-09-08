@@ -120,6 +120,7 @@ export const VideoStage: React.FC<VideoStageProps> = ({
   const cues = useEditorStore((state) => state.project.cues);
   const effects = useEditorStore((state) => state.project.effects);
   const currentFrame = useEditorStore((state) => state.currentFrame);
+  const isPlaying = useEditorStore((state) => state.isPlaying);
   const background = useEditorStore((state) => state.previewBackground);
   const hiddenTrackIds = useEditorStore((state) => state.hiddenTimelineTrackIds);
   const selectedId = useEditorStore((state) => state.selectedInstanceId);
@@ -138,9 +139,15 @@ export const VideoStage: React.FC<VideoStageProps> = ({
   const visibleCues = subtitleCuesAtFrame(project.cues, currentFrame, video.fps, video.durationInFrames);
   const subtitlesDimmed = hiddenTrackIds.includes('subtitles');
 
+  // While playing WITHOUT a reference video, the Player advances frames on its
+  // own clock. Seeking it on every store frame would pause → seek → resume each
+  // frame, resetting the playback time base and throttling playback to render
+  // speed. So only seek from outside (scrubbing/stepping) or when a reference
+  // video is present and drives the clock (the Player is paused then and simply
+  // renders each media frame).
   useEffect(() => {
-    playerRef.current?.seekTo(currentFrame);
-  }, [currentFrame, playerRef]);
+    if (!isPlaying || videoSource) playerRef.current?.seekTo(currentFrame);
+  }, [currentFrame, isPlaying, playerRef, videoSource]);
 
   useEffect(() => {
     const stage = stageRef.current;
@@ -208,7 +215,16 @@ export const VideoStage: React.FC<VideoStageProps> = ({
         style={{ width: '100%', height: '100%' }}
       />
       {editorMode && visibleCues.length > 0 && (
-        <div className="editor-subtitle-layer" data-editor-subtitle-layer>
+        <div
+          className="editor-subtitle-layer"
+          data-editor-subtitle-layer
+          style={{
+            left: fittedRect.left,
+            top: fittedRect.top,
+            width: fittedRect.width,
+            height: fittedRect.height,
+          }}
+        >
           {visibleCues.map((cue) => <span key={cue.cueId}>{cue.text}</span>)}
         </div>
       )}

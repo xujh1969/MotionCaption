@@ -78,6 +78,36 @@ export const shouldStartCollapsed = (viewportWidth: number): boolean => viewport
 /** Escape clears the component selection, unless a modal dialog should consume it. */
 export const shouldDeselectOnKey = (key: string, dialogOpen: boolean): boolean => key === 'Escape' && !dialogOpen;
 
+const DELETE_KEYS = new Set(['Delete', 'Backspace']);
+
+/** A keydown target inside a text control must keep editing keys to itself. */
+export const isEditableTarget = (target: unknown): boolean => {
+  if (!target || typeof target !== 'object') return false;
+  const element = target as { tagName?: unknown; isContentEditable?: unknown };
+  if (typeof element.tagName !== 'string') return false;
+  const tag = element.tagName.toUpperCase();
+  return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || element.isContentEditable === true;
+};
+
+/** The subset of a KeyboardEvent the delete decision relies on (kept DOM-free for tests). */
+export interface DeletionKeyEvent {
+  key: string;
+  target: unknown;
+  isComposing: boolean;
+}
+
+/**
+ * Delete/Backspace removes the selected effect instance unless a modal dialog
+ * is open, an IME composition is in flight, or the focus is inside a text
+ * control (where the key belongs to editing the text).
+ */
+export const shouldDeleteSelectedOnKey = (event: DeletionKeyEvent, dialogOpen: boolean): boolean => {
+  if (dialogOpen) return false;
+  if (event.isComposing) return false;
+  if (!DELETE_KEYS.has(event.key)) return false;
+  return !isEditableTarget(event.target);
+};
+
 export const DEFAULT_TIMELINE_HEIGHT = 220;
 
 export function clampTimelineHeight(requestedHeight: number, workspaceHeight: number): number {
@@ -221,6 +251,7 @@ export async function importAgentSequenceFile(
   file: Pick<File, 'text'>,
   project: MotionProject,
   replaceEffects: (effects: readonly MotionEffectInstance[]) => void,
+  applyProjectPatch?: (patch: { cues: SubtitleCue[]; video: MotionProject['video'] }) => void,
 ): Promise<{ ok: boolean; message: string }> {
   try {
     const parsed = AgentDraftSchema.safeParse(JSON.parse(await file.text()));
@@ -230,7 +261,8 @@ export async function importAgentSequenceFile(
         message: `Agent JSON 格式无效：\n${parsed.error.issues.map((issue) => issue.message).join('\n')}`,
       };
     }
-    const result = importAgentSequence(project, parsed.data);
+    const draft = parsed.data;
+    const result = importAgentSequence(project, draft);
     if (!result.ok) {
       return {
         ok: false,
@@ -238,10 +270,21 @@ export async function importAgentSequenceFile(
       };
     }
     replaceEffects(result.project.effects);
+    applyProjectPatch?.({
+      cues: result.project.cues,
+      video: result.project.video,
+    });
+    const notes: string[] = [];
+    const embeddedCues = Array.isArray(draft.cues) && draft.cues.length > 0 ? draft.cues.length : 0;
+    if (embeddedCues > 0) notes.push(`已随 JSON 载入 ${embeddedCues} 条字幕（无需先导入 SRT）`);
+    if (result.project.video.durationInFrames !== project.video.durationInFrames) {
+      notes.push(`工程时长已自动延长至 ${(result.project.video.durationInFrames / result.project.video.fps).toFixed(1)} 秒`);
+    }
+    const noteText = notes.length ? `\n${notes.join('\n')}` : '';
     const warningText = result.warnings.length
       ? `\n警告：\n${result.warnings.map((warning) => warning.message).join('\n')}`
       : '';
-    return { ok: true, message: `Agent JSON 已导入并替换全部动效。${warningText}` };
+    return { ok: true, message: `Agent JSON 已导入并替换全部动效。${noteText}${warningText}` };
   } catch (error) {
     const detail = error instanceof Error ? error.message : '未知错误';
     return { ok: false, message: `Agent JSON 导入失败：${detail}` };
@@ -261,7 +304,7 @@ const downloadText = (filename: string, contents: string): void => {
 
 export const EditorApp: React.FC = () => {
   const [videoSource, setVideoSource] = useState<VideoSource | null>(null);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState<string | null>(null);
   const [aiDialogOpen, setAiDialogOpen] = useState(false);
   const [llmRuntime, setLlmRuntime] = useState<{ provider: import('../llm/provider').LlmProvider; profileName: string } | null>(null);
   const [libraryCollapsed, setLibraryCollapsed] = useState(() => (
@@ -336,8 +379,17 @@ export const EditorApp: React.FC = () => {
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (!shouldDeselectOnKey(event.key, aiDialogOpen)) return;
-      useEditorStore.getState().selectInstance(null);
+      const { selectedInstanceId, selectInstance, deleteEffect } = useEditorStore.getState();
+      if (shouldDeselectOnKey(event.key, aiDialogOpen)) {
+        selectInstance(null);
+        return;
+      }
+      if (shouldDeleteSelectedOnKey(event, aiDialogOpen) && selectedInstanceId) {
+        // The selected effect instance owns Delete/Backspace when focus is not
+        // inside a text control — remove it exactly like the inspector button.
+        event.preventDefault();
+        deleteEffect(selectedInstanceId);
+      }
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
@@ -355,8 +407,10 @@ export const EditorApp: React.FC = () => {
     let active = true;
 
     if (isPlaying) {
-      if (player) playPlayerFromFrame(player, currentFrame, durationInFrames, setCurrentFrame);
       if (media) {
+        // A loaded reference video is the master clock: play the media and let
+        // VideoStage render the effect layer by seeking to each media frame.
+        // Do NOT start the Player's own clock or the two would race.
         if (
           media.ended
           || media.currentTime >= media.duration
@@ -369,6 +423,9 @@ export const EditorApp: React.FC = () => {
             setMessage('浏览器未能开始播放视频。');
           }
         });
+      } else if (player) {
+        // No reference video: the Player clock drives playback.
+        playPlayerFromFrame(player, currentFrame, durationInFrames, setCurrentFrame);
       }
     } else {
       player?.pause();
@@ -424,7 +481,15 @@ export const EditorApp: React.FC = () => {
 
   const readAgentSequence = async (file: File | undefined) => {
     if (!file) return;
-    const result = await importAgentSequenceFile(file, useEditorStore.getState().project, replaceEffects);
+    const result = await importAgentSequenceFile(
+      file,
+      useEditorStore.getState().project,
+      replaceEffects,
+      ({ cues, video }) => {
+        setCues(cues);
+        setVideoMetadata(video);
+      },
+    );
     setMessage(result.message);
   };
 
@@ -461,7 +526,17 @@ export const EditorApp: React.FC = () => {
         }}
         onOpenSkillSync={openSkillSync}
       />
-      {message && <div className="workspace-notice" role="status">{message}</div>}
+      {message && (
+        <div className="workspace-notice" role="status" data-workspace-notice>
+          <span className="workspace-notice-text">{message}</span>
+          <button
+            type="button"
+            className="workspace-notice-dismiss"
+            aria-label="关闭提示"
+            onClick={() => setMessage(null)}
+          >×</button>
+        </div>
+      )}
       <ComponentLibrary
         collapsed={libraryCollapsed}
         onToggle={() => setLibraryCollapsed((value) => !value)}

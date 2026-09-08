@@ -43,6 +43,17 @@ const EyeIcon: React.FC<{ hidden: boolean }> = ({ hidden }) => (
   </svg>
 );
 
+/** 放大镜轮廓 + 镜内加/减号，用于时间轴缩放按钮。 */
+const ZoomGlyph: React.FC<{ sign: '+' | '-' }> = ({ sign }) => (
+  <svg className="zoom-glyph" viewBox="0 0 20 20" aria-hidden="true">
+    <circle cx="9.1" cy="9.1" r="6.5" />
+    <path className="zoom-glyph-handle" d="M14 14l4.4 4.4" />
+    {sign === '+'
+      ? <path className="zoom-glyph-cross" d="M9.1 6.3v5.6M6.3 9.1h5.6" />
+      : <path className="zoom-glyph-cross" d="M6.3 9.1h5.6" />}
+  </svg>
+);
+
 const TrackLabel: React.FC<TrackLabelProps> = ({ id, label, hidden, onToggle }) => (
   <div className="timeline-track-label">
     <button
@@ -300,9 +311,13 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
       <div className="timeline-toolbar">
         <strong>时间轴</strong>
         <div className="timeline-zoom-controls" data-timeline-zoom-controls>
-          <button type="button" aria-label="缩小时间轴" disabled={zoom <= MIN_ZOOM} onClick={() => changeZoom(zoom / 1.5)}>−</button>
-          <button type="button" aria-label="放大时间轴" disabled={zoom >= MAX_ZOOM} onClick={() => changeZoom(zoom * 1.5)}>+</button>
-          <button type="button" aria-label="重置时间轴缩放" disabled={zoom === 1} onClick={() => changeZoom(1)}>重置</button>
+          <button type="button" className="timeline-zoom-icon-btn" aria-label="缩小时间轴" title="缩小时间轴" disabled={zoom <= MIN_ZOOM} onClick={() => changeZoom(zoom / 1.5)}>
+            <ZoomGlyph sign="-" />
+          </button>
+          <button type="button" className="timeline-zoom-icon-btn" aria-label="放大时间轴" title="放大时间轴" disabled={zoom >= MAX_ZOOM} onClick={() => changeZoom(zoom * 1.5)}>
+            <ZoomGlyph sign="+" />
+          </button>
+          <button type="button" aria-label="重置时间轴缩放" title="重置为 100%" disabled={zoom === 1} onClick={() => changeZoom(1)}>1:1</button>
           <output aria-label="时间轴缩放比例">{Math.round(zoom * 100)}%</output>
         </div>
       </div>

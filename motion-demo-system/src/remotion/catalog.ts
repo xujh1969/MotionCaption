@@ -10,7 +10,7 @@ import type { ComponentDef } from '../effects/types';
 export type { ComponentDef } from '../effects/types';
 
 export const CATEGORIES: { id: string; label: string }[] = [
-  { id: 's', label: '零、特效FX' },
+  { id: 'special-fx', label: '零、特效FX' },
   { id: 'text-line', label: '一、极简纯文字+细线条' },
   { id: 'card-glow', label: '二、光晕阴影卡片风格' },
   { id: 'data-show', label: '三、数据展示' },
@@ -22,15 +22,15 @@ export const CATEGORIES: { id: string; label: string }[] = [
 
 export const CATALOG: ComponentDef[] = [
   // S/特效 FX 系列
-  { id: 'fx-01', name: '英文标签+主标题+渐变分割线', category: 's', component: S.FX_01 },
-  { id: 'fx-02', name: '英文标签+主标题+渐变线+线下方小字', category: 's', component: S.FX_02 },
-  { id: 'fx-03', name: '渐变警示条(菱形感叹号)', category: 's', component: S.FX_03 },
-  { id: 'fx-04', name: '大标题+指标块列表', category: 's', component: S.FX_04 },
-  { id: 'fx-05', name: '竖线+胶囊标签+双行标题', category: 's', component: S.FX_05 },
-  { id: 'fx-06', name: '大标题+多行列表', category: 's', component: S.FX_06 },
-  { id: 'fx-07', name: '大标题+多行列表卡片', category: 's', component: S.FX_07 },
-  { id: 'fx-08', name: '大标题+多进度条', category: 's', component: S.FX_08 },
-  { id: 'fx-09', name: '深色渐变数字卡片', category: 's', component: S.FX_09 },
+  { id: 'fx-01', name: '英文标签+主标题+渐变分割线', category: 'special-fx', component: S.FX_01 },
+  { id: 'fx-02', name: '英文标签+主标题+渐变线+线下方小字', category: 'special-fx', component: S.FX_02 },
+  { id: 'fx-03', name: '渐变警示条(菱形感叹号)', category: 'special-fx', component: S.FX_03 },
+  { id: 'fx-04', name: '大标题+指标块列表', category: 'special-fx', component: S.FX_04 },
+  { id: 'fx-05', name: '竖线+胶囊标签+双行标题', category: 'special-fx', component: S.FX_05 },
+  { id: 'fx-06', name: '大标题+多行列表', category: 'special-fx', component: S.FX_06 },
+  { id: 'fx-07', name: '大标题+多行列表卡片', category: 'special-fx', component: S.FX_07 },
+  { id: 'fx-08', name: '大标题+多进度条', category: 'special-fx', component: S.FX_08 },
+  { id: 'fx-09', name: '深色渐变数字卡片', category: 'special-fx', component: S.FX_09 },
   // 第一大类 纯文字+细线条
   { id: 't1-01', name: '顶部标签+英文标签+主标题副标题', category: 'text-line', component: C1.T1_01 },
   { id: 't1-02', name: '左侧竖线引用注释', category: 'text-line', component: C1.T1_02 },
@@ -67,6 +67,7 @@ export const CATALOG: ComponentDef[] = [
   { id: 't6-04', name: '单输入双分支分叉流向', category: 'timeline-flow', component: C6.T6_04 },
   { id: 't6-05', name: '节点分步入场时间线', category: 'timeline-flow', component: C6.T6_05 },
   { id: 't6-06', name: '多步骤向上浮动递进时间线', category: 'timeline-flow', component: C6.T6_06 },
+  { id: 't6-07', name: '有序序号步骤列表·焦点滚动切换', category: 'timeline-flow', component: C6.T6_07 },
   // 第七大类 迷你图表
   { id: 't7-01', name: '标题+竖向柱状图', category: 'mini-chart', component: C7.T7_01 },
   { id: 't7-02', name: '横向条形对比图', category: 'mini-chart', component: C7.T7_02 },

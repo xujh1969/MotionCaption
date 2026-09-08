@@ -4,11 +4,12 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { effectRegistry } from '../src/effects/registry';
+import { toComponentMeta } from '../src/project/componentMeta';
 import { EffectInstanceFrame } from '../src/composition/EffectInstanceFrame';
 import { compileAgentDraft } from '../src/project/compileDraft';
 import { AgentDraftSchema, AgentInputSchema } from '../src/project/schema';
 import { validateAgentDraft } from '../src/project/validateDraft';
-import { ConfigProvider } from '../src/remotion/config';
+import { ConfigProvider, EffectClipCtx } from '../src/remotion/config';
 import {
   compareSkillArtifacts,
   generateSkillArtifacts,
@@ -68,7 +69,7 @@ const fileState = (): string => execFileSync(
 
 describe('generated component skill', () => {
   const definitions = effectRegistry.list();
-  const artifacts = generateSkillArtifacts(definitions, AgentDraftSchema);
+  const artifacts = generateSkillArtifacts(definitions, AgentDraftSchema, definitions.map(toComponentMeta));
 
   it('creates exactly one discoverable reference per approved component', () => {
     const approved = definitions
@@ -193,7 +194,10 @@ describe('generated component skill', () => {
     const provider = EffectInstanceFrame({ effect }) as any;
     expect(provider.type, id).toBe(ConfigProvider);
     expect(JSON.parse(provider.props.value[key]), id).toEqual(formalItems);
-    expect(provider.props.children.type, id).toBe(effectRegistry.get(id).component);
+    // EffectInstanceFrame 内层先包实例时长上下文，最内层才是组件渲染器
+    expect(provider.props.children.type, id).toBe(EffectClipCtx.Provider);
+    expect(provider.props.children.props.value, id).toBe(effect.durationInFrames);
+    expect(provider.props.children.props.children.type, id).toBe(effectRegistry.get(id).component);
   });
 
   it.each(safeMixedLists)('$id rejects the locked $locked list field at an exact JSON path', ({
@@ -222,17 +226,22 @@ describe('generated component skill', () => {
   });
 
   it('is byte-stable with sorted categories, IDs, properties, and JSON keys', () => {
-    const second = generateSkillArtifacts([...definitions].reverse(), AgentDraftSchema);
+    const reversed = [...definitions].reverse();
+    const second = generateSkillArtifacts(reversed, AgentDraftSchema, reversed.map(toComponentMeta));
     expect([...second.entries()]).toEqual([...artifacts.entries()]);
 
     const manifestText = artifacts.get('src/agent/generated/componentManifest.json')!;
     expect(`${JSON.stringify(JSON.parse(manifestText), null, 2)}\n`).toBe(manifestText);
     expect(JSON.parse(manifestText).libraryVersion).toBe(1);
+
+    const metaText = artifacts.get('skill/scripts/validation-meta.json')!;
+    expect(`${JSON.stringify(JSON.parse(metaText), null, 2)}\n`).toBe(metaText);
+    expect(JSON.parse(metaText).components.length).toBe(definitions.length);
   });
 
   it('keeps detailed component contracts out of the root selection index', () => {
     const root = artifacts.get('skill/SKILL.md')!;
-    expect(root).toContain('| ID | Summary | Use for | Avoid | Details |');
+    expect(root).toContain('| ID | Summary | Motion feel | Use for | Avoid | Details |');
     expect(root).not.toContain('| Structure |');
     expect(root).not.toContain('| Capacity |');
     expect(root).not.toContain('titleText:text');
@@ -329,7 +338,12 @@ describe('external draft validation', () => {
   afterAll(() => rmSync(fixtureRoot, { recursive: true, force: true }));
 
   it('lets an agent construct a valid two-component draft from root index and selected references', () => {
-    const artifacts = generateSkillArtifacts(effectRegistry.list(), AgentDraftSchema);
+    const allDefinitions = effectRegistry.list();
+    const artifacts = generateSkillArtifacts(
+      allDefinitions,
+      AgentDraftSchema,
+      allDefinitions.map(toComponentMeta),
+    );
     const root = artifacts.get('skill/SKILL.md')!;
     expect(root).toContain('references/components/t1-01.md');
     expect(root).toContain('references/components/t2-01.md');
@@ -347,13 +361,14 @@ describe('external draft validation', () => {
 
   it('exits 1 and prints exact JSON paths for schema and source-rule errors', () => {
     const invalidPath = join(fixtureRoot, 'invalid.json');
+    // 注入未知内容字段制造错误（数字溯源校验已移除，不能再靠凭空数字触发）。
     writeFileSync(invalidPath, JSON.stringify({
       ...forwardDraft,
       scenes: [{
         ...forwardDraft.scenes[0],
         components: [{
           ...forwardDraft.scenes[0].components[0],
-          content: { ...forwardDraft.scenes[0].components[0].content, titleText: '凭空出现 99%' },
+          content: { ...forwardDraft.scenes[0].components[0].content, bogusField: '凭空字段' },
         }],
       }],
     }));
@@ -364,7 +379,7 @@ describe('external draft validation', () => {
 
     expect(result.status).toBe(1);
     expect(JSON.parse(result.stdout).errors).toEqual(expect.arrayContaining([
-      expect.objectContaining({ path: '$.scenes[0].components[0].content.titleText' }),
+      expect.objectContaining({ path: '$.scenes[0].components[0].content.bogusField' }),
     ]));
 
     writeFileSync(invalidPath, JSON.stringify({

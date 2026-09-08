@@ -41,6 +41,13 @@ export interface AgentDraft {
       placementPreset?: PlacementPreset;
     }>;
   }>;
+  /**
+   * Optional self-contained subtitle track. When present, import rebuilds the
+   * project's cues from this list (no separate SRT import required) and extends
+   * the project duration so every scene compiles. Skills MUST copy the cue list
+   * verbatim from the supplied Agent Input JSON.
+   */
+  cues?: SubtitleCue[];
 }
 
 export interface MotionEffectInstance {

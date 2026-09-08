@@ -12,6 +12,9 @@ coverage/
 *.tsbuildinfo
 .eslintcache
 
+# Local test media assets (large, user's own test material — never commit)
+/tests/
+
 # Superpowers transient files only; plans and reports remain tracked.
 .superpowers/
 .superpowers/**/tmp/
@@ -25,3 +28,6 @@ vite.config.ts.timestamp-*.mjs
 
 # WorkBuddy workspace data
 .workbuddy/
+
+# Local user test material (srt/md working files — never commit)
+/content/

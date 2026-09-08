@@ -1,0 +1,5508 @@
+{
+  "components": [
+    {
+      "id": "fx-01",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "accent": {
+          "agentEditable": false,
+          "default": "#00a8ff",
+          "required": true,
+          "type": "color"
+        },
+        "enColor": {
+          "agentEditable": false,
+          "default": "#00a8ff",
+          "required": true,
+          "type": "color"
+        },
+        "enSize": {
+          "agentEditable": false,
+          "default": 30,
+          "max": 60,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "enText": {
+          "agentEditable": true,
+          "default": "DOUBAO AUTO EDIT",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 160,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 250,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 126,
+          "max": 160,
+          "min": 40,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "{{自动}}剪辑",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "selection": {},
+      "version": 1
+    },
+    {
+      "id": "fx-02",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "accent": {
+          "agentEditable": false,
+          "default": "#2DD98A",
+          "required": true,
+          "type": "color"
+        },
+        "enColor": {
+          "agentEditable": false,
+          "default": "#2DD98A",
+          "required": true,
+          "type": "color"
+        },
+        "enSize": {
+          "agentEditable": false,
+          "default": 30,
+          "max": 60,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "enText": {
+          "agentEditable": true,
+          "default": "OPEN SKILL RELEASE",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 160,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 250,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "subColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "subSize": {
+          "agentEditable": false,
+          "default": 22,
+          "max": 48,
+          "min": 14,
+          "required": true,
+          "type": "number"
+        },
+        "subText": {
+          "agentEditable": true,
+          "default": "SKILL：现在公開",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 126,
+          "max": 160,
+          "min": 40,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "现在{{公开}}",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "selection": {},
+      "version": 1
+    },
+    {
+      "id": "fx-03",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "accent": {
+          "agentEditable": false,
+          "default": "#FF6B6B",
+          "required": true,
+          "type": "color"
+        },
+        "cnColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "cnSize": {
+          "agentEditable": false,
+          "default": 36,
+          "max": 70,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "cnText": {
+          "agentEditable": true,
+          "default": "这条视频，没有经过人工剪辑",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "enColor": {
+          "agentEditable": false,
+          "default": "#FF6B6B",
+          "required": true,
+          "type": "color"
+        },
+        "enSize": {
+          "agentEditable": false,
+          "default": 16,
+          "max": 60,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "enText": {
+          "agentEditable": true,
+          "default": "NO MANUL EDITING",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 260,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {},
+      "version": 1
+    },
+    {
+      "id": "fx-04",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "bgColor": {
+          "agentEditable": false,
+          "default": "#231815aa",
+          "required": true,
+          "type": "color"
+        },
+        "items": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "name",
+            "val"
+          ],
+          "default": "[{\"name\":\"算力\",\"val\":\"80\",\"color\":\"#9357a0\"},{\"name\":\"能效\",\"val\":\"85\",\"color\":\"#3f63ae\"},{\"name\":\"精度\",\"val\":\"90\",\"color\":\"#f5d859\"},{\"name\":\"速度\",\"val\":\"75\",\"color\":\"#8cc453\"}]",
+          "listFieldsKeys": [
+            "name",
+            "val",
+            "color"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "nameSize": {
+          "agentEditable": false,
+          "default": 19,
+          "max": 48,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "pColor": {
+          "agentEditable": false,
+          "default": "#e9f4f1",
+          "required": true,
+          "type": "color"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 240,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "pSize": {
+          "agentEditable": false,
+          "default": 30,
+          "max": 64,
+          "min": 18,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "tagColor": {
+          "agentEditable": false,
+          "default": "#d0df67",
+          "required": true,
+          "type": "color"
+        },
+        "tagSize": {
+          "agentEditable": false,
+          "default": 24,
+          "max": 48,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "tagText": {
+          "agentEditable": true,
+          "default": "顶部标签放在这里",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#e9f4f1",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 46,
+          "max": 80,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "大标题在此可编辑",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "selection": {
+        "maxItems": 4,
+        "minItems": 4
+      },
+      "version": 1
+    },
+    {
+      "id": "fx-05",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "bgColor": {
+          "agentEditable": false,
+          "default": "rgba(12,14,11,0.6)",
+          "required": true,
+          "type": "color"
+        },
+        "gColor": {
+          "agentEditable": false,
+          "default": "#d0df67",
+          "required": true,
+          "type": "color"
+        },
+        "gSize": {
+          "agentEditable": false,
+          "default": 16,
+          "max": 44,
+          "min": 14,
+          "required": true,
+          "type": "number"
+        },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
+        "hlSize": {
+          "agentEditable": false,
+          "default": 52,
+          "max": 120,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 160,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 210,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "tags": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "t"
+          ],
+          "default": "[{\"t\":\"小标签一\"},{\"t\":\"小标签二\"},{\"t\":\"小标签三\"}]",
+          "listFieldsKeys": [
+            "t"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "tagSize": {
+          "agentEditable": false,
+          "default": 16,
+          "max": 48,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "tagText": {
+          "agentEditable": true,
+          "default": "标签标签",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "themeColor": {
+          "agentEditable": false,
+          "default": "#d0df67",
+          "required": true,
+          "type": "color"
+        },
+        "title1": {
+          "agentEditable": true,
+          "default": "这是我的主标题",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "title2": {
+          "agentEditable": true,
+          "default": "标题的第二行",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "rgba(255,255,255,0.96)",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 52,
+          "max": 90,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {
+        "maxItems": 3,
+        "minItems": 1
+      },
+      "version": 1
+    },
+    {
+      "id": "fx-06",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "bgColor": {
+          "agentEditable": false,
+          "default": "rgba(12,14,11,0.6)",
+          "required": true,
+          "type": "color"
+        },
+        "dColor": {
+          "agentEditable": false,
+          "default": "#e9f4f1",
+          "required": true,
+          "type": "color"
+        },
+        "dSize": {
+          "agentEditable": false,
+          "default": 17,
+          "max": 48,
+          "min": 14,
+          "required": true,
+          "type": "number"
+        },
+        "footColor": {
+          "agentEditable": false,
+          "default": "#e9f4f1",
+          "required": true,
+          "type": "color"
+        },
+        "footSize": {
+          "agentEditable": false,
+          "default": 20,
+          "max": 44,
+          "min": 14,
+          "required": true,
+          "type": "number"
+        },
+        "footText": {
+          "agentEditable": true,
+          "default": "补充说明1234567890",
+          "required": true,
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "nColor": {
+          "agentEditable": false,
+          "default": "#d0df67",
+          "required": true,
+          "type": "color"
+        },
+        "nSize": {
+          "agentEditable": false,
+          "default": 16,
+          "max": 60,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 240,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "steps": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "n",
+            "t",
+            "d"
+          ],
+          "default": "[{\"n\":\"01\",\"t\":\"数据采集\",\"d\":\"全域信息抓取收录\"},{\"n\":\"02\",\"t\":\"智能解析\",\"d\":\"算法深度处理\"},{\"n\":\"03\",\"t\":\"结果输出\",\"d\":\"结果实时反馈\"}]",
+          "listFieldsKeys": [
+            "n",
+            "t",
+            "d"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "tagColor": {
+          "agentEditable": false,
+          "default": "#d0df67",
+          "required": true,
+          "type": "color"
+        },
+        "tagSize": {
+          "agentEditable": false,
+          "default": 21,
+          "max": 48,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "tagText": {
+          "agentEditable": true,
+          "default": "顶部标签",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "tColor": {
+          "agentEditable": false,
+          "default": "#e9f4f1",
+          "required": true,
+          "type": "color"
+        },
+        "themeColor": {
+          "agentEditable": false,
+          "default": "#d0df67",
+          "required": true,
+          "type": "color"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#e9f4f1",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 44,
+          "max": 80,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "大标题在此可编辑",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "tSize": {
+          "agentEditable": false,
+          "default": 25,
+          "max": 60,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {
+        "maxItems": 3,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "fx-07",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "bgColor": {
+          "agentEditable": false,
+          "default": "rgba(12,14,11,0.6)",
+          "required": true,
+          "type": "color"
+        },
+        "cards": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "t",
+            "d"
+          ],
+          "default": "[{\"t\":\"小标题1\",\"d\":\"小标题1说明放在这里\"},{\"t\":\"小标题2\",\"d\":\"小标题2说明放在这里\"},{\"t\":\"小标题3\",\"d\":\"小标题3说明放在这里\"},{\"t\":\"小标题4\",\"d\":\"小标题4说明放在这里\"}]",
+          "listFieldsKeys": [
+            "t",
+            "d"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "cdColor": {
+          "agentEditable": false,
+          "default": "#e9f4f1",
+          "required": true,
+          "type": "color"
+        },
+        "cdSize": {
+          "agentEditable": false,
+          "default": 20,
+          "max": 44,
+          "min": 14,
+          "required": true,
+          "type": "number"
+        },
+        "ctColor": {
+          "agentEditable": false,
+          "default": "#e9f4f1",
+          "required": true,
+          "type": "color"
+        },
+        "ctSize": {
+          "agentEditable": false,
+          "default": 24,
+          "max": 56,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "footColor": {
+          "agentEditable": false,
+          "default": "#e9f4f1",
+          "required": true,
+          "type": "color"
+        },
+        "footSize": {
+          "agentEditable": false,
+          "default": 20,
+          "max": 44,
+          "min": 14,
+          "required": true,
+          "type": "number"
+        },
+        "footText": {
+          "agentEditable": true,
+          "default": "补充说明1234567890",
+          "required": true,
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 240,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "tagColor": {
+          "agentEditable": false,
+          "default": "#d0df67",
+          "required": true,
+          "type": "color"
+        },
+        "tagSize": {
+          "agentEditable": false,
+          "default": 21,
+          "max": 48,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "tagText": {
+          "agentEditable": true,
+          "default": "顶部标签",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "themeColor": {
+          "agentEditable": false,
+          "default": "#d0df67",
+          "required": true,
+          "type": "color"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#e9f4f1",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 44,
+          "max": 80,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "大标题在此可编辑",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "selection": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "fx-08",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "bars": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "g",
+            "n"
+          ],
+          "default": "[{\"n\":\"小标题一\",\"g\":\"80\",\"color\":\"#9357a0\"},{\"n\":\"小标题二\",\"g\":\"50\",\"color\":\"#3f63ae\"},{\"n\":\"小标题三\",\"g\":\"73\",\"color\":\"#f5d859\"},{\"n\":\"小标题四\",\"g\":\"60\",\"color\":\"#8cc453\"}]",
+          "listFieldsKeys": [
+            "n",
+            "g",
+            "color"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "bgColor": {
+          "agentEditable": false,
+          "default": "rgba(12,14,11,0.6)",
+          "required": true,
+          "type": "color"
+        },
+        "gSize": {
+          "agentEditable": false,
+          "default": 22,
+          "max": 48,
+          "min": 14,
+          "required": true,
+          "type": "number"
+        },
+        "nColor": {
+          "agentEditable": false,
+          "default": "#e9f4f1",
+          "required": true,
+          "type": "color"
+        },
+        "nSize": {
+          "agentEditable": false,
+          "default": 22,
+          "max": 48,
+          "min": 14,
+          "required": true,
+          "type": "number"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 240,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "tagColor": {
+          "agentEditable": false,
+          "default": "#d0df67",
+          "required": true,
+          "type": "color"
+        },
+        "tagSize": {
+          "agentEditable": false,
+          "default": 20,
+          "max": 48,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "tagText": {
+          "agentEditable": true,
+          "default": "顶部标签",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#e9f4f1",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 42,
+          "max": 80,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "大标题在此可编辑",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "selection": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "fx-09",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "bgColor": {
+          "agentEditable": false,
+          "default": "rgba(0,0,0,0.69)",
+          "required": true,
+          "type": "color"
+        },
+        "numColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "numSize": {
+          "agentEditable": false,
+          "default": 110,
+          "max": 180,
+          "min": 40,
+          "required": true,
+          "type": "number"
+        },
+        "numText": {
+          "agentEditable": true,
+          "default": "48837",
+          "required": true,
+          "semanticRole": "metric",
+          "type": "text"
+        },
+        "plusColor": {
+          "agentEditable": false,
+          "default": "#8B7FD4",
+          "required": true,
+          "type": "color"
+        },
+        "plusSize": {
+          "agentEditable": false,
+          "default": 46,
+          "max": 90,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "plusText": {
+          "agentEditable": true,
+          "default": "+",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 240,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "sourceColor": {
+          "agentEditable": false,
+          "default": "#A0A0AA",
+          "required": true,
+          "type": "color"
+        },
+        "sourceSize": {
+          "agentEditable": false,
+          "default": 20,
+          "max": 44,
+          "min": 14,
+          "required": true,
+          "type": "number"
+        },
+        "sourceText": {
+          "agentEditable": true,
+          "default": "2026年累计AI 视频的播放量",
+          "required": true,
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "subColor": {
+          "agentEditable": false,
+          "default": "#999999",
+          "required": true,
+          "type": "color"
+        },
+        "subSize": {
+          "agentEditable": false,
+          "default": 22,
+          "max": 48,
+          "min": 14,
+          "required": true,
+          "type": "number"
+        },
+        "subText": {
+          "agentEditable": true,
+          "default": "全网观看数",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "tagColor": {
+          "agentEditable": false,
+          "default": "#8B7FD4",
+          "required": true,
+          "type": "color"
+        },
+        "tagSize": {
+          "agentEditable": false,
+          "default": 21,
+          "max": 60,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "tagText": {
+          "agentEditable": true,
+          "default": "LAST EPISODE",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        }
+      },
+      "selection": {},
+      "version": 1
+    },
+    {
+      "id": "t1-01",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 700
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "accentColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
+        "enSize": {
+          "agentEditable": false,
+          "default": 21,
+          "max": 60,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "enText": {
+          "agentEditable": true,
+          "default": "TECHNOLOGY ANALYSIS",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 1220,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 160,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "subColor": {
+          "agentEditable": false,
+          "default": "#E6E6E6",
+          "required": true,
+          "type": "color"
+        },
+        "subSize": {
+          "agentEditable": false,
+          "default": 26,
+          "max": 70,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "subText": {
+          "agentEditable": true,
+          "default": "基于深度学习的全新算力优化方案",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "tagSize": {
+          "agentEditable": false,
+          "default": 20,
+          "max": 60,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "tagText": {
+          "agentEditable": true,
+          "default": "LOOP",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 61,
+          "max": 96,
+          "min": 30,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "AI智能算法迭代升级",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "selection": {},
+      "version": 1
+    },
+    {
+      "id": "t1-02",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "lineColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
+        "noteColor": {
+          "agentEditable": false,
+          "default": "#E6E6E6",
+          "required": true,
+          "type": "color"
+        },
+        "noteText": {
+          "agentEditable": true,
+          "default": "行业核心共识 · 2026技术发展准则",
+          "required": true,
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 140,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 220,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "quoteText": {
+          "agentEditable": true,
+          "default": "“技术迭代的核心，是效率与体验的双向突破”",
+          "required": true,
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "subSize": {
+          "agentEditable": false,
+          "default": 46,
+          "max": 70,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 25,
+          "max": 60,
+          "min": 18,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {},
+      "version": 1
+    },
+    {
+      "id": "t1-03",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "noteText": {
+          "agentEditable": true,
+          "default": "核心技术亮点",
+          "required": true,
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 180,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "subColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
+        "subSize": {
+          "agentEditable": false,
+          "default": 30,
+          "max": 60,
+          "min": 18,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 58,
+          "max": 120,
+          "min": 40,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "全域智能感知系统",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "selection": {},
+      "version": 1
+    },
+    {
+      "id": "t1-04",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "accentColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
+        "descColor": {
+          "agentEditable": false,
+          "default": "rgba(255,255,255,0.36)",
+          "required": true,
+          "type": "color"
+        },
+        "descSize": {
+          "agentEditable": false,
+          "default": 25,
+          "max": 70,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "descText": {
+          "agentEditable": true,
+          "default": "突破传统算力瓶颈，实现全域效率提升",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 180,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "subSize": {
+          "agentEditable": false,
+          "default": 23,
+          "max": 64,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "tagText": {
+          "agentEditable": true,
+          "default": "TECH PROGRESS",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 60,
+          "max": 110,
+          "min": 32,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "算力效能全面升级",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "selection": {},
+      "version": 1
+    },
+    {
+      "id": "t1-05",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "descColor": {
+          "agentEditable": false,
+          "default": "#E6E6E6",
+          "required": true,
+          "type": "color"
+        },
+        "descText": {
+          "agentEditable": true,
+          "default": "多场景适配 · 高兼容 · 低损耗运行机制",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "lineColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 200,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "subSize": {
+          "agentEditable": false,
+          "default": 26,
+          "max": 70,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 58,
+          "max": 130,
+          "min": 40,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "智能化场景落地应用",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "selection": {},
+      "version": 1
+    },
+    {
+      "id": "t1-06",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "accentColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
+        "descColor": {
+          "agentEditable": false,
+          "default": "#E6E6E6",
+          "required": true,
+          "type": "color"
+        },
+        "descSize": {
+          "agentEditable": false,
+          "default": 24,
+          "max": 70,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "descText": {
+          "agentEditable": true,
+          "default": "完成全链路技术闭环，实现高效稳定运行",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "enText": {
+          "agentEditable": true,
+          "default": "SUMMARY",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "lineColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 200,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "subSize": {
+          "agentEditable": false,
+          "default": 20,
+          "max": 60,
+          "min": 18,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 59,
+          "max": 130,
+          "min": 40,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "技术体系整体总结",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "selection": {},
+      "version": 1
+    },
+    {
+      "id": "t1-07",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "descColor": {
+          "agentEditable": false,
+          "default": "#E6E6E6",
+          "required": true,
+          "type": "color"
+        },
+        "descSize": {
+          "agentEditable": false,
+          "default": 25,
+          "max": 70,
+          "min": 18,
+          "required": true,
+          "type": "number"
+        },
+        "descText": {
+          "agentEditable": true,
+          "default": "以数据为核心，重构智能运行逻辑",
+          "required": true,
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "kickerColor": {
+          "agentEditable": false,
+          "default": "rgba(255,255,255,0.28)",
+          "required": true,
+          "type": "color"
+        },
+        "kickerSize": {
+          "agentEditable": false,
+          "default": 23,
+          "max": 110,
+          "min": 18,
+          "required": true,
+          "type": "number"
+        },
+        "kickerText": {
+          "agentEditable": true,
+          "default": "DATA DRIVEN",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 200,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 56,
+          "max": 112,
+          "min": 32,
+          "required": true,
+          "type": "number"
+        },
+        "topText": {
+          "agentEditable": true,
+          "default": "数据驱动智能升级",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "selection": {},
+      "version": 1
+    },
+    {
+      "id": "t1-08",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "accentColor": {
+          "agentEditable": false,
+          "default": "#C77DFF",
+          "required": true,
+          "type": "color"
+        },
+        "bodyColor": {
+          "agentEditable": false,
+          "default": "#E6E6E6",
+          "required": true,
+          "type": "color"
+        },
+        "bodySize": {
+          "agentEditable": false,
+          "default": 27,
+          "max": 70,
+          "min": 22,
+          "required": true,
+          "type": "number"
+        },
+        "bodyText": {
+          "agentEditable": true,
+          "default": "依托自适应算法，系统可实时调整运行策略，规避无效算力消耗，实现高效运转。",
+          "required": true,
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 180,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "subSize": {
+          "agentEditable": false,
+          "default": 25,
+          "max": 60,
+          "min": 18,
+          "required": true,
+          "type": "number"
+        },
+        "tagText": {
+          "agentEditable": true,
+          "default": "CORE LOGIC",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 60,
+          "max": 130,
+          "min": 40,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "核心运行逻辑解析",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "selection": {},
+      "version": 1
+    },
+    {
+      "id": "t1-09",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "accentColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
+        "bodyText": {
+          "agentEditable": true,
+          "default": "全链路智能化改造，实现降本增效核心目标",
+          "required": true,
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "noteText": {
+          "agentEditable": true,
+          "default": "数据统计周期：2026全年",
+          "required": true,
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 300,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "subSize": {
+          "agentEditable": false,
+          "default": 32,
+          "max": 56,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 50,
+          "max": 80,
+          "min": 26,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {},
+      "version": 1
+    },
+    {
+      "id": "t2-01",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "borderEnd": {
+          "agentEditable": false,
+          "default": "#C77DFF",
+          "required": true,
+          "type": "color"
+        },
+        "borderStart": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
+        "contentText": {
+          "agentEditable": true,
+          "default": "核心技术突破，实现行业领先层级效能",
+          "required": true,
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 240,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 52,
+          "max": 80,
+          "min": 28,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {},
+      "version": 1
+    },
+    {
+      "id": "t2-02",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "accentColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
+        "lineColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 220,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "subSize": {
+          "agentEditable": false,
+          "default": 25,
+          "max": 60,
+          "min": 18,
+          "required": true,
+          "type": "number"
+        },
+        "tagText": {
+          "agentEditable": true,
+          "default": "CORE ACHIEVEMENT",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 52,
+          "max": 92,
+          "min": 26,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "核心技术成果落地",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "selection": {},
+      "version": 1
+    },
+    {
+      "id": "t2-03",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "accentColor": {
+          "agentEditable": false,
+          "default": "rgba(76,201,240,0.08)",
+          "required": true,
+          "type": "color"
+        },
+        "descColor": {
+          "agentEditable": false,
+          "default": "#E6E6E6",
+          "required": true,
+          "type": "color"
+        },
+        "descText": {
+          "agentEditable": true,
+          "default": "低功耗、高效率、高兼容的一体化运行体系",
+          "required": true,
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 240,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "subSize": {
+          "agentEditable": false,
+          "default": 25,
+          "max": 70,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 54,
+          "max": 100,
+          "min": 30,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "核心优势亮点",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "selection": {},
+      "version": 1
+    },
+    {
+      "id": "t3-01",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "accentColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
+        "descColor": {
+          "agentEditable": false,
+          "default": "#E6E6E6",
+          "required": true,
+          "type": "color"
+        },
+        "descSize": {
+          "agentEditable": false,
+          "default": 38,
+          "max": 70,
+          "min": 22,
+          "required": true,
+          "type": "number"
+        },
+        "descText": {
+          "agentEditable": true,
+          "default": "超高帧率稳定运行，无卡顿延迟",
+          "required": true,
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "noteColor": {
+          "agentEditable": false,
+          "default": "#E6E6E6",
+          "required": true,
+          "type": "color"
+        },
+        "noteText": {
+          "agentEditable": true,
+          "default": "整体运算效率",
+          "required": true,
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 200,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "subSize": {
+          "agentEditable": false,
+          "default": 36,
+          "max": 60,
+          "min": 18,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 200,
+          "max": 320,
+          "min": 90,
+          "required": true,
+          "type": "number"
+        },
+        "unitSize": {
+          "agentEditable": false,
+          "default": 80,
+          "max": 130,
+          "min": 40,
+          "required": true,
+          "type": "number"
+        },
+        "unitText": {
+          "agentEditable": true,
+          "default": "FPS",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "value": {
+          "agentEditable": true,
+          "default": 120,
+          "max": 9999,
+          "min": 1,
+          "required": true,
+          "semanticRole": "metric",
+          "type": "number"
+        }
+      },
+      "selection": {},
+      "version": 1
+    },
+    {
+      "id": "t3-02",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "accentColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
+        "descColor": {
+          "agentEditable": false,
+          "default": "#E6E6E6",
+          "required": true,
+          "type": "color"
+        },
+        "descSize": {
+          "agentEditable": false,
+          "default": 36,
+          "max": 70,
+          "min": 22,
+          "required": true,
+          "type": "number"
+        },
+        "descText": {
+          "agentEditable": true,
+          "default": "核心指标对比基准",
+          "required": true,
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 240,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 70,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "subSize": {
+          "agentEditable": false,
+          "default": 48,
+          "max": 80,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        },
+        "tagText": {
+          "agentEditable": true,
+          "default": "算力提升",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 180,
+          "max": 300,
+          "min": 80,
+          "required": true,
+          "type": "number"
+        },
+        "unitSize": {
+          "agentEditable": false,
+          "default": 64,
+          "max": 110,
+          "min": 30,
+          "required": true,
+          "type": "number"
+        },
+        "unitText": {
+          "agentEditable": true,
+          "default": "%",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "value": {
+          "agentEditable": true,
+          "default": 58,
+          "max": 9999,
+          "min": 1,
+          "required": true,
+          "semanticRole": "metric",
+          "type": "number"
+        }
+      },
+      "selection": {},
+      "version": 1
+    },
+    {
+      "id": "t3-03",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "accent2": {
+          "agentEditable": false,
+          "default": "#F72585",
+          "required": true,
+          "type": "color"
+        },
+        "accentColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
+        "descColor": {
+          "agentEditable": false,
+          "default": "#E6E6E6",
+          "required": true,
+          "type": "color"
+        },
+        "descL": {
+          "agentEditable": true,
+          "default": "基础算力水准",
+          "required": true,
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "descR": {
+          "agentEditable": true,
+          "default": "全新算力水准",
+          "required": true,
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "descSize": {
+          "agentEditable": false,
+          "default": 38,
+          "max": 70,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "labelL": {
+          "agentEditable": true,
+          "default": "优化前",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "labelR": {
+          "agentEditable": true,
+          "default": "优化后",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "labelSize": {
+          "agentEditable": false,
+          "default": 40,
+          "max": 70,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 240,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 160,
+          "max": 260,
+          "min": 70,
+          "required": true,
+          "type": "number"
+        },
+        "valueL": {
+          "agentEditable": true,
+          "default": 45,
+          "max": 200,
+          "min": 1,
+          "required": true,
+          "semanticRole": "metric",
+          "type": "number"
+        },
+        "valueR": {
+          "agentEditable": true,
+          "default": 92,
+          "max": 200,
+          "min": 1,
+          "required": true,
+          "semanticRole": "metric",
+          "type": "number"
+        }
+      },
+      "selection": {},
+      "version": 1
+    },
+    {
+      "id": "t3-04",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "accentColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
+        "descColor": {
+          "agentEditable": false,
+          "default": "#E6E6E6",
+          "required": true,
+          "type": "color"
+        },
+        "dSize": {
+          "agentEditable": false,
+          "default": 27,
+          "max": 48,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 220,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "rows": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "d",
+            "k",
+            "v"
+          ],
+          "default": "[{\"k\":\"延迟\",\"v\":\"8ms\",\"d\":\"超低运行延迟\",\"at\":0},{\"k\":\"功耗\",\"v\":\"12W\",\"d\":\"低功耗运行\",\"at\":0.5},{\"k\":\"准确率\",\"v\":\"99.6%\",\"d\":\"超高识别精度\",\"at\":1},{\"k\":\"参数\",\"v\":\"100\",\"d\":\"做出解释\",\"at\":1.5}]",
+          "listFieldsKeys": [
+            "k",
+            "v",
+            "d",
+            "at"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "subSize": {
+          "agentEditable": false,
+          "default": 33,
+          "max": 90,
+          "min": 30,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 56,
+          "max": 120,
+          "min": 36,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "核心参数指标",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "selection": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t4-01",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "accentColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
+        "dColor": {
+          "agentEditable": false,
+          "default": "#E6E6E6",
+          "required": true,
+          "type": "color"
+        },
+        "descSize": {
+          "agentEditable": false,
+          "default": 19,
+          "max": 56,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "numSize": {
+          "agentEditable": false,
+          "default": 30,
+          "max": 60,
+          "min": 18,
+          "required": true,
+          "type": "number"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 240,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "steps": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "n",
+            "t",
+            "d"
+          ],
+          "default": "[{\"n\":\"01\",\"t\":\"数据采集\",\"d\":\"全域信息抓取收录\"},{\"n\":\"02\",\"t\":\"数据清洗\",\"d\":\"无效信息过滤剔除\"},{\"n\":\"03\",\"t\":\"运算分析\",\"d\":\"智能算法解析处理\"},{\"n\":\"04\",\"t\":\"结果输出\",\"d\":\"精准结果落地反馈\"}]",
+          "listFieldsKeys": [
+            "n",
+            "t",
+            "d"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "subSize": {
+          "agentEditable": false,
+          "default": 34,
+          "max": 60,
+          "min": 22,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 56,
+          "max": 120,
+          "min": 36,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "多步闭环运行流程",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "selection": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t4-02",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "cnColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "cnSize": {
+          "agentEditable": false,
+          "default": 52,
+          "max": 80,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        },
+        "enColor": {
+          "agentEditable": false,
+          "default": "#94acc8",
+          "required": true,
+          "type": "color"
+        },
+        "enSize": {
+          "agentEditable": false,
+          "default": 30,
+          "max": 60,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "frameColor": {
+          "agentEditable": false,
+          "default": "#406085",
+          "required": true,
+          "type": "color"
+        },
+        "lineC1": {
+          "agentEditable": false,
+          "default": "#36d8f0",
+          "required": true,
+          "type": "color"
+        },
+        "lineC2": {
+          "agentEditable": false,
+          "default": "#42d2b8",
+          "required": true,
+          "type": "color"
+        },
+        "lineC3": {
+          "agentEditable": false,
+          "default": "#f8b04e",
+          "required": true,
+          "type": "color"
+        },
+        "nodes": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "cn",
+            "en"
+          ],
+          "default": "[{\"cn\":\"学习研究\",\"en\":\"IDEA\",\"color\":\"#36d8f0\"},{\"cn\":\"个人创作\",\"en\":\"PROTOTYPE\",\"color\":\"#36d8f0\"},{\"cn\":\"产品开发\",\"en\":\"PRODUCT\",\"color\":\"#42d2b8\"},{\"cn\":\"商业应用\",\"en\":\"BUSINESS\",\"color\":\"#f8b04e\"}]",
+          "listFieldsKeys": [
+            "cn",
+            "en",
+            "color"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 70,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 320,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "ringColor": {
+          "agentEditable": false,
+          "default": "#102035",
+          "required": true,
+          "type": "color"
+        },
+        "ringR": {
+          "agentEditable": false,
+          "default": 42,
+          "max": 64,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 35,
+          "max": 70,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#b4c8e0",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 38,
+          "max": 80,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "IDEA TO REAL APPLICATION",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "selection": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t5-01",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "accentColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
+        "descColor": {
+          "agentEditable": false,
+          "default": "#E6E6E6",
+          "required": true,
+          "type": "color"
+        },
+        "descSize": {
+          "agentEditable": false,
+          "default": 22,
+          "max": 60,
+          "min": 18,
+          "required": true,
+          "type": "number"
+        },
+        "items": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "t",
+            "d"
+          ],
+          "default": "[{\"t\":\"高速推理\",\"d\":\"大模型本地高速推理，降低云端依赖\"},{\"t\":\"低资源占用\",\"d\":\"硬件开销可控，适配中端设备\"},{\"t\":\"高扩展性\",\"d\":\"插件化架构，支持自定义模块接入\"}]",
+          "listFieldsKeys": [
+            "t",
+            "d"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 220,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "subSize": {
+          "agentEditable": false,
+          "default": 29,
+          "max": 80,
+          "min": 26,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 54,
+          "max": 120,
+          "min": 36,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "核心能力清单",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "selection": {
+        "maxItems": 3,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t5-02",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "accentColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
+        "descColor": {
+          "agentEditable": false,
+          "default": "#E6E6E6",
+          "required": true,
+          "type": "color"
+        },
+        "descSize": {
+          "agentEditable": false,
+          "default": 22,
+          "max": 48,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "doneColor": {
+          "agentEditable": false,
+          "default": "#06D6A0",
+          "required": true,
+          "type": "color"
+        },
+        "items": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "d",
+            "t",
+            "tag"
+          ],
+          "default": "[{\"tag\":\"DONE\",\"t\":\"内核模块重构\",\"d\":\"完成底层调度重写\",\"color\":\"#06D6A0\"},{\"tag\":\"PROGRESS\",\"t\":\"多模型调度\",\"d\":\"兼容第三方模型接入\",\"color\":\"#4CC9F0\"},{\"tag\":\"WARN\",\"t\":\"内存回收\",\"d\":\"极端场景存在泄漏风险\",\"color\":\"#F72585\"}]",
+          "listFieldsKeys": [
+            "tag",
+            "t",
+            "d",
+            "color"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 240,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "subSize": {
+          "agentEditable": false,
+          "default": 33,
+          "max": 70,
+          "min": 22,
+          "required": true,
+          "type": "number"
+        },
+        "tagSize": {
+          "agentEditable": false,
+          "default": 17,
+          "max": 48,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "tColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 54,
+          "max": 120,
+          "min": 36,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "迭代任务状态",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "tTitleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "warnColor": {
+          "agentEditable": false,
+          "default": "#F72585",
+          "required": true,
+          "type": "color"
+        }
+      },
+      "selection": {
+        "maxItems": 3,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t5-03",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "accentColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
+        "descColor": {
+          "agentEditable": false,
+          "default": "#E6E6E6",
+          "required": true,
+          "type": "color"
+        },
+        "descSize": {
+          "agentEditable": false,
+          "default": 25,
+          "max": 56,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "items": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "n",
+            "t",
+            "d"
+          ],
+          "default": "[{\"n\":\"01\",\"t\":\"算力调度\",\"d\":\"重新分配硬件资源，降低无效占用\"},{\"n\":\"02\",\"t\":\"缓存策略\",\"d\":\"构建多级缓存，缩短数据读取耗时\"},{\"n\":\"03\",\"t\":\"链路裁剪\",\"d\":\"剔除冗余逻辑，压缩整体执行链路\"}]",
+          "listFieldsKeys": [
+            "n",
+            "t",
+            "d"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "numSize": {
+          "agentEditable": false,
+          "default": 28,
+          "max": 80,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 200,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "subSize": {
+          "agentEditable": false,
+          "default": 38,
+          "max": 72,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 56,
+          "max": 120,
+          "min": 36,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "系统优化三大方向",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "selection": {
+        "maxItems": 3,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t5-04",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "accentColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
+        "items": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "k",
+            "v"
+          ],
+          "default": "[{\"k\":\"版本号\",\"v\":\"V2.5.1\"},{\"k\":\"发布时间\",\"v\":\"2026-08\"},{\"k\":\"目标平台\",\"v\":\"Windows / MacOS\"},{\"k\":\"内核\",\"v\":\"Hyper-engine-v4\"}]",
+          "listFieldsKeys": [
+            "k",
+            "v"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 240,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "subColor": {
+          "agentEditable": false,
+          "default": "#E6E6E6",
+          "required": true,
+          "type": "color"
+        },
+        "subSize": {
+          "agentEditable": false,
+          "default": 25,
+          "max": 80,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 54,
+          "max": 120,
+          "min": 36,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "版本基础信息",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "selection": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t5-05",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "cardBg": {
+          "agentEditable": false,
+          "default": "rgba(12,26,44,0.72)",
+          "required": true,
+          "type": "color"
+        },
+        "cards": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "main",
+            "small"
+          ],
+          "default": "[{\"small\":\"工作强度\",\"main\":\"持续上升\",\"color\":\"#ffaa44\"},{\"small\":\"人员经验\",\"main\":\"存在差异\",\"color\":\"#f24e78\"},{\"small\":\"现场环境\",\"main\":\"复杂多变\",\"color\":\"#22ccf2\"}]",
+          "listFieldsKeys": [
+            "small",
+            "main",
+            "color"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "cardW": {
+          "agentEditable": false,
+          "default": 728,
+          "max": 1400,
+          "min": 300,
+          "required": true,
+          "type": "number"
+        },
+        "gap": {
+          "agentEditable": false,
+          "default": 44,
+          "max": 160,
+          "min": 12,
+          "required": true,
+          "type": "number"
+        },
+        "mainColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "mainSize": {
+          "agentEditable": false,
+          "default": 51,
+          "max": 140,
+          "min": 32,
+          "required": true,
+          "type": "number"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 60,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 80,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 67,
+          "max": 150,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "smallColor": {
+          "agentEditable": false,
+          "default": "#b8d0e8",
+          "required": true,
+          "type": "color"
+        },
+        "smallSize": {
+          "agentEditable": false,
+          "default": 32,
+          "max": 80,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {
+        "maxItems": 3,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t5-06",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "colW": {
+          "agentEditable": false,
+          "default": 381,
+          "max": 900,
+          "min": 220,
+          "required": true,
+          "type": "number"
+        },
+        "itemColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "itemGap": {
+          "agentEditable": false,
+          "default": 40,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "items": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "label",
+            "title"
+          ],
+          "default": "[{\"label\":\"01 / 时间问题\",\"title\":\"标题出场过早/动效拥挤\",\"color\":\"#4CC9F0\"},{\"label\":\"02 / 位置问题\",\"title\":\"数字遮挡人物/框体偏大\",\"color\":\"#FF5580\"},{\"label\":\"03 / 交互问题\",\"title\":\"按钮反馈缺失/手势不响应\",\"color\":\"#FF5580\"}]",
+          "listFieldsKeys": [
+            "label",
+            "title",
+            "color"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "itemSize": {
+          "agentEditable": false,
+          "default": 30,
+          "max": 66,
+          "min": 18,
+          "required": true,
+          "type": "number"
+        },
+        "labelColor": {
+          "agentEditable": false,
+          "default": "#FF5580",
+          "required": true,
+          "type": "color"
+        },
+        "labelGap": {
+          "agentEditable": false,
+          "default": 26,
+          "max": 60,
+          "min": 8,
+          "required": true,
+          "type": "number"
+        },
+        "labelSize": {
+          "agentEditable": false,
+          "default": 24,
+          "max": 60,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "lineColor2": {
+          "agentEditable": false,
+          "default": "rgba(178,136,255,0.3)",
+          "required": true,
+          "type": "color"
+        },
+        "lineGap": {
+          "agentEditable": false,
+          "default": 22,
+          "max": 60,
+          "min": 8,
+          "required": true,
+          "type": "number"
+        },
+        "lineH": {
+          "agentEditable": false,
+          "default": 3,
+          "max": 18,
+          "min": 2,
+          "required": true,
+          "type": "number"
+        },
+        "lineW": {
+          "agentEditable": false,
+          "default": 336,
+          "max": 800,
+          "min": 160,
+          "required": true,
+          "type": "number"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 200,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 60,
+          "max": 100,
+          "min": 30,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 93,
+          "max": 130,
+          "min": 40,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "组件问题排查清单",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "selection": {
+        "maxItems": 3,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t6-01",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "accentColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
+        "descColor": {
+          "agentEditable": false,
+          "default": "#E6E6E6",
+          "required": true,
+          "type": "color"
+        },
+        "descSize": {
+          "agentEditable": false,
+          "default": 22,
+          "max": 56,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "nodeColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "nodes": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "time",
+            "t",
+            "d"
+          ],
+          "default": "[{\"time\":\"2025-03\",\"t\":\"V1.0正式发布\",\"d\":\"基础推理能力落地\"},{\"time\":\"2025-11\",\"t\":\"V2.0大版本更新\",\"d\":\"新增多任务调度模块\"},{\"time\":\"2026-08\",\"t\":\"V2.5重大升级\",\"d\":\"重构底层内核架构\"}]",
+          "listFieldsKeys": [
+            "time",
+            "t",
+            "d"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 200,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "subSize": {
+          "agentEditable": false,
+          "default": 32,
+          "max": 72,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        },
+        "timeColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
+        "timeSize": {
+          "agentEditable": false,
+          "default": 27,
+          "max": 60,
+          "min": 18,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 54,
+          "max": 120,
+          "min": 36,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "产品演进时间线",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "selection": {
+        "maxItems": 3,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t6-02",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "accentColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
+        "descColor": {
+          "agentEditable": false,
+          "default": "#E6E6E6",
+          "required": true,
+          "type": "color"
+        },
+        "descSize": {
+          "agentEditable": false,
+          "default": 20,
+          "max": 56,
+          "min": 18,
+          "required": true,
+          "type": "number"
+        },
+        "nodeColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "nodes": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "t",
+            "d"
+          ],
+          "default": "[{\"t\":\"输入\",\"d\":\"原始数据接入\"},{\"t\":\"处理\",\"d\":\"算法运算解析\"},{\"t\":\"输出\",\"d\":\"结果对外返回\"},{\"t\":\"打印\",\"d\":\"数据打印输出\"}]",
+          "listFieldsKeys": [
+            "t",
+            "d"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 260,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "subSize": {
+          "agentEditable": false,
+          "default": 30,
+          "max": 72,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 54,
+          "max": 120,
+          "min": 36,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "数据流转链路",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "selection": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t6-03",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "descColor": {
+          "agentEditable": false,
+          "default": "#E6E6E6",
+          "required": true,
+          "type": "color"
+        },
+        "descSize": {
+          "agentEditable": false,
+          "default": 25,
+          "max": 60,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "descText": {
+          "agentEditable": true,
+          "default": "整体开发任务进度",
+          "required": true,
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "lineColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 300,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "subSize": {
+          "agentEditable": false,
+          "default": 40,
+          "max": 80,
+          "min": 26,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 54,
+          "max": 120,
+          "min": 36,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "项目整体完成度",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "selection": {},
+      "version": 1
+    },
+    {
+      "id": "t6-04",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "aText": {
+          "agentEditable": true,
+          "default": "高速路径",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "branchA": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
+        "branchB": {
+          "agentEditable": false,
+          "default": "#F72585",
+          "required": true,
+          "type": "color"
+        },
+        "bText": {
+          "agentEditable": true,
+          "default": "深度路径",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "inColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "inSize": {
+          "agentEditable": false,
+          "default": 24,
+          "max": 80,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        },
+        "inText": {
+          "agentEditable": true,
+          "default": "输入任务",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 392,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 230,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 80,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "subSize": {
+          "agentEditable": false,
+          "default": 24,
+          "max": 72,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 54,
+          "max": 120,
+          "min": 36,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "分支调度逻辑",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "selection": {},
+      "version": 1
+    },
+    {
+      "id": "t6-05",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "accentColor": {
+          "agentEditable": false,
+          "default": "#8B7CF0",
+          "required": true,
+          "type": "color"
+        },
+        "enColor": {
+          "agentEditable": false,
+          "default": "#9999AA",
+          "required": true,
+          "type": "color"
+        },
+        "enSize": {
+          "agentEditable": false,
+          "default": 21,
+          "max": 56,
+          "min": 14,
+          "required": true,
+          "type": "number"
+        },
+        "nodeColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "nodes": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "num",
+            "t",
+            "en"
+          ],
+          "default": "[{\"num\":\"01\",\"t\":\"跟你对齐几个关键点\",\"en\":\"SYNC\"},{\"num\":\"02\",\"t\":\"这一步在做什么\",\"en\":\"WHAT NOW\"},{\"num\":\"03\",\"t\":\"推进到哪了\",\"en\":\"HOW FAR\"},{\"num\":\"04\",\"t\":\"想加想改随时改\",\"en\":\"TWEAK\"}]",
+          "listFieldsKeys": [
+            "num",
+            "t",
+            "en"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "numColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "numSize": {
+          "agentEditable": false,
+          "default": 20,
+          "max": 64,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 260,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 40,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "sloganColor": {
+          "agentEditable": false,
+          "default": "#9999AA",
+          "required": true,
+          "type": "color"
+        },
+        "sloganSize": {
+          "agentEditable": false,
+          "default": 26,
+          "max": 60,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "sloganText": {
+          "agentEditable": true,
+          "default": "做完一步 · 都会跟你对齐",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "stepSize": {
+          "agentEditable": false,
+          "default": 48,
+          "max": 80,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        },
+        "stepText": {
+          "agentEditable": true,
+          "default": "STEP 02",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "subSize": {
+          "agentEditable": false,
+          "default": 29,
+          "max": 72,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t6-06",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "arrowColor": {
+          "agentEditable": false,
+          "default": "#B8AAFF",
+          "required": true,
+          "type": "color"
+        },
+        "arrowSize": {
+          "agentEditable": false,
+          "default": 26,
+          "max": 80,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        },
+        "footerColor": {
+          "agentEditable": false,
+          "default": "#B0B8E0",
+          "required": true,
+          "type": "color"
+        },
+        "footerSize": {
+          "agentEditable": false,
+          "default": 30,
+          "max": 60,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "footerText": {
+          "agentEditable": true,
+          "default": "位置或时间还差一点，就重新循环",
+          "required": true,
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 0,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 0,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "stepGap": {
+          "agentEditable": false,
+          "default": 12,
+          "max": 160,
+          "min": 8,
+          "required": true,
+          "type": "number"
+        },
+        "stepLabelColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "stepLabelSize": {
+          "agentEditable": false,
+          "default": 30,
+          "max": 100,
+          "min": 28,
+          "required": true,
+          "type": "number"
+        },
+        "stepNumColor": {
+          "agentEditable": false,
+          "default": "#9388FF",
+          "required": true,
+          "type": "color"
+        },
+        "stepNumSize": {
+          "agentEditable": false,
+          "default": 26,
+          "max": 80,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        },
+        "steps": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "num",
+            "t"
+          ],
+          "default": "[{\"num\":\"01\",\"t\":\"描述问题\"},{\"num\":\"02\",\"t\":\"AI 改代码\"},{\"num\":\"03\",\"t\":\"重新渲染\"},{\"num\":\"04\",\"t\":\"打开看结果\"}]",
+          "listFieldsKeys": [
+            "num",
+            "t"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 64,
+          "max": 120,
+          "min": 40,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "AI 迭代调试 · 循环推进",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "selection": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t6-07",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "boxActiveColor": {
+          "agentEditable": false,
+          "default": "#ff3322",
+          "required": true,
+          "type": "color"
+        },
+        "boxPastColor": {
+          "agentEditable": false,
+          "default": "rgba(60,60,60,0.65)",
+          "required": true,
+          "type": "color"
+        },
+        "boxRadius": {
+          "agentEditable": false,
+          "default": 16,
+          "max": 48,
+          "min": 4,
+          "required": true,
+          "type": "number"
+        },
+        "boxSize": {
+          "agentEditable": false,
+          "default": 96,
+          "max": 200,
+          "min": 56,
+          "required": true,
+          "type": "number"
+        },
+        "items": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "label"
+          ],
+          "default": "[{\"label\":\"机器人\"},{\"label\":\"智能体\"},{\"label\":\"复杂软件\"}]",
+          "listFieldsKeys": [
+            "label"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "lineActiveColor": {
+          "agentEditable": false,
+          "default": "#ff3322",
+          "required": true,
+          "type": "color"
+        },
+        "lineThickness": {
+          "agentEditable": false,
+          "default": 4,
+          "max": 10,
+          "min": 1,
+          "required": true,
+          "type": "number"
+        },
+        "numColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "numSize": {
+          "agentEditable": false,
+          "default": 48,
+          "max": 96,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        },
+        "pastOpacity": {
+          "agentEditable": false,
+          "default": 92,
+          "max": 100,
+          "min": 30,
+          "required": true,
+          "type": "number"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 120,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 160,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "rowPitch": {
+          "agentEditable": false,
+          "default": 140,
+          "max": 320,
+          "min": 96,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "stepMs": {
+          "agentEditable": false,
+          "default": 420,
+          "max": 1200,
+          "min": 120,
+          "required": true,
+          "type": "number"
+        },
+        "textActiveColor": {
+          "agentEditable": false,
+          "default": "#ff5522",
+          "required": true,
+          "type": "color"
+        },
+        "textActiveSize": {
+          "agentEditable": false,
+          "default": 88,
+          "max": 140,
+          "min": 36,
+          "required": true,
+          "type": "number"
+        },
+        "textPastColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "textPastSize": {
+          "agentEditable": false,
+          "default": 54,
+          "max": 110,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 50,
+          "max": 96,
+          "min": 30,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "构建智能应用的三个阶段",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "selection": {
+        "maxItems": 5,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t7-01",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "barA": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
+        "barB": {
+          "agentEditable": false,
+          "default": "#F72585",
+          "required": true,
+          "type": "color"
+        },
+        "catColor": {
+          "agentEditable": false,
+          "default": "#E6E6E6",
+          "required": true,
+          "type": "color"
+        },
+        "catSize": {
+          "agentEditable": false,
+          "default": 25,
+          "max": 56,
+          "min": 18,
+          "required": true,
+          "type": "number"
+        },
+        "items": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "cat",
+            "val"
+          ],
+          "default": "[{\"cat\":\"V1.0\",\"val\":\"28\",\"hl\":\"0\"},{\"cat\":\"V2.0\",\"val\":\"47\"},{\"cat\":\"V2.4\",\"val\":\"66\"},{\"cat\":\"V2.5\",\"val\":\"92\",\"hl\":\"1\"}]",
+          "listFieldsKeys": [
+            "cat",
+            "val",
+            "hl"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 220,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "subSize": {
+          "agentEditable": false,
+          "default": 25,
+          "max": 60,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 54,
+          "max": 120,
+          "min": 36,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "各版本推理速度对比",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "valColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        }
+      },
+      "selection": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t7-02",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "catColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "catSize": {
+          "agentEditable": false,
+          "default": 30,
+          "max": 72,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        },
+        "lineColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
+        "nodes": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "cat",
+            "val"
+          ],
+          "default": "[{\"cat\":\"CPU占用\",\"val\":\"62\"},{\"cat\":\"内存占用\",\"val\":\"48\"},{\"cat\":\"GPU占用\",\"val\":\"76\"}]",
+          "listFieldsKeys": [
+            "cat",
+            "val"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 240,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 54,
+          "max": 120,
+          "min": 36,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "资源占用对比",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "valColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "valSize": {
+          "agentEditable": false,
+          "default": 30,
+          "max": 64,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {
+        "maxItems": 3,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t7-03",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "centerColor": {
+          "agentEditable": false,
+          "default": "#E6E6E6",
+          "required": true,
+          "type": "color"
+        },
+        "centerNumSize": {
+          "agentEditable": false,
+          "default": 38,
+          "max": 90,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        },
+        "centerSize": {
+          "agentEditable": false,
+          "default": 27,
+          "max": 60,
+          "min": 18,
+          "required": true,
+          "type": "number"
+        },
+        "centerText": {
+          "agentEditable": true,
+          "default": "总计",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "nameColor": {
+          "agentEditable": false,
+          "default": "#E6E6E6",
+          "required": true,
+          "type": "color"
+        },
+        "nameSize": {
+          "agentEditable": false,
+          "default": 26,
+          "max": 60,
+          "min": 18,
+          "required": true,
+          "type": "number"
+        },
+        "pctColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "pctSize": {
+          "agentEditable": false,
+          "default": 26,
+          "max": 60,
+          "min": 18,
+          "required": true,
+          "type": "number"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 200,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "segs": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "name",
+            "pct"
+          ],
+          "default": "[{\"name\":\"推理算力\",\"pct\":\"60\",\"color\":\"#4CC9F0\"},{\"name\":\"缓存开销\",\"pct\":\"25\",\"color\":\"#06D6A0\"},{\"name\":\"其他开销\",\"pct\":\"15\",\"color\":\"#F72585\"}]",
+          "listFieldsKeys": [
+            "name",
+            "pct",
+            "color"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 54,
+          "max": 120,
+          "min": 36,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "算力资源分配",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "selection": {
+        "maxItems": 3,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t7-04",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "legendColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "legendSize": {
+          "agentEditable": false,
+          "default": 30,
+          "max": 52,
+          "min": 18,
+          "required": true,
+          "type": "number"
+        },
+        "lines": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "data",
+            "name"
+          ],
+          "default": "[{\"name\":\"A模型\",\"color\":\"#4CC9F0\",\"data\":\"82,27,44,61,78\"},{\"name\":\"B模型\",\"color\":\"#F72585\",\"data\":\"58,39,51,66,82\"}]",
+          "listFieldsKeys": [
+            "name",
+            "color",
+            "data"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 260,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "subSize": {
+          "agentEditable": false,
+          "default": 24,
+          "max": 52,
+          "min": 18,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 54,
+          "max": 120,
+          "min": 36,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "吞吐量随负载变化",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "xLabelColor": {
+          "agentEditable": false,
+          "default": "#E6E6E6",
+          "required": true,
+          "type": "color"
+        },
+        "xlText": {
+          "agentEditable": true,
+          "default": "1月,2月,3月,4月,5月,6月",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        }
+      },
+      "selection": {
+        "maxItems": 2,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t7-05",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "cards": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "name",
+            "val",
+            "delta",
+            "dir"
+          ],
+          "default": "[{\"name\":\"平均延迟\",\"val\":\"24ms\",\"delta\":\"↓18%\",\"dir\":\"down\"},{\"name\":\"成功率\",\"val\":\"97.2%\",\"delta\":\"↑2.1%\",\"dir\":\"up\"},{\"name\":\"指标\",\"val\":\"30\",\"delta\":\"↑10%\",\"dir\":\"up\"}]",
+          "listFieldsKeys": [
+            "name",
+            "val",
+            "delta",
+            "dir"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "deltaSize": {
+          "agentEditable": false,
+          "default": 32,
+          "max": 56,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "downColor": {
+          "agentEditable": false,
+          "default": "#F72585",
+          "required": true,
+          "type": "color"
+        },
+        "nameColor": {
+          "agentEditable": false,
+          "default": "#E6E6E6",
+          "required": true,
+          "type": "color"
+        },
+        "nameSize": {
+          "agentEditable": false,
+          "default": 36,
+          "max": 64,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 240,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 54,
+          "max": 120,
+          "min": 36,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "核心指标快照",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "upColor": {
+          "agentEditable": false,
+          "default": "#06D6A0",
+          "required": true,
+          "type": "color"
+        },
+        "valColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "valSize": {
+          "agentEditable": false,
+          "default": 72,
+          "max": 120,
+          "min": 40,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {
+        "maxItems": 3,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t7-06",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "arcColor": {
+          "agentEditable": false,
+          "default": "#2288dd",
+          "required": true,
+          "type": "color"
+        },
+        "glowColor": {
+          "agentEditable": false,
+          "default": "#88ffbb",
+          "required": true,
+          "type": "color"
+        },
+        "labelColor": {
+          "agentEditable": false,
+          "default": "#b0b4bc",
+          "required": true,
+          "type": "color"
+        },
+        "labelSize": {
+          "agentEditable": false,
+          "default": 48,
+          "max": 80,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "labelText": {
+          "agentEditable": true,
+          "default": "关键占比",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "numColor": {
+          "agentEditable": false,
+          "default": "#e6e8ed",
+          "required": true,
+          "type": "color"
+        },
+        "numSize": {
+          "agentEditable": false,
+          "default": 140,
+          "max": 200,
+          "min": 40,
+          "required": true,
+          "type": "number"
+        },
+        "percent": {
+          "agentEditable": true,
+          "default": 85,
+          "max": 100,
+          "min": 0,
+          "required": true,
+          "semanticRole": "metric",
+          "type": "number"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 60,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 220,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "radius": {
+          "agentEditable": false,
+          "default": 320,
+          "max": 420,
+          "min": 120,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 40,
+          "max": 70,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "sliderFill": {
+          "agentEditable": false,
+          "default": "#f0f2f6",
+          "required": true,
+          "type": "color"
+        },
+        "strokeW": {
+          "agentEditable": false,
+          "default": 36,
+          "max": 64,
+          "min": 12,
+          "required": true,
+          "type": "number"
+        },
+        "trackColor": {
+          "agentEditable": false,
+          "default": "#444852",
+          "required": true,
+          "type": "color"
+        }
+      },
+      "selection": {},
+      "version": 1
+    }
+  ]
+}

@@ -48,7 +48,7 @@ const fieldType = (prop) => {
   const editable = new Set(prop.agentEditableItemFields ?? []);
   const fields = (prop.legacy.listFields ?? [])
     .filter(({ key }) => editable.has(key))
-    .map(({ key }) => `${key}: string`)
+    .map(({ key, label }) => (label && label !== key ? `${key}: ${label} (string)` : `${key}: string`))
     .sort(compareText)
     .join(', ');
   return `array of objects { ${fields} }`;
@@ -111,9 +111,12 @@ const renderRootSkill = (definitions) => {
   }
   const sections = [...groups].sort(([left], [right]) => compareText(left, right)).map(([category, items]) => {
     const rows = items.map((definition) => {
-      return `| ${definition.id} | ${definition.selection.summary} | ${definition.selection.suitableFor.join(' ')} | ${definition.selection.avoidFor.join(' ')} | [reference](references/components/${definition.id}.md) |`;
+      const motion = definition.selection.motion
+        ? ` ${definition.selection.motion}`
+        : ' —';
+      return `| ${definition.id} | ${definition.selection.summary} | ${motion} | ${definition.selection.suitableFor.join(' ')} | ${definition.selection.avoidFor.join(' ')} | [reference](references/components/${definition.id}.md) |`;
     });
-    return `## ${category}\n\n| ID | Summary | Use for | Avoid | Details |\n| --- | --- | --- | --- | --- |\n${rows.join('\n')}`;
+    return `## ${category}\n\n| ID | Summary | Motion feel | Use for | Avoid | Details |\n| --- | --- | --- | --- | --- | --- |\n${rows.join('\n')}`;
   });
 
   return `---
@@ -127,11 +130,28 @@ Use this skill to select registered components and produce a strict Agent Draft 
 
 ## Workflow
 
-1. Read [the project schema](references/project-schema.md) and [composition guidelines](references/composition-guidelines.md).
-2. Choose component IDs from the index below using the request and source cues.
-3. Read only the references for the selected IDs; do not load unrelated component references.
-4. Populate every required \`content\` field from the source cues. Never supply visual style or layout property fields.
-5. Save strict JSON and run \`node scripts/validate-agent-draft.mjs <draft.json> <agent-input.json>\`. Return the draft only when it exits 0.
+1. **Prepare the Agent Input JSON.** The workflow below expects a supplied Agent Input (subtitle cues with \`cueId\`/\`text\`/\`startMs\`/\`endMs\` plus \`video\` metadata). If you have an SRT file but no Agent Input yet, build one with the script bundled in this skill: run \`node <skill-dir>/scripts/build-agent-input.mjs <captions.srt> [agent-input.json]\` (omit the output path to print JSON to stdout). It mirrors the host parser exactly — cues are numbered \`cue-1\`, \`cue-2\`, … with no zero-padding, empty text blocks still consume an index, and it emits 1920×1080 @ 30 fps metadata by default (override with \`--fps\`, \`--width\`, \`--height\`). **Then scan the subtitles before anything else:** read every cue text and convert Chinese numerals to Arabic wherever they express a quantity (一百五十 → 150, 百分之二十 → 20%, 八点五 → 8.5, 两千 → 2000); leave non-quantity words untouched (第一 / 三思 / 十分感谢 stay as-is). All later steps — scene planning, number grounding, and display copy — must work from this converted reading, so every quantity you write in \`content\` is Arabic and traceable to a cue.
+2. Read [the project schema](references/project-schema.md) and [composition guidelines](references/composition-guidelines.md).
+3. **Plan structure before selection.** In 1-2 sentences divide the cue list into scene roles (opening / chapter title, grouped parallel points, single metric emphasis, warning / conclusion, closing). When several consecutive cues each state one parallel point (2-6 lines), merge them into ONE list / card / flow scene that cites all of those cue ids — never emit one title scene per line.
+4. **Reuse is your judgment call — decide by content shape, not by fixed counts.** There is no blanket ban on reusing a component in adjacent scenes or across the timeline. When a listable group of parallel points is larger than 3, express the whole group in ONE array-capable list / card / flow component (e.g. fx-04, fx-06, fx-07, t5-*, t7-05) — never emit the same component repeatedly, once per point. When a role covers 3 points or fewer, or the scenes genuinely differ in structure, reusing the same component is fine. The only anti-pattern is one favorite component carrying nearly every scene of the video.
+5. **Layer when one moment carries more than one message.** A scene may hold 2-3 \`components\` that play together over the same cue interval — each lands on its own track, so simultaneous effects are supported. Separate scenes may also cite the same cue span to stack layers. Spread each layer to a different screen zone via \`placementPreset\` (e.g. upper title + lower metric), keep each layer's \`role\` distinct, and stay within 2-3 layers per moment. See the composition guidelines for the full layering rules.
+6. Shortlist ids for each planned role using the **Quick navigation by cue shape** table below, then read only the references for the selected ids; do not load unrelated component references.
+7. Populate every required \`content\` field from the source cues. Never supply visual style or layout property fields. **Cue ID format:** copy each entry in \`sourceCueIds\` **verbatim** from the \`cueId\` values of the supplied Agent Input JSON (the SRT parser numbers cues \`cue-1\`, \`cue-2\`, … with no zero-padding). Do NOT renumber, re-derive from the SRT, or zero-pad — a made-up id such as \`cue-0001\` fails import with "Unknown source cue". **Write Arabic numerals in every display field.** The importer does NOT numeric-check \`content\`, so grounding is entirely your responsibility: write the Arabic form (\`150\` / \`20%\` / \`2 个\`) even when the cue spells the number in Chinese, and never invent a number or unit that does not appear in the (converted) cue text. **Write short display copy:** heading fields (titleText / topText / title1 / title2 / tagText / kickerText / descText and list labels/names) are rewrites, not transcripts — keep them concise (≈ ≤ 12 CJK characters per single-line heading), do not chain parallel points inside one heading with commas, prefer numeric identifiers ("1./2./3." or "01/02") over 其一/其二, and never paste a long cue sentence into one heading field. Numeric metric fields (e.g. fx-04 items[].val) take a number or percent like "80" / "80%", never descriptive words. See the composition guidelines for the full display-copy rules.
+8. **Embed the subtitle track:** add a top-level \`cues\` array that is a **verbatim copy** of the \`cues\` list from the supplied Agent Input JSON (each entry keeps its \`cueId\`, \`text\`, \`startMs\`, \`endMs\`). Do not trim, reorder, or alter entries. This makes the draft self-contained: importing it rebuilds the subtitle track and auto-extends the project duration, so the user does NOT need to import the SRT or load a video beforehand.
+9. Save strict JSON, then validate it with the standalone validator bundled in this skill — it lives in the same folder that holds SKILL.md, under \`scripts/validate-agent-draft.mjs\`, and needs no project files, only Node. Run \`node <skill-dir>/scripts/validate-agent-draft.mjs <draft.json> <agent-input.json>\`, where \`<skill-dir>\` is the directory that contains this SKILL.md (resolve it as an absolute path so the command works on any machine). Return the draft only when it exits 0.
+
+## Quick navigation by cue shape
+
+Use this table to shortlist component ids before reading the per-category index below. The table is a shortcut, not a complete mapping — after shortlisting, confirm against the category tables.
+
+| The cue / material is… | Look first at |
+| --- | --- |
+| Opening / chapter title | fx-01, fx-02, fx-05, t1-01, t1-06, t2-02 |
+| Quote / remark / warning / conclusion | t1-02, t1-09, t2-01, fx-03 |
+| Single number / metric | t3-01, t3-02, fx-09, t6-03, t7-06 |
+| Several parallel points (merge into one scene) | fx-04, fx-06, fx-07, t5-01, t5-02, t5-03, t5-04, t5-05, t5-06, t7-05 |
+| Process / steps / timeline | t4-01, t4-02, t6-01, t6-02, t6-04, t6-05, t6-06 |
+| Chart / share / comparison | t3-03, t7-01, t7-02, t7-03, t7-04, fx-08 |
 
 ${sections.join('\n\n')}
 `;
@@ -146,6 +166,7 @@ const renderComponentReference = (definition) => {
 - Component version: ${definition.version}
 - Use for: ${definition.selection.suitableFor.join(' ')}
 - Avoid: ${definition.selection.avoidFor.join(' ')}
+- Motion feel: ${definition.selection.motion ?? '—'}
 - Capacity: ${capacityText(definition.selection)}
 
 ## Editable content
@@ -182,16 +203,33 @@ const renderProjectSchema = (agentDraftSchema) => {
 
 Produce one strict JSON object. Unknown fields are rejected.
 
-- Root: \`kind\` is exactly \`captionforge.agent-draft\`; \`schemaVersion\` and \`componentLibraryVersion\` are exactly \`1\`; \`scenes\` is an array.
+- Root: \`kind\` is exactly \`captionforge.agent-draft\`; \`schemaVersion\` and \`componentLibraryVersion\` are exactly \`1\`; \`scenes\` is an array; \`cues\` is an optional array of subtitle cues.
 - Scene: exactly \`sceneId: string\`, \`sourceCueIds: non-empty string[]\`, and \`components: array\`.
+- \`sourceCueIds\` values MUST be copied **verbatim** from the \`cueId\` values in the supplied Agent Input JSON (the SRT parser numbers cues as \`cue-1\`, \`cue-2\`, … \`cue-N\`, 1-based, no zero-padding). Do NOT renumber, re-derive, or zero-pad — an invented id such as \`cue-0001\` fails import with "Unknown source cue". The importer resolves each id against the parsed SRT cues to ground every text/number/unit claim, so the draft must reference the same ids.
+- \`cues\` (optional, REQUIRED for self-contained drafts): a **verbatim copy** of the \`cues\` list from the supplied Agent Input JSON. Each entry keeps its \`cueId\`, \`text\`, \`startMs\`, and \`endMs\` unchanged. When present, import rebuilds the project's subtitle track from this list and auto-extends the project duration, so no prior SRT import and no loaded video are needed. Do not trim, reorder, or alter entries.
 - Component: exactly \`componentId: string\`, \`componentVersion: number\`, \`role: string\`, \`content: object\`, and optional \`placementPreset\`.
 - Placement preset, when present: \`auto\`, \`left-top\`, \`left-center\`, \`left-bottom\`, \`right-top\`, \`right-center\`, \`right-bottom\`, or \`full-width\`.
+- **Multi-track layering:** a scene may hold several \`components\` that play simultaneously over the cited cue span — each becomes its own effect on its own track. Different scenes may also cite the same or overlapping cue spans to stack layers over one moment. When two effects share a moment, spread them to different placement zones (e.g. \`left-top\` + \`right-bottom\`) and give each a distinct \`role\`; colliding declared footprints produce advisory warnings, not errors.
 - Component-specific required fields, versions, list capacities, and locked fields are enforced after structural schema parsing.
 
 ## Minimal valid JSON
 
 \`\`\`json
 ${json(parsed.data, 2)}
+\`\`\`
+
+The \`cues\` field is optional. A self-contained draft (so the user can import it directly, without importing the SRT first) additionally copies the full cue list from the Agent Input JSON:
+
+\`\`\`json
+{
+  "componentLibraryVersion": 1,
+  "kind": "captionforge.agent-draft",
+  "scenes": [],
+  "schemaVersion": 1,
+  "cues": [
+    { "cueId": "cue-1", "text": "第一句", "startMs": 0, "endMs": 2480 }
+  ]
+}
 \`\`\`
 `;
 };
@@ -204,7 +242,38 @@ const renderCompositionGuidelines = () => `# Composition Guidelines
 - Keep a scene to at most two visual subjects when possible. Duplicate semantic roles and declared footprint collisions produce warnings.
 - Do not overlap a component declared exclusive with another component.
 - Respect each component's exact version and list capacity. Use arrays of objects for list content, never stringified JSON.
-- Validate the completed files with \`node scripts/validate-agent-draft.mjs <draft.json> <agent-input.json>\`; errors block import, while warnings are advisory.
+- Validate the completed files with the standalone validator bundled in this skill (\`scripts/validate-agent-draft.mjs\` next to SKILL.md — run \`node <skill-dir>/scripts/validate-agent-draft.mjs <draft.json> <agent-input.json>\` with \`<skill-dir>\` as the absolute path of the folder that holds SKILL.md); errors block import, while warnings are advisory.
+
+## Structure before selection
+
+- Divide the cue list into scene roles first (opening / chapter title, grouped parallel points, single metric emphasis, warning / conclusion, closing) and pick a component family per role; only then choose a concrete id.
+- Prefer merging 2-6 consecutive cues that each state one parallel point into ONE list / card / flow scene (\`fx-04\`, \`fx-06\`, \`fx-07\`, \`t5-*\`, \`t7-05\`) over emitting a single-title scene per line. A merged scene cites every cue it draws from in \`sourceCueIds\`.
+- Reserve single-title components (\`fx-01\`, \`fx-02\`, \`fx-05\`, \`t1-*\`, \`t2-02\`) for openings, chapter turns, and strong emphasis — not for every cue.
+
+## Display copy discipline
+
+- **Rewrite, don't transcribe.** A heading/display field (\`titleText\`, \`topText\`, \`title\`, \`title1\`/\`title2\`, \`tagText\`, \`kickerText\`, \`descText\`, list item \`name\`/\`label\`) is a concise summary of the cue, never the whole sentence pasted in. Prefer keeping the key number/term and dropping filler clauses.
+- **Keep single-line heading fields short** — roughly ≤ 12 CJK characters / ≤ 28 ASCII letters. Long heading lines shrink (auto-fit) or collide with the rows below.
+- **No mid-sentence commas or semicolons inside a heading field.** When a cue packs several parallel points, that belongs in a list / card / flow scene, not inside one title line.
+- **Prefer numeric identifiers** ("1. / 2. / 3." or "01 / 02") over Chinese ordinal phrases such as 其一/其二 when enumerating.
+- **Metric fields take data, not prose.** A field like \`fx-04 items[].val\` renders a big value where a bare number gets a "%" suffix — put "80" or "80%" there, never a phrase like 行业领先.
+- **Write every quantity in Arabic numerals — always, even if the cue uses Chinese numerals.** Display fields must show "150" / "20%" / "2 个", never 一百五十 / 百分之二十 / 两个, regardless of how the subtitle spells the number. The importer does not numeric-check content, so correct grounding is the author's job: work from the scan-converted cue reading (workflow step 1) and do NOT copy the cue's Chinese numeral into content — write the Arabic form. (Chinese numeral forms like 第一 / 三思 that do not express a quantity are ordinary words, not numbers, and stay as they are.)
+- **Do not crush a two-sided comparison into one heading line.** For content like "150 unusable effects vs 10 refined ones, the 10 matter" pick a component that can show both sides and emphasise one (\`t3-03\` dual-value, \`t7-01\`/\`t7-02\`/\`fx-08\` bars, \`t5-*\` list/cards) — single-line heading components (\`t1-*\`, \`fx-01\`, \`fx-02\`, \`fx-05\`) cannot convey the two quantities or the emphasis.
+
+## Component reuse — decide by content shape
+
+- No hard caps on component reuse: reusing the same component in consecutive scenes or elsewhere is allowed when the content fits.
+- When a listable group of parallel points is larger than 3, express the whole group in ONE array-capable list / card / flow component (\`fx-04\`, \`fx-06\`, \`fx-07\`, \`t5-*\`, \`t7-05\`) — never emit the same component repeatedly, once per point.
+- When a role covers 3 points or fewer, or the scenes differ in structure, reusing the same component is fine; do not force a weaker substitute just to avoid repetition.
+- Keep presentation varied across scenes that share a role; a video that uses several distinct components reads better than one that leans on a favorite, but fit beats forced variety.
+
+## Layering effects on the same moment (multi-track)
+
+- A scene's \`components\` array may hold 2-3 entries that play at the same time. The importer places every overlapping effect on its own track, so simultaneous effects are fully supported — a draft is NOT limited to one effect at a time.
+- To stack different visual roles over one cue span (e.g. a chapter title with a supporting metric, or a viewpoint line with a small KPI), either keep them in ONE scene as separate components, or emit separate scenes that cite the same / overlapping cue ids.
+- Assign every layer a different \`placementPreset\` zone (upper vs lower, left vs right) so the declared footprints do not collide. Components left at \`auto\` all gravitate to the same screen region — when layering, prefer explicit zones such as \`left-top\` + \`right-bottom\`. Two layers may deliberately overlay the same region only for a small badge/chip on top of a card; otherwise the importer warns about a footprint collision.
+- Give each layer a distinct \`role\` (duplicate roles in one scene warn) and a distinct component id where reasonable; reuse of a component is judged by content shape, so treat each layer as its own appearance. Keep true stacks to 2-3 layers — more visual subjects in one scene triggers an advisory warning.
+- Do not stack several full-width or same-family cards over the same instant: overlapping big cards read as clutter, not layering.
 `;
 
 const manifestComponent = (definition) => ({
@@ -224,6 +293,7 @@ const manifestComponent = (definition) => ({
   selectionSummary: definition.selection.summary,
   semanticFamilies: definition.selection.semanticFamilies,
   suitableFor: definition.selection.suitableFor,
+  ...(definition.selection.motion ? { motionFeel: definition.selection.motion } : {}),
   ...(definition.selection.minItems === undefined && definition.selection.maxItems === undefined ? {} : {
     capacity: {
       ...(definition.selection.maxItems === undefined ? {} : { maxItems: definition.selection.maxItems }),
@@ -232,12 +302,16 @@ const manifestComponent = (definition) => ({
   }),
 });
 
-export function generateSkillArtifacts(definitions, agentDraftSchema) {
+export function generateSkillArtifacts(definitions, agentDraftSchema, metaList = []) {
   const approved = approvedDefinitions(definitions);
   const paths = new Map();
   paths.set('skill/SKILL.md', renderRootSkill(approved));
   paths.set('skill/references/composition-guidelines.md', renderCompositionGuidelines());
   paths.set('skill/references/project-schema.md', renderProjectSchema(agentDraftSchema));
+  paths.set('skill/scripts/validation-meta.json', `${json({
+    components: [...metaList].sort((left, right) => compareText(left.id, right.id)),
+  }, 2)}\n`);
+  paths.set('skill/scripts/build-agent-input.mjs', readFileSync(join(defaultProjectRoot, 'scripts/build-agent-input.mjs'), 'utf8'));
   for (const definition of approved) {
     paths.set(`${componentReferencePrefix}${definition.id}.md`, renderComponentReference(definition));
   }
@@ -298,19 +372,21 @@ export async function loadGenerationSources(projectRoot = defaultProjectRoot) {
   const { createServer } = await import('vite');
   const server = await createServer({ root: projectRoot, appType: 'custom', server: { middlewareMode: true } });
   try {
-    const [{ effectRegistry }, { AgentDraftSchema }] = await Promise.all([
+    const [{ effectRegistry }, { AgentDraftSchema }, { toComponentMeta }] = await Promise.all([
       server.ssrLoadModule('/src/effects/registry.ts'),
       server.ssrLoadModule('/src/project/schema.ts'),
+      server.ssrLoadModule('/src/project/componentMeta.ts'),
     ]);
-    return { definitions: effectRegistry.list(), agentDraftSchema: AgentDraftSchema };
+    const definitions = effectRegistry.list();
+    return { definitions, agentDraftSchema: AgentDraftSchema, metaList: definitions.map(toComponentMeta) };
   } finally {
     await server.close();
   }
 }
 
 export async function generateSkill(projectRoot = defaultProjectRoot) {
-  const { definitions, agentDraftSchema } = await loadGenerationSources(projectRoot);
-  const artifacts = generateSkillArtifacts(definitions, agentDraftSchema);
+  const { definitions, agentDraftSchema, metaList } = await loadGenerationSources(projectRoot);
+  const artifacts = generateSkillArtifacts(definitions, agentDraftSchema, metaList);
   writeSkillArtifacts(artifacts, projectRoot);
   return artifacts;
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { effectRegistry } from '../effects/registry';
 import type { MotionEffectInstance } from '../project/types';
-import { ConfigProvider } from '../remotion/config';
+import { ConfigProvider, EffectClipCtx } from '../remotion/config';
 import { toInstanceConfig } from './instanceConfig';
 
 export const EffectInstanceFrame: React.FC<{ effect: MotionEffectInstance }> = ({ effect }) => {
@@ -10,7 +10,9 @@ export const EffectInstanceFrame: React.FC<{ effect: MotionEffectInstance }> = (
 
   return (
     <ConfigProvider value={config}>
-      <Component />
+      <EffectClipCtx.Provider value={effect.durationInFrames}>
+        <Component />
+      </EffectClipCtx.Provider>
     </ConfigProvider>
   );
 };
