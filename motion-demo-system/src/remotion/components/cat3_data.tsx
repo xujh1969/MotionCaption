@@ -1,7 +1,7 @@
 import React from 'react';
 import { useCurrentFrame } from 'remotion';
 import { COLORS, FONT_STACK } from '../theme';
-import { useEnter, useEnterOpacity, useBreath, useCount, useEnterScale, useScanAcross } from '../anim';
+import { useEnter, useEnterOpacity, useBreath, useCount, useEnterScale, useScanAcross, atFrames } from '../anim';
 import { useConfigKey, useConfigList } from '../config';
 import { weightNum, measureText } from '../measure';
 import { tint } from './shared';
@@ -170,15 +170,31 @@ export const T3_03: React.FC = () => {
     scale: useEnterScale(frame, 33, 30),
     desc: useEnterOpacity(frame, 52),
   };
-  const rightLeft = 300;
+  const colGap = (useConfigKey('t3-03', 'colGap') as number) ?? 340;
   const descY = numSize + 56;
   const descSize = useConfigKey('t3-03', 'descSize') as number;
+  const labelL = useConfigKey('t3-03', 'labelL') as string;
+  const descL = useConfigKey('t3-03', 'descL') as string;
+  // 左栏实际最宽内容（标签 / 数值 / 说明）：右栏至少退到它之后，避免大字号、多位数时两侧粘连
+  const widthOf = (text: string, size: number) => {
+    try {
+      return measureText(String(text ?? ''), size, 'Bold');
+    } catch {
+      return String(text ?? '').length * size * 0.6;
+    }
+  };
+  const leftContentW = Math.max(
+    widthOf(labelL, 40),
+    widthOf(String(valueL ?? ''), numSize),
+    widthOf(descL, descSize),
+  );
+  const rightLeft = Math.max(colGap, Math.ceil(leftContentW) + 100);
   return (
     <div style={{ position: 'absolute', left: posX, top: posY, transformOrigin: 'top left', transform: `scale(${configScale / 100})` }}>
       <div style={{ position: 'absolute', left: 0, top: 0 }}>
-        <T x={0} y={0} size={40} weight="Bold" color={accentA} text={useConfigKey('t3-03', 'labelL') as string} opacity={l.label.opacity} translateY={l.label.translateY} />
+        <T x={0} y={0} size={40} weight="Bold" color={accentA} text={labelL} opacity={l.label.opacity} translateY={l.label.translateY} />
         <div style={{ ...base, left: 0, top: 44, fontSize: numSize, fontWeight: 900, color: numColor, transform: `scale(${l.scale})`, transformOrigin: 'left top', opacity: 0.92 }}>{l.val}</div>
-        <T x={0} y={descY} size={descSize} weight="Regular" color={COLORS.textSecondary} text={useConfigKey('t3-03', 'descL') as string} opacity={l.desc} />
+        <T x={0} y={descY} size={descSize} weight="Regular" color={COLORS.textSecondary} text={descL} opacity={l.desc} />
       </div>
       <div style={{ position: 'absolute', left: rightLeft, top: 0 }}>
         <T x={0} y={0} size={40} weight="Bold" color={accentB} text={useConfigKey('t3-03', 'labelR') as string} opacity={r.label.opacity} translateY={r.label.translateY} />
@@ -208,7 +224,7 @@ export const T3_04: React.FC = () => {
       <T x={0} y={0} size={titleSize} weight="Heavy" color={COLORS.textPrimary} text={useConfigKey('t3-04', 'titleText') as string} opacity={title.opacity} translateY={title.translateY} />
       {rows.map((row, i) => {
         const atN = Number(row.at);
-        const o = useEnterOpacity(frame, Number.isFinite(atN) ? atN * 30 : 20 + i * 12);
+        const o = useEnterOpacity(frame, atFrames(row, i, 20, 12));
         return (
           <div key={i} style={{ position: 'absolute', left: 0, top: titleSize + 56 + i * rowGap, width: 900, display: 'flex', alignItems: 'baseline', opacity: o }}>
             <span style={{ fontSize: rowSize, fontWeight: 700, color: accent, width: keyW, flex: '0 0 auto', whiteSpace: 'nowrap' }}>{row.k ?? ''}</span>

@@ -8,7 +8,14 @@ import type {
   SelectionDraft,
 } from './types';
 
-const metricKeys = new Set(['value', 'valueL', 'valueR', 'percent']);
+/**
+ * 承载「数据」而非「外观」的数字键——这些必须由 AI 依据字幕填写，
+ * 否则组件永远显示内置默认数字（如 t7-09 环心数字恒为 100）。
+ * 字号/间距/半径等纯外观数字键不在此列。
+ */
+export const METRIC_NUMBER_KEYS = new Set([
+  'value', 'valueL', 'valueR', 'percent', 'centerNum',
+]);
 
 // Conservative declared envelope for deterministic planning; this is not a measured DOM bound.
 const declaredPlanningFootprint = (defaults: ConfigState): { width: number; height: number } => {
@@ -29,12 +36,13 @@ export const legacyPropRole = (definition: PropDef): PropRole => {
 };
 
 export const legacyPropIsAgentEditable = (definition: PropDef): boolean => {
-  if (definition.kind === 'number') return metricKeys.has(definition.key);
+  if (definition.kind === 'number') return METRIC_NUMBER_KEYS.has(definition.key);
   if (legacyPropRole(definition) !== 'content') return false;
   if (definition.kind !== 'list') return true;
   if (definition.agentEditableItemFields?.length) return true;
+  // at 是可选的渲染层时机契约字段（AI 可填、可省略），不影响列表属性本身的 AI 可编辑性
   return !definition.listFields?.some(
-    ({ key, kind }) => kind === 'color' || key === 'at' || key === 'hl',
+    ({ key, kind }) => kind === 'color' || key === 'hl',
   );
 };
 
@@ -54,7 +62,8 @@ export function adaptLegacyComponent(
         role: legacyPropRole(definition),
         agentEditable: false,
         agentEditableItemFields: definition.kind === 'list'
-          ? definition.agentEditableItemFields ?? definition.listFields?.map(({ key }) => key)
+          ? definition.agentEditableItemFields
+            ?? definition.listFields?.map(({ key }) => key).filter((key) => key !== 'at')
           : undefined,
         min: definition.min,
         max: definition.max,

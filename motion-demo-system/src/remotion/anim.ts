@@ -10,6 +10,18 @@ export function useBreath(frame: number, speed = 1, base = 1, amp = 0.04): numbe
   return base + amp * Math.sin(phase);
 }
 
+// 条目级出现时机：row.at（秒，相对组件在时间轴上的起点）→ 入场帧（30fps）。
+// at 缺失/空串/非法时回退到组件原有的均匀节奏（base + i * step 帧），保证旧数据行为不变。
+export function atFrames(row: unknown, i: number, base: number, step: number): number {
+  const raw = (row as { at?: unknown } | null)?.at;
+  const empty = raw === undefined || raw === null || (typeof raw === 'string' && raw.trim() === '');
+  if (!empty) {
+    const at = Number(raw);
+    if (Number.isFinite(at) && at >= 0) return Math.max(0, Math.round(at * 30));
+  }
+  return base + i * step;
+}
+
 // 入场：EaseOutExpo 缓出淡入（透明 -> 不透明）
 export function useEnterOpacity(frame: number, delay = 0, duration = 32): number {
   return interpolate(frame, [delay, delay + duration], [0, 1], {

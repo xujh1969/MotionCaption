@@ -256,9 +256,11 @@ describe('compileAgentDraft', () => {
       }],
     };
 
+    // 落位 = 画布右下角 - 规划包络；包络由 config 默认锚点推导（可能被 bake 更新），不硬编码。
+    const { width, height } = effectRegistry.get('t1-01').layout.footprint;
     expect(compileAgentDraft(project, placedDraft, { registry: effectRegistry })[0].transform).toEqual({
-      x: 1220,
-      y: 540,
+      x: 1920 - width,
+      y: 1080 - height,
       scale: 1,
       rotation: 0,
     });
@@ -318,5 +320,53 @@ describe('compileAgentDraft', () => {
     const before = structuredClone(project.effects);
     compileAgentDraft(project, draft);
     expect(project.effects).toEqual(before);
+  });
+
+  it('keeps Agent-authored content when a user default snapshot also carries text', () => {
+    const compiled = compileAgentDraft(project, draft, {
+      userStyleDefaults: {
+        // 用户快照含「文字 + 样式 + 位置」三类键（存为默认样式是完整快照）
+        't1-01': { titleText: '旧默认标题', subText: '旧默认副标', titleSize: 88, posX: 321, posY: 210 },
+      },
+    });
+    const t1 = compiled.find(({ componentId }) => componentId === 't1-01');
+    expect(t1?.props.titleText).toBe('第一句');
+    expect(t1?.props.subText).toBe('第二句');
+    // 样式键仍然并入用户默认
+    expect(t1?.props.titleSize).toBe(88);
+    // left-top 分区下位置也采用用户默认内边距，而不是硬贴画布左上角
+    expect(t1?.transform.x).toBe(321);
+    expect(t1?.transform.y).toBe(210);
+  });
+
+  it('honours a stored user position over the placement preset and clamps it into the canvas', () => {
+    const placed = compileAgentDraft(project, {
+      ...draft,
+      scenes: [{
+        sceneId: 'scene-1', sourceCueIds: ['cue-1', 'cue-2'],
+        components: [
+          { componentId: 't1-01', componentVersion: 1, role: 'title', placementPreset: 'right-bottom', content: {
+            tagText: '标签', enText: 'EN', titleText: '甲', subText: '乙',
+          } },
+        ],
+      }],
+    }, { userStyleDefaults: { 't1-01': { posX: 120, posY: 90 } } });
+    // 用户存过位置 → 即便 preset 是 right-bottom 也以存过的位置为准
+    expect(placed[0].transform).toMatchObject({ x: 120, y: 90 });
+
+    const clamped = compileAgentDraft(project, {
+      ...draft,
+      scenes: [{
+        sceneId: 'scene-1', sourceCueIds: ['cue-1'],
+        components: [
+          { componentId: 't1-01', componentVersion: 1, role: 'title', placementPreset: 'left-top', content: {
+            tagText: '标签', enText: 'EN', titleText: '甲', subText: '乙',
+          } },
+        ],
+      }],
+    }, { userStyleDefaults: { 't1-01': { posX: 4000, posY: 4000 } } });
+    const { width, height } = effectRegistry.get('t1-01').layout.footprint;
+    expect(clamped[0].transform.x).toBe(Math.max(0, 1920 - width));
+    expect(clamped[0].transform.y).toBe(Math.max(0, 1080 - height));
   });
 });

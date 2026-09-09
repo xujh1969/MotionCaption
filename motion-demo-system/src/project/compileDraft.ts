@@ -52,30 +52,84 @@ const mergeAgentListContent = (
       // Registry validation owns the content contract; malformed legacy defaults stay empty here.
     }
   }
-  const lockedFields = (definition.legacy.listFields ?? []).filter(({ key }) => !editable.has(key));
+  const lockedFields = (definition.legacy.listFields ?? []).filter(({ key }) => !editable.has(key) && key !== 'at');
   return value.map((item, index) => {
     const base = defaultItems[index] ?? {};
     const locked = Object.fromEntries(lockedFields.map((field) => [
       field.key,
       cloneValue(base[field.key] ?? field.default ?? ''),
     ]));
-    return { ...locked, ...cloneValue(item) };
+    const source = cloneValue(item) as Record<string, unknown>;
+    // at（出现时机，秒）为渲染层契约字段：AI 提供且合法则透传，否则不注入任何默认值
+    // （缺省 = 渲染器回退均匀节奏；不能用样本默认的 at 覆盖 AI 的编排意图）
+    const out: Record<string, unknown> = { ...locked, ...source };
+    if ('at' in out) {
+      // at 规范化：数值或可解析字符串 → 保留；null/空串/非法 → 删除（渲染层回退均匀节奏）
+      const raw = out.at;
+      const empty = raw === null || raw === undefined || (typeof raw === 'string' && raw.trim() === '');
+      const at = empty ? NaN : Number(raw);
+      if (!Number.isFinite(at) || at < 0) delete out.at;
+      else out.at = at;
+    }
+    return out;
   });
 };
 
+// 条目出现时机钳制：at（秒）超出实例时长时压回边界，避免 AI 给出越界值导致条目永不出现
+const clampItemTiming = (
+  props: Record<string, unknown>,
+  durationInFrames: number,
+  fps: number,
+): void => {
+  const maxSec = Math.max(0, durationInFrames / fps);
+  for (const value of Object.values(props)) {
+    if (!Array.isArray(value)) continue;
+    for (const item of value) {
+      if (item && typeof item === 'object' && !Array.isArray(item) && 'at' in item) {
+        const at = Number((item as Record<string, unknown>).at);
+        if (Number.isFinite(at)) (item as Record<string, unknown>).at = Math.max(0, Math.min(at, maxSec));
+      }
+    }
+  }
+};
+
+/**
+ * 依据 placementPreset 分区 + 用户/内置默认位置计算落位。
+ *
+ * 优先级：用户存过的位置 > placementPreset 分区 > 内置默认。
+ * 修 bug 前，非 auto 分区会直接按画布边缘算（left→0、top→0），
+ * 把用户「存为默认样式」里调好的 posX/posY 彻底丢掉，
+ * 表现为「明明调好了 t1-01 的位置，导入 JSON 后又跑回左上角」。
+ * 现在只要用户为该组件存过位置，就以它为准（钳进画布）；
+ * 没存过的仍按 placementPreset 分区落位，行为不变。
+ */
 const transformFor = (
   definition: EffectDefinition,
   preset: PlacementPreset | undefined,
   project: MotionProject,
   defaults: Record<string, unknown>,
+  userLayout?: Record<string, unknown>,
 ): MotionEffectInstance['transform'] => {
   const defaultX = typeof defaults.posX === 'number' ? defaults.posX : 0;
   const defaultY = typeof defaults.posY === 'number' ? defaults.posY : 0;
   const scale = typeof defaults.scale === 'number' ? defaults.scale / 100 : 1;
-  if (!preset || preset === 'auto') return { x: defaultX, y: defaultY, scale, rotation: 0 };
-
   const width = definition.layout.footprint.width * scale;
   const height = definition.layout.footprint.height * scale;
+  const clamp = (value: number, max: number) => Math.min(Math.max(0, value), Math.max(0, max));
+
+  if (userLayout
+    && (typeof userLayout.posX === 'number' || typeof userLayout.posY === 'number')) {
+    return {
+      x: clamp(typeof userLayout.posX === 'number' ? userLayout.posX : defaultX,
+        project.video.width - width),
+      y: clamp(typeof userLayout.posY === 'number' ? userLayout.posY : defaultY,
+        project.video.height - height),
+      scale,
+      rotation: 0,
+    };
+  }
+
+  if (!preset || preset === 'auto') return { x: defaultX, y: defaultY, scale, rotation: 0 };
   const x = preset.startsWith('right') ? project.video.width - width : 0;
   const y = preset.endsWith('bottom') ? project.video.height - height
     : preset.endsWith('center') || preset === 'full-width'
@@ -158,6 +212,8 @@ export function compileAgentDraft(
     const defaults = Object.fromEntries(
       Object.entries(definition.props).map(([key, prop]) => [key, cloneValue(prop.default)]),
     );
+    // 只并入「样式 + 位置缩放」：文字内容必须留给 AI 依据字幕写出的 content，
+    // 否则用户快照里的旧文案会盖掉新文案（导入后文字改不动的元凶）。
     const props = mergeUserStyleDefaults(
       component.componentId,
       cloneValue({
@@ -168,8 +224,13 @@ export function compileAgentDraft(
         ])),
       }),
       options.userStyleDefaults,
+      { definition, roles: ['style', 'layout'] },
     );
-    const transform = transformFor(definition, component.placementPreset, project, defaults);
+    const transform = transformFor(
+      definition, component.placementPreset, project, props,
+      options.userStyleDefaults?.[component.componentId],
+    );
+    clampItemTiming(props, durationInFrames, project.video.fps);
     const effect: MotionEffectInstance = {
       instanceId: createInstanceId(),
       sceneId: scene.sceneId,

@@ -13,10 +13,10 @@ import { InspectorPanel, inspectorDefinitions } from './InspectorPanel';
 import { Toolbar } from './Toolbar';
 
 describe('unified workspace panels', () => {
-  it('groups all 46 registry entries with inline category separators', () => {
+  it('groups all 61 registry entries with inline category separators', () => {
     const groups = groupEffectDefinitions(effectRegistry.list(), '');
 
-    expect(groups.flatMap(({ definitions }) => definitions)).toHaveLength(46);
+    expect(groups.flatMap(({ definitions }) => definitions)).toHaveLength(61);
     expect(groups.map(({ label }) => label)).toEqual([
       '零、特效FX',
       '一、极简纯文字+细线条',
@@ -69,7 +69,7 @@ describe('unified workspace panels', () => {
     const markup = renderToStaticMarkup(<ComponentLibrary />);
     const componentItems = markup.match(/data-component-id=/g) ?? [];
 
-    expect(componentItems).toHaveLength(46);
+    expect(componentItems).toHaveLength(61);
     expect(markup).toContain('data-category-id="text-line"');
     expect(markup).toContain('placeholder="名称或编号"');
     expect(markup).not.toContain('<select');

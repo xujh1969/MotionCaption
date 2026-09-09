@@ -1,7 +1,7 @@
 import React from 'react';
 import { Easing, interpolate, useCurrentFrame } from 'remotion';
 import { COLORS, FONT_STACK } from '../theme';
-import { useEnter, useEnterOpacity, useBreath, easeOutExpo } from '../anim';
+import { useEnter, useEnterOpacity, useBreath, easeOutExpo, atFrames } from '../anim';
 import { useConfigKey, useConfigList } from '../config';
 import { weightNum, measureText } from '../measure';
 import { tint } from './shared';
@@ -11,11 +11,11 @@ const base: React.CSSProperties = { position: 'absolute', fontFamily: FONT_STACK
 interface TextProps {
   x: number; y: number; size: number; weight?: 'Heavy' | 'Bold' | 'Regular';
   color: string; text: string; opacity?: number; translateY?: number; letterSpacing?: number;
-  maxWidth?: number; wrap?: boolean;
+  maxWidth?: number; wrap?: boolean; lineHeight?: number;
 }
-export const T: React.FC<TextProps> = ({ x, y, size, weight = 'Heavy', color, text, opacity = 1, translateY = 0, letterSpacing = 0, maxWidth, wrap = false }) => (
+export const T: React.FC<TextProps> = ({ x, y, size, weight = 'Heavy', color, text, opacity = 1, translateY = 0, letterSpacing = 0, maxWidth, wrap = false, lineHeight }) => (
   <div style={{ ...base, left: x, top: y, fontSize: size, fontWeight: weightNum(weight), color,
-    whiteSpace: wrap ? 'normal' : 'nowrap', maxWidth,
+    whiteSpace: wrap ? 'normal' : 'nowrap', maxWidth, lineHeight,
     opacity, transform: `translateY(${translateY}px)`, letterSpacing, textShadow: '0 3px 12px rgba(0,0,0,0.45)' }}>
     {text}
   </div>
@@ -36,19 +36,30 @@ export const T4_01: React.FC = () => {
   const posX = (useConfigKey('t4-01', 'posX') as number) ?? 130;
   const posY = (useConfigKey('t4-01', 'posY') as number) ?? 240;
   const configScale = (useConfigKey('t4-01', 'scale') as number) ?? 100;
-  const colW = 158, gap = 34, numSize = 30, lineH = 3;
+  const colW = (useConfigKey('t4-01', 'colW') as number) ?? 220;   // 列宽下限（配置）
+  const gap = (useConfigKey('t4-01', 'colGap') as number) ?? 64;   // 步骤间距（配置）
+  const numSize = 30, lineH = 3;
+  // 每列宽度：配置下限与实测标题宽度取大者——标题不折行，长标题自动加宽该列
+  const colWidths = list.map((s) => Math.max(colW, Math.ceil(measureText(`${s.t ?? ''}`, stepTitle, 'Bold'))));
+  const colX = list.map((_, i) => colWidths.slice(0, i).reduce((a, b) => a + b, 0) + i * gap);
   const rowTop = titleSize + 52;
   const lineY = rowTop + numSize + 22;             // 横线在序号文字下方
   const colTitleY = numSize + 22 + lineH + 6;     // 相对步骤块顶部：标题紧贴横线正下方
   const colDescY = colTitleY + stepTitle + 14;     // 正文在标题下方
   const line0 = 0;                                 // 主线左端与首个序号文字对齐
-  const lineW = (list.length - 1) * (colW + gap) + colW; // 右端与最后一个流程文字（步骤块）右边界对齐
+  const lineW = colX[list.length - 1] + colWidths[list.length - 1]; // 右端与最后一个步骤块右边界对齐
   // 发光亮点沿主线从左到右循环移动
   const period = 90, p = (frame % period) / period;
   const dotX = line0 + p * lineW;
-  // 步骤点亮与光点位置同步：光点走到该步骤所在位置才点亮（到达后约 8 帧渐亮）
+  // 步骤点亮：优先按 row.at（秒）定时出现；无 at 时回退与光点位置同步（光点到达后约 8 帧渐亮）
+  const hasAt = list.some((s) => Number.isFinite(Number((s as { at?: unknown }).at)));
   const lit = (i: number) => {
-    const frac = (i * (colW + gap)) / lineW; // 步骤 i 在主线上的位置比例
+    if (hasAt) {
+      const d = frame - atFrames(list[i], i, 0, 0);
+      if (d < 0) return 0.3;
+      return 0.3 + 0.7 * Math.min(1, d / 8);
+    }
+    const frac = colX[i] / lineW; // 步骤 i 在主线上的位置比例
     const d = p - frac;
     if (d < 0) return 0.3;                       // 光点未到：保持半透明
     return 0.3 + 0.7 * Math.min(1, d * (period / 8));
@@ -71,18 +82,18 @@ export const T4_01: React.FC = () => {
       {list.map((s, i) => {
         const o = lit(i);
         return (
-          <div key={i} style={{ position: 'absolute', left: i * (colW + gap), top: rowTop, width: colW }}>
+          <div key={i} style={{ position: 'absolute', left: colX[i], top: rowTop, width: colWidths[i] }}>
             {/* 序号文字：纯文字，无外圈，跟强调色 */}
             <div style={{
               fontSize: numSize, fontWeight: 800, color: accent, letterSpacing: 2,
               opacity: o, textShadow: `0 0 10px ${tint(accent, 0.27)}`,
             }}>{s.n || String(i + 1).padStart(2, '0')}</div>
-            {/* 步骤标题（横线下方） */}
+            {/* 步骤标题（横线下方，不折行；列宽已按实测加宽；行高显式 1.2 保证行框可预测） */}
             <T x={0} y={colTitleY} size={stepTitle} weight="Bold" color={titleColor} text={s.t}
-              opacity={o} wrap maxWidth={colW} />
-            {/* 步骤正文（横线下方） */}
+              opacity={o} lineHeight={1.2} />
+            {/* 步骤正文（横线下方，列宽内折行） */}
             <T x={0} y={colDescY} size={descSize} weight="Regular" color={COLORS.textSecondary}
-              text={s.d} opacity={o * 0.95} wrap maxWidth={colW} />
+              text={s.d} opacity={o * 0.95} wrap maxWidth={colWidths[i]} />
           </div>
         );
       })}
@@ -124,7 +135,7 @@ export const T5_01: React.FC = () => {
       <T x={0} y={0} size={titleSize} weight="Heavy" color={COLORS.textPrimary} text={titleText}
         opacity={title.opacity} translateY={title.translateY} />
       {items.map((it, i) => {
-        const o = useEnterOpacity(frame, 18 + i * 16);
+        const o = useEnterOpacity(frame, atFrames(it, i, 18, 16));
         const markerB = useBreath(frame, 1 + i * 0.2, 1, 0.08);
         return (
           <div key={i} style={{ position: 'absolute', left: 0, top: itemTops[i], opacity: o, width: 590 }}>
@@ -174,7 +185,7 @@ export const T5_02: React.FC = () => {
       <T x={0} y={0} size={titleSize} weight="Heavy" color={COLORS.textPrimary} text={titleText}
         opacity={title.opacity} translateY={title.translateY} />
       {items.map((it, i) => {
-        const o = useEnterOpacity(frame, 18 + i * 16);
+        const o = useEnterOpacity(frame, atFrames(it, i, 18, 16));
         const cB = useBreath(frame, 1 + i * 0.2, 1, 0.1);
         const color = (it.color as string) || fallback;
         return (
@@ -234,9 +245,10 @@ export const T5_03: React.FC = () => {
       <T x={0} y={0} size={titleSize} weight="Heavy" color={COLORS.textPrimary} text={titleText}
         opacity={title.opacity} translateY={title.translateY} />
       {items.map((it, i) => {
-        const numO = useEnterOpacity(frame, 18 + i * 14);
-        const tO = useEnterOpacity(frame, 30 + i * 14);
-        const dO = useEnterOpacity(frame, 40 + i * 14);
+        const d = atFrames(it, i, 18, 14);
+        const numO = useEnterOpacity(frame, d);
+        const tO = useEnterOpacity(frame, d + 12);
+        const dO = useEnterOpacity(frame, d + 22);
         const numB = useBreath(frame, 1 + i * 0.2, 1, 0.08);
         return (
           <div key={i} style={{ position: 'absolute', left: 0, top: itemTops[i] }}>
@@ -276,8 +288,8 @@ export const T5_05: React.FC = () => {
       display: 'flex', flexDirection: 'column', gap,
     }}>
       {list.map((c, i) => {
-        // 卡片依次入场：前一张完整显示(520ms)后触发下一张
-        const d = i * 16;                                    // 每张入场起始帧（520ms≈16帧）
+        // 卡片依次入场：前一张完整显示(520ms)后触发下一张；row.at 优先（秒→帧）
+        const d = atFrames(c, i, 0, 16);                     // 每张入场起始帧
         const cardP = interpolate(frame, [d, d + 16], [0, 1], { easing: easeOutExpo, extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
         // 小标题在卡片淡入完成后淡入（320ms≈10帧）
         const smallO = interpolate(frame, [d + 17, d + 27], [0, 1], { easing: easeOutExpo, extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
@@ -336,8 +348,9 @@ export const T5_04: React.FC = () => {
         opacity={title.opacity} translateY={title.translateY} />
       {/* 瀑布排列：常规流逐行堆叠，由浏览器按实际内容计算高度，上面文字换行不会挤占下面条目 */}
       {rows.map((r, i) => {
-        const kO = useEnterOpacity(frame, 18 + i * 10);
-        const vO = useEnterOpacity(frame, 28 + i * 10);
+        const d = atFrames(r, i, 18, 10);
+        const kO = useEnterOpacity(frame, d);
+        const vO = useEnterOpacity(frame, d + 10);
         return (
           <div key={i} style={{ marginTop: i === 0 ? titleSize + 56 : rowGap }}>
             <span style={{ display: 'inline-block', width: keyW, verticalAlign: 'top', lineHeight: valLH, fontSize: fieldSize, fontWeight: 700, color: accent, opacity: kO }}>{r.k}</span>
@@ -388,8 +401,8 @@ export const T5_06: React.FC = () => {
       </div>
       <div style={{ position: 'absolute', left: 0, top: rowTop, display: 'flex', gap: itemGap, alignItems: 'flex-start' }}>
         {list.map((n, i) => {
-          // 每条依次入场：淡入 + 从下方上浮
-          const delay = 14 + i * 12;
+          // 每条依次入场：淡入 + 从下方上浮；row.at 优先（秒→帧）
+          const delay = atFrames(n, i, 14, 12);
           const o = interpolate(frame, [delay, delay + 14], [0, 1], { easing: easeOutExpo, extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
           const up = interpolate(frame, [delay, delay + 14], [16, 0], { easing: easeOutExpo, extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
           // 横线呼吸伸缩：宽度围绕基础值 ±15% 伸缩（先缩后放），周期约1s，条目间错开相位
@@ -433,7 +446,7 @@ export const T4_02: React.FC = () => {
   const scale = useConfigKey('t4-02', 'scale') as number;
   const posX = (useConfigKey('t4-02', 'posX') as number) ?? 70;
   const posY = (useConfigKey('t4-02', 'posY') as number) ?? 320;
-  const nodes = useConfigList('t4-02', 'nodes') as { cn: string; en: string; color: string }[];
+  const nodes = useConfigList('t4-02', 'nodes') as { cn: string; en: string; color: string; at?: string }[];
   const list = nodes.length > 0 ? nodes : [{ cn: '阶段', en: 'STAGE', color: '#36d8f0' }];
 
   // 设计稿坐标（1920×1080 整屏，缩放系数 scale 映射到左侧安全区）
@@ -477,9 +490,9 @@ export const T4_02: React.FC = () => {
         <div style={{ width: lineW, height: 8, background: gradient, opacity: 0.92, borderRadius: 4 }} />
       </div>
       {list.map((n, i) => {
-        // 节点随主线生长到对应位置时缩放弹出（480ms）
-        const reach = (nX(i) - LINE_X1) / lineW;                 // 主线生长到该节点的比例
-        const delay = 10 + 33 * reach + 3;
+        // 节点出现时机：条目 at（秒）优先；缺省回退原几何节奏
+        // （原 delay = 10 + 33*reach + 3，均匀分布时 reach = i/(n-1)，即 13 + 33*i/(n-1)）
+        const delay = atFrames(n, i, 13, 33 / Math.max(1, list.length - 1));
         const ns = interpolate(frame, [delay, delay + 14], [0, 1], { easing: Easing.out(Easing.back(1.6)), extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
         const no = interpolate(frame, [delay, delay + 10], [0, 1], { easing: easeOutExpo, extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
         // 标签在节点弹出后淡入 + 上移（450ms）

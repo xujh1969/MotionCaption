@@ -8,6 +8,7 @@
     "build": "tsc && vite build",
     "check:skill": "node scripts/check-skill.mjs",
     "generate:skill": "node scripts/generate-skill.mjs",
+    "bake:styles": "node scripts/bake-style-defaults.mjs",
     "preview": "vite preview",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",

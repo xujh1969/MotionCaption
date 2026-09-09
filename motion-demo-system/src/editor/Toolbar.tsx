@@ -1,5 +1,6 @@
 import React from 'react';
 import { useEditorStore } from '../store/editorStore';
+import { readUserStyleDefaults } from '../effects/stylePrefs';
 
 interface ToolbarProps {
   videoName: string | null;
@@ -46,6 +47,30 @@ export const Toolbar: React.FC<ToolbarProps> = ({
           <label className="toolbar-button">导入字幕<input hidden type="file" accept=".srt,text/plain" onChange={(event) => onImportSubtitle?.(event.target.files?.[0])} /></label>
           <label className="toolbar-button">导入 Agent JSON<input hidden type="file" accept="application/json,.json" onChange={(event) => onImportAgent(event.target.files?.[0])} /></label>
           <button type="button" aria-label="AI 编排" onClick={onOpenAiOrchestration}>AI 编排</button>
+          <button
+            type="button"
+            aria-label="导出默认样式"
+            title="把本机保存的全部默认样式导出为 JSON 文件；交给 AI 固化进 config.ts 成为代码级默认（先在各组件属性里点「存为默认样式」）"
+            onClick={() => {
+              const styleDefaults = readUserStyleDefaults();
+              if (!Object.keys(styleDefaults).length) {
+                window.alert('还没有保存过任何默认样式：先在组件属性面板点「存为默认样式」。');
+                return;
+              }
+              const payload = {
+                version: 1,
+                exportedAt: new Date().toISOString(),
+                styleDefaults,
+              };
+              const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+              const url = URL.createObjectURL(blob);
+              const anchor = document.createElement('a');
+              anchor.href = url;
+              anchor.download = 'motioncaption-style-defaults.json';
+              anchor.click();
+              URL.revokeObjectURL(url);
+            }}
+          >导出默认样式</button>
           <button
             type="button"
             aria-label="同步组件 Skill"

@@ -189,7 +189,12 @@ describe('generated component skill', () => {
     const formalItems = effect.props[key] as Array<Record<string, unknown>>;
     expect(formalItems.map((item) => Object.fromEntries(safe.map((field) => [field, item[field]]))), id)
       .toEqual(items);
-    expect(formalItems.every((item) => locked in item), id).toBe(true);
+    if (locked === 'at') {
+      // at 是渲染层契约字段：AI 未提供时不注入任何默认值（渲染器回退均匀节奏）
+      expect(formalItems.every((item) => !(locked in item)), id).toBe(true);
+    } else {
+      expect(formalItems.every((item) => locked in item), id).toBe(true);
+    }
 
     const provider = EffectInstanceFrame({ effect }) as any;
     expect(provider.type, id).toBe(ConfigProvider);
@@ -219,10 +224,41 @@ describe('generated component skill', () => {
       }] }],
     } as const;
 
+    // locked='at' 是合法的可选数值字段：非数值仍报 content_type；其余锁定字段报 unknown_content_field
     expect(validateAgentDraft(draft, input).errors).toContainEqual(expect.objectContaining({
-      code: 'unknown_content_field',
+      code: locked === 'at' ? 'content_type' : 'unknown_content_field',
       path: ['scenes', 0, 'components', 0, 'content', key, 0, locked],
     }));
+  });
+
+  it('t3-04 accepts a numeric at and preserves it through compile', () => {
+    const content = {
+      ...editableDefaults('t3-04'),
+      rows: [
+        { k: '延迟', v: '10ms', d: '低延迟', at: 1.5 },
+        { k: '功耗', v: '20W', d: '低功耗' },
+      ],
+    };
+    const cue = { cueId: 'cue-1', startMs: 0, endMs: 4000, text: JSON.stringify(content) };
+    const input = {
+      kind: 'captionforge.agent-input', schemaVersion: 1, componentLibraryVersion: 1,
+      video: { width: 1920, height: 1080, fps: 30, durationMs: 4000 }, cues: [cue],
+    } as const;
+    const draft = {
+      kind: 'captionforge.agent-draft', schemaVersion: 1, componentLibraryVersion: 1,
+      scenes: [{ sceneId: 'scene-1', sourceCueIds: ['cue-1'], components: [{
+        componentId: 't3-04', componentVersion: 1, role: 'items', content,
+      }] }],
+    } as const;
+
+    expect(validateAgentDraft(draft, input).errors).toEqual([]);
+    const [effect] = compileAgentDraft({
+      kind: 'captionforge.project', schemaVersion: 1,
+      video: { width: 1920, height: 1080, fps: 30, durationInFrames: 120 }, cues: [cue], effects: [],
+    }, draft, { createInstanceId: () => 'effect-at' });
+    const rows = effect.props.rows as Array<Record<string, unknown>>;
+    expect(rows[0].at).toBe(1.5);   // 数值 at 透传
+    expect('at' in rows[1]).toBe(false); // 未提供的条目不注入默认值
   });
 
   it('is byte-stable with sorted categories, IDs, properties, and JSON keys', () => {

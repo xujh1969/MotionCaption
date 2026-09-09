@@ -28,11 +28,13 @@ interface TextProps {
   /** 单行自适应：文本超出 maxWidth 时等比例缩小字号，保持不折行不重叠。 */
   autoShrink?: boolean;
   maxWidth?: number;
+  /** 显式行高（倍数）。缺省 wrap=1.35、单行=浏览器默认（不可靠，依赖行高做定位时必须显式给出）。 */
+  lineHeight?: number;
 }
 
 const T: React.FC<TextProps> = ({
   x, y, size, weight = 'Heavy', color, align = 'left', text, opacity = 1,
-  translateY = 0, scale = 1, letterSpacing = 0, wrap = false, autoShrink = false, maxWidth,
+  translateY = 0, scale = 1, letterSpacing = 0, wrap = false, autoShrink = false, maxWidth, lineHeight,
 }) => {
   const fitted = autoShrink && maxWidth && text
     ? Math.max(0.5, Math.min(1, maxWidth / Math.max(1, measureText(text, size, weight))))
@@ -49,7 +51,7 @@ const T: React.FC<TextProps> = ({
         textAlign: align,
         whiteSpace: wrap && !autoShrink ? 'normal' : 'nowrap',
         maxWidth,
-        lineHeight: wrap && !autoShrink ? 1.35 : undefined,
+        lineHeight: lineHeight ?? (wrap && !autoShrink ? 1.35 : undefined),
         opacity,
         transform: `translateY(${translateY}px) scale(${scale})`,
         transformOrigin: align === 'right' ? 'right top' : 'left top',
@@ -277,7 +279,8 @@ export const T1_07: React.FC = () => {
   const descSize = useConfigKey('t1-07', 'descSize') as number;
   const topText = useConfigKey('t1-07', 'topText') as string;
   const descText = useConfigKey('t1-07', 'descText') as string;
-  const kickerY = kickerSize + 12;
+  const kickerY = kickerSize + 34;
+  const titleGap = (useConfigKey('t1-07', 'titleGap') as number) ?? 44;
   const posX = (useConfigKey('t1-07', 'posX') as number) ?? 130;
   const posY = (useConfigKey('t1-07', 'posY') as number) ?? 200;
   const scale = (useConfigKey('t1-07', 'scale') as number) ?? 100;
@@ -286,11 +289,11 @@ export const T1_07: React.FC = () => {
       {/* 第一行：顶部文字（kicker），文案/字号/颜色均可由属性修改 */}
       <T x={0} y={0} size={kickerSize} weight="Bold" color={kickerColor}
         text={kickerText} opacity={bg} letterSpacing={4} />
-      {/* 第二行：主标题（与第一行分离，避免重叠） */}
+      {/* 第二行：主标题（与第一行分离，避免重叠；显式行高 1.2 保证定位可计算） */}
       <T x={0} y={kickerY} size={topSize} weight="Heavy" color={topColor}
-        text={topText} opacity={title.opacity} translateY={title.translateY} scale={title.scale} autoShrink maxWidth={570} />
-      {/* 第三行：辅助说明小字（字号显著更小） */}
-      <T x={0} y={kickerY + topSize + 14} size={descSize} weight="Regular" color={COLORS.textSecondary}
+        text={topText} opacity={title.opacity} translateY={title.translateY} scale={title.scale} autoShrink maxWidth={570} lineHeight={1.2} />
+      {/* 第三行：辅助说明小字（字号显著更小，与主标题之间留 titleGap 间距） */}
+      <T x={0} y={kickerY + topSize * 1.2 + titleGap} size={descSize} weight="Regular" color={COLORS.textSecondary}
         text={descText} opacity={desc.opacity} translateY={desc.translateY} wrap maxWidth={570} />
     </div>
   );

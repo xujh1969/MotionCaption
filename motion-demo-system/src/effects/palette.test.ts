@@ -9,6 +9,7 @@ import {
 import {
   applyPaletteToInstance,
   applyStylesToTarget,
+  collectInstanceSnapshot,
   collectStyleValues,
   mergeUserStyleDefaults,
   styleKeysOf,
@@ -96,6 +97,15 @@ describe('stylePrefs pure helpers', () => {
   it('collectStyleValues only picks style keys with scalar values', () => {
     const values = collectStyleValues(fx05, { title1: '文本', titleSize: 44, titleColor: '#fff', posX: 100, tags: '["x"]' });
     expect(values).toEqual({ titleSize: 44, titleColor: '#fff' });
+  });
+
+  it('collectInstanceSnapshot keeps content and layout keys (posX/posY/scale)', () => {
+    const values = collectInstanceSnapshot(fx05, {
+      title1: '自定义标题', tags: '[{"label":"A"}]', titleSize: 44, titleColor: '#fff', posX: 100, posY: 200, scale: 120,
+    });
+    expect(values).toEqual({
+      title1: '自定义标题', tags: '[{"label":"A"}]', titleSize: 44, titleColor: '#fff', posX: 100, posY: 200, scale: 120,
+    });
   });
 
   it('mergeUserStyleDefaults overrides only recorded keys', () => {

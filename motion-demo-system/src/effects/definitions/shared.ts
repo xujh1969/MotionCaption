@@ -4,10 +4,11 @@ import {
   adaptLegacyComponent,
   applySelectionDraft,
   legacyPropIsAgentEditable,
+  METRIC_NUMBER_KEYS as metricKeys,
 } from '../legacyAdapter';
 import type { EffectDefinition, SemanticRole } from '../types';
 
-const metricKeys = new Set(['value', 'valueL', 'valueR', 'percent']);
+
 const semanticRoleOf = (definition: PropDef): SemanticRole | undefined => {
   if (definition.kind === 'list') return 'items';
   if (definition.kind === 'number') return metricKeys.has(definition.key) ? 'metric' : undefined;
@@ -65,8 +66,19 @@ const selectionMetadata: Record<string, SelectionMetadata> = {
   't3-03': { suitableFor: ['Two-value metric comparison.'], avoidFor: [dataAvoid] },
   't3-04': { suitableFor: ['Multi-row key-value data display with 2-4 rows.'], avoidFor: ['Avoid narrative paragraphs, processes, timelines, and more than 4 rows.'], minItems: 2, maxItems: 4 },
 
+  't3-05': { suitableFor: ['KPI, result, or performance metrics with 2-3 cards where each metric needs a number and a unit.'], avoidFor: ['Avoid narrative prose, processes, timelines, charts, and more than 3 cards.'], minItems: 2, maxItems: 3, motion: '卡片自左向右逐个渐亮（0.18→1.0，每张约 500ms），数字同步滚动计数（约 800ms 静止），底部迷你条形随点亮生长。' },
+  't3-06': { suitableFor: ['Two-sided comparison such as old vs new or plan A vs plan B, with 1-2 comparison groups and 2-3 bullet points per side.'], avoidFor: ['Avoid single-sided lists, metrics without contrast, timelines, and more than 2 groups.'], minItems: 1, maxItems: 2, motion: '按「组」依次入场（每组约 500ms），组内左右两张卡片同步点亮，要点条目逐行小延迟跟进。' },
+
   't4-01': { suitableFor: ['Process or step explanation with 2-4 steps.'], avoidFor: ['Avoid scalar summaries, unrelated charts, and more than 4 steps.'], minItems: 2, maxItems: 4 },
   't4-02': { suitableFor: ['Stage progression or process timeline with 2-4 nodes.'], avoidFor: ['Avoid unrelated prose, metrics, charts, and more than 4 nodes.'], minItems: 2, maxItems: 4 },
+  't4-03': { suitableFor: ['Linear process, decision chain, or execution pipeline where steps complete one after another; 2-4 arrow-connected cards.'], avoidFor: ['Avoid unordered parallel points, metric comparisons, charts, and more than 4 cards.'], minItems: 2, maxItems: 4, motion: '小标题与主标题先淡入；卡片自左向右逐个渐亮（0.15→1.0，每项约 500ms），箭头跟随左侧卡片颜色同步点亮，已点亮的不褪色。' },
+  't4-04': { suitableFor: ['Additive composition where several elements combine into one result (A + B + C); 2-4 cards.'], avoidFor: ['Avoid sequential cause-effect processes, metrics, charts, and more than 4 cards.'], minItems: 2, maxItems: 4, motion: '卡片与「+」连接符自左向右逐个渐亮（0.18→1.0，每项约 480ms），加号与右侧卡片同步点亮。' },
+  't4-05': { suitableFor: ['Parallel peer items such as capability, task, or acceptance checklists with 2-4 cards and no connectors.'], avoidFor: ['Avoid sequential processes, cause-effect chains, metrics, and more than 4 cards.'], minItems: 2, maxItems: 4, motion: '并列卡片各自独立渐亮（0.18→1.0，每张约 480ms），对勾标记同步清晰化，无连接线。' },
+  't4-06': { suitableFor: ['Ordered numbered steps where each card carries a title and a one-line subtitle; 2-4 cards.'], avoidFor: ['Avoid unordered lists, metrics, charts, and more than 4 cards.'], minItems: 2, maxItems: 4, motion: '序号步骤卡片自左向右逐个渐亮（0.18→1.0，每张约 500ms），序号与边框同色，点亮后带同色外发光。' },
+
+  't4-07': { suitableFor: ['Linear ordered steps with 2-4 arrow-connected cards where each step carries a title and a one-line description.'], avoidFor: ['Avoid unordered parallel points, metrics, charts, and more than 4 cards.'], minItems: 2, maxItems: 4, motion: '卡片自左向右逐个渐亮（0.18→1.0，每张约 500ms），前一卡到当前卡的箭头同步点亮并继承左侧卡片颜色，已走过的箭头保持高亮。' },
+  't4-08': { suitableFor: ['Parallel capability, feature, or value-point inventory with 2-4 cards, each with an icon, a title, and a short line.'], avoidFor: ['Avoid sequential cause-effect processes, metrics, charts, and more than 4 cards.'], minItems: 2, maxItems: 4, motion: '卡片逐个渐亮（0.18→1.0，每张约 480ms），点亮后图标带 1400ms 周期的呼吸光，未入场无光效。' },
+  't4-09': { suitableFor: ['Short keyword, feature tag, or concept highlights with 2-5 badges and no subtitles.'], avoidFor: ['Avoid long sentences, paragraphs, metrics, processes, and more than 5 badges.'], minItems: 2, maxItems: 5, motion: '胶囊标签自左向右快速渐亮（0.18→1.0，每个约 380ms），前置小圆点同步点亮。' },
 
   't5-01': { suitableFor: ['Vertical capability or item list with 2-3 items.'], avoidFor: ['Avoid charts, long paragraphs, and more than 3 items.'], minItems: 2, maxItems: 3 },
   't5-02': { suitableFor: ['Status-tagged task list with 2-3 items.'], avoidFor: ['Avoid charts, long paragraphs, and more than 3 items.'], minItems: 2, maxItems: 3 },
@@ -83,12 +95,19 @@ const selectionMetadata: Record<string, SelectionMetadata> = {
   't6-06': { suitableFor: ['Iterative multi-step process with 2-4 steps.'], avoidFor: ['Avoid unrelated prose, metrics, charts, and more than 4 steps.'], minItems: 2, maxItems: 4 },
   't6-07': { suitableFor: ['Vertical ordered steps where each step is narrated in its own cue and should be highlighted one by one (focus-scroll stepper).'], avoidFor: ['Avoid scalar summaries, unordered lists, metric charts, and more than 5 items.'], minItems: 2, maxItems: 5, motion: '左侧安全区步骤列表（序号方块+连接线+步骤文本）：首条即高亮，之后每条目在自身时段渐入放大成当前焦点（前一条目同步缩小变白），连接线红色段逐段下行，末段整体 600ms 淡出。' },
 
+  't6-08': { suitableFor: ['Many ordered steps that no longer fit horizontally; use 2-5 vertical stack entries narrated one by one.'], avoidFor: ['Avoid unordered lists, scalar summaries, metric charts, and more than 5 entries.'], minItems: 2, maxItems: 5, motion: '条目自上而下依次渐亮（0.18→1.0，每条约 420ms），序号块随进度点亮（当前红、已过转灰），垂向连接线红色段同步向下延伸。' },
+
   't7-01': { suitableFor: ['Vertical category-value comparison with 2-4 bars.'], avoidFor: ['Avoid large datasets, precision analysis, complex axes, and more than 4 bars.'], minItems: 2, maxItems: 4 },
   't7-02': { suitableFor: ['Horizontal ranking or option comparison with 2-3 bars.'], avoidFor: ['Avoid large datasets, precision analysis, complex axes, and more than 3 bars.'], minItems: 2, maxItems: 3 },
   't7-03': { suitableFor: ['Composition or proportion with 2-3 segments; total should be 100 percent.'], avoidFor: ['Avoid large datasets, precision analysis, complex axes, and more than 3 segments.'], minItems: 2, maxItems: 3 },
   't7-04': { suitableFor: ['Two-subject trend comparison with exactly 2 lines and 3-6 time points.'], avoidFor: ['Avoid more than 2 lines, fewer than 3 or more than 6 time points, large datasets, and complex axes.'], minItems: 2, maxItems: 2 },
   't7-05': { suitableFor: ['KPI snapshot cards with 2-3 cards.'], avoidFor: ['Avoid large datasets, precision analysis, complex axes, and more than 3 cards.'], minItems: 2, maxItems: 3 },
   't7-06': { suitableFor: ['Single completion rate, score, or percentage from 0-100 percent.'], avoidFor: ['Avoid large datasets, precision analysis, complex axes, and multiple metrics.'] },
+  't7-07': { suitableFor: ['Grouped A/B metric comparison with 2-4 categories and two series per category.'], avoidFor: ['Avoid single-series data, large datasets, precision analysis, complex axes, and more than 4 categories.'], minItems: 2, maxItems: 4, motion: '容器先整体渐亮，类别自左向右依次点亮，条形从 0 向上生长（约 600ms）并带单次斜向扫光。' },
+  't7-08': { suitableFor: ['Time-series trend or growth curve with 3-6 sequential points.'], avoidFor: ['Avoid categorical comparisons, large datasets, complex axes, and fewer than 3 or more than 6 points.'], minItems: 3, maxItems: 6, motion: '折线自左向右生长绘制（约 700ms），数据点依次点亮（间隔约 180ms），绘制完成后光点沿折线循环巡游。' },
+  't7-09': { suitableFor: ['Composition, share, or resource allocation with 2-4 ring segments; percentages should total 100.'], avoidFor: ['Avoid large datasets, precision analysis, time series, and more than 4 segments.'], minItems: 2, maxItems: 4, motion: '环形分段按数组顺序依次生长填充（每段约 550ms），中心数字同步计数跳变，图例随之点亮。' },
+  't7-10': { suitableFor: ['Real-time signal, data stream, or performance fluctuation shown as a HUD waveform.'], avoidFor: ['Avoid categorical comparisons, large datasets, and precise labelled axes.'], motion: '波形自左向右一次性绘制（约 650ms），绘制完成后持续循环微小上下波动，模拟实时信号。' },
+  't7-11': { suitableFor: ['Multi-dimensional capability scoring with 3-6 radar axes, each vertex scored 0-1 or 0-100.'], avoidFor: ['Avoid time series, categorical bar comparisons, large datasets, and fewer than 3 axes.'], minItems: 3, maxItems: 6, motion: '顶点按数组顺序依次点亮（间隔约 200ms），多边形轮廓随顶点逐个生长闭合，全部点亮后轮廓光点循环绕行。' },
 };
 
 const buildDefinition = (id: string): EffectDefinition => {

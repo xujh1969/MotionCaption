@@ -2,6 +2,7 @@ import { compileAgentDraft } from '../project/compileDraft';
 import type { AgentDraft, MotionProject } from '../project/types';
 import type { TrackAllocationOptions } from '../project/trackAllocation';
 import { validateAgentDraft, type DraftDiagnostic } from '../project/validateDraft';
+import type { UserStyleDefaults } from '../effects/stylePrefs';
 
 export type AgentImportResult =
   | { ok: true; project: MotionProject; warnings: DraftDiagnostic[] }
@@ -10,7 +11,7 @@ export type AgentImportResult =
 export function importAgentSequence(
   project: MotionProject,
   draft: AgentDraft,
-  options: TrackAllocationOptions = {},
+  options: TrackAllocationOptions & { userStyleDefaults?: UserStyleDefaults } = {},
 ): AgentImportResult {
   // Self-contained drafts embed their own subtitle track; legacy drafts rely on
   // the project's already-imported cues. When embedded cues exist they are the
@@ -50,7 +51,10 @@ export function importAgentSequence(
   }
 
   try {
-    const effects = compileAgentDraft(workingProject, draft, { searchStepLimit: options.searchStepLimit });
+    const effects = compileAgentDraft(workingProject, draft, {
+      searchStepLimit: options.searchStepLimit,
+      userStyleDefaults: options.userStyleDefaults,
+    });
     return {
       ok: true,
       project: { ...workingProject, effects },

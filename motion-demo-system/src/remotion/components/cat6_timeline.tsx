@@ -1,7 +1,7 @@
 import React from 'react';
 import { Easing, useCurrentFrame, interpolate, useVideoConfig } from 'remotion';
 import { COLORS, FONT_STACK } from '../theme';
-import { easeOutExpo, useEnter, useEnterOpacity, useBreath, useGrowDown, useGrow, useCount } from '../anim';
+import { easeOutExpo, useEnter, useEnterOpacity, useBreath, useGrowDown, useGrow, useCount, atFrames } from '../anim';
 import { useConfigKey, useConfigList, useEffectClipLength } from '../config';
 import { weightNum, measureText } from '../measure';
 import { tint, mixColor } from './shared';
@@ -52,10 +52,11 @@ export const T6_01: React.FC = () => {
       }} />
       {list.map((n, i) => {
         const y = trackTop + i * nodeGap;
-        const dotO = useEnterOpacity(frame, 26 + i * 16);
-        const timeO = useEnterOpacity(frame, 32 + i * 16);
-        const tO = useEnterOpacity(frame, 40 + i * 16);
-        const dO = useEnterOpacity(frame, 48 + i * 16);
+        const d = atFrames(n, i, 26, 16);
+        const dotO = useEnterOpacity(frame, d);
+        const timeO = useEnterOpacity(frame, d + 6);
+        const tO = useEnterOpacity(frame, d + 14);
+        const dO = useEnterOpacity(frame, d + 22);
         const isActive = i === 1;
         return (
           <div key={`n${i}`} style={{ position: 'absolute', left: 0, top: 0 }}>
@@ -95,7 +96,7 @@ export const T6_02: React.FC = () => {
   const descGap = 10;                // 节点标题与说明的间距
   const nodeH = nodeTitle + descGap + descSize + 32; // 卡片高度随字号自适应（上下各16px留白）
   const startX = 0;
-  const nodeO = list.map((_, i) => useEnterOpacity(frame, i * 16 + 24));
+  const nodeO = list.map((n, i) => useEnterOpacity(frame, atFrames(n, i, 24, 16)));
   const nodeTop = titleSize + 36;    // 标题下 36px
   const arrowY = nodeTop + nodeH / 2 - 1; // 箭头垂直对齐卡片中线
   return (
@@ -114,7 +115,8 @@ export const T6_02: React.FC = () => {
         </div>
       ))}
       {list.slice(0, -1).map((_, i) => {
-        const aP = useGrow(frame, 24 + i * 16, 26);
+        // 箭头 i 连接节点 i→i+1：跟随下一节点的出现时机生长
+        const aP = useGrow(frame, atFrames(list[i + 1], i + 1, 24, 16), 26);
         const flow = interpolate((frame + 50 + i * 20) % 46, [0, 45], [0, 1]);
         return drawArrow(startX + (i + 1) * nodeW + i * gapH, arrowY, gapH - 8, aP, flow, arrowColor);
       })}
@@ -364,8 +366,8 @@ export const T6_05: React.FC = () => {
         const cy = firstCy + i * nodeGap;
         // 标题+英文说明视为整体，其垂直中线与序号水平中线(cy)对齐
         const blockTop = cy - (nodeSize + enGap + enSize) / 2;
-        // 节点逐个串行入场：每个整套 0.7s(21帧)，间隔 8 帧停顿
-        const st = 36 + i * (21 + 8);
+        // 节点逐个串行入场：每个整套 0.7s(21帧)，间隔 8 帧停顿；row.at 优先（秒→帧）
+        const st = atFrames(n, i, 36, 29);
         const circleO = interpolate(frame, [st, st + 7], [0, 1], { easing: easeOutExpo, extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
         const circleS = interpolate(frame, [st, st + 13], [0.3, 1], { easing: Easing.out(Easing.back(1.6)), extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
         const titleP = interpolate(frame, [st + 5, st + 16], [0, 1], { easing: easeOutExpo, extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
@@ -449,7 +451,7 @@ export const T6_06: React.FC = () => {
       {/* 步骤序列（锚点 y:360，水平间距 stepGap） */}
       <div style={{ position: 'absolute', left: 40, top: 360, display: 'flex', alignItems: 'center', gap: stepGap }}>
         {list.map((s, i) => {
-          const delay = stepDelay + i * 20;
+          const delay = atFrames(s, i, stepDelay, 20);
           const p = interpolate(frame, [delay, delay + stepDur], [0, 1], { easing: easeOutExpo, extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
           const opacity = 0.22 + 0.78 * p;
           // 上浮带轻微物理回弹（Hyperframes 式弹簧感，过冲幅度克制），结束归位
@@ -518,7 +520,10 @@ export const T6_07: React.FC = () => {
   const Tf = msToF(stepMs);          // 步骤焦点切换过渡
   const exitF = msToF(600);          // 整体出场淡出
   const introF = msToF(300);         // 入场淡入
-  const seg = Math.max(1, Math.max(0, clipFrames - exitF) / n); // 每条目焦点窗口
+  const seg = Math.max(1, Math.max(0, clipFrames - exitF) / n); // 每条目焦点窗口（均匀回退）
+  // row.at（秒）优先：每条目在其字幕对应时刻成为焦点；无 at 回退均分窗口
+  const hasAt = list.some((item) => Number.isFinite(Number((item as { at?: unknown }).at)));
+  const actStartOf = (i: number) => (hasAt ? atFrames(list[i], i, 0, 0) : i * seg);
 
   const hasTitle = typeof titleText === 'string' && titleText.trim().length > 0;
   const listTop = hasTitle ? titleSize + 54 : 0; // 首行顶部（标题下方留 54px 呼吸）
@@ -536,17 +541,19 @@ export const T6_07: React.FC = () => {
   });
   const groupOp = groupIn * groupOut;
 
-  // 焦点序号：f = floor(frame / seg)，随新行到达逐步下移
-  const focus = Math.max(0, Math.min(n - 1, Math.floor(frame / seg)));
+  // 焦点序号：f = 最后一个已到达的条目（at 模式按 actStart 判定，回退模式按均分窗口）
+  let focus = 0;
+  for (let i = 0; i < n; i++) if (frame >= actStartOf(i)) focus = i;
   // 连接线：已走过的红色段自顶向下生长
   const trackH = rowBottom(n - 1) - listTop;
   const redGrow = interpolate(frame, [0, introF], [0, 1], {
     easing: easeOutExpo, extrapolateLeft: 'clamp', extrapolateRight: 'clamp',
   });
+  const focusStart = actStartOf(focus);
   const redEnd = focus === 0
     ? (listTop + (rowBottom(0) - listTop) * redGrow)
     : (rowBottom(focus - 1) + (rowBottom(focus) - rowBottom(focus - 1))
-      * interpolate(frame, [focus * seg, focus * seg + Tf], [0, 1], {
+      * interpolate(frame, [focusStart, focusStart + Tf], [0, 1], {
         easing: Easing.out(Easing.cubic), extrapolateLeft: 'clamp', extrapolateRight: 'clamp',
       }));
 
@@ -576,8 +583,8 @@ export const T6_07: React.FC = () => {
       {/* 行条目 */}
       {list.map((item, i) => {
         const label = String(item.label ?? '');
-        const actStart = i * seg;
-        const pastStart = i < n - 1 ? (i + 1) * seg : null;
+        const actStart = actStartOf(i);
+        const pastStart = i < n - 1 ? actStartOf(i + 1) : null;
         if (i > 0 && frame < actStart) return <div key={i} />; // 未到达：占位隐藏
         const aIn = i === 0 ? 1 : easeOutCubic((frame - actStart) / Tf); // 到达入场
         const past = pastStart !== null && frame >= pastStart;

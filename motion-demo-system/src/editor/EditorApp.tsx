@@ -11,6 +11,7 @@ import { SkillSyncDialog } from './SkillSyncDialog';
 import { resolveNativeBridge, type NativeBridge } from '../tauri/bridge';
 import { describeSkillComponent, diffComponentSkill, type ComponentManifest, type ComponentSkillDiff } from '../skill/sync';
 import { effectRegistry } from '../effects/registry';
+import { readUserStyleDefaults } from '../effects/stylePrefs';
 import componentManifest from '../agent/generated/componentManifest.json';
 import { ComponentLibrary } from './ComponentLibrary';
 import { InspectorPanel } from './InspectorPanel';
@@ -262,7 +263,9 @@ export async function importAgentSequenceFile(
       };
     }
     const draft = parsed.data;
-    const result = importAgentSequence(project, draft);
+    const result = importAgentSequence(project, draft, {
+      userStyleDefaults: readUserStyleDefaults(),
+    });
     if (!result.ok) {
       return {
         ok: false,

@@ -4292,7 +4292,7 @@ function validateAgentDraftCore(draftValue, input, metaSource2, existingEffects 
           const listFieldsKeys = prop.listFieldsKeys;
           if (listFieldsKeys) {
             const editableFields = listFieldsKeys.filter((key2) => prop.agentEditableItemFields?.includes(key2));
-            const allowed = new Set(editableFields);
+            const allowed = /* @__PURE__ */ new Set([...editableFields, "at"]);
             value.forEach((item, itemIndex) => {
               if (!item || typeof item !== "object" || Array.isArray(item)) {
                 errors.push({ code: "content_type", message: `List item must be an object: ${key}`, path: [...path, "content", key, itemIndex] });
@@ -4306,6 +4306,12 @@ function validateAgentDraftCore(draftValue, input, metaSource2, existingEffects 
               for (const [itemKey, itemValue] of Object.entries(item)) {
                 if (!allowed.has(itemKey)) {
                   errors.push({ code: "unknown_content_field", message: `Unknown list item field: ${itemKey}`, path: [...path, "content", key, itemIndex, itemKey] });
+                } else if (itemKey === "at") {
+                  const n = typeof itemValue === "number" ? itemValue : typeof itemValue === "string" && itemValue.trim() !== "" ? Number(itemValue) : NaN;
+                  const unset = itemValue === null || typeof itemValue === "string" && itemValue.trim() === "";
+                  if (!unset && (!Number.isFinite(n) || n < 0)) {
+                    errors.push({ code: "content_type", message: `List item timing must be a non-negative number: ${key}`, path: [...path, "content", key, itemIndex, itemKey] });
+                  }
                 } else if (typeof itemValue !== "string") {
                   errors.push({ code: "content_type", message: `List item field must be text: ${itemKey}`, path: [...path, "content", key, itemIndex, itemKey] });
                 }

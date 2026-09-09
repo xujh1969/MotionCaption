@@ -464,6 +464,202 @@
     },
     {
       "avoidFor": [
+        "Avoid narrative prose, processes, timelines, charts, and more than 3 cards."
+      ],
+      "capacity": {
+        "maxItems": 3,
+        "minItems": 2
+      },
+      "category": "data-show",
+      "componentVersion": 1,
+      "content": {
+        "items": {
+          "constraints": "2-3 items; all listed item fields are required strings",
+          "default": [
+            {
+              "desc": "满负载稳定",
+              "name": "推理速度",
+              "num": "92",
+              "trend": "40,55,70,92",
+              "unit": "ms"
+            },
+            {
+              "desc": "较上版优化",
+              "name": "内存占用",
+              "num": "48",
+              "trend": "65,60,52,48",
+              "unit": "%"
+            },
+            {
+              "desc": "万次测试",
+              "name": "成功率",
+              "num": "99.6",
+              "trend": "95,97,98,99.6",
+              "unit": "%"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "desc",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "name",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "num",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "trend",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "unit",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 3,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        }
+      },
+      "id": "t3-05",
+      "motionFeel": "卡片自左向右逐个渐亮（0.18→1.0，每张约 500ms），数字同步滚动计数（约 800ms 静止），底部迷你条形随点亮生长。",
+      "name": "横向指标数据卡片(数字滚动+迷你条形)",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 480,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t3-05.md",
+      "selectionSummary": "横向指标数据卡片(数字滚动+迷你条形)",
+      "semanticFamilies": [
+        "items"
+      ],
+      "suitableFor": [
+        "KPI, result, or performance metrics with 2-3 cards where each metric needs a number and a unit."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid single-sided lists, metrics without contrast, timelines, and more than 2 groups."
+      ],
+      "capacity": {
+        "maxItems": 2,
+        "minItems": 1
+      },
+      "category": "data-show",
+      "componentVersion": 1,
+      "content": {
+        "groups": {
+          "constraints": "1-2 items; all listed item fields are required strings",
+          "default": [
+            {
+              "pointsA": "部署复杂|成本较高|扩展有限",
+              "pointsB": "开箱即用|成本更低|弹性扩展",
+              "titleA": "传统方案",
+              "titleB": "新方案"
+            },
+            {
+              "pointsA": "单机运行|无容灾",
+              "pointsB": "集群部署|自动容灾",
+              "titleA": "方案一",
+              "titleB": "方案二"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "pointsA",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "pointsB",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "titleA",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "titleB",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 1,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "markA": {
+          "constraints": "none beyond the declared type",
+          "default": "✗",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "markB": {
+          "constraints": "none beyond the declared type",
+          "default": "✓",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        }
+      },
+      "id": "t3-06",
+      "motionFeel": "按「组」依次入场（每组约 500ms），组内左右两张卡片同步点亮，要点条目逐行小延迟跟进。",
+      "name": "横向对比双列卡片组(正反对照)",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 480,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "items",
+          "label"
+        ]
+      },
+      "referencePath": "references/components/t3-06.md",
+      "selectionSummary": "横向对比双列卡片组(正反对照)",
+      "semanticFamilies": [
+        "items",
+        "label"
+      ],
+      "suitableFor": [
+        "Two-sided comparison such as old vs new or plan A vs plan B, with 1-2 comparison groups and 2-3 bullet points per side."
+      ]
+    },
+    {
+      "avoidFor": [
         "Avoid scalar summaries, unrelated charts, and more than 4 steps."
       ],
       "capacity": {
@@ -639,6 +835,520 @@
       ],
       "suitableFor": [
         "Stage progression or process timeline with 2-4 nodes."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid unordered parallel points, metric comparisons, charts, and more than 4 cards."
+      ],
+      "capacity": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "category": "flow-track",
+      "componentVersion": 1,
+      "content": {
+        "items": {
+          "constraints": "2-4 items; all listed item fields are required strings",
+          "default": [
+            {
+              "label": "明确目标"
+            },
+            {
+              "label": "拆解路径"
+            },
+            {
+              "label": "验收结果"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "label",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 4,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "kickerText": {
+          "constraints": "none beyond the declared type",
+          "default": "WORKFLOW",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "titleText": {
+          "constraints": "none beyond the declared type",
+          "default": "执行链路三步走",
+          "required": true,
+          "role": "content",
+          "semanticRole": "title",
+          "type": "text"
+        }
+      },
+      "id": "t4-03",
+      "motionFeel": "小标题与主标题先淡入；卡片自左向右逐个渐亮（0.15→1.0，每项约 500ms），箭头跟随左侧卡片颜色同步点亮，已点亮的不褪色。",
+      "name": "横向串联流程卡片(箭头依次点亮)",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "title",
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t4-03.md",
+      "selectionSummary": "横向串联流程卡片(箭头依次点亮)",
+      "semanticFamilies": [
+        "title",
+        "items"
+      ],
+      "suitableFor": [
+        "Linear process, decision chain, or execution pipeline where steps complete one after another; 2-4 arrow-connected cards."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid sequential cause-effect processes, metrics, charts, and more than 4 cards."
+      ],
+      "capacity": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "category": "flow-track",
+      "componentVersion": 1,
+      "content": {
+        "items": {
+          "constraints": "2-4 items; all listed item fields are required strings",
+          "default": [
+            {
+              "label": "页面结构"
+            },
+            {
+              "label": "操作流程"
+            },
+            {
+              "label": "最小功能"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "label",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 4,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        }
+      },
+      "id": "t4-04",
+      "motionFeel": "卡片与「+」连接符自左向右逐个渐亮（0.18→1.0，每项约 480ms），加号与右侧卡片同步点亮。",
+      "name": "横向相加串联卡片(+号依次点亮)",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t4-04.md",
+      "selectionSummary": "横向相加串联卡片(+号依次点亮)",
+      "semanticFamilies": [
+        "items"
+      ],
+      "suitableFor": [
+        "Additive composition where several elements combine into one result (A + B + C); 2-4 cards."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid sequential processes, cause-effect chains, metrics, and more than 4 cards."
+      ],
+      "capacity": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "category": "flow-track",
+      "componentVersion": 1,
+      "content": {
+        "items": {
+          "constraints": "2-4 items; all listed item fields are required strings",
+          "default": [
+            {
+              "label": "计划"
+            },
+            {
+              "label": "网页工具"
+            },
+            {
+              "label": "真实实验收"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "label",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 4,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        }
+      },
+      "id": "t4-05",
+      "motionFeel": "并列卡片各自独立渐亮（0.18→1.0，每张约 480ms），对勾标记同步清晰化，无连接线。",
+      "name": "横向并列勾选卡片(逐项打勾)",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 160.9863490101186,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t4-05.md",
+      "selectionSummary": "横向并列勾选卡片(逐项打勾)",
+      "semanticFamilies": [
+        "items"
+      ],
+      "suitableFor": [
+        "Parallel peer items such as capability, task, or acceptance checklists with 2-4 cards and no connectors."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid unordered lists, metrics, charts, and more than 4 cards."
+      ],
+      "capacity": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "category": "flow-track",
+      "componentVersion": 1,
+      "content": {
+        "items": {
+          "constraints": "2-4 items; all listed item fields are required strings",
+          "default": [
+            {
+              "indexText": "01",
+              "label": "七天学习计划",
+              "subLabel": "把混乱方向变成可执行路线"
+            },
+            {
+              "indexText": "02",
+              "label": "安全整理表格",
+              "subLabel": "先诊断·再确认·结果另存"
+            },
+            {
+              "indexText": "03",
+              "label": "浏览器小工具",
+              "subLabel": "学习进度与笔记真正落地"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "indexText",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "label",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "subLabel",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 4,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        }
+      },
+      "id": "t4-06",
+      "motionFeel": "序号步骤卡片自左向右逐个渐亮（0.18→1.0，每张约 500ms），序号与边框同色，点亮后带同色外发光。",
+      "name": "横向序号步骤卡片(序号+主副标题)",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t4-06.md",
+      "selectionSummary": "横向序号步骤卡片(序号+主副标题)",
+      "semanticFamilies": [
+        "items"
+      ],
+      "suitableFor": [
+        "Ordered numbered steps where each card carries a title and a one-line subtitle; 2-4 cards."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid unordered parallel points, metrics, charts, and more than 4 cards."
+      ],
+      "capacity": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "category": "flow-track",
+      "componentVersion": 1,
+      "content": {
+        "items": {
+          "constraints": "2-4 items; all listed item fields are required strings",
+          "default": [
+            {
+              "desc": "明确关键结果",
+              "index": "01",
+              "title": "拆解目标"
+            },
+            {
+              "desc": "拆成可执行项",
+              "index": "02",
+              "title": "列出动作"
+            },
+            {
+              "desc": "按依赖排步",
+              "index": "03",
+              "title": "排定顺序"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "desc",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "index",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "title",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 4,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        }
+      },
+      "id": "t4-07",
+      "motionFeel": "卡片自左向右逐个渐亮（0.18→1.0，每张约 500ms），前一卡到当前卡的箭头同步点亮并继承左侧卡片颜色，已走过的箭头保持高亮。",
+      "name": "横向递进箭头串联步骤卡片(序号+描述)",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t4-07.md",
+      "selectionSummary": "横向递进箭头串联步骤卡片(序号+描述)",
+      "semanticFamilies": [
+        "items"
+      ],
+      "suitableFor": [
+        "Linear ordered steps with 2-4 arrow-connected cards where each step carries a title and a one-line description."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid sequential cause-effect processes, metrics, charts, and more than 4 cards."
+      ],
+      "capacity": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "category": "flow-track",
+      "componentVersion": 1,
+      "content": {
+        "items": {
+          "constraints": "2-4 items; all listed item fields are required strings",
+          "default": [
+            {
+              "desc": "稳定可靠内核",
+              "icon": "⚙",
+              "title": "引擎"
+            },
+            {
+              "desc": "开放扩展能力",
+              "icon": "🔌",
+              "title": "插件"
+            },
+            {
+              "desc": "实时数据洞察",
+              "icon": "📊",
+              "title": "分析"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "desc",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "icon",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "title",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 4,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        }
+      },
+      "id": "t4-08",
+      "motionFeel": "卡片逐个渐亮（0.18→1.0，每张约 480ms），点亮后图标带 1400ms 周期的呼吸光，未入场无光效。",
+      "name": "横向图标标题卡片(图标呼吸光)",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t4-08.md",
+      "selectionSummary": "横向图标标题卡片(图标呼吸光)",
+      "semanticFamilies": [
+        "items"
+      ],
+      "suitableFor": [
+        "Parallel capability, feature, or value-point inventory with 2-4 cards, each with an icon, a title, and a short line."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid long sentences, paragraphs, metrics, processes, and more than 5 badges."
+      ],
+      "capacity": {
+        "maxItems": 5,
+        "minItems": 2
+      },
+      "category": "flow-track",
+      "componentVersion": 1,
+      "content": {
+        "items": {
+          "constraints": "2-5 items; all listed item fields are required strings",
+          "default": [
+            {
+              "label": "实时渲染"
+            },
+            {
+              "label": "所见即所得"
+            },
+            {
+              "label": "轻量高效"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "label",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 5,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        }
+      },
+      "id": "t4-09",
+      "motionFeel": "胶囊标签自左向右快速渐亮（0.18→1.0，每个约 380ms），前置小圆点同步点亮。",
+      "name": "横向标签徽章卡片(关键词快闪)",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 440,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t4-09.md",
+      "selectionSummary": "横向标签徽章卡片(关键词快闪)",
+      "semanticFamilies": [
+        "items"
+      ],
+      "suitableFor": [
+        "Short keyword, feature tag, or concept highlights with 2-5 badges and no subtitles."
       ]
     },
     {
@@ -1632,6 +2342,413 @@
     },
     {
       "avoidFor": [
+        "Avoid single-series data, large datasets, precision analysis, complex axes, and more than 4 categories."
+      ],
+      "capacity": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "category": "mini-chart",
+      "componentVersion": 1,
+      "content": {
+        "items": {
+          "constraints": "2-4 items; all listed item fields are required strings",
+          "default": [
+            {
+              "category": "模型A",
+              "valA": "82",
+              "valB": "64"
+            },
+            {
+              "category": "模型B",
+              "valA": "91",
+              "valB": "76"
+            },
+            {
+              "category": "模型C",
+              "valA": "77",
+              "valB": "88"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "category",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "valA",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "valB",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 4,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "legendA": {
+          "constraints": "none beyond the declared type",
+          "default": "本期",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "legendB": {
+          "constraints": "none beyond the declared type",
+          "default": "上期",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        }
+      },
+      "id": "t7-07",
+      "motionFeel": "容器先整体渐亮，类别自左向右依次点亮，条形从 0 向上生长（约 600ms）并带单次斜向扫光。",
+      "name": "横向分组条形图(A/B双序列对比)",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 500,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "items",
+          "label"
+        ]
+      },
+      "referencePath": "references/components/t7-07.md",
+      "selectionSummary": "横向分组条形图(A/B双序列对比)",
+      "semanticFamilies": [
+        "items",
+        "label"
+      ],
+      "suitableFor": [
+        "Grouped A/B metric comparison with 2-4 categories and two series per category."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid categorical comparisons, large datasets, complex axes, and fewer than 3 or more than 6 points."
+      ],
+      "capacity": {
+        "maxItems": 6,
+        "minItems": 3
+      },
+      "category": "mini-chart",
+      "componentVersion": 1,
+      "content": {
+        "items": {
+          "constraints": "3-6 items; all listed item fields are required strings",
+          "default": [
+            {
+              "value": "32",
+              "xLabel": "第1周"
+            },
+            {
+              "value": "48",
+              "xLabel": "第2周"
+            },
+            {
+              "value": "69",
+              "xLabel": "第3周"
+            },
+            {
+              "value": "84",
+              "xLabel": "第4周"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "value",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "xLabel",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 6,
+          "minItems": 3,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        }
+      },
+      "id": "t7-08",
+      "motionFeel": "折线自左向右生长绘制（约 700ms），数据点依次点亮（间隔约 180ms），绘制完成后光点沿折线循环巡游。",
+      "name": "折线趋势图(生长绘制+光点巡游)",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 500,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t7-08.md",
+      "selectionSummary": "折线趋势图(生长绘制+光点巡游)",
+      "semanticFamilies": [
+        "items"
+      ],
+      "suitableFor": [
+        "Time-series trend or growth curve with 3-6 sequential points."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid large datasets, precision analysis, time series, and more than 4 segments."
+      ],
+      "capacity": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "category": "mini-chart",
+      "componentVersion": 1,
+      "content": {
+        "centerDesc": {
+          "constraints": "none beyond the declared type",
+          "default": "资源占比",
+          "required": true,
+          "role": "content",
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "centerNum": {
+          "constraints": "minimum 0; maximum 100000",
+          "default": 100,
+          "max": 100000,
+          "min": 0,
+          "required": true,
+          "role": "content",
+          "semanticRole": "metric",
+          "type": "number"
+        },
+        "centerUnit": {
+          "constraints": "none beyond the declared type",
+          "default": "%",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "items": {
+          "constraints": "2-4 items; all listed item fields are required strings",
+          "default": [
+            {
+              "label": "算力",
+              "percent": "45"
+            },
+            {
+              "label": "存储",
+              "percent": "35"
+            },
+            {
+              "label": "网络",
+              "percent": "20"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "label",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "percent",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 4,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        }
+      },
+      "id": "t7-09",
+      "motionFeel": "环形分段按数组顺序依次生长填充（每段约 550ms），中心数字同步计数跳变，图例随之点亮。",
+      "name": "环形占比饼图(分段依次生长)",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 520,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "items",
+          "metric",
+          "label",
+          "body"
+        ]
+      },
+      "referencePath": "references/components/t7-09.md",
+      "selectionSummary": "环形占比饼图(分段依次生长)",
+      "semanticFamilies": [
+        "items",
+        "metric",
+        "label",
+        "body"
+      ],
+      "suitableFor": [
+        "Composition, share, or resource allocation with 2-4 ring segments; percentages should total 100."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid categorical comparisons, large datasets, and precise labelled axes."
+      ],
+      "category": "mini-chart",
+      "componentVersion": 1,
+      "content": {
+        "tickLabels": {
+          "constraints": "none beyond the declared type",
+          "default": "0s|1s|2s|3s",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "wavePoints": {
+          "constraints": "none beyond the declared type",
+          "default": "0.2,0.7,0.4,0.8,0.3,0.6,0.4,0.9,0.5,0.7",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        }
+      },
+      "id": "t7-10",
+      "motionFeel": "波形自左向右一次性绘制（约 650ms），绘制完成后持续循环微小上下波动，模拟实时信号。",
+      "name": "迷你波形图(实时波动HUD)",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "label"
+        ]
+      },
+      "referencePath": "references/components/t7-10.md",
+      "selectionSummary": "迷你波形图(实时波动HUD)",
+      "semanticFamilies": [
+        "label"
+      ],
+      "suitableFor": [
+        "Real-time signal, data stream, or performance fluctuation shown as a HUD waveform."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid time series, categorical bar comparisons, large datasets, and fewer than 3 axes."
+      ],
+      "capacity": {
+        "maxItems": 6,
+        "minItems": 3
+      },
+      "category": "mini-chart",
+      "componentVersion": 1,
+      "content": {
+        "items": {
+          "constraints": "3-6 items; all listed item fields are required strings",
+          "default": [
+            {
+              "label": "推理",
+              "score": "0.86"
+            },
+            {
+              "label": "记忆",
+              "score": "0.72"
+            },
+            {
+              "label": "创作",
+              "score": "0.78"
+            },
+            {
+              "label": "速度",
+              "score": "0.91"
+            },
+            {
+              "label": "稳定",
+              "score": "0.83"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "label",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "score",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 6,
+          "minItems": 3,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        }
+      },
+      "id": "t7-11",
+      "motionFeel": "顶点按数组顺序依次点亮（间隔约 200ms），多边形轮廓随顶点逐个生长闭合，全部点亮后轮廓光点循环绕行。",
+      "name": "进度雷达图(多维能力评分)",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t7-11.md",
+      "selectionSummary": "进度雷达图(多维能力评分)",
+      "semanticFamilies": [
+        "items"
+      ],
+      "suitableFor": [
+        "Multi-dimensional capability scoring with 3-6 radar axes, each vertex scored 0-1 or 0-100."
+      ]
+    },
+    {
+      "avoidFor": [
         "Avoid paragraphs and data lists."
       ],
       "category": "special-fx",
@@ -2415,7 +3532,7 @@
         "exclusive": false,
         "footprint": {
           "height": 540,
-          "width": 700
+          "width": 960
         },
         "preferredZones": [
           "auto"
@@ -2443,7 +3560,7 @@
       "componentVersion": 1,
       "content": {
         "noteText": {
-          "constraints": "none beyond the declared type",
+          "constraints": "MUST be ≤ 34 CJK characters (fits 2 wrapped lines) — the note renders at ~25px wrapped inside 490px — over 34 CJK characters it wraps past 2 lines; MUST NOT contain sentence punctuation (，。、；：？！,.;:!?) — split parallel points into separate scenes or move the full sentence to a desc/note field",
           "default": "行业核心共识 · 2026技术发展准则",
           "required": true,
           "role": "content",
@@ -2451,8 +3568,8 @@
           "type": "text"
         },
         "quoteText": {
-          "constraints": "none beyond the declared type",
-          "default": "“技术迭代的核心，是效率与体验的双向突破”",
+          "constraints": "MUST be ≤ 20 CJK characters (fits 2 wrapped lines) — the quote renders at ~46px wrapped inside 490px — over 20 CJK characters it wraps past 2 lines and crowds the note below; MUST NOT contain sentence punctuation (，。、；：？！,.;:!?) — split parallel points into separate scenes or move the full sentence to a desc/note field",
+          "default": "效率与体验的双向突破",
           "required": true,
           "role": "content",
           "semanticRole": "body",
@@ -2830,8 +3947,8 @@
       "componentVersion": 1,
       "content": {
         "bodyText": {
-          "constraints": "none beyond the declared type",
-          "default": "全链路智能化改造，实现降本增效核心目标",
+          "constraints": "MUST be ≤ 20 CJK characters (fits 2 wrapped lines) — the body area is fixed at ~150px tall — over 20 CJK characters it wraps past 2 lines and overlaps the note below; MUST NOT contain sentence punctuation (，。、；：？！,.;:!?) — split parallel points into separate scenes or move the full sentence to a desc/note field",
+          "default": "全链路智能化降本增效",
           "required": true,
           "role": "content",
           "semanticRole": "body",
@@ -3432,6 +4549,91 @@
       ],
       "suitableFor": [
         "Vertical ordered steps where each step is narrated in its own cue and should be highlighted one by one (focus-scroll stepper)."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid unordered lists, scalar summaries, metric charts, and more than 5 entries."
+      ],
+      "capacity": {
+        "maxItems": 5,
+        "minItems": 2
+      },
+      "category": "timeline-flow",
+      "componentVersion": 1,
+      "content": {
+        "items": {
+          "constraints": "2-5 items; all listed item fields are required strings",
+          "default": [
+            {
+              "desc": "明确目标边界",
+              "num": "1",
+              "title": "理解需求"
+            },
+            {
+              "desc": "搭建信息骨架",
+              "num": "2",
+              "title": "设计结构"
+            },
+            {
+              "desc": "编码与联调",
+              "num": "3",
+              "title": "实现功能"
+            },
+            {
+              "desc": "测试并发布",
+              "num": "4",
+              "title": "验收上线"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "desc",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "num",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "title",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 5,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        }
+      },
+      "id": "t6-08",
+      "motionFeel": "条目自上而下依次渐亮（0.18→1.0，每条约 420ms），序号块随进度点亮（当前红、已过转灰），垂向连接线红色段同步向下延伸。",
+      "name": "纵向堆叠序号步骤卡片(连接线延伸)",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t6-08.md",
+      "selectionSummary": "纵向堆叠序号步骤卡片(连接线延伸)",
+      "semanticFamilies": [
+        "items"
+      ],
+      "suitableFor": [
+        "Many ordered steps that no longer fit horizontally; use 2-5 vertical stack entries narrated one by one."
       ]
     }
   ],

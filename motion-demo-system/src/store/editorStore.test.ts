@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { MotionEffectInstance, MotionProject } from '../project/types';
+import { defaultConfig } from '../remotion/config';
 import { createEditorStore } from './editorStore';
 
 const effect = (instanceId: string): MotionEffectInstance => ({
@@ -36,6 +37,8 @@ describe('editor store formal effects', () => {
     const [first, second] = store.getState().project.effects.slice(1);
 
     expect(firstId).not.toBe(secondId);
+    // 默认位置从 config 派生（可能被 bake-style-defaults 更新为用户保存的位置），不硬编码。
+    const t1Defaults = defaultConfig('t1-01');
     expect(first).toMatchObject({
       instanceId: firstId,
       componentId: 't1-01',
@@ -44,7 +47,12 @@ describe('editor store formal effects', () => {
       startFrame: 299,
       durationInFrames: 1,
       track: 1,
-      transform: { x: 1220, y: 160, scale: 1, rotation: 0 },
+      transform: {
+        x: t1Defaults.posX as number,
+        y: t1Defaults.posY as number,
+        scale: ((t1Defaults.scale as number) ?? 100) / 100,
+        rotation: 0,
+      },
     });
     expect(first.props).toMatchObject({ titleText: 'AI智能算法迭代升级' });
     expect(second).toMatchObject({ instanceId: secondId, track: 2 });

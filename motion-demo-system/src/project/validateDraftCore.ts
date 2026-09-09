@@ -234,7 +234,8 @@ export function validateAgentDraftCore(
           if (listFieldsKeys) {
             const editableFields = listFieldsKeys
               .filter((key) => prop.agentEditableItemFields?.includes(key));
-            const allowed = new Set(editableFields);
+            // at（条目出现时机，秒，可选数值）是渲染层契约字段，AI 可按字幕时间填写
+            const allowed = new Set([...editableFields, 'at']);
             value.forEach((item, itemIndex) => {
               if (!item || typeof item !== 'object' || Array.isArray(item)) {
                 errors.push({ code: 'content_type', message: `List item must be an object: ${key}`, path: [...path, 'content', key, itemIndex] });
@@ -248,6 +249,16 @@ export function validateAgentDraftCore(
               for (const [itemKey, itemValue] of Object.entries(item)) {
                 if (!allowed.has(itemKey)) {
                   errors.push({ code: 'unknown_content_field', message: `Unknown list item field: ${itemKey}`, path: [...path, 'content', key, itemIndex, itemKey] });
+                } else if (itemKey === 'at') {
+                  // at：条目出现时机（秒）。允许数值或可解析为非负数的字符串；null/空串表示未设置
+                  // at：条目出现时机（秒）。null/空串 = 未设置（渲染层回退匀速）；数值或可解析字符串须 ≥0
+                  const n = typeof itemValue === 'number'
+                    ? itemValue
+                    : (typeof itemValue === 'string' && itemValue.trim() !== '' ? Number(itemValue) : NaN);
+                  const unset = itemValue === null || (typeof itemValue === 'string' && itemValue.trim() === '');
+                  if (!unset && (!Number.isFinite(n) || n < 0)) {
+                    errors.push({ code: 'content_type', message: `List item timing must be a non-negative number: ${key}`, path: [...path, 'content', key, itemIndex, itemKey] });
+                  }
                 } else if (typeof itemValue !== 'string') {
                   errors.push({ code: 'content_type', message: `List item field must be text: ${itemKey}`, path: [...path, 'content', key, itemIndex, itemKey] });
                 }

@@ -131,7 +131,7 @@
         },
         "posX": {
           "agentEditable": false,
-          "default": 160,
+          "default": 41.28775888227682,
           "max": 1920,
           "min": 0,
           "required": true,
@@ -139,7 +139,7 @@
         },
         "posY": {
           "agentEditable": false,
-          "default": 250,
+          "default": 112.99794060078948,
           "max": 1080,
           "min": 0,
           "required": true,
@@ -317,7 +317,8 @@
           "listFieldsKeys": [
             "name",
             "val",
-            "color"
+            "color",
+            "at"
           ],
           "required": true,
           "semanticRole": "items",
@@ -661,7 +662,8 @@
           "listFieldsKeys": [
             "n",
             "t",
-            "d"
+            "d",
+            "at"
           ],
           "required": true,
           "semanticRole": "items",
@@ -764,7 +766,8 @@
           "default": "[{\"t\":\"小标题1\",\"d\":\"小标题1说明放在这里\"},{\"t\":\"小标题2\",\"d\":\"小标题2说明放在这里\"},{\"t\":\"小标题3\",\"d\":\"小标题3说明放在这里\"},{\"t\":\"小标题4\",\"d\":\"小标题4说明放在这里\"}]",
           "listFieldsKeys": [
             "t",
-            "d"
+            "d",
+            "at"
           ],
           "required": true,
           "semanticRole": "items",
@@ -921,7 +924,8 @@
           "listFieldsKeys": [
             "n",
             "g",
-            "color"
+            "color",
+            "at"
           ],
           "required": true,
           "semanticRole": "items",
@@ -1043,7 +1047,7 @@
       "props": {
         "bgColor": {
           "agentEditable": false,
-          "default": "rgba(0,0,0,0.69)",
+          "default": "rgba(0,0,0,0.5)",
           "required": true,
           "type": "color"
         },
@@ -1186,7 +1190,7 @@
         "exclusive": false,
         "footprint": {
           "height": 540,
-          "width": 700
+          "width": 960
         },
         "preferredZones": [
           "auto"
@@ -1216,7 +1220,7 @@
         },
         "posX": {
           "agentEditable": false,
-          "default": 1220,
+          "default": 123.86319375200185,
           "max": 1920,
           "min": 0,
           "required": true,
@@ -1224,7 +1228,7 @@
         },
         "posY": {
           "agentEditable": false,
-          "default": 160,
+          "default": 95.61367233531695,
           "max": 1080,
           "min": 0,
           "required": true,
@@ -1349,7 +1353,7 @@
         },
         "quoteText": {
           "agentEditable": true,
-          "default": "“技术迭代的核心，是效率与体验的双向突破”",
+          "default": "效率与体验的双向突破",
           "required": true,
           "semanticRole": "body",
           "type": "text"
@@ -1859,6 +1863,14 @@
           "required": true,
           "type": "color"
         },
+        "titleGap": {
+          "agentEditable": false,
+          "default": 44,
+          "max": 200,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
         "titleSize": {
           "agentEditable": false,
           "default": 56,
@@ -2009,7 +2021,7 @@
         },
         "bodyText": {
           "agentEditable": true,
-          "default": "全链路智能化改造，实现降本增效核心目标",
+          "default": "全链路智能化降本增效",
           "required": true,
           "semanticRole": "body",
           "type": "text"
@@ -2596,6 +2608,14 @@
           "required": true,
           "type": "color"
         },
+        "colGap": {
+          "agentEditable": false,
+          "default": 340,
+          "max": 900,
+          "min": 120,
+          "required": true,
+          "type": "number"
+        },
         "descColor": {
           "agentEditable": false,
           "default": "#E6E6E6",
@@ -2818,6 +2838,414 @@
       "version": 1
     },
     {
+      "id": "t3-05",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 480,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "barGap": {
+          "agentEditable": false,
+          "default": 8,
+          "max": 24,
+          "min": 2,
+          "required": true,
+          "type": "number"
+        },
+        "borderColor": {
+          "agentEditable": false,
+          "default": "#46E0D0",
+          "required": true,
+          "type": "color"
+        },
+        "borderW": {
+          "agentEditable": false,
+          "default": 2,
+          "max": 8,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "cardBg": {
+          "agentEditable": false,
+          "default": "rgba(15,30,50,0.4)",
+          "required": true,
+          "type": "color"
+        },
+        "cardH": {
+          "agentEditable": false,
+          "default": 240,
+          "max": 380,
+          "min": 140,
+          "required": true,
+          "type": "number"
+        },
+        "cardW": {
+          "agentEditable": false,
+          "default": 340,
+          "max": 560,
+          "min": 200,
+          "required": true,
+          "type": "number"
+        },
+        "chartH": {
+          "agentEditable": false,
+          "default": 30,
+          "max": 70,
+          "min": 10,
+          "required": true,
+          "type": "number"
+        },
+        "countMs": {
+          "agentEditable": false,
+          "default": 800,
+          "max": 2000,
+          "min": 200,
+          "required": true,
+          "type": "number"
+        },
+        "descColor": {
+          "agentEditable": false,
+          "default": "#AEBAD0",
+          "required": true,
+          "type": "color"
+        },
+        "descSize": {
+          "agentEditable": false,
+          "default": 32,
+          "max": 60,
+          "min": 14,
+          "required": true,
+          "type": "number"
+        },
+        "gap": {
+          "agentEditable": false,
+          "default": 60,
+          "max": 160,
+          "min": 8,
+          "required": true,
+          "type": "number"
+        },
+        "items": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "desc",
+            "name",
+            "num",
+            "trend",
+            "unit"
+          ],
+          "default": "[{\"name\":\"推理速度\",\"num\":\"92\",\"unit\":\"ms\",\"desc\":\"满负载稳定\",\"trend\":\"40,55,70,92\",\"at\":\"\"},{\"name\":\"内存占用\",\"num\":\"48\",\"unit\":\"%\",\"desc\":\"较上版优化\",\"trend\":\"65,60,52,48\",\"at\":\"\"},{\"name\":\"成功率\",\"num\":\"99.6\",\"unit\":\"%\",\"desc\":\"万次测试\",\"trend\":\"95,97,98,99.6\",\"at\":\"\"}]",
+          "listFieldsKeys": [
+            "name",
+            "num",
+            "unit",
+            "desc",
+            "trend",
+            "at"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "nameColor": {
+          "agentEditable": false,
+          "default": "#AEBAD0",
+          "required": true,
+          "type": "color"
+        },
+        "nameSize": {
+          "agentEditable": false,
+          "default": 40,
+          "max": 70,
+          "min": 18,
+          "required": true,
+          "type": "number"
+        },
+        "numColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "numSize": {
+          "agentEditable": false,
+          "default": 110,
+          "max": 180,
+          "min": 50,
+          "required": true,
+          "type": "number"
+        },
+        "padX": {
+          "agentEditable": false,
+          "default": 26,
+          "max": 60,
+          "min": 8,
+          "required": true,
+          "type": "number"
+        },
+        "padY": {
+          "agentEditable": false,
+          "default": 20,
+          "max": 50,
+          "min": 6,
+          "required": true,
+          "type": "number"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 120,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 600,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "radius": {
+          "agentEditable": false,
+          "default": 8,
+          "max": 64,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "unitColor": {
+          "agentEditable": false,
+          "default": "#46E0D0",
+          "required": true,
+          "type": "color"
+        },
+        "unitSize": {
+          "agentEditable": false,
+          "default": 48,
+          "max": 90,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {
+        "maxItems": 3,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t3-06",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 480,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "borderW": {
+          "agentEditable": false,
+          "default": 2,
+          "max": 8,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "cardBg": {
+          "agentEditable": false,
+          "default": "rgba(15,25,50,0.4)",
+          "required": true,
+          "type": "color"
+        },
+        "cardH": {
+          "agentEditable": false,
+          "default": 230,
+          "max": 560,
+          "min": 140,
+          "required": true,
+          "type": "number"
+        },
+        "cardW": {
+          "agentEditable": false,
+          "default": 240,
+          "max": 560,
+          "min": 140,
+          "required": true,
+          "type": "number"
+        },
+        "groupGap": {
+          "agentEditable": false,
+          "default": 80,
+          "max": 200,
+          "min": 8,
+          "required": true,
+          "type": "number"
+        },
+        "groups": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "pointsA",
+            "pointsB",
+            "titleA",
+            "titleB"
+          ],
+          "default": "[{\"titleA\":\"传统方案\",\"borderA\":\"#f24e78\",\"pointsA\":\"部署复杂|成本较高|扩展有限\",\"titleB\":\"新方案\",\"borderB\":\"#46e0d0\",\"pointsB\":\"开箱即用|成本更低|弹性扩展\",\"at\":\"\"},{\"titleA\":\"方案一\",\"borderA\":\"#f2bc46\",\"pointsA\":\"单机运行|无容灾\",\"titleB\":\"方案二\",\"borderB\":\"#6398f2\",\"pointsB\":\"集群部署|自动容灾\",\"at\":\"\"}]",
+          "listFieldsKeys": [
+            "titleA",
+            "pointsA",
+            "borderA",
+            "titleB",
+            "pointsB",
+            "borderB",
+            "at"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "innerGap": {
+          "agentEditable": false,
+          "default": 40,
+          "max": 120,
+          "min": 8,
+          "required": true,
+          "type": "number"
+        },
+        "itemColor": {
+          "agentEditable": false,
+          "default": "#C6D0E2",
+          "required": true,
+          "type": "color"
+        },
+        "itemSize": {
+          "agentEditable": false,
+          "default": 38,
+          "max": 64,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "markA": {
+          "agentEditable": true,
+          "default": "✗",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "markB": {
+          "agentEditable": true,
+          "default": "✓",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "markGap": {
+          "agentEditable": false,
+          "default": 14,
+          "max": 40,
+          "min": 4,
+          "required": true,
+          "type": "number"
+        },
+        "markSize": {
+          "agentEditable": false,
+          "default": 40,
+          "max": 72,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "padX": {
+          "agentEditable": false,
+          "default": 20,
+          "max": 60,
+          "min": 6,
+          "required": true,
+          "type": "number"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 600,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "radius": {
+          "agentEditable": false,
+          "default": 8,
+          "max": 64,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "staggerMs": {
+          "agentEditable": false,
+          "default": 120,
+          "max": 400,
+          "min": 40,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 56,
+          "max": 96,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {
+        "maxItems": 2,
+        "minItems": 1
+      },
+      "version": 1
+    },
+    {
       "id": "t4-01",
       "layout": {
         "exclusive": false,
@@ -2835,6 +3263,22 @@
           "default": "#4CC9F0",
           "required": true,
           "type": "color"
+        },
+        "colGap": {
+          "agentEditable": false,
+          "default": 64,
+          "max": 240,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "colW": {
+          "agentEditable": false,
+          "default": 220,
+          "max": 480,
+          "min": 100,
+          "required": true,
+          "type": "number"
         },
         "dColor": {
           "agentEditable": false,
@@ -2893,7 +3337,8 @@
           "listFieldsKeys": [
             "n",
             "t",
-            "d"
+            "d",
+            "at"
           ],
           "required": true,
           "semanticRole": "items",
@@ -3010,7 +3455,8 @@
           "listFieldsKeys": [
             "cn",
             "en",
-            "color"
+            "color",
+            "at"
           ],
           "required": true,
           "semanticRole": "items",
@@ -3083,6 +3529,1113 @@
       "version": 1
     },
     {
+      "id": "t4-03",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "borderW": {
+          "agentEditable": false,
+          "default": 2,
+          "max": 8,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "cardBg": {
+          "agentEditable": false,
+          "default": "rgba(30,30,40,0.4)",
+          "required": true,
+          "type": "color"
+        },
+        "cardH": {
+          "agentEditable": false,
+          "default": 160,
+          "max": 320,
+          "min": 90,
+          "required": true,
+          "type": "number"
+        },
+        "cardW": {
+          "agentEditable": false,
+          "default": 360,
+          "max": 560,
+          "min": 180,
+          "required": true,
+          "type": "number"
+        },
+        "gap": {
+          "agentEditable": false,
+          "default": 64,
+          "max": 160,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "items": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "label"
+          ],
+          "default": "[{\"label\":\"明确目标\",\"borderColor\":\"#ff6688\",\"at\":\"\"},{\"label\":\"拆解路径\",\"borderColor\":\"#46e0d0\",\"at\":\"\"},{\"label\":\"验收结果\",\"borderColor\":\"#e6c260\",\"at\":\"\"}]",
+          "listFieldsKeys": [
+            "label",
+            "borderColor",
+            "at"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "kickerColor": {
+          "agentEditable": false,
+          "default": "#46E0D0",
+          "required": true,
+          "type": "color"
+        },
+        "kickerSize": {
+          "agentEditable": false,
+          "default": 44,
+          "max": 90,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "kickerText": {
+          "agentEditable": true,
+          "default": "WORKFLOW",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 140.00566122562478,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 120.00290475673651,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "radius": {
+          "agentEditable": false,
+          "default": 24,
+          "max": 64,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "rowY": {
+          "agentEditable": false,
+          "default": 500,
+          "max": 900,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 56.09143901523056,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "textColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "textSize": {
+          "agentEditable": false,
+          "default": 48,
+          "max": 90,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 96,
+          "max": 170,
+          "min": 40,
+          "required": true,
+          "type": "number"
+        },
+        "titleText": {
+          "agentEditable": true,
+          "default": "执行链路三步走",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "titleY": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 320,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t4-04",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "borderColor": {
+          "agentEditable": false,
+          "default": "#46E0D0",
+          "required": true,
+          "type": "color"
+        },
+        "borderW": {
+          "agentEditable": false,
+          "default": 2,
+          "max": 8,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "cardBg": {
+          "agentEditable": false,
+          "default": "rgba(20,70,70,0.35)",
+          "required": true,
+          "type": "color"
+        },
+        "cardH": {
+          "agentEditable": false,
+          "default": 180,
+          "max": 320,
+          "min": 90,
+          "required": true,
+          "type": "number"
+        },
+        "cardW": {
+          "agentEditable": false,
+          "default": 420,
+          "max": 620,
+          "min": 200,
+          "required": true,
+          "type": "number"
+        },
+        "gap": {
+          "agentEditable": false,
+          "default": 52,
+          "max": 140,
+          "min": 8,
+          "required": true,
+          "type": "number"
+        },
+        "items": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "label"
+          ],
+          "default": "[{\"label\":\"页面结构\",\"at\":\"\"},{\"label\":\"操作流程\",\"at\":\"\"},{\"label\":\"最小功能\",\"at\":\"\"}]",
+          "listFieldsKeys": [
+            "label",
+            "at"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "plusColor": {
+          "agentEditable": false,
+          "default": "#46E0D0",
+          "required": true,
+          "type": "color"
+        },
+        "plusSize": {
+          "agentEditable": false,
+          "default": 56,
+          "max": 110,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "plusW": {
+          "agentEditable": false,
+          "default": 48,
+          "max": 140,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 506.36372551352287,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 68.49090800669823,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "radius": {
+          "agentEditable": false,
+          "default": 32,
+          "max": 64,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 52.441778969452926,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "textColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "textSize": {
+          "agentEditable": false,
+          "default": 64,
+          "max": 110,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t4-05",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 160.9863490101186,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "borderColor": {
+          "agentEditable": false,
+          "default": "#46E0D0",
+          "required": true,
+          "type": "color"
+        },
+        "borderW": {
+          "agentEditable": false,
+          "default": 2,
+          "max": 8,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "cardBg": {
+          "agentEditable": false,
+          "default": "rgba(20,70,70,0.35)",
+          "required": true,
+          "type": "color"
+        },
+        "cardH": {
+          "agentEditable": false,
+          "default": 170,
+          "max": 320,
+          "min": 90,
+          "required": true,
+          "type": "number"
+        },
+        "cardW": {
+          "agentEditable": false,
+          "default": 400,
+          "max": 620,
+          "min": 200,
+          "required": true,
+          "type": "number"
+        },
+        "gap": {
+          "agentEditable": false,
+          "default": 72,
+          "max": 200,
+          "min": 8,
+          "required": true,
+          "type": "number"
+        },
+        "items": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "label"
+          ],
+          "default": "[{\"label\":\"计划\",\"at\":\"\"},{\"label\":\"网页工具\",\"at\":\"\"},{\"label\":\"真实实验收\",\"at\":\"\"}]",
+          "listFieldsKeys": [
+            "label",
+            "at"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 506.8064137031674,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 919.0136509898814,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "radius": {
+          "agentEditable": false,
+          "default": 30,
+          "max": 64,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 57.932438723368186,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "textColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "textSize": {
+          "agentEditable": false,
+          "default": 48,
+          "max": 110,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t4-06",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "borderW": {
+          "agentEditable": false,
+          "default": 2,
+          "max": 8,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "cardBg": {
+          "agentEditable": false,
+          "default": "rgba(15,25,50,0.4)",
+          "required": true,
+          "type": "color"
+        },
+        "cardH": {
+          "agentEditable": false,
+          "default": 220,
+          "max": 380,
+          "min": 120,
+          "required": true,
+          "type": "number"
+        },
+        "cardW": {
+          "agentEditable": false,
+          "default": 370,
+          "max": 560,
+          "min": 200,
+          "required": true,
+          "type": "number"
+        },
+        "gap": {
+          "agentEditable": false,
+          "default": 64,
+          "max": 200,
+          "min": 8,
+          "required": true,
+          "type": "number"
+        },
+        "gapNum": {
+          "agentEditable": false,
+          "default": 16,
+          "max": 60,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "gapSub": {
+          "agentEditable": false,
+          "default": 18,
+          "max": 60,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "items": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "indexText",
+            "label",
+            "subLabel"
+          ],
+          "default": "[{\"indexText\":\"01\",\"label\":\"七天学习计划\",\"subLabel\":\"把混乱方向变成可执行路线\",\"borderColor\":\"#46e0d0\",\"at\":\"\"},{\"indexText\":\"02\",\"label\":\"安全整理表格\",\"subLabel\":\"先诊断·再确认·结果另存\",\"borderColor\":\"#6398f2\",\"at\":\"\"},{\"indexText\":\"03\",\"label\":\"浏览器小工具\",\"subLabel\":\"学习进度与笔记真正落地\",\"borderColor\":\"#f2bc46\",\"at\":\"\"}]",
+          "listFieldsKeys": [
+            "indexText",
+            "label",
+            "subLabel",
+            "borderColor",
+            "at"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "numSize": {
+          "agentEditable": false,
+          "default": 33,
+          "max": 90,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "padLeft": {
+          "agentEditable": false,
+          "default": 32,
+          "max": 90,
+          "min": 8,
+          "required": true,
+          "type": "number"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 567.2090833680472,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 106.71994936813013,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "radius": {
+          "agentEditable": false,
+          "default": 28,
+          "max": 64,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 56.46352967808669,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "subColor": {
+          "agentEditable": false,
+          "default": "#C6D0E2",
+          "required": true,
+          "type": "color"
+        },
+        "subSize": {
+          "agentEditable": false,
+          "default": 26,
+          "max": 70,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 50,
+          "max": 110,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t4-07",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "arrowH": {
+          "agentEditable": false,
+          "default": 12,
+          "max": 32,
+          "min": 6,
+          "required": true,
+          "type": "number"
+        },
+        "arrowW": {
+          "agentEditable": false,
+          "default": 4,
+          "max": 12,
+          "min": 1,
+          "required": true,
+          "type": "number"
+        },
+        "borderW": {
+          "agentEditable": false,
+          "default": 2,
+          "max": 8,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "cardBg": {
+          "agentEditable": false,
+          "default": "rgba(15,25,50,0.4)",
+          "required": true,
+          "type": "color"
+        },
+        "cardH": {
+          "agentEditable": false,
+          "default": 200,
+          "max": 340,
+          "min": 110,
+          "required": true,
+          "type": "number"
+        },
+        "cardW": {
+          "agentEditable": false,
+          "default": 330,
+          "max": 520,
+          "min": 180,
+          "required": true,
+          "type": "number"
+        },
+        "descColor": {
+          "agentEditable": false,
+          "default": "#C6D0E2",
+          "required": true,
+          "type": "color"
+        },
+        "descSize": {
+          "agentEditable": false,
+          "default": 32,
+          "max": 70,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "gap": {
+          "agentEditable": false,
+          "default": 70,
+          "max": 160,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "gapDesc": {
+          "agentEditable": false,
+          "default": 18,
+          "max": 60,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "gapNum": {
+          "agentEditable": false,
+          "default": 14,
+          "max": 60,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "items": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "desc",
+            "index",
+            "title"
+          ],
+          "default": "[{\"index\":\"01\",\"title\":\"拆解目标\",\"desc\":\"明确关键结果\",\"borderColor\":\"#46e0d0\",\"at\":\"\"},{\"index\":\"02\",\"title\":\"列出动作\",\"desc\":\"拆成可执行项\",\"borderColor\":\"#6398f2\",\"at\":\"\"},{\"index\":\"03\",\"title\":\"排定顺序\",\"desc\":\"按依赖排步\",\"borderColor\":\"#f2bc46\",\"at\":\"\"}]",
+          "listFieldsKeys": [
+            "index",
+            "title",
+            "desc",
+            "borderColor",
+            "at"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "numSize": {
+          "agentEditable": false,
+          "default": 35,
+          "max": 90,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "padLeft": {
+          "agentEditable": false,
+          "default": 30,
+          "max": 90,
+          "min": 8,
+          "required": true,
+          "type": "number"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 137.3854625833064,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 187.12108956682536,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "radius": {
+          "agentEditable": false,
+          "default": 24,
+          "max": 64,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 64.84055417837992,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 48,
+          "max": 110,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t4-08",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "borderColor": {
+          "agentEditable": false,
+          "default": "#46E0D0",
+          "required": true,
+          "type": "color"
+        },
+        "borderW": {
+          "agentEditable": false,
+          "default": 2,
+          "max": 8,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "breathCycle": {
+          "agentEditable": false,
+          "default": 1400,
+          "max": 4000,
+          "min": 400,
+          "required": true,
+          "type": "number"
+        },
+        "cardBg": {
+          "agentEditable": false,
+          "default": "rgba(20,40,60,0.35)",
+          "required": true,
+          "type": "color"
+        },
+        "cardH": {
+          "agentEditable": false,
+          "default": 210,
+          "max": 340,
+          "min": 110,
+          "required": true,
+          "type": "number"
+        },
+        "cardW": {
+          "agentEditable": false,
+          "default": 360,
+          "max": 560,
+          "min": 200,
+          "required": true,
+          "type": "number"
+        },
+        "descColor": {
+          "agentEditable": false,
+          "default": "#AEBAD0",
+          "required": true,
+          "type": "color"
+        },
+        "descSize": {
+          "agentEditable": false,
+          "default": 33,
+          "max": 60,
+          "min": 14,
+          "required": true,
+          "type": "number"
+        },
+        "gap": {
+          "agentEditable": false,
+          "default": 72,
+          "max": 200,
+          "min": 8,
+          "required": true,
+          "type": "number"
+        },
+        "iconGap": {
+          "agentEditable": false,
+          "default": 20,
+          "max": 60,
+          "min": 4,
+          "required": true,
+          "type": "number"
+        },
+        "iconSize": {
+          "agentEditable": false,
+          "default": 64,
+          "max": 120,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        },
+        "items": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "desc",
+            "icon",
+            "title"
+          ],
+          "default": "[{\"icon\":\"⚙\",\"title\":\"引擎\",\"desc\":\"稳定可靠内核\",\"at\":\"\"},{\"icon\":\"🔌\",\"title\":\"插件\",\"desc\":\"开放扩展能力\",\"at\":\"\"},{\"icon\":\"📊\",\"title\":\"分析\",\"desc\":\"实时数据洞察\",\"at\":\"\"}]",
+          "listFieldsKeys": [
+            "icon",
+            "title",
+            "desc",
+            "at"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 89.5825964856648,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 145.0295125744052,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "radius": {
+          "agentEditable": false,
+          "default": 26,
+          "max": 64,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 58.65974063881488,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 50,
+          "max": 100,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t4-09",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 440,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "borderColor": {
+          "agentEditable": false,
+          "default": "#46E0D0",
+          "required": true,
+          "type": "color"
+        },
+        "borderW": {
+          "agentEditable": false,
+          "default": 2,
+          "max": 8,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "cardBg": {
+          "agentEditable": false,
+          "default": "rgba(20,40,60,0.3)",
+          "required": true,
+          "type": "color"
+        },
+        "cardH": {
+          "agentEditable": false,
+          "default": 90,
+          "max": 160,
+          "min": 48,
+          "required": true,
+          "type": "number"
+        },
+        "cardW": {
+          "agentEditable": false,
+          "default": 260,
+          "max": 460,
+          "min": 120,
+          "required": true,
+          "type": "number"
+        },
+        "dotGap": {
+          "agentEditable": false,
+          "default": 16,
+          "max": 40,
+          "min": 4,
+          "required": true,
+          "type": "number"
+        },
+        "dotR": {
+          "agentEditable": false,
+          "default": 6,
+          "max": 16,
+          "min": 2,
+          "required": true,
+          "type": "number"
+        },
+        "gap": {
+          "agentEditable": false,
+          "default": 32,
+          "max": 120,
+          "min": 8,
+          "required": true,
+          "type": "number"
+        },
+        "items": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "label"
+          ],
+          "default": "[{\"label\":\"实时渲染\",\"at\":\"\"},{\"label\":\"所见即所得\",\"at\":\"\"},{\"label\":\"轻量高效\",\"at\":\"\"}]",
+          "listFieldsKeys": [
+            "label",
+            "at"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 120,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 640,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "radius": {
+          "agentEditable": false,
+          "default": 8,
+          "max": 90,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "textColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "textSize": {
+          "agentEditable": false,
+          "default": 44,
+          "max": 80,
+          "min": 18,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {
+        "maxItems": 5,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
       "id": "t5-01",
       "layout": {
         "exclusive": false,
@@ -3124,7 +4677,8 @@
           "default": "[{\"t\":\"高速推理\",\"d\":\"大模型本地高速推理，降低云端依赖\"},{\"t\":\"低资源占用\",\"d\":\"硬件开销可控，适配中端设备\"},{\"t\":\"高扩展性\",\"d\":\"插件化架构，支持自定义模块接入\"}]",
           "listFieldsKeys": [
             "t",
-            "d"
+            "d",
+            "at"
           ],
           "required": true,
           "semanticRole": "items",
@@ -3132,7 +4686,7 @@
         },
         "posX": {
           "agentEditable": false,
-          "default": 130,
+          "default": 71.7101609948055,
           "max": 1920,
           "min": 0,
           "required": true,
@@ -3140,7 +4694,7 @@
         },
         "posY": {
           "agentEditable": false,
-          "default": 220,
+          "default": 102.13281179182007,
           "max": 1080,
           "min": 0,
           "required": true,
@@ -3241,7 +4795,8 @@
             "tag",
             "t",
             "d",
-            "color"
+            "color",
+            "at"
           ],
           "required": true,
           "semanticRole": "items",
@@ -3371,7 +4926,8 @@
           "listFieldsKeys": [
             "n",
             "t",
-            "d"
+            "d",
+            "at"
           ],
           "required": true,
           "semanticRole": "items",
@@ -3473,7 +5029,8 @@
           "default": "[{\"k\":\"版本号\",\"v\":\"V2.5.1\"},{\"k\":\"发布时间\",\"v\":\"2026-08\"},{\"k\":\"目标平台\",\"v\":\"Windows / MacOS\"},{\"k\":\"内核\",\"v\":\"Hyper-engine-v4\"}]",
           "listFieldsKeys": [
             "k",
-            "v"
+            "v",
+            "at"
           ],
           "required": true,
           "semanticRole": "items",
@@ -3574,7 +5131,8 @@
           "listFieldsKeys": [
             "small",
             "main",
-            "color"
+            "color",
+            "at"
           ],
           "required": true,
           "semanticRole": "items",
@@ -3700,7 +5258,8 @@
           "listFieldsKeys": [
             "label",
             "title",
-            "color"
+            "color",
+            "at"
           ],
           "required": true,
           "semanticRole": "items",
@@ -3868,7 +5427,8 @@
           "listFieldsKeys": [
             "time",
             "t",
-            "d"
+            "d",
+            "at"
           ],
           "required": true,
           "semanticRole": "items",
@@ -3996,7 +5556,8 @@
           "default": "[{\"t\":\"输入\",\"d\":\"原始数据接入\"},{\"t\":\"处理\",\"d\":\"算法运算解析\"},{\"t\":\"输出\",\"d\":\"结果对外返回\"},{\"t\":\"打印\",\"d\":\"数据打印输出\"}]",
           "listFieldsKeys": [
             "t",
-            "d"
+            "d",
+            "at"
           ],
           "required": true,
           "semanticRole": "items",
@@ -4326,7 +5887,8 @@
           "listFieldsKeys": [
             "num",
             "t",
-            "en"
+            "en",
+            "at"
           ],
           "required": true,
           "semanticRole": "items",
@@ -4538,7 +6100,8 @@
           "default": "[{\"num\":\"01\",\"t\":\"描述问题\"},{\"num\":\"02\",\"t\":\"AI 改代码\"},{\"num\":\"03\",\"t\":\"重新渲染\"},{\"num\":\"04\",\"t\":\"打开看结果\"}]",
           "listFieldsKeys": [
             "num",
-            "t"
+            "t",
+            "at"
           ],
           "required": true,
           "semanticRole": "items",
@@ -4587,7 +6150,7 @@
       "props": {
         "boxActiveColor": {
           "agentEditable": false,
-          "default": "#ff3322",
+          "default": "#ff5522",
           "required": true,
           "type": "color"
         },
@@ -4620,7 +6183,8 @@
           ],
           "default": "[{\"label\":\"机器人\"},{\"label\":\"智能体\"},{\"label\":\"复杂软件\"}]",
           "listFieldsKeys": [
-            "label"
+            "label",
+            "at"
           ],
           "required": true,
           "semanticRole": "items",
@@ -4628,7 +6192,7 @@
         },
         "lineActiveColor": {
           "agentEditable": false,
-          "default": "#ff3322",
+          "default": "#ff5522",
           "required": true,
           "type": "color"
         },
@@ -4664,7 +6228,7 @@
         },
         "posX": {
           "agentEditable": false,
-          "default": 120,
+          "default": 120.00259653129494,
           "max": 1920,
           "min": 0,
           "required": true,
@@ -4672,7 +6236,7 @@
         },
         "posY": {
           "agentEditable": false,
-          "default": 160,
+          "default": 160.00117753540394,
           "max": 1080,
           "min": 0,
           "required": true,
@@ -4688,7 +6252,7 @@
         },
         "scale": {
           "agentEditable": false,
-          "default": 100,
+          "default": 80.31363129747855,
           "max": 200,
           "min": 20,
           "required": true,
@@ -4710,7 +6274,7 @@
         },
         "textActiveSize": {
           "agentEditable": false,
-          "default": 88,
+          "default": 83,
           "max": 140,
           "min": 36,
           "required": true,
@@ -4724,7 +6288,7 @@
         },
         "textPastSize": {
           "agentEditable": false,
-          "default": 54,
+          "default": 59,
           "max": 110,
           "min": 20,
           "required": true,
@@ -4732,7 +6296,7 @@
         },
         "titleColor": {
           "agentEditable": false,
-          "default": "#FFFFFF",
+          "default": "#ff5522",
           "required": true,
           "type": "color"
         },
@@ -4750,6 +6314,190 @@
           "required": true,
           "semanticRole": "title",
           "type": "text"
+        }
+      },
+      "selection": {
+        "maxItems": 5,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t6-08",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "activeBg": {
+          "agentEditable": false,
+          "default": "#FF3322",
+          "required": true,
+          "type": "color"
+        },
+        "boxFont": {
+          "agentEditable": false,
+          "default": 38,
+          "max": 90,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "boxGap": {
+          "agentEditable": false,
+          "default": 24,
+          "max": 70,
+          "min": 6,
+          "required": true,
+          "type": "number"
+        },
+        "boxRadius": {
+          "agentEditable": false,
+          "default": 8,
+          "max": 48,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "boxSize": {
+          "agentEditable": false,
+          "default": 96,
+          "max": 160,
+          "min": 56,
+          "required": true,
+          "type": "number"
+        },
+        "descColor": {
+          "agentEditable": false,
+          "default": "#AEBAD0",
+          "required": true,
+          "type": "color"
+        },
+        "descSize": {
+          "agentEditable": false,
+          "default": 30,
+          "max": 70,
+          "min": 14,
+          "required": true,
+          "type": "number"
+        },
+        "entryH": {
+          "agentEditable": false,
+          "default": 120,
+          "max": 220,
+          "min": 80,
+          "required": true,
+          "type": "number"
+        },
+        "gapV": {
+          "agentEditable": false,
+          "default": 30,
+          "max": 90,
+          "min": 8,
+          "required": true,
+          "type": "number"
+        },
+        "glowColor": {
+          "agentEditable": false,
+          "default": "rgba(255,80,30,0.25)",
+          "required": true,
+          "type": "color"
+        },
+        "inactiveBg": {
+          "agentEditable": false,
+          "default": "rgba(60,60,60,0.65)",
+          "required": true,
+          "type": "color"
+        },
+        "items": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "desc",
+            "num",
+            "title"
+          ],
+          "default": "[{\"num\":\"1\",\"title\":\"理解需求\",\"desc\":\"明确目标边界\",\"at\":\"\"},{\"num\":\"2\",\"title\":\"设计结构\",\"desc\":\"搭建信息骨架\",\"at\":\"\"},{\"num\":\"3\",\"title\":\"实现功能\",\"desc\":\"编码与联调\",\"at\":\"\"},{\"num\":\"4\",\"title\":\"验收上线\",\"desc\":\"测试并发布\",\"at\":\"\"}]",
+          "listFieldsKeys": [
+            "num",
+            "title",
+            "desc",
+            "at"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "lineW": {
+          "agentEditable": false,
+          "default": 4,
+          "max": 12,
+          "min": 1,
+          "required": true,
+          "type": "number"
+        },
+        "passedColor": {
+          "agentEditable": false,
+          "default": "#FF3322",
+          "required": true,
+          "type": "color"
+        },
+        "pendingColor": {
+          "agentEditable": false,
+          "default": "rgba(255,70,40,0.35)",
+          "required": true,
+          "type": "color"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 220,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "textGap": {
+          "agentEditable": false,
+          "default": 12,
+          "max": 40,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 46,
+          "max": 110,
+          "min": 24,
+          "required": true,
+          "type": "number"
         }
       },
       "selection": {
@@ -4807,7 +6555,8 @@
           "listFieldsKeys": [
             "cat",
             "val",
-            "hl"
+            "hl",
+            "at"
           ],
           "required": true,
           "semanticRole": "items",
@@ -4921,7 +6670,8 @@
           "default": "[{\"cat\":\"CPU占用\",\"val\":\"62\"},{\"cat\":\"内存占用\",\"val\":\"48\"},{\"cat\":\"GPU占用\",\"val\":\"76\"}]",
           "listFieldsKeys": [
             "cat",
-            "val"
+            "val",
+            "at"
           ],
           "required": true,
           "semanticRole": "items",
@@ -5097,7 +6847,8 @@
           "listFieldsKeys": [
             "name",
             "pct",
-            "color"
+            "color",
+            "at"
           ],
           "required": true,
           "semanticRole": "items",
@@ -5273,7 +7024,8 @@
             "name",
             "val",
             "delta",
-            "dir"
+            "dir",
+            "at"
           ],
           "required": true,
           "semanticRole": "items",
@@ -5502,6 +7254,945 @@
         }
       },
       "selection": {},
+      "version": 1
+    },
+    {
+      "id": "t7-07",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 500,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "barGap": {
+          "agentEditable": false,
+          "default": 22,
+          "max": 60,
+          "min": 4,
+          "required": true,
+          "type": "number"
+        },
+        "barRadius": {
+          "agentEditable": false,
+          "default": 8,
+          "max": 24,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "barW": {
+          "agentEditable": false,
+          "default": 44,
+          "max": 90,
+          "min": 12,
+          "required": true,
+          "type": "number"
+        },
+        "borderColor": {
+          "agentEditable": false,
+          "default": "#46E0D0",
+          "required": true,
+          "type": "color"
+        },
+        "borderW": {
+          "agentEditable": false,
+          "default": 2,
+          "max": 8,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "boxBg": {
+          "agentEditable": false,
+          "default": "rgba(15,25,50,0.35)",
+          "required": true,
+          "type": "color"
+        },
+        "boxH": {
+          "agentEditable": false,
+          "default": 320,
+          "max": 520,
+          "min": 200,
+          "required": true,
+          "type": "number"
+        },
+        "boxW": {
+          "agentEditable": false,
+          "default": 760,
+          "max": 1200,
+          "min": 420,
+          "required": true,
+          "type": "number"
+        },
+        "colorA": {
+          "agentEditable": false,
+          "default": "#46E0D0",
+          "required": true,
+          "type": "color"
+        },
+        "colorB": {
+          "agentEditable": false,
+          "default": "#F2BC46",
+          "required": true,
+          "type": "color"
+        },
+        "gridColor": {
+          "agentEditable": false,
+          "default": "rgba(120,140,170,0.22)",
+          "required": true,
+          "type": "color"
+        },
+        "growMs": {
+          "agentEditable": false,
+          "default": 600,
+          "max": 1600,
+          "min": 200,
+          "required": true,
+          "type": "number"
+        },
+        "items": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "category",
+            "valA",
+            "valB"
+          ],
+          "default": "[{\"category\":\"模型A\",\"valA\":\"82\",\"valB\":\"64\",\"at\":\"\"},{\"category\":\"模型B\",\"valA\":\"91\",\"valB\":\"76\",\"at\":\"\"},{\"category\":\"模型C\",\"valA\":\"77\",\"valB\":\"88\",\"at\":\"\"}]",
+          "listFieldsKeys": [
+            "category",
+            "valA",
+            "valB",
+            "at"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "labelColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "labelSize": {
+          "agentEditable": false,
+          "default": 36,
+          "max": 70,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "legendA": {
+          "agentEditable": true,
+          "default": "本期",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "legendB": {
+          "agentEditable": true,
+          "default": "上期",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "legendSize": {
+          "agentEditable": false,
+          "default": 32,
+          "max": 60,
+          "min": 14,
+          "required": true,
+          "type": "number"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 140,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 580,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "radius": {
+          "agentEditable": false,
+          "default": 8,
+          "max": 48,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "tickColor": {
+          "agentEditable": false,
+          "default": "#C6D0E2",
+          "required": true,
+          "type": "color"
+        },
+        "tickSize": {
+          "agentEditable": false,
+          "default": 30,
+          "max": 56,
+          "min": 14,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t7-08",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 500,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "areaFill": {
+          "agentEditable": false,
+          "default": "rgba(99,152,242,0.12)",
+          "required": true,
+          "type": "color"
+        },
+        "borderColor": {
+          "agentEditable": false,
+          "default": "#6398F2",
+          "required": true,
+          "type": "color"
+        },
+        "borderW": {
+          "agentEditable": false,
+          "default": 2,
+          "max": 8,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "boxBg": {
+          "agentEditable": false,
+          "default": "rgba(15,25,50,0.35)",
+          "required": true,
+          "type": "color"
+        },
+        "boxH": {
+          "agentEditable": false,
+          "default": 320,
+          "max": 520,
+          "min": 200,
+          "required": true,
+          "type": "number"
+        },
+        "boxW": {
+          "agentEditable": false,
+          "default": 720,
+          "max": 1200,
+          "min": 420,
+          "required": true,
+          "type": "number"
+        },
+        "breathMs": {
+          "agentEditable": false,
+          "default": 1600,
+          "max": 6000,
+          "min": 400,
+          "required": true,
+          "type": "number"
+        },
+        "drawMs": {
+          "agentEditable": false,
+          "default": 700,
+          "max": 2000,
+          "min": 200,
+          "required": true,
+          "type": "number"
+        },
+        "gridColor": {
+          "agentEditable": false,
+          "default": "rgba(120,140,170,0.22)",
+          "required": true,
+          "type": "color"
+        },
+        "items": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "value",
+            "xLabel"
+          ],
+          "default": "[{\"xLabel\":\"第1周\",\"value\":\"32\",\"at\":\"\"},{\"xLabel\":\"第2周\",\"value\":\"48\",\"at\":\"\"},{\"xLabel\":\"第3周\",\"value\":\"69\",\"at\":\"\"},{\"xLabel\":\"第4周\",\"value\":\"84\",\"at\":\"\"}]",
+          "listFieldsKeys": [
+            "xLabel",
+            "value",
+            "at"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "lineColor": {
+          "agentEditable": false,
+          "default": "#6398F2",
+          "required": true,
+          "type": "color"
+        },
+        "lineW": {
+          "agentEditable": false,
+          "default": 3,
+          "max": 10,
+          "min": 1,
+          "required": true,
+          "type": "number"
+        },
+        "pointR": {
+          "agentEditable": false,
+          "default": 7,
+          "max": 18,
+          "min": 2,
+          "required": true,
+          "type": "number"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 140,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 580,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "radius": {
+          "agentEditable": false,
+          "default": 8,
+          "max": 48,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "staggerMs": {
+          "agentEditable": false,
+          "default": 180,
+          "max": 600,
+          "min": 40,
+          "required": true,
+          "type": "number"
+        },
+        "tickColor": {
+          "agentEditable": false,
+          "default": "#C6D0E2",
+          "required": true,
+          "type": "color"
+        },
+        "tickSize": {
+          "agentEditable": false,
+          "default": 30,
+          "max": 56,
+          "min": 14,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {
+        "maxItems": 6,
+        "minItems": 3
+      },
+      "version": 1
+    },
+    {
+      "id": "t7-09",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 520,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "bgRing": {
+          "agentEditable": false,
+          "default": "rgba(80,80,100,0.25)",
+          "required": true,
+          "type": "color"
+        },
+        "borderColor": {
+          "agentEditable": false,
+          "default": "#F2BC46",
+          "required": true,
+          "type": "color"
+        },
+        "borderW": {
+          "agentEditable": false,
+          "default": 2,
+          "max": 8,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "boxBg": {
+          "agentEditable": false,
+          "default": "rgba(15,25,50,0.35)",
+          "required": true,
+          "type": "color"
+        },
+        "boxH": {
+          "agentEditable": false,
+          "default": 360,
+          "max": 620,
+          "min": 240,
+          "required": true,
+          "type": "number"
+        },
+        "boxW": {
+          "agentEditable": false,
+          "default": 360,
+          "max": 620,
+          "min": 240,
+          "required": true,
+          "type": "number"
+        },
+        "centerDesc": {
+          "agentEditable": true,
+          "default": "资源占比",
+          "required": true,
+          "semanticRole": "body",
+          "type": "text"
+        },
+        "centerNum": {
+          "agentEditable": true,
+          "default": 100,
+          "max": 100000,
+          "min": 0,
+          "required": true,
+          "semanticRole": "metric",
+          "type": "number"
+        },
+        "centerUnit": {
+          "agentEditable": true,
+          "default": "%",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "countMs": {
+          "agentEditable": false,
+          "default": 800,
+          "max": 2000,
+          "min": 200,
+          "required": true,
+          "type": "number"
+        },
+        "descColor": {
+          "agentEditable": false,
+          "default": "#C6D0E2",
+          "required": true,
+          "type": "color"
+        },
+        "descSize": {
+          "agentEditable": false,
+          "default": 26,
+          "max": 64,
+          "min": 14,
+          "required": true,
+          "type": "number"
+        },
+        "innerR": {
+          "agentEditable": false,
+          "default": 90,
+          "max": 180,
+          "min": 40,
+          "required": true,
+          "type": "number"
+        },
+        "items": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "label",
+            "percent"
+          ],
+          "default": "[{\"percent\":\"45\",\"color\":\"#46e0d0\",\"label\":\"算力\",\"at\":\"\"},{\"percent\":\"35\",\"color\":\"#6398f2\",\"label\":\"存储\",\"at\":\"\"},{\"percent\":\"20\",\"color\":\"#f2bc46\",\"label\":\"网络\",\"at\":\"\"}]",
+          "listFieldsKeys": [
+            "label",
+            "percent",
+            "color",
+            "at"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "legendGap": {
+          "agentEditable": false,
+          "default": 28,
+          "max": 120,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "legendSize": {
+          "agentEditable": false,
+          "default": 26,
+          "max": 48,
+          "min": 12,
+          "required": true,
+          "type": "number"
+        },
+        "numColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "numSize": {
+          "agentEditable": false,
+          "default": 63,
+          "max": 160,
+          "min": 40,
+          "required": true,
+          "type": "number"
+        },
+        "outerR": {
+          "agentEditable": false,
+          "default": 130,
+          "max": 220,
+          "min": 60,
+          "required": true,
+          "type": "number"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 160,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 560,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "radius": {
+          "agentEditable": false,
+          "default": 8,
+          "max": 48,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "segMs": {
+          "agentEditable": false,
+          "default": 550,
+          "max": 1600,
+          "min": 200,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t7-10",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "areaFill": {
+          "agentEditable": false,
+          "default": "rgba(70,224,208,0.1)",
+          "required": true,
+          "type": "color"
+        },
+        "borderColor": {
+          "agentEditable": false,
+          "default": "#46E0D0",
+          "required": true,
+          "type": "color"
+        },
+        "borderW": {
+          "agentEditable": false,
+          "default": 2,
+          "max": 8,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "boxBg": {
+          "agentEditable": false,
+          "default": "rgba(15,25,50,0.35)",
+          "required": true,
+          "type": "color"
+        },
+        "boxH": {
+          "agentEditable": false,
+          "default": 160,
+          "max": 300,
+          "min": 90,
+          "required": true,
+          "type": "number"
+        },
+        "boxW": {
+          "agentEditable": false,
+          "default": 420,
+          "max": 760,
+          "min": 240,
+          "required": true,
+          "type": "number"
+        },
+        "drawMs": {
+          "agentEditable": false,
+          "default": 650,
+          "max": 2000,
+          "min": 200,
+          "required": true,
+          "type": "number"
+        },
+        "gridColor": {
+          "agentEditable": false,
+          "default": "rgba(120,140,170,0.18)",
+          "required": true,
+          "type": "color"
+        },
+        "oscAmp": {
+          "agentEditable": false,
+          "default": 6,
+          "max": 24,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "oscMs": {
+          "agentEditable": false,
+          "default": 1200,
+          "max": 4000,
+          "min": 300,
+          "required": true,
+          "type": "number"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 109.57377513786267,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 345.9967137447359,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "radius": {
+          "agentEditable": false,
+          "default": 8,
+          "max": 48,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 128.36344277508996,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "tickColor": {
+          "agentEditable": false,
+          "default": "#C6D0E2",
+          "required": true,
+          "type": "color"
+        },
+        "tickLabels": {
+          "agentEditable": true,
+          "default": "0s|1s|2s|3s",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "tickSize": {
+          "agentEditable": false,
+          "default": 28,
+          "max": 56,
+          "min": 12,
+          "required": true,
+          "type": "number"
+        },
+        "waveColor": {
+          "agentEditable": false,
+          "default": "#46E0D0",
+          "required": true,
+          "type": "color"
+        },
+        "wavePoints": {
+          "agentEditable": true,
+          "default": "0.2,0.7,0.4,0.8,0.3,0.6,0.4,0.9,0.5,0.7",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "waveW": {
+          "agentEditable": false,
+          "default": 2,
+          "max": 8,
+          "min": 1,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {},
+      "version": 1
+    },
+    {
+      "id": "t7-11",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "borderColor": {
+          "agentEditable": false,
+          "default": "#6398F2",
+          "required": true,
+          "type": "color"
+        },
+        "borderW": {
+          "agentEditable": false,
+          "default": 2,
+          "max": 8,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "boxBg": {
+          "agentEditable": false,
+          "default": "rgba(15,25,50,0.35)",
+          "required": true,
+          "type": "color"
+        },
+        "boxH": {
+          "agentEditable": false,
+          "default": 380,
+          "max": 640,
+          "min": 260,
+          "required": true,
+          "type": "number"
+        },
+        "boxW": {
+          "agentEditable": false,
+          "default": 380,
+          "max": 640,
+          "min": 260,
+          "required": true,
+          "type": "number"
+        },
+        "drawMs": {
+          "agentEditable": false,
+          "default": 500,
+          "max": 1600,
+          "min": 150,
+          "required": true,
+          "type": "number"
+        },
+        "fillColor": {
+          "agentEditable": false,
+          "default": "rgba(99,152,242,0.15)",
+          "required": true,
+          "type": "color"
+        },
+        "gridColor": {
+          "agentEditable": false,
+          "default": "rgba(120,140,170,0.22)",
+          "required": true,
+          "type": "color"
+        },
+        "items": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "label",
+            "score"
+          ],
+          "default": "[{\"label\":\"推理\",\"score\":\"0.86\",\"at\":\"\"},{\"label\":\"记忆\",\"score\":\"0.72\",\"at\":\"\"},{\"label\":\"创作\",\"score\":\"0.78\",\"at\":\"\"},{\"label\":\"速度\",\"score\":\"0.91\",\"at\":\"\"},{\"label\":\"稳定\",\"score\":\"0.83\",\"at\":\"\"}]",
+          "listFieldsKeys": [
+            "label",
+            "score",
+            "at"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "labelColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "labelSize": {
+          "agentEditable": false,
+          "default": 34,
+          "max": 64,
+          "min": 14,
+          "required": true,
+          "type": "number"
+        },
+        "maxR": {
+          "agentEditable": false,
+          "default": 140,
+          "max": 220,
+          "min": 60,
+          "required": true,
+          "type": "number"
+        },
+        "orbitMs": {
+          "agentEditable": false,
+          "default": 2600,
+          "max": 8000,
+          "min": 600,
+          "required": true,
+          "type": "number"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 168.7410654563443,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 115.66149159845445,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "radius": {
+          "agentEditable": false,
+          "default": 8,
+          "max": 48,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "rings": {
+          "agentEditable": false,
+          "default": 4,
+          "max": 6,
+          "min": 2,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 82.4730583513049,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "staggerMs": {
+          "agentEditable": false,
+          "default": 200,
+          "max": 800,
+          "min": 40,
+          "required": true,
+          "type": "number"
+        },
+        "strokeColor": {
+          "agentEditable": false,
+          "default": "#6398F2",
+          "required": true,
+          "type": "color"
+        },
+        "strokeW": {
+          "agentEditable": false,
+          "default": 2,
+          "max": 8,
+          "min": 1,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {
+        "maxItems": 6,
+        "minItems": 3
+      },
       "version": 1
     }
   ]

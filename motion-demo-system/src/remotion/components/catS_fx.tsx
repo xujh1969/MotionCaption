@@ -1,7 +1,7 @@
 import React from 'react';
 import { useCurrentFrame } from 'remotion';
 import { COLORS, FONT_STACK } from '../theme';
-import { useEnter, useEnterOpacity, useBreath, useGrow, useCount } from '../anim';
+import { useEnter, useEnterOpacity, useBreath, useGrow, useCount, atFrames } from '../anim';
 import { useConfigKey, useConfigList } from '../config';
 import { measureText, weightNum } from '../measure';
 import { parseKeyText, shadeHex, stripKeyText, tint } from './shared';
@@ -162,7 +162,7 @@ export const FX_04: React.FC = () => {
       <TX x={pad} y={26} size={tagSize} color={tagColor} text={tag} opacity={title.opacity} />
       <TX x={pad + 4} y={64} size={titleSize} color={titleColor} text={titleText} weight={700} opacity={title.opacity} />
       {items.map((it, i) => {
-        const o = useEnterOpacity(frame, 26 + i * 10);
+        const o = useEnterOpacity(frame, atFrames(it, i, 26, 10));
         const col = it.color || GOLD;
         // val 语义为指标数值：纯数字或带 % 时按百分比展示；填入短文本（如“行业第一”）时原样显示，不强行加 %。
         const valRaw = String(it.val ?? '').trim();
@@ -290,7 +290,7 @@ export const FX_06: React.FC = () => {
       <TX x={lineEnd + 12} y={16} size={tagSize} color={tagColor} text={tag} opacity={title.opacity} />
       <TX x={34} y={62} size={titleSize} color={titleColor} text={titleText} weight={700} opacity={titleO} />
       {steps.map((r, i) => {
-        const o = useEnterOpacity(frame, 30 + i * 14);
+        const o = useEnterOpacity(frame, atFrames(r, i, 30, 14));
         return (
           <div key={i} style={{ position: 'absolute', left: 34, top: rowStartY + i * (rowH + rowGap), width: 552, height: rowH, borderRadius: 8, border: `2px solid ${theme}`, opacity: o, background: tint(theme, 0.05), display: 'flex', alignItems: 'center', boxSizing: 'border-box', padding: '0 18px' }}>
             <span style={{ fontFamily: FONT_STACK, fontSize: nSize, fontWeight: 700, color: nColor, whiteSpace: 'nowrap', lineHeight: 1 }}>{r.n}</span>
@@ -350,7 +350,7 @@ export const FX_07: React.FC = () => {
       <TX x={lineEnd + 12} y={16} size={tagSize} color={tagColor} text={tag} opacity={title.opacity} />
       <TX x={innerLeft} y={62} size={titleSize} color={titleColor} text={titleText} weight={700} opacity={titleO} />
       {cards.map((c, i) => {
-        const o = useEnterOpacity(frame, 30 + i * 12);
+        const o = useEnterOpacity(frame, atFrames(c, i, 30, 12));
         const cx = innerLeft + (i % cols) * (cw + gx), cy = cardsY + Math.floor(i / cols) * (ch + gy);
         return (
           <div key={i} style={{ position: 'absolute', left: cx, top: cy, width: cw, height: ch, borderRadius: 8, border: `2px solid ${theme}`, opacity: o, background: tint(theme, 0.05), boxSizing: 'border-box', padding: '18px 18px' }}>
@@ -401,8 +401,8 @@ export const FX_08: React.FC = () => {
       <TX x={lineEnd + 12} y={16} size={tagSize} color={tagColor} text={tag} opacity={title.opacity} />
       <TX x={innerLeft} y={62} size={titleSize} color={titleColor} text={titleText} weight={700} opacity={titleO} />
       {bars.map((b, i) => {
-        const grow = useGrow(frame, 24 + i * 12);
-        const o = useEnterOpacity(frame, 26 + i * 12);
+        const grow = useGrow(frame, atFrames(b, i, 24, 12));
+        const o = useEnterOpacity(frame, atFrames(b, i, 24, 12) + 2);
         const col = b.color || GOLD;
         const g = Math.max(0, Math.min(100, Number(b.g) || 0));
         const y = barsY + i * (rowH + rowGap);

@@ -1,9 +1,14 @@
 import * as C1 from './components/cat1_text';
 import * as C2 from './components/cat2_card';
 import * as C3 from './components/cat3_data';
+import * as C3C from './components/cat3_cards';
 import * as C4 from './components/cat4_5';
+import * as C4C from './components/cat4_cards';
 import * as C6 from './components/cat6_timeline';
+import * as C6S from './components/cat6_step';
 import * as C7 from './components/cat7_chart';
+import * as C7B from './components/cat7_barline';
+import * as C7R from './components/cat7_ringwave';
 import * as S from './components/catS_fx';
 import type { ComponentDef } from '../effects/types';
 
@@ -50,9 +55,18 @@ export const CATALOG: ComponentDef[] = [
   { id: 't3-02', name: '前缀标签-数值-单位单行', category: 'data-show', component: C3.T3_02 },
   { id: 't3-03', name: '双栏对比数据', category: 'data-show', component: C3.T3_03 },
   { id: 't3-04', name: '多行key-value数据条目', category: 'data-show', component: C3.T3_04 },
+  { id: 't3-05', name: '横向指标数据卡片(数字滚动+迷你条形)', category: 'data-show', component: C3C.T3_05 },
+  { id: 't3-06', name: '横向对比双列卡片组(正反对照)', category: 'data-show', component: C3C.T3_06 },
   // 第四大类 流程轨道
   { id: 't4-01', name: '多步横向流程', category: 'flow-track', component: C4.T4_01 },
   { id: 't4-02', name: '渐变节点阶段演进时间轴', category: 'flow-track', component: C4.T4_02 },
+  { id: 't4-03', name: '横向串联流程卡片(箭头依次点亮)', category: 'flow-track', component: C4C.T4_03 },
+  { id: 't4-04', name: '横向相加串联卡片(+号依次点亮)', category: 'flow-track', component: C4C.T4_04 },
+  { id: 't4-05', name: '横向并列勾选卡片(逐项打勾)', category: 'flow-track', component: C4C.T4_05 },
+  { id: 't4-06', name: '横向序号步骤卡片(序号+主副标题)', category: 'flow-track', component: C4C.T4_06 },
+  { id: 't4-07', name: '横向递进箭头串联步骤卡片(序号+描述)', category: 'flow-track', component: C4C.T4_07 },
+  { id: 't4-08', name: '横向图标标题卡片(图标呼吸光)', category: 'flow-track', component: C4C.T4_08 },
+  { id: 't4-09', name: '横向标签徽章卡片(关键词快闪)', category: 'flow-track', component: C4C.T4_09 },
   // 第五大类 列表
   { id: 't5-01', name: '圆点标记竖向清单', category: 'list-item', component: C4.T5_01 },
   { id: 't5-02', name: '三色状态标签条目清单', category: 'list-item', component: C4.T5_02 },
@@ -68,6 +82,7 @@ export const CATALOG: ComponentDef[] = [
   { id: 't6-05', name: '节点分步入场时间线', category: 'timeline-flow', component: C6.T6_05 },
   { id: 't6-06', name: '多步骤向上浮动递进时间线', category: 'timeline-flow', component: C6.T6_06 },
   { id: 't6-07', name: '有序序号步骤列表·焦点滚动切换', category: 'timeline-flow', component: C6.T6_07 },
+  { id: 't6-08', name: '纵向堆叠序号步骤卡片(连接线延伸)', category: 'timeline-flow', component: C6S.T6_08 },
   // 第七大类 迷你图表
   { id: 't7-01', name: '标题+竖向柱状图', category: 'mini-chart', component: C7.T7_01 },
   { id: 't7-02', name: '横向条形对比图', category: 'mini-chart', component: C7.T7_02 },
@@ -75,4 +90,9 @@ export const CATALOG: ComponentDef[] = [
   { id: 't7-04', name: '双线条迷你折线图', category: 'mini-chart', component: C7.T7_04 },
   { id: 't7-05', name: '多卡片指标快照', category: 'mini-chart', component: C7.T7_05 },
   { id: 't7-06', name: '半环形占比仪表盘', category: 'mini-chart', component: C7.T7_06 },
+  { id: 't7-07', name: '横向分组条形图(A/B双序列对比)', category: 'mini-chart', component: C7B.T7_07 },
+  { id: 't7-08', name: '折线趋势图(生长绘制+光点巡游)', category: 'mini-chart', component: C7B.T7_08 },
+  { id: 't7-09', name: '环形占比饼图(分段依次生长)', category: 'mini-chart', component: C7R.T7_09 },
+  { id: 't7-10', name: '迷你波形图(实时波动HUD)', category: 'mini-chart', component: C7R.T7_10 },
+  { id: 't7-11', name: '进度雷达图(多维能力评分)', category: 'mini-chart', component: C7R.T7_11 },
 ];

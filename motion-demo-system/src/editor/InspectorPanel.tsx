@@ -14,6 +14,7 @@ import {
   type PaletteState,
 } from '../effects/paletteSlots';
 import {
+  collectInstanceSnapshot,
   collectStyleValues,
   DEFAULT_PALETTE,
   loadPalette,
@@ -109,15 +110,20 @@ const EffectInspector: React.FC<{ effect: MotionEffectInstance; definition: Effe
   }, [definition, effect.instanceId, effect.componentId, updateEffect, showMessage]);
 
   const saveAsDefault = React.useCallback(() => {
-    const styles = collectStyleValues(definition, config);
+    // 位置/缩放的实际生效值在 effect.transform（拖拽只写 transform），先叠加进快照
+    const withTransform: Record<string, unknown> = { ...config };
+    if (definition.props.posX) withTransform.posX = effect.transform.x;
+    if (definition.props.posY) withTransform.posY = effect.transform.y;
+    if (definition.props.scale) withTransform.scale = effect.transform.scale * 100;
+    const styles = collectInstanceSnapshot(definition, withTransform);
     if (!Object.keys(styles).length) {
-      showMessage('该组件没有可保存的样式项');
+      showMessage('该组件没有可保存的属性');
       return;
     }
     const next = { ...readUserStyleDefaults(), [effect.componentId]: styles };
     saveUserStyleDefaults(next);
-    showMessage(`已将 ${definition.id} 当前样式存为本机默认`);
-  }, [definition, config, effect.componentId, showMessage]);
+    showMessage(`已将 ${definition.id} 当前全部属性（含位置与缩放）存为本机默认，新放置的实例将完整还原`);
+  }, [definition, config, effect, showMessage]);
 
   const handleApplySame = React.useCallback(() => {
     if (confirmingSame) {
@@ -176,7 +182,7 @@ const EffectInspector: React.FC<{ effect: MotionEffectInstance; definition: Effe
           type="button"
           className="prop-btn"
           data-action="save-default"
-          title="把当前字号/颜色/透明度等样式保存为本机全局默认：今后新建或 AI 导入该组件都直接用这份样式"
+          title="把当前全部属性（文字内容、数组条目、颜色字号等；位置/缩放除外）保存为本机全局默认：今后新建该组件将完整还原这份配置"
           onClick={saveAsDefault}
         >
           存为默认样式

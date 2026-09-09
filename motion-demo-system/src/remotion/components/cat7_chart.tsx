@@ -1,7 +1,7 @@
 import React from 'react';
 import { Easing, useCurrentFrame, interpolate } from 'remotion';
 import { COLORS, FONT_STACK } from '../theme';
-import { useEnter, useEnterOpacity, useBreath, useCount, useGrow, easeOutExpo } from '../anim';
+import { useEnter, useEnterOpacity, useBreath, useCount, useGrow, easeOutExpo, atFrames } from '../anim';
 import { useConfigKey, useConfigList } from '../config';
 import { weightNum } from '../measure';
 import { tint } from './shared';
@@ -45,13 +45,14 @@ export const T7_01: React.FC = () => {
       {data.map((r, i) => {
         const val = Number(r.val);
         const highlight = r.hl === '1' || (r.hl as string) === '高亮';
-        const grow = useGrow(frame, 20 + i * 10);
+        const d = atFrames(r, i, 20, 10);
+        const grow = useGrow(frame, d);
         const h = (val / maxV) * canvasH * grow;
         const x = startX + i * (barW + gap);
         const color = highlight ? barB : barA;
-        const labelO = useEnterOpacity(frame, 40 + i * 10);
-        const catO = useEnterOpacity(frame, 48 + i * 10);
-        const num = useCount(frame, val, 26 + i * 10, 30);
+        const labelO = useEnterOpacity(frame, d + 20);
+        const catO = useEnterOpacity(frame, d + 28);
+        const num = useCount(frame, val, d + 6, 30);
         return (
           <div key={i} style={{ position: 'absolute', left: x, top: canvasY }}>
             <div style={{
@@ -93,10 +94,11 @@ export const T7_02: React.FC = () => {
       <T x={0} y={0} size={titleSize} weight="Heavy" color={COLORS.textPrimary} text={titleText as string}
         opacity={title.opacity} translateY={title.translateY} />
       {rows.map((r, i) => {
-        const catO = useEnterOpacity(frame, 18 + i * 14);
-        const bgO = useEnterOpacity(frame, 22 + i * 14);
-        const fill = useGrow(frame, 26 + i * 14, 34);
-        const valO = useEnterOpacity(frame, 38 + i * 14);
+        const d = atFrames(r, i, 18, 14);
+        const catO = useEnterOpacity(frame, d);
+        const bgO = useEnterOpacity(frame, d + 4);
+        const fill = useGrow(frame, d + 8, 34);
+        const valO = useEnterOpacity(frame, d + 20);
         const w = barMaxW * (r.val / 100) * fill;
         return (
           <div key={i} style={{ position: 'absolute', left: 0, top: listTop + i * itemH }}>
@@ -132,6 +134,7 @@ export const T7_03: React.FC = () => {
     name: s.name,
     pct: Number(s.pct) || 0,
     color: s.color || SEG_PALETTE[i % SEG_PALETTE.length],
+    at: (s as { at?: unknown }).at,
   }));
   const outerR = 110, innerR = 62; // 环更大：路径中心线半径110，环宽48，外缘=110+24=134
   const svgSize = 280, cx = 140, cy = 140; // SVG半经140>134，避免裁剪
@@ -174,7 +177,7 @@ export const T7_03: React.FC = () => {
         <div style={{ fontSize: centerSize, fontWeight: 400, color: centerColor, marginTop: 6, opacity: subO }}>{centerText as string}</div>
       </div>
       {segs.map((s, i) => {
-        const o = useEnterOpacity(frame, 40 + i * 14);
+        const o = useEnterOpacity(frame, atFrames(s, i, 40, 14));
         return (
           <div key={i} style={{ position: 'absolute', left: svgSize + 40, top: legendTop + i * step, opacity: o, whiteSpace: 'nowrap' }}>
             <div style={{ display: 'inline-block', width: 16, height: 16, background: s.color, marginRight: 12, verticalAlign: 'middle', borderRadius: 3 }} />
@@ -307,7 +310,8 @@ export const T7_05: React.FC = () => {
       <T x={0} y={0} size={titleSize} weight="Heavy" color={COLORS.textPrimary} text={titleText as string}
         opacity={title.opacity} translateY={title.translateY} />
       {cards.map((c, i) => {
-        const o = useEnter(frame, 18 + i * 16, 30, 0);
+        const d = atFrames(c, i, 18, 16);
+        const o = useEnter(frame, d, 30, 0);
         const valP = 0.9 + 0.1 * i;
         const deltaB = useBreath(frame, 1, 1, 0.08);
         const m = String(c.val).match(/^([\d.]+)(.*)$/);
@@ -315,7 +319,7 @@ export const T7_05: React.FC = () => {
         const suffix = m ? m[2] : '';
         const decimals = m && m[1].includes('.') ? m[1].split('.')[1].length : 0;
         const p = Number.isFinite(target)
-          ? interpolate(frame, [26 + i * 16, 26 + i * 16 + 34], [0, 1], {
+          ? interpolate(frame, [d + 8, d + 42], [0, 1], {
               easing: easeOutExpo, extrapolateLeft: 'clamp', extrapolateRight: 'clamp',
             })
           : 1;
