@@ -1,8 +1,9 @@
 import React from 'react';
 import { useCurrentFrame, interpolate } from 'remotion';
-import { FONT, itemProgress, panelBox } from './cardKit';
+import { FONT, itemProgress, panelBox, textWidth } from './cardKit';
 import { easeOutExpo } from '../anim';
 import { useConfigKey, useConfigList } from '../config';
+import { renderKeyParts } from './shared';
 
 /**
  * t7-07 横向分组条形图（A/B 双序列，逐类生长 + 单次斜向扫光）
@@ -48,6 +49,7 @@ export const T7_07: React.FC = () => {
   const tickColor = useConfigKey('t7-07', 'tickColor') as string;
   const legendSize = useConfigKey('t7-07', 'legendSize') as number;
   const legendA = useConfigKey('t7-07', 'legendA') as string;
+  const hl = useConfigKey('t7-07', 'hlColor') as string;
   const legendB = useConfigKey('t7-07', 'legendB') as string;
   const growMs = useConfigKey('t7-07', 'growMs') as number;
   const gridColor = useConfigKey('t7-07', 'gridColor') as string;
@@ -56,7 +58,9 @@ export const T7_07: React.FC = () => {
   const posY = (useConfigKey('t7-07', 'posY') as number) ?? 580;
 
   const growFrames = Math.max(6, Math.round((growMs / 1000) * 30));
-  const padX = 26, padTop = 46, padBottom = 46, axisW = 54;
+  // 底部留白随类目字号自适应：标签用 bottom 锚定，保证不与面板底边框重叠。
+  const padBottom = Math.max(46, Math.ceil(labelSize * 1.35) + 18);
+  const padX = 26, padTop = 46, axisW = 54;
   const plotX = padX + axisW;
   const plotW = Math.max(60, W - padX * 2 - axisW);
   const plotH = Math.max(40, H - padTop - padBottom);
@@ -82,7 +86,7 @@ export const T7_07: React.FC = () => {
               <span style={{
                 width: legendSize * 0.7, height: legendSize * 0.7, borderRadius: 3, background: c as string,
               }} />
-              {t as string}
+              {renderKeyParts(t as string, hl)}
             </span>
           ))}
         </div>
@@ -133,11 +137,25 @@ export const T7_07: React.FC = () => {
             <React.Fragment key={`c${i}`}>
               {bar(Number(r.valA), colorA, x0, 'a')}
               {bar(Number(r.valB), colorB, x0 + barW + barGap, 'b')}
-              <div style={{
-                position: 'absolute', left: plotX + slot * i, top: padTop + plotH + 10,
-                width: slot, textAlign: 'center', fontSize: labelSize, fontWeight: 700,
-                color: labelColor, opacity: 0.35 + 0.65 * p, whiteSpace: 'nowrap',
-              }}>{r.category ?? ''}</div>
+              {(() => {
+                // 类目标签：bottom 锚定防穿底边框；中心点按实测宽度钳制在
+                // 面板内边距内，长类目不与左右边框重叠。
+                const label = r.category ?? '';
+                const lw = textWidth(label, labelSize, 'Bold');
+                const slotCenter = plotX + slot * i + slot / 2;
+                const center = Math.min(
+                  Math.max(slotCenter, padX + lw / 2),
+                  W - padX - lw / 2,
+                );
+                return (
+                  <div style={{
+                    position: 'absolute', left: center - lw / 2, bottom: 10, width: lw,
+                    textAlign: 'center', fontSize: labelSize, fontWeight: 700,
+                    lineHeight: 1.25, color: labelColor, whiteSpace: 'nowrap',
+                    opacity: 0.35 + 0.65 * p,
+                  }}>{label}</div>
+                );
+              })()}
             </React.Fragment>
           );
         })}
@@ -182,7 +200,9 @@ export const T7_08: React.FC = () => {
   const stagger = Math.max(1, Math.round((staggerMs / 1000) * 30));
   const cycle = Math.max(10, Math.round((breathMs / 1000) * 30));
 
-  const padX = 30, padTop = 26, padBottom = 44, axisW = 46;
+  // 底部留白随刻度字号自适应：X 轴标签用 bottom 锚定，保证不与底边框重叠。
+  const padBottom = Math.max(44, Math.ceil(tickSize * 1.35) + 18);
+  const padX = 30, padTop = 26, axisW = 46;
   const plotX = padX + axisW;
   const plotW = Math.max(60, W - padX * 2 - axisW);
   const plotH = Math.max(40, H - padTop - padBottom);
@@ -265,13 +285,20 @@ export const T7_08: React.FC = () => {
               style={{ filter: `drop-shadow(0 0 10px ${lineColor})` }} />
           )}
         </svg>
-        {/* X 轴标签 */}
-        {pts.map((p, i) => (
-          <div key={`x${i}`} style={{
-            position: 'absolute', left: p.x, top: padTop + plotH + 10, transform: 'translateX(-50%)',
-            fontSize: tickSize, color: tickColor, whiteSpace: 'nowrap',
-          }}>{rows[i]?.xLabel ?? ''}</div>
-        ))}
+        {/* X 轴标签：bottom 锚定防穿底边框；中心点按实测宽度钳制在面板
+            内边距内，首尾长标签（如"第4周"）不与左右边框重叠。 */}
+        {pts.map((p, i) => {
+          const label = rows[i]?.xLabel ?? '';
+          const lw = textWidth(label, tickSize, 'Regular');
+          const center = Math.min(Math.max(p.x, padX + lw / 2), W - padX - lw / 2);
+          return (
+            <div key={`x${i}`} style={{
+              position: 'absolute', left: center - lw / 2, bottom: 10, width: lw,
+              textAlign: 'center', fontSize: tickSize, color: tickColor,
+              lineHeight: 1.25, whiteSpace: 'nowrap',
+            }}>{label}</div>
+          );
+        })}
       </div>
     </div>
   );

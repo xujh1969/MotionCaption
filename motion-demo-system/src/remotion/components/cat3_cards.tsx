@@ -1,6 +1,7 @@
 import React from 'react';
 import { useCurrentFrame } from 'remotion';
 import { FONT, itemProgress, shell, SHADOW_STEP, SHADOW_CYAN, countValue, parseNums, parsePoints, textWidth } from './cardKit';
+import { WrappedText } from './shared';
 import { atFrames } from '../anim';
 import { useConfigKey, useConfigList } from '../config';
 
@@ -120,7 +121,7 @@ export const T3_06: React.FC = () => {
   const frame = useCurrentFrame();
   const raw = useConfigList('t3-06', 'groups') as {
     titleA?: string; borderA?: string; pointsA?: string;
-    titleB?: string; borderB?: string; pointsB?: string; at?: string;
+    titleB?: string; borderB?: string; pointsB?: string; at?: string; atB?: string;
   }[];
   const groups = raw.length > 0
     ? raw
@@ -190,26 +191,32 @@ export const T3_06: React.FC = () => {
       ...shell(w, h, radius, borderW, color, cardBg, p, 0.3, 14, SHADOW_CYAN),
       opacity: DIM + (1 - DIM) * p, padding: `18px ${padX}px`,
       flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'flex-start',
+      // 整卡上浮入场：与点亮进度同步，避免"只变亮、不出现"的僵硬感
+      transform: `translateY(${((1 - p) * 14).toFixed(2)}px)`,
     }}>
-      <div style={{
-        fontSize: titleSize, fontWeight: 700, color: titleColor, lineHeight: 1.15,
-        wordBreak: 'break-word', maxWidth: '100%',
-      }}>{title}</div>
+      <WrappedText
+        text={title} size={titleSize} maxWidth={w - padX * 2} baseWeight="Bold" lineHeight={1.15}
+        style={{ fontSize: titleSize, fontWeight: 700, color: titleColor }}
+      />
       {points.map((t, k) => {
-        const ip = Math.max(0, Math.min(1, p * 1.6 - (k * stagger) / DUR));
+        // 逐条入场：整卡点亮后按 staggerMs 依次推进，每条有独立的 0→1 进度，
+        // 上浮 + 淡入跟进，形成"跟着口播一条条冒出来"的节奏。
+        const span = DUR + Math.max(0, points.length - 1) * stagger;
+        const ip = Math.max(0, Math.min(1, (p * span - k * stagger) / DUR));
         return (
           <div key={`p${k}`} style={{
             marginTop: k === 0 ? 16 : 8, display: 'flex', alignItems: 'flex-start',
-            width: '100%', opacity: 0.35 + 0.65 * ip,
+            width: '100%', opacity: ip,
+            transform: `translateY(${((1 - ip) * 10).toFixed(2)}px)`,
           }}>
             <span style={{
               fontSize: markSize, fontWeight: 700, color, lineHeight: 1.25,
               minWidth: markSize, flex: '0 0 auto', textAlign: 'center',
             }}>{markAt(mark, k)}</span>
-            <span style={{
-              marginLeft: markGap, fontSize: itemSize, fontWeight: 400, color: itemColor,
-              lineHeight: LINE_H, flex: '1 1 auto', wordBreak: 'break-word',
-            }}>{t}</span>
+            <WrappedText
+              text={t} size={itemSize} maxWidth={w - padX * 2 - markSize - markGap} baseWeight="Regular" lineHeight={LINE_H}
+              style={{ marginLeft: markGap, fontSize: itemSize, fontWeight: 400, color: itemColor, flex: '1 1 auto' }}
+            />
           </div>
         );
       })}
@@ -224,6 +231,8 @@ export const T3_06: React.FC = () => {
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: groupGap }}>
         {groups.map((g, i) => {
           const p = itemProgress(frame, g, i, 10, 48, DUR);
+          // 左右两卡可分别设定出现时间：atB 留空时回落 at，保持同步点亮（旧工程行为不变）
+          const pB = itemProgress(frame, { at: g.atB || g.at }, i, 10, 48, DUR);
           const pointsA = parsePoints(g.pointsA);
           const pointsB = parsePoints(g.pointsB);
           // 左右各自量体裁衣，再取同一高度：长文字换行后不会挤在一行或被截断
@@ -233,7 +242,7 @@ export const T3_06: React.FC = () => {
           return (
             <div key={`g${i}`} style={{ display: 'flex', alignItems: 'flex-start', gap: innerGap }}>
               {side(g.titleA ?? '', g.borderA || '#f24e78', pointsA, markA, p, la.w, h, la.lines)}
-              {side(g.titleB ?? '', g.borderB || '#46e0d0', pointsB, markB, p, lb.w, h, lb.lines)}
+              {side(g.titleB ?? '', g.borderB || '#46e0d0', pointsB, markB, pB, lb.w, h, lb.lines)}
             </div>
           );
         })}

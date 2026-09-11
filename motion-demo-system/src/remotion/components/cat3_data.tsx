@@ -4,7 +4,7 @@ import { COLORS, FONT_STACK } from '../theme';
 import { useEnter, useEnterOpacity, useBreath, useCount, useEnterScale, useScanAcross, atFrames } from '../anim';
 import { useConfigKey, useConfigList } from '../config';
 import { weightNum, measureText } from '../measure';
-import { tint } from './shared';
+import { tint, renderKeyParts, stripKeyText, WrappedText } from './shared';
 
 const base: React.CSSProperties = { position: 'absolute', fontFamily: FONT_STACK, whiteSpace: 'nowrap' };
 
@@ -45,12 +45,14 @@ const DataBox: React.FC<{ x: number; y: number; w: number; h: number; frame: num
 interface TextProps {
   x: number; y: number; size: number; weight?: 'Heavy' | 'Bold' | 'Regular';
   color: string; text: string; opacity?: number; translateY?: number; letterSpacing?: number;
+  /** 重点文字颜色：文本含 {{重点}} 标记时用该色绘制重点片段。 */
+  hl?: string;
 }
-const T: React.FC<TextProps> = ({ x, y, size, weight = 'Heavy', color, text, opacity = 1, translateY = 0, letterSpacing = 0 }) => (
+const T: React.FC<TextProps> = ({ x, y, size, weight = 'Heavy', color, text, opacity = 1, translateY = 0, letterSpacing = 0, hl }) => (
   <div style={{
     ...base, left: x, top: y, fontSize: size, fontWeight: weightNum(weight), color,
     opacity, transform: `translateY(${translateY}px)`, letterSpacing, textShadow: '0 3px 12px rgba(0,0,0,0.45)',
-  }}>{text}</div>
+  }}>{renderKeyParts(text, hl)}</div>
 );
 
 /* ---------------- t3-01 大数字+单位底部说明（整组件扫光 + 圆角透明底） ---------------- */
@@ -74,12 +76,13 @@ export const T3_01: React.FC = () => {
   const noteText = useConfigKey('t3-01', 'noteText') as string;
   const unitText = useConfigKey('t3-01', 'unitText') as string;
   const descText = useConfigKey('t3-01', 'descText') as string;
+  const hl = useConfigKey('t3-01', 'hlColor') as string;
   const val = useCount(frame, value, 20, 34);
 
   const padX = 60, padY = 52, colW = 640;
   const numH = Math.max(numSize, unitSize);
   const g1 = 26, g2 = 34;
-  const descBlock = Math.max(1, Math.ceil(measureText(descText, descSize, 'Regular') / colW));
+  const descBlock = Math.max(1, Math.ceil(measureText(stripKeyText(descText), descSize, 'Regular') / colW));
   const descH = Math.round(descBlock * descSize * 1.4);
   const boxW = colW + padX * 2;
   const boxH = Math.round(padY * 2 + noteSize + g1 + numH + g2 + descH);
@@ -88,15 +91,16 @@ export const T3_01: React.FC = () => {
     <DataBox x={posX} y={posY} w={boxW} h={boxH} frame={frame} border={unitColor} scale={configScale}>
       <div style={{ position: 'absolute', left: padX, top: padY, width: colW }}>
         <div style={{ ...base, left: 0, top: 0, fontSize: noteSize, fontWeight: 400, color: COLORS.textSecondary, opacity: note.opacity, transform: `translateY(${note.translateY}px)` }}>
-          {noteText}
+          {renderKeyParts(noteText, hl)}
         </div>
         <div style={{ ...base, left: 0, top: noteSize + g1, transform: `scale(${scale})`, transformOrigin: 'left top' }}>
           <span style={{ fontSize: numSize, fontWeight: 900, color: numColor, lineHeight: 1, opacity: 0.9 + (breath - 1) * 0.4, letterSpacing: -3 }}>{val}</span>
           <span style={{ fontSize: unitSize, fontWeight: 700, color: unitColor, lineHeight: 1, marginLeft: 10, opacity: 0.9 * unitB }}>{unitText}</span>
         </div>
-        <div style={{ ...base, left: 0, top: noteSize + g1 + numH + g2, width: colW, textAlign: 'center', fontSize: descSize, fontWeight: 400, color: COLORS.textSecondary, lineHeight: 1.4, whiteSpace: 'normal', opacity: desc }}>
-          {descText}
-        </div>
+        <WrappedText
+          text={descText} size={descSize} maxWidth={colW} baseWeight="Regular" hlColor={hl} lineHeight={1.4}
+          style={{ ...base, left: 0, top: noteSize + g1 + numH + g2, width: colW, textAlign: 'center', fontSize: descSize, fontWeight: 400, color: COLORS.textSecondary, opacity: desc }}
+        />
       </div>
     </DataBox>
   );
@@ -119,13 +123,14 @@ export const T3_02: React.FC = () => {
   const tagText = useConfigKey('t3-02', 'tagText') as string;
   const unitText = useConfigKey('t3-02', 'unitText') as string;
   const descText = useConfigKey('t3-02', 'descText') as string;
+  const hl = useConfigKey('t3-02', 'hlColor') as string;
   const val = useCount(frame, value, 14, 32);
   const scale = useEnterScale(frame, 14, 32);
 
   const padX = 60, padY = 54, colW = 700;
   const numH = Math.max(tagSize, numSize, unitSize);
   const g = 28;
-  const descBlock = Math.max(1, Math.ceil(measureText(descText, descSize, 'Regular') / colW));
+  const descBlock = Math.max(1, Math.ceil(measureText(stripKeyText(descText), descSize, 'Regular') / colW));
   const descH = Math.round(descBlock * descSize * 1.4);
   const boxW = colW + padX * 2;
   const boxH = Math.round(padY * 2 + numH + g + descH);
@@ -134,13 +139,14 @@ export const T3_02: React.FC = () => {
     <DataBox x={posX} y={posY} w={boxW} h={boxH} frame={frame} border={tagColor} scale={configScale}>
       <div style={{ position: 'absolute', left: padX, top: padY, width: colW }}>
         <div style={{ ...base, left: 0, top: 0, opacity: m.opacity, transform: `scale(${m.scale})`, transformOrigin: 'left top' }}>
-          <span style={{ fontSize: tagSize, fontWeight: 700, color: tagColor }}>{tagText}</span>
+          <span style={{ fontSize: tagSize, fontWeight: 700, color: tagColor }}>{renderKeyParts(tagText, hl)}</span>
           <span style={{ fontSize: numSize, fontWeight: 900, color: COLORS.textPrimary, marginLeft: 10, transform: `scale(${scale})`, transformOrigin: 'left center', display: 'inline-block', lineHeight: 1, letterSpacing: -2 }}>{val}</span>
           <span style={{ fontSize: unitSize, fontWeight: 700, color: tagColor, marginLeft: 8, opacity: 0.9 * unitB }}>{unitText}</span>
         </div>
-        <div style={{ ...base, left: 0, top: numH + g, width: colW, textAlign: 'center', fontSize: descSize, fontWeight: 400, color: COLORS.textSecondary, lineHeight: 1.4, whiteSpace: 'normal' }}>
-          {descText}
-        </div>
+        <WrappedText
+          text={descText} size={descSize} maxWidth={colW} baseWeight="Regular" hlColor={hl} lineHeight={1.4}
+          style={{ ...base, left: 0, top: numH + g, width: colW, textAlign: 'center', fontSize: descSize, fontWeight: 400, color: COLORS.textSecondary }}
+        />
       </div>
     </DataBox>
   );
@@ -175,10 +181,11 @@ export const T3_03: React.FC = () => {
   const descSize = useConfigKey('t3-03', 'descSize') as number;
   const labelL = useConfigKey('t3-03', 'labelL') as string;
   const descL = useConfigKey('t3-03', 'descL') as string;
+  const hl = useConfigKey('t3-03', 'hlColor') as string;
   // 左栏实际最宽内容（标签 / 数值 / 说明）：右栏至少退到它之后，避免大字号、多位数时两侧粘连
   const widthOf = (text: string, size: number) => {
     try {
-      return measureText(String(text ?? ''), size, 'Bold');
+      return measureText(stripKeyText(String(text ?? '')), size, 'Bold');
     } catch {
       return String(text ?? '').length * size * 0.6;
     }
@@ -192,14 +199,14 @@ export const T3_03: React.FC = () => {
   return (
     <div style={{ position: 'absolute', left: posX, top: posY, transformOrigin: 'top left', transform: `scale(${configScale / 100})` }}>
       <div style={{ position: 'absolute', left: 0, top: 0 }}>
-        <T x={0} y={0} size={40} weight="Bold" color={accentA} text={labelL} opacity={l.label.opacity} translateY={l.label.translateY} />
+        <T x={0} y={0} size={40} weight="Bold" color={accentA} text={labelL} opacity={l.label.opacity} translateY={l.label.translateY} hl={hl} />
         <div style={{ ...base, left: 0, top: 44, fontSize: numSize, fontWeight: 900, color: numColor, transform: `scale(${l.scale})`, transformOrigin: 'left top', opacity: 0.92 }}>{l.val}</div>
-        <T x={0} y={descY} size={descSize} weight="Regular" color={COLORS.textSecondary} text={descL} opacity={l.desc} />
+        <T x={0} y={descY} size={descSize} weight="Regular" color={COLORS.textSecondary} text={descL} opacity={l.desc} hl={hl} />
       </div>
       <div style={{ position: 'absolute', left: rightLeft, top: 0 }}>
-        <T x={0} y={0} size={40} weight="Bold" color={accentB} text={useConfigKey('t3-03', 'labelR') as string} opacity={r.label.opacity} translateY={r.label.translateY} />
+        <T x={0} y={0} size={40} weight="Bold" color={accentB} text={useConfigKey('t3-03', 'labelR') as string} opacity={r.label.opacity} translateY={r.label.translateY} hl={hl} />
         <div style={{ ...base, left: 0, top: 44, fontSize: numSize, fontWeight: 900, color: numColor, transform: `scale(${r.scale})`, transformOrigin: 'left top', opacity: 0.92 }}>{r.val}</div>
-        <T x={0} y={descY} size={descSize} weight="Regular" color={COLORS.textSecondary} text={useConfigKey('t3-03', 'descR') as string} opacity={r.desc} />
+        <T x={0} y={descY} size={descSize} weight="Regular" color={COLORS.textSecondary} text={useConfigKey('t3-03', 'descR') as string} opacity={r.desc} hl={hl} />
       </div>
     </div>
   );
@@ -217,11 +224,12 @@ export const T3_04: React.FC = () => {
   const rowSize = useConfigKey('t3-04', 'subSize') as number;
   const accent = useConfigKey('t3-04', 'accentColor') as string;
   const dataColor = useConfigKey('t3-04', 'titleColor') as string;
+  const hl = useConfigKey('t3-04', 'hlColor') as string;
   const keyW = 200, valueW = 260;
   const rowGap = Math.round(rowSize * 2.0);
   return (
     <div style={{ position: 'absolute', left: posX, top: posY, width: 940, transformOrigin: 'top left', transform: `scale(${configScale / 100})` }}>
-      <T x={0} y={0} size={titleSize} weight="Heavy" color={COLORS.textPrimary} text={useConfigKey('t3-04', 'titleText') as string} opacity={title.opacity} translateY={title.translateY} />
+      <T x={0} y={0} size={titleSize} weight="Heavy" color={COLORS.textPrimary} text={useConfigKey('t3-04', 'titleText') as string} opacity={title.opacity} translateY={title.translateY} hl={hl} />
       {rows.map((row, i) => {
         const atN = Number(row.at);
         const o = useEnterOpacity(frame, atFrames(row, i, 20, 12));
@@ -229,7 +237,11 @@ export const T3_04: React.FC = () => {
           <div key={i} style={{ position: 'absolute', left: 0, top: titleSize + 56 + i * rowGap, width: 900, display: 'flex', alignItems: 'baseline', opacity: o }}>
             <span style={{ fontSize: rowSize, fontWeight: 700, color: accent, width: keyW, flex: '0 0 auto', whiteSpace: 'nowrap' }}>{row.k ?? ''}</span>
             <span style={{ fontSize: rowSize, fontWeight: 900, color: dataColor, width: valueW, flex: '0 0 auto', whiteSpace: 'nowrap' }}>{row.v ?? ''}</span>
-            <span style={{ fontSize: Math.round(rowSize * 0.62), fontWeight: 400, color: COLORS.textSecondary, flex: '1 1 auto', whiteSpace: 'normal', lineHeight: 1.4 }}>{row.d ?? ''}</span>
+            <WrappedText
+              text={String(row.d ?? '')} size={Math.round(rowSize * 0.62)} maxWidth={900 - keyW - valueW}
+              baseWeight="Regular" lineHeight={1.4}
+              style={{ fontSize: Math.round(rowSize * 0.62), fontWeight: 400, color: COLORS.textSecondary, flex: '1 1 auto' }}
+            />
           </div>
         );
       })}

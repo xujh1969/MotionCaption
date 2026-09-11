@@ -89,9 +89,10 @@ export const collectStyleValues = (
 };
 
 /**
- * 「存为默认样式」用：收集全部已声明属性的快照——含样式键、文字内容、
- * 数组条目（JSON 串）以及位置/缩放（posX/posY/scale，role==='layout'）。
- * 新建实例据此完整还原用户调好的样子（含最佳视觉位置与大小）。
+ * 「存为默认样式」用：收集样式与布局快照——样式键 + 位置/缩放
+ * （posX/posY/scale，role==='layout'）。
+ * **文字内容（role==='content'，含文案与数组条目）永远不进快照**：
+ * 默认文字只由代码内置默认决定，用户在工程里改过的文案不得污染后续新实例。
  * 注意：调用方需先把 effect.transform 的实际值叠加进 config（拖拽只改 transform，
  * props 里的 posX/posY/scale 可能是旧值）；「同步到同类组件」仍用
  * collectStyleValues（只同步样式，不覆盖他卡文字与位置）。
@@ -101,7 +102,8 @@ export const collectInstanceSnapshot = (
   config: Record<string, unknown>,
 ): StyleValues => {
   const out: StyleValues = {};
-  for (const key of Object.keys(definition.props)) {
+  for (const [key, prop] of Object.entries(definition.props)) {
+    if (prop.role === 'content') continue;
     const value = config[key];
     if (typeof value === 'string' || typeof value === 'number') out[key] = value;
   }
@@ -112,11 +114,11 @@ export const collectInstanceSnapshot = (
  * 把用户默认快照并入一份 props。
  * 只覆盖给定 componentId 的用户记录中出现的键；其余保持原样。
  *
- * `options.definition` + `options.roles` 可限定只并入指定 role 的键：
- * AI 编排导入时必须传 `{ definition, roles: ['style', 'layout'] }`，
- * 否则用户快照里的**文字内容**（role==='content'）会盖掉 AI 按字幕写出的文案，
- * 表现为「导入 JSON 后组件文字还是默认的、改不动」。
- * 手动放置（addEffect）走全量并入，保留完整外观。
+ * `options.definition` 提供时**内容键（role==='content'）永远不并入**：
+ * 默认文字只由代码内置默认决定，用户快照里残留的旧文案（历史版本存过
+ * 内容键）也不得盖掉内置文案。样式/布局键默认全并入；`options.roles`
+ * 可进一步限定（AI 编排导入时传 `['style', 'layout']`）。
+ * 未提供 definition 时保持旧行为（全部并入），仅限无法取 definition 的场景。
  */
 export const mergeUserStyleDefaults = (
   componentId: string,
@@ -128,9 +130,10 @@ export const mergeUserStyleDefaults = (
   if (!userValues) return props;
   const roles = options.roles;
   const allowed = (key: string): boolean => {
-    if (!options.definition || !roles) return true;
+    if (!options.definition) return true;
     const prop = options.definition.props[key];
-    return !!prop && roles.includes(prop.role);
+    if (!prop || prop.role === 'content') return false;
+    return !roles || roles.includes(prop.role);
   };
   const merged: Record<string, unknown> = { ...props };
   for (const [key, value] of Object.entries(userValues)) {

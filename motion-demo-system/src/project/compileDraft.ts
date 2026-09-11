@@ -113,12 +113,12 @@ const transformFor = (
   const defaultX = typeof defaults.posX === 'number' ? defaults.posX : 0;
   const defaultY = typeof defaults.posY === 'number' ? defaults.posY : 0;
   const scale = typeof defaults.scale === 'number' ? defaults.scale / 100 : 1;
-  const width = definition.layout.footprint.width * scale;
-  const height = definition.layout.footprint.height * scale;
   const clamp = (value: number, max: number) => Math.min(Math.max(0, value), Math.max(0, max));
 
   if (userLayout
     && (typeof userLayout.posX === 'number' || typeof userLayout.posY === 'number')) {
+    const width = definition.layout.footprint.width * scale;
+    const height = definition.layout.footprint.height * scale;
     return {
       x: clamp(typeof userLayout.posX === 'number' ? userLayout.posX : defaultX,
         project.video.width - width),
@@ -130,11 +130,16 @@ const transformFor = (
   }
 
   if (!preset || preset === 'auto') return { x: defaultX, y: defaultY, scale, rotation: 0 };
+  // preset 分区落位时缩放钳制在 100% 以内：footprint 是规划包络（≤半画布），
+  // 超过会侵人对角分区，破坏「对角 preset 永不碰撞」的编排保证（与 boxFor 保持一致）。
+  const fitScale = Math.min(scale, 1);
+  const width = definition.layout.footprint.width * fitScale;
+  const height = definition.layout.footprint.height * fitScale;
   const x = preset.startsWith('right') ? project.video.width - width : 0;
   const y = preset.endsWith('bottom') ? project.video.height - height
     : preset.endsWith('center') || preset === 'full-width'
       ? (project.video.height - height) / 2 : 0;
-  return { x, y, scale, rotation: 0 };
+  return { x, y, scale: fitScale, rotation: 0 };
 };
 
 export function compileAgentDraft(

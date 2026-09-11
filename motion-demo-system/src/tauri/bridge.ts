@@ -30,6 +30,24 @@ export interface NativeBridge {
   applyComponentSkill(proposal: ApprovedSkillProposal): Promise<void>;
   /** Returns the number of files written. */
   exportComponentSkill(destination: string): Promise<number>;
+  /** Transparent export: PNG frame pipeline + native ffmpeg (ProRes 4444 MOV). */
+  beginTransparentExport(): Promise<string>;
+  writeTransparentFrame(dir: string, index: number, dataBase64: string): Promise<void>;
+  /**
+   * Runs the native ffmpeg muxer off the main thread. `totalSeconds` feeds the
+   * native progress parser; percent updates arrive via
+   * `subscribeTransparentEncodeProgress`.
+   */
+  finishTransparentExport(dir: string, fps: string, destination: string, totalSeconds: number): Promise<void>;
+  /** Kills the ffmpeg process started for this frame directory (no-op if idle). */
+  abortTransparentEncode(dir: string): Promise<void>;
+  cancelTransparentExport(dir: string): Promise<void>;
+  /**
+   * Native "Save As" dialog + write; the WebView2 shell does not implement
+   * anchor downloads, so JSON exports must go through this on the desktop.
+   * Resolves the written path, or null when the user cancels.
+   */
+  saveTextFile(defaultName: string, contents: string): Promise<string | null>;
 }
 
 export class NativeUnavailableError extends Error {
@@ -70,7 +88,40 @@ export function createTauriBridge(invoke: Invoke): NativeBridge {
     },
     applyComponentSkill: (proposal) => invoke('apply_component_skill', { proposal }),
     exportComponentSkill: (destination) => invoke('export_component_skill', { destination }),
+    beginTransparentExport: () => invoke<string>('begin_transparent_export'),
+    writeTransparentFrame: (dir, index, dataBase64) => invoke('write_transparent_frame', { dir, index, dataB64: dataBase64 }),
+    finishTransparentExport: (dir, fps, destination, totalSeconds) =>
+      invoke('finish_transparent_export', { dir, fps, destination, totalSeconds }),
+    abortTransparentEncode: (dir) => invoke('abort_transparent_encode', { dir }),
+    cancelTransparentExport: (dir) => invoke('cancel_transparent_export', { dir }),
+    saveTextFile: (defaultName, contents) => invoke<string | null>('save_text_file', { defaultName, contents }),
   };
+}
+
+export interface TransparentEncodeProgress {
+  percent: number;
+  seconds: number;
+  /** Frame directory of the running encode — pass to `abortTransparentEncode`. */
+  dir: string;
+}
+
+/**
+ * Subscribes to native ffmpeg encode progress (percent 0-100). Returns an
+ * unsubscribe function; resolves to a no-op in a plain browser.
+ */
+export async function subscribeTransparentEncodeProgress(
+  handler: (progress: TransparentEncodeProgress) => void,
+): Promise<() => void> {
+  if (!isTauriRuntime()) return () => undefined;
+  try {
+    const { listen } = await import('@tauri-apps/api/event');
+    const unlisten = await listen<TransparentEncodeProgress>('transparent-encode-progress', (event) => {
+      handler(event.payload);
+    });
+    return unlisten;
+  } catch {
+    return () => undefined;
+  }
 }
 
 /** Opens a native directory picker; returns null in a plain browser. */

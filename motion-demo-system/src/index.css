@@ -816,6 +816,15 @@ body {
   white-space: nowrap;
 }
 .toolbar-logo { width: 20px; height: 20px; flex-shrink: 0; filter: drop-shadow(0 2px 6px rgba(76, 201, 240, .35)); }
+.toolbar-version {
+  color: var(--text-2, rgba(255, 255, 255, .55));
+  font-size: 11px;
+  letter-spacing: .3px;
+  white-space: nowrap;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .06);
+}
 .toolbar-actions button,
 .toolbar-button,
 .preview-backgrounds button,
@@ -874,6 +883,22 @@ body {
   cursor: pointer;
 }
 .workspace-notice-dismiss:hover { background: rgba(76,201,240,.15); color: var(--text-1); }
+.workspace-notice-action {
+  flex: none;
+  border: 0;
+  padding: 0 10px;
+  height: 22px;
+  line-height: 1;
+  border-radius: 4px;
+  background: rgba(255, 107, 107, 0.18);
+  color: var(--text-1);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.workspace-notice-action:hover { background: rgba(255, 107, 107, 0.32); }
 .workspace-pane {
   min-width: 0;
   min-height: 0;
@@ -951,6 +976,51 @@ body {
 .component-list button span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .component-list button:hover,
 .component-list button:focus-visible { border-color: var(--border); background: rgba(76,201,240,.08); color: var(--text-1); }
+/* 组件条目：主按钮（点击试播）+ 悬停出现的插入按钮（+） */
+.component-list .component-item { display: flex; align-items: stretch; gap: 2px; border-radius: 6px; }
+.component-list .component-item > button:first-child { flex: 1; min-width: 0; }
+.component-list .component-add-btn {
+  flex: 0 0 auto;
+  width: 22px;
+  min-height: 25px;
+  padding: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: rgba(76,201,240,.15);
+  color: var(--cyan);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+.component-item:hover .component-add-btn,
+.component-item:has(:focus-visible) .component-add-btn { display: flex; }
+.component-list .component-add-btn:hover,
+.component-list .component-add-btn:focus-visible { background: rgba(76,201,240,.32); color: #fff; }
+/* 缩略图浮层：fixed 定位渲染进 body，位于条目右侧边界外，不遮挡组件与 + 号 */
+.component-thumb-pop {
+  position: fixed;
+  z-index: 1000;
+  padding: 6px;
+  border: 1px solid rgba(76,201,240,.45);
+  border-radius: 8px;
+  background: #0d1527;
+  box-shadow: 0 12px 32px rgba(0,0,0,.5);
+  pointer-events: none;
+}
+.component-thumb-pop img { display: block; width: 100%; height: auto; border-radius: 5px; }
+.component-thumb-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  color: var(--text-2);
+  font-size: 11px;
+}
 .danger-action {
   min-height: 34px;
   border: 1px solid var(--cyan);
@@ -993,6 +1063,9 @@ body {
 .editor-subtitle-layer { position: absolute !important; inset: 0; width: 100%; height: 100%; }
 .reference-video { z-index: 1; object-fit: contain; }
 .stage-effects-layer { z-index: 2; background: transparent !important; }
+/* 组件试播叠加层：必须高于参考视频(z1)/特效层(z2)/字幕层(z3)，
+   否则加载参考视频后不透明的画面会把它整个盖住（z-index:auto 排在最后）。 */
+.component-preview-player { z-index: 3; }
 .editor-subtitle-layer {
   z-index: 3;
   display: flex;

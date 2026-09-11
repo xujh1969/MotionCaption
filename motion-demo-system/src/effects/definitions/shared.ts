@@ -67,7 +67,7 @@ const selectionMetadata: Record<string, SelectionMetadata> = {
   't3-04': { suitableFor: ['Multi-row key-value data display with 2-4 rows.'], avoidFor: ['Avoid narrative paragraphs, processes, timelines, and more than 4 rows.'], minItems: 2, maxItems: 4 },
 
   't3-05': { suitableFor: ['KPI, result, or performance metrics with 2-3 cards where each metric needs a number and a unit.'], avoidFor: ['Avoid narrative prose, processes, timelines, charts, and more than 3 cards.'], minItems: 2, maxItems: 3, motion: '卡片自左向右逐个渐亮（0.18→1.0，每张约 500ms），数字同步滚动计数（约 800ms 静止），底部迷你条形随点亮生长。' },
-  't3-06': { suitableFor: ['Two-sided comparison such as old vs new or plan A vs plan B, with 1-2 comparison groups and 2-3 bullet points per side.'], avoidFor: ['Avoid single-sided lists, metrics without contrast, timelines, and more than 2 groups.'], minItems: 1, maxItems: 2, motion: '按「组」依次入场（每组约 500ms），组内左右两张卡片同步点亮，要点条目逐行小延迟跟进。' },
+  't3-06': { suitableFor: ['Two-sided comparison such as old vs new or plan A vs plan B, with 1-2 comparison groups and 2-3 bullet points per side.'], avoidFor: ['Avoid single-sided lists, metrics without contrast, timelines, and more than 2 groups.'], minItems: 1, maxItems: 2, motion: '按「组」依次入场；组内左右两卡可分别设定出现时间（右卡 atB 留空时与左卡同步点亮），卡片上浮淡入，要点逐条上浮淡入跟进（间距由 staggerMs 控制），可跟着口播左右分开起落。' },
 
   't4-01': { suitableFor: ['Process or step explanation with 2-4 steps.'], avoidFor: ['Avoid scalar summaries, unrelated charts, and more than 4 steps.'], minItems: 2, maxItems: 4 },
   't4-02': { suitableFor: ['Stage progression or process timeline with 2-4 nodes.'], avoidFor: ['Avoid unrelated prose, metrics, charts, and more than 4 nodes.'], minItems: 2, maxItems: 4 },
@@ -79,6 +79,8 @@ const selectionMetadata: Record<string, SelectionMetadata> = {
   't4-07': { suitableFor: ['Linear ordered steps with 2-4 arrow-connected cards where each step carries a title and a one-line description.'], avoidFor: ['Avoid unordered parallel points, metrics, charts, and more than 4 cards.'], minItems: 2, maxItems: 4, motion: '卡片自左向右逐个渐亮（0.18→1.0，每张约 500ms），前一卡到当前卡的箭头同步点亮并继承左侧卡片颜色，已走过的箭头保持高亮。' },
   't4-08': { suitableFor: ['Parallel capability, feature, or value-point inventory with 2-4 cards, each with an icon, a title, and a short line.'], avoidFor: ['Avoid sequential cause-effect processes, metrics, charts, and more than 4 cards.'], minItems: 2, maxItems: 4, motion: '卡片逐个渐亮（0.18→1.0，每张约 480ms），点亮后图标带 1400ms 周期的呼吸光，未入场无光效。' },
   't4-09': { suitableFor: ['Short keyword, feature tag, or concept highlights with 2-5 badges and no subtitles.'], avoidFor: ['Avoid long sentences, paragraphs, metrics, processes, and more than 5 badges.'], minItems: 2, maxItems: 5, motion: '胶囊标签自左向右快速渐亮（0.18→1.0，每个约 380ms），前置小圆点同步点亮。' },
+
+  't4-10': { suitableFor: ['Multi-stage pipeline, project progress, or phase hand-off shown as a bottom-zone capsule slider sweeping a gradient fill across 2-5 stage labels.'], avoidFor: ['Avoid dense metrics, charts, long sentences, and more than 5 stages.'], minItems: 2, maxItems: 5, motion: '胶囊标签沿底部轨道自左向右拖拽（紫→橙→黄渐变条同步延展，每段 ease-out），阶段文字依次点亮：已过=浅蓝白、当前=白色、未到=灰色，黄色指示点呼吸发光。胶囊内为固定文字（capLabel，如 "Auto"），留空则跟随当前激活阶段名。' },
 
   't5-01': { suitableFor: ['Vertical capability or item list with 2-3 items.'], avoidFor: ['Avoid charts, long paragraphs, and more than 3 items.'], minItems: 2, maxItems: 3 },
   't5-02': { suitableFor: ['Status-tagged task list with 2-3 items.'], avoidFor: ['Avoid charts, long paragraphs, and more than 3 items.'], minItems: 2, maxItems: 3 },

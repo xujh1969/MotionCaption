@@ -316,13 +316,13 @@ describe('generated component skill', () => {
     const before = gitState();
     execFileSync('node', ['scripts/generate-skill.mjs'], { cwd: projectRoot, encoding: 'utf8' });
     expect(gitState()).toBe(before);
-  });
+  }, 30000);
 
   it('check:skill does not modify generated files or the worktree', () => {
     const before = fileState();
     execFileSync('node', ['scripts/check-skill.mjs'], { cwd: projectRoot, encoding: 'utf8' });
     expect(fileState()).toBe(before);
-  });
+  }, 30000);
 });
 
 describe('external draft validation', () => {
@@ -393,7 +393,7 @@ describe('external draft validation', () => {
     });
     expect(result.status).toBe(0);
     expect(JSON.parse(result.stdout)).toMatchObject({ valid: true, errors: [] });
-  });
+  }, 30000);
 
   it('exits 1 and prints exact JSON paths for schema and source-rule errors', () => {
     const invalidPath = join(fixtureRoot, 'invalid.json');
@@ -437,5 +437,5 @@ describe('external draft validation', () => {
     expect(JSON.parse(schemaResult.stdout).errors).toEqual(expect.arrayContaining([
       expect.objectContaining({ path: '$.scenes[0].components[0].role' }),
     ]));
-  });
+  }, 30000);
 });

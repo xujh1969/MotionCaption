@@ -26,12 +26,12 @@ if not exist "node_modules" (
   )
 )
 
-echo Starting MotionCaption at http://127.0.0.1:8010 ...
-call npm run dev -- --host 127.0.0.1 --port 8010 --strictPort --open
+echo Starting MotionCaption at http://127.0.0.1:8011 ...
+call npm run dev -- --open
 
 if errorlevel 1 (
   echo.
-  echo MotionCaption failed to start. Port 8010 may already be in use.
+  echo MotionCaption failed to start. Port 8011 may already be in use.
   pause
 )
 

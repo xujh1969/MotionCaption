@@ -632,7 +632,7 @@
         }
       },
       "id": "t3-06",
-      "motionFeel": "按「组」依次入场（每组约 500ms），组内左右两张卡片同步点亮，要点条目逐行小延迟跟进。",
+      "motionFeel": "按「组」依次入场；组内左右两卡可分别设定出现时间（右卡 atB 留空时与左卡同步点亮），卡片上浮淡入，要点逐条上浮淡入跟进（间距由 staggerMs 控制），可跟着口播左右分开起落。",
       "name": "横向对比双列卡片组(正反对照)",
       "planning": {
         "exclusive": false,
@@ -816,7 +816,7 @@
       "planning": {
         "exclusive": false,
         "footprint": {
-          "height": 540,
+          "height": 486.94149320582835,
           "width": 960
         },
         "preferredZones": [
@@ -1349,6 +1349,83 @@
       ],
       "suitableFor": [
         "Short keyword, feature tag, or concept highlights with 2-5 badges and no subtitles."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid dense metrics, charts, long sentences, and more than 5 stages."
+      ],
+      "capacity": {
+        "maxItems": 5,
+        "minItems": 2
+      },
+      "category": "flow-track",
+      "componentVersion": 1,
+      "content": {
+        "capLabel": {
+          "constraints": "none beyond the declared type",
+          "default": "Auto",
+          "required": true,
+          "role": "content",
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "items": {
+          "constraints": "2-5 items; all listed item fields are required strings",
+          "default": [
+            {
+              "label": "分镜"
+            },
+            {
+              "label": "素材"
+            },
+            {
+              "label": "画面"
+            },
+            {
+              "label": "拼装"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "label",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 5,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        }
+      },
+      "id": "t4-10",
+      "motionFeel": "胶囊标签沿底部轨道自左向右拖拽（紫→橙→黄渐变条同步延展，每段 ease-out），阶段文字依次点亮：已过=浅蓝白、当前=白色、未到=灰色，黄色指示点呼吸发光。胶囊内为固定文字（capLabel，如 \"Auto\"），留空则跟随当前激活阶段名。",
+      "name": "底部胶囊拖拽进度条(阶段渐变填充)",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 220,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "items",
+          "label"
+        ]
+      },
+      "referencePath": "references/components/t4-10.md",
+      "selectionSummary": "底部胶囊拖拽进度条(阶段渐变填充)",
+      "semanticFamilies": [
+        "items",
+        "label"
+      ],
+      "suitableFor": [
+        "Multi-stage pipeline, project progress, or phase hand-off shown as a bottom-zone capsule slider sweeping a gradient fill across 2-5 stage labels."
       ]
     },
     {
@@ -2958,7 +3035,7 @@
         },
         "tagText": {
           "constraints": "none beyond the declared type",
-          "default": "顶部标签放在这里",
+          "default": "核心能力评估",
           "required": true,
           "role": "content",
           "semanticRole": "label",
@@ -2966,7 +3043,7 @@
         },
         "titleText": {
           "constraints": "none beyond the declared type",
-          "default": "大标题在此可编辑",
+          "default": "模型综合表现一览",
           "required": true,
           "role": "content",
           "semanticRole": "title",
@@ -3017,13 +3094,13 @@
           "constraints": "1-3 items; all listed item fields are required strings",
           "default": [
             {
-              "t": "小标签一"
+              "t": "字幕驱动"
             },
             {
-              "t": "小标签二"
+              "t": "AI 编排"
             },
             {
-              "t": "小标签三"
+              "t": "一键成片"
             }
           ],
           "itemFields": [
@@ -3042,7 +3119,7 @@
         },
         "tagText": {
           "constraints": "none beyond the declared type",
-          "default": "标签标签",
+          "default": "AI 动效工坊",
           "required": true,
           "role": "content",
           "semanticRole": "label",
@@ -3050,7 +3127,7 @@
         },
         "title1": {
           "constraints": "none beyond the declared type",
-          "default": "这是我的主标题",
+          "default": "{{一句话}}讲清核心卖点",
           "required": true,
           "role": "content",
           "semanticRole": "title",
@@ -3058,7 +3135,7 @@
         },
         "title2": {
           "constraints": "none beyond the declared type",
-          "default": "标题的第二行",
+          "default": "观众三秒就记住重点",
           "required": true,
           "role": "content",
           "semanticRole": "title",
@@ -3107,7 +3184,7 @@
       "content": {
         "footText": {
           "constraints": "none beyond the declared type",
-          "default": "补充说明1234567890",
+          "default": "全程无需人工剪辑",
           "required": true,
           "role": "content",
           "semanticRole": "body",
@@ -3158,7 +3235,7 @@
         },
         "tagText": {
           "constraints": "none beyond the declared type",
-          "default": "顶部标签",
+          "default": "工作流",
           "required": true,
           "role": "content",
           "semanticRole": "label",
@@ -3166,7 +3243,7 @@
         },
         "titleText": {
           "constraints": "none beyond the declared type",
-          "default": "大标题在此可编辑",
+          "default": "三步完成视频组装",
           "required": true,
           "role": "content",
           "semanticRole": "title",
@@ -3219,20 +3296,20 @@
           "constraints": "2-4 items; all listed item fields are required strings",
           "default": [
             {
-              "d": "小标题1说明放在这里",
-              "t": "小标题1"
+              "d": "口播语音自动转字幕",
+              "t": "字幕识别"
             },
             {
-              "d": "小标题2说明放在这里",
-              "t": "小标题2"
+              "d": "按语义挑选合适组件",
+              "t": "智能编排"
             },
             {
-              "d": "小标题3说明放在这里",
-              "t": "小标题3"
+              "d": "全局默认样式管理",
+              "t": "风格统一"
             },
             {
-              "d": "小标题4说明放在这里",
-              "t": "小标题4"
+              "d": "叠加素材拿来即用",
+              "t": "透明导出"
             }
           ],
           "itemFields": [
@@ -3256,7 +3333,7 @@
         },
         "footText": {
           "constraints": "none beyond the declared type",
-          "default": "补充说明1234567890",
+          "default": "从口播到成片只需几分钟",
           "required": true,
           "role": "content",
           "semanticRole": "body",
@@ -3264,7 +3341,7 @@
         },
         "tagText": {
           "constraints": "none beyond the declared type",
-          "default": "顶部标签",
+          "default": "能力全景",
           "required": true,
           "role": "content",
           "semanticRole": "label",
@@ -3272,7 +3349,7 @@
         },
         "titleText": {
           "constraints": "none beyond the declared type",
-          "default": "大标题在此可编辑",
+          "default": "一个工具覆盖全流程",
           "required": true,
           "role": "content",
           "semanticRole": "title",
@@ -3325,20 +3402,20 @@
           "constraints": "2-4 items; all listed item fields are required strings",
           "default": [
             {
-              "g": "80",
-              "n": "小标题一"
+              "g": "90",
+              "n": "需求拆解"
             },
             {
-              "g": "50",
-              "n": "小标题二"
-            },
-            {
-              "g": "73",
-              "n": "小标题三"
+              "g": "75",
+              "n": "组件开发"
             },
             {
               "g": "60",
-              "n": "小标题四"
+              "n": "联调测试"
+            },
+            {
+              "g": "40",
+              "n": "正式发布"
             }
           ],
           "itemFields": [
@@ -3362,7 +3439,7 @@
         },
         "tagText": {
           "constraints": "none beyond the declared type",
-          "default": "顶部标签",
+          "default": "完成度",
           "required": true,
           "role": "content",
           "semanticRole": "label",
@@ -3370,7 +3447,7 @@
         },
         "titleText": {
           "constraints": "none beyond the declared type",
-          "default": "大标题在此可编辑",
+          "default": "项目里程碑进度",
           "required": true,
           "role": "content",
           "semanticRole": "title",

@@ -417,6 +417,9 @@ Top-level `同步组件 Skill` opens added/changed/removed/uncertain groups. LLM
 
 Export a folder or ZIP containing `SKILL.md` and `references/`, with no API Key, local paths, source code, or project files.
 
+> **Status: TERMINATED (2026-09-10) — Steps 7–8 不再执行。**
+> 桌面端验收与 `feat: secure ai and skill synchronization` 提交一并取消；功能以日常手动使用验证为准。
+
 - [ ] **Step 7: Desktop acceptance**
 
 Set a test Key, restart app, verify only `hasApiKey=true`; run a mocked native completion; detect a temporary unregistered component; reject proposal and confirm old skill unchanged; approve a safe proposal in a fixture workspace.
@@ -430,6 +433,9 @@ Commit: `feat: secure ai and skill synchronization`
 ---
 
 ### Task 14: Add Node/Remotion Transparent MOV Sidecar
+
+> **Status: TERMINATED (2026-09-10) — 不再实施。**
+> 原因：透明导出已由 Task 13 落地的 Tauri 方案（webview 逐帧 `renderStillOnWeb` 出带 alpha 的 PNG → Rust 调内置 ffmpeg 编码 VP9 `yuva420p` WebM）满足需求并验证可用；浏览器内核的 WebCodecs `alpha: 'keep'` 一律 `NotSupportedError`，sidecar 只能换取 ProRes 4444 封装，却要引入 `@remotion/renderer` 依赖、独立 Node sidecar 打包与许可成本。收益不足以支撑复杂度，故终止。以下步骤仅作历史参考。
 
 **Files:**
 - Create: `motion-demo-system/sidecar/package.json`
@@ -490,6 +496,9 @@ Commit: `feat: export transparent remotion movies`
 ---
 
 ### Task 15: End-to-End Acceptance and Cutover
+
+> **Status: TERMINATED (2026-09-10) — 不再实施。**
+> 原因：不产出 `docs/migration/end-to-end-acceptance.md`，也不做产品标题切换；产品名保持 **MotionCaption**，旧 CaptionForge 检出保持原状、不归档、不删除。功能验收改由日常 `npm run verify` + 手动使用完成。以下步骤仅作历史参考。
 
 **Files:**
 - Create: `docs/migration/end-to-end-acceptance.md`

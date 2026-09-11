@@ -4,15 +4,17 @@ import { COLORS, FONT_STACK } from '../theme';
 import { useEnter, useEnterOpacity, useBreath, useCount, useGrow, easeOutExpo, atFrames } from '../anim';
 import { useConfigKey, useConfigList } from '../config';
 import { weightNum } from '../measure';
-import { tint } from './shared';
+import { tint, renderKeyParts } from './shared';
 
 const base: React.CSSProperties = { position: 'absolute', fontFamily: FONT_STACK, whiteSpace: 'nowrap' };
 const T: React.FC<{ x: number; y: number; size: number; weight?: 'Heavy' | 'Bold' | 'Regular';
-  color: string; text: string; opacity?: number; translateY?: number }> = ({
-  x, y, size, weight = 'Heavy', color, text, opacity = 1, translateY = 0 }) => (
+  color: string; text: string; opacity?: number; translateY?: number;
+  /** 重点文字颜色：文本含 {{重点}} 标记时用该色绘制重点片段。 */
+  hl?: string }> = ({
+  x, y, size, weight = 'Heavy', color, text, opacity = 1, translateY = 0, hl }) => (
   <div style={{ ...base, left: x, top: y, fontSize: size, fontWeight: weightNum(weight), color,
     opacity, transform: `translateY(${translateY}px)`, textShadow: '0 3px 12px rgba(0,0,0,0.45)' }}>
-    {text}
+    {renderKeyParts(text, hl)}
   </div>
 );
 
@@ -23,6 +25,7 @@ export const T7_01: React.FC = () => {
   const data = useConfigList('t7-01', 'items');
   const titleSize = useConfigKey('t7-01', 'titleSize') as number;
   const titleText = useConfigKey('t7-01', 'titleText') as string;
+  const hl = useConfigKey('t7-01', 'hlColor') as string;
   const barA = useConfigKey('t7-01', 'barA') as string;
   const barB = useConfigKey('t7-01', 'barB') as string;
   const valSize = useConfigKey('t7-01', 'subSize') as number;
@@ -41,7 +44,7 @@ export const T7_01: React.FC = () => {
   return (
     <div style={{ position: 'absolute', left: posX, top: posY, transformOrigin: 'top left', transform: `scale(${configScale / 100})` }}>
       <T x={0} y={0} size={titleSize} weight="Heavy" color={COLORS.textPrimary} text={titleText as string}
-        opacity={title.opacity} translateY={title.translateY} />
+        opacity={title.opacity} translateY={title.translateY} hl={hl} />
       {data.map((r, i) => {
         const val = Number(r.val);
         const highlight = r.hl === '1' || (r.hl as string) === '高亮';
@@ -77,6 +80,7 @@ export const T7_02: React.FC = () => {
   const rows = nodes.map((r) => ({ cat: r.cat, val: Number(r.val) }));
   const titleSize = useConfigKey('t7-02', 'titleSize') as number;
   const titleText = useConfigKey('t7-02', 'titleText') as string;
+  const hl = useConfigKey('t7-02', 'hlColor') as string;
   const barColor = useConfigKey('t7-02', 'lineColor') as string;
   const catSize = useConfigKey('t7-02', 'catSize') as number;
   const catColor = useConfigKey('t7-02', 'catColor') as string;
@@ -92,7 +96,7 @@ export const T7_02: React.FC = () => {
   return (
     <div style={{ position: 'absolute', left: posX, top: posY, transformOrigin: 'top left', transform: `scale(${configScale / 100})` }}>
       <T x={0} y={0} size={titleSize} weight="Heavy" color={COLORS.textPrimary} text={titleText as string}
-        opacity={title.opacity} translateY={title.translateY} />
+        opacity={title.opacity} translateY={title.translateY} hl={hl} />
       {rows.map((r, i) => {
         const d = atFrames(r, i, 18, 14);
         const catO = useEnterOpacity(frame, d);
@@ -121,6 +125,7 @@ export const T7_03: React.FC = () => {
   const title = useEnter(frame, 0, 30, 20);
   const titleSize = useConfigKey('t7-03', 'titleSize') as number;
   const titleText = useConfigKey('t7-03', 'titleText') as string;
+  const hl = useConfigKey('t7-03', 'hlColor') as string;
   const centerText = useConfigKey('t7-03', 'centerText') as string;
   const centerSize = useConfigKey('t7-03', 'centerSize') as number;
   const centerColor = useConfigKey('t7-03', 'centerColor') as string;
@@ -157,24 +162,27 @@ export const T7_03: React.FC = () => {
   return (
     <div style={{ position: 'absolute', left: posX, top: posY, transformOrigin: 'top left', transform: `scale(${configScale / 100})` }}>
       <T x={0} y={0} size={titleSize} weight="Heavy" color={COLORS.textPrimary} text={titleText as string}
-        opacity={title.opacity} translateY={title.translateY} />
-      <svg width={svgSize} height={svgSize} style={{ position: 'absolute', left: 0, top: top, transform: 'rotate(-90deg)', opacity: 0.9 * barB }}>
-        {segs.map((s, i) => {
-          const offset = acc;
-          acc += s.pct;
-          const visible = s.pct * total;
-          return (
-            <circle key={i} cx={cx} cy={cy} r={outerR} fill="none" stroke={s.color} strokeWidth={outerR - innerR}
-              strokeDasharray={`${(visible / 100) * C} ${C}`}
-              strokeDashoffset={(-offset / 100) * C}
-              style={{ filter: `drop-shadow(0 0 6px ${s.color})` }}
-            />
-          );
-        })}
-      </svg>
+        opacity={title.opacity} translateY={title.translateY} hl={hl} />
+      {/* 每段弧各自包一层容器：导出重绘器对同一父元素下的多个 SVG 图形只渲染第一个 */}
+      {segs.map((s, i) => {
+        const offset = acc;
+        acc += s.pct;
+        const visible = s.pct * total;
+        return (
+          <div key={i} style={{ position: 'absolute', left: 0, top: top, width: svgSize, height: svgSize, transform: 'rotate(-90deg)', opacity: 0.9 * barB }}>
+            <svg width={svgSize} height={svgSize}>
+              <circle cx={cx} cy={cy} r={outerR} fill="none" stroke={s.color} strokeWidth={outerR - innerR}
+                strokeDasharray={`${(visible / 100) * C} ${C}`}
+                strokeDashoffset={(-offset / 100) * C}
+                style={{ filter: `drop-shadow(0 0 6px ${s.color})` }}
+              />
+            </svg>
+          </div>
+        );
+      })}
       <div style={{ position: 'absolute', left: cx - 70, top: top + cy - 60, width: 140, textAlign: 'center', opacity: centerO }}>
         <div style={{ fontSize: centerNumSize, fontWeight: 900, color: COLORS.textPrimary }}>{centerNum}%</div>
-        <div style={{ fontSize: centerSize, fontWeight: 400, color: centerColor, marginTop: 6, opacity: subO }}>{centerText as string}</div>
+        <div style={{ fontSize: centerSize, fontWeight: 400, color: centerColor, marginTop: 6, opacity: subO }}>{renderKeyParts(centerText as string, hl)}</div>
       </div>
       {segs.map((s, i) => {
         const o = useEnterOpacity(frame, atFrames(s, i, 40, 14));
@@ -196,6 +204,7 @@ export const T7_04: React.FC = () => {
   const title = useEnter(frame, 0, 30, 20);
   const titleSize = useConfigKey('t7-04', 'titleSize') as number;
   const titleText = useConfigKey('t7-04', 'titleText') as string;
+  const hl = useConfigKey('t7-04', 'hlColor') as string;
   const xLabelSize = useConfigKey('t7-04', 'subSize') as number;
   const legendSize = useConfigKey('t7-04', 'legendSize') as number;
   const legendColor = useConfigKey('t7-04', 'legendColor') as string;
@@ -246,7 +255,7 @@ export const T7_04: React.FC = () => {
   return (
     <div style={{ position: 'absolute', left: posX, top: posY, transformOrigin: 'top left', transform: `scale(${configScale / 100})` }}>
       <T x={0} y={0} size={titleSize} weight="Heavy" color={COLORS.textPrimary} text={titleText as string}
-        opacity={title.opacity} translateY={title.translateY} />
+        opacity={title.opacity} translateY={title.translateY} hl={hl} />
       {/* 图例：置于标题正下方，保持合理间距，避免与标题文案重叠 */}
       <div style={{ position: 'absolute', left: 0, top: titleSize + 28, whiteSpace: 'nowrap', opacity: legendO }}>
         {lines.map((l, i) => (
@@ -256,25 +265,34 @@ export const T7_04: React.FC = () => {
           </span>
         ))}
       </div>
-      <svg width={canvasW} height={canvasH} style={{ position: 'absolute', left: canvasX, top: canvasY, overflow: 'visible' }}>
-        {allPaths.map((pts, l) => {
+      {/* 每条折线、每个数据点各自包一层容器：导出重绘器对同一父元素下的多个 SVG 图形只渲染第一个 */}
+      {allPaths.map((pts, l) => {
+        const color = lines[l].color;
+        const len = pathLens[l] || 1;
+        const d = `M ${pts[0].x} ${pts[0].y}` + pts.slice(1).map((p) => ` L ${p.x} ${p.y}`).join('');
+        return (
+          <div key={l} style={{ position: 'absolute', left: canvasX, top: canvasY, width: canvasW, height: canvasH }}>
+            <svg width={canvasW} height={canvasH} style={{ overflow: 'visible' }}>
+              <path d={d} fill="none" stroke={color} strokeWidth={4}
+                strokeLinecap="round" strokeLinejoin="round"
+                strokeDasharray={len} strokeDashoffset={len - len * drawAll} opacity={0.9} />
+            </svg>
+          </div>
+        );
+      })}
+      {allPaths.map((pts, l) =>
+        pts.map((p, i) => {
+          const o = useEnterOpacity(frame, 30 + i * 10 + l * 6);
           const color = lines[l].color;
-          const len = pathLens[l] || 1;
-          const d = `M ${pts[0].x} ${pts[0].y}` + pts.slice(1).map((p) => ` L ${p.x} ${p.y}`).join('');
           return (
-            <path key={l} d={d} fill="none" stroke={color} strokeWidth={4}
-              strokeLinecap="round" strokeLinejoin="round"
-              strokeDasharray={len} strokeDashoffset={len - len * drawAll} opacity={0.9} />
+            <div key={`${l}-${i}`} style={{ position: 'absolute', left: canvasX, top: canvasY, width: canvasW, height: canvasH }}>
+              <svg width={canvasW} height={canvasH} style={{ overflow: 'visible' }}>
+                <circle cx={p.x} cy={p.y} r={7} fill={color} opacity={o} style={{ filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.5))' }} />
+              </svg>
+            </div>
           );
-        })}
-        {allPaths.map((pts, l) =>
-          pts.map((p, i) => {
-            const o = useEnterOpacity(frame, 30 + i * 10 + l * 6);
-            const color = lines[l].color;
-            return <circle key={`${l}-${i}`} cx={p.x} cy={p.y} r={7} fill={color} opacity={o} style={{ filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.5))' }} />;
-          }),
-        )}
-      </svg>
+        }),
+      )}
       {Array.from({ length: maxPts }).map((_, i) => {
         const o = useEnterOpacity(frame, 40 + i * 8);
         const lb = xLabels[i] ?? '';
@@ -292,6 +310,7 @@ export const T7_05: React.FC = () => {
   const title = useEnter(frame, 0, 30, 20);
   const titleSize = useConfigKey('t7-05', 'titleSize') as number;
   const titleText = useConfigKey('t7-05', 'titleText') as string;
+  const hl = useConfigKey('t7-05', 'hlColor') as string;
   const nameSize = useConfigKey('t7-05', 'nameSize') as number;
   const nameColor = useConfigKey('t7-05', 'nameColor') as string;
   const valSize = useConfigKey('t7-05', 'valSize') as number;
@@ -308,7 +327,7 @@ export const T7_05: React.FC = () => {
   return (
     <div style={{ position: 'absolute', left: posX, top: posY, transformOrigin: 'top left', transform: `scale(${configScale / 100})` }}>
       <T x={0} y={0} size={titleSize} weight="Heavy" color={COLORS.textPrimary} text={titleText as string}
-        opacity={title.opacity} translateY={title.translateY} />
+        opacity={title.opacity} translateY={title.translateY} hl={hl} />
       {cards.map((c, i) => {
         const d = atFrames(c, i, 18, 16);
         const o = useEnter(frame, d, 30, 0);
@@ -346,6 +365,7 @@ export const T7_06: React.FC = () => {
   const frame = useCurrentFrame();
   const percent = useConfigKey('t7-06', 'percent') as number;
   const labelText = useConfigKey('t7-06', 'labelText') as string;
+  const hl = useConfigKey('t7-06', 'hlColor') as string;
   const trackColor = useConfigKey('t7-06', 'trackColor') as string;
   const arcColor = useConfigKey('t7-06', 'arcColor') as string;
   const numSize = useConfigKey('t7-06', 'numSize') as number;
@@ -394,13 +414,20 @@ export const T7_06: React.FC = () => {
 
   return (
     <div style={{ position: 'absolute', left: posX, top: posY, transform: `scale(${scale / 100})`, transformOrigin: 'top left' }}>
-      {/* 底层灰色半圆弧轨道 + 蓝色进度弧（同圆心同半径） */}
-      <svg style={{ position: 'absolute', left: svgLeft, top: svgTop, width: svgW, height: svgH, overflow: 'visible' }}>
-        <path d={arcD} fill="none" stroke={trackColor} strokeWidth={strokeW} strokeLinecap="round"
-          pathLength={100} strokeDasharray="100" strokeDashoffset={0} opacity={trackO} />
-        <path d={arcD} fill="none" stroke={arcColor} strokeWidth={strokeW} strokeLinecap="round"
-          pathLength={100} strokeDasharray="100" strokeDashoffset={dash} opacity={0.94} />
-      </svg>
+      {/* 底层灰色半圆弧轨道 + 蓝色进度弧（同圆心同半径）。
+          导出重绘器对同一父元素下的多个 SVG 图形只渲染第一个，因此每条弧各自包一层容器。 */}
+      <div style={{ position: 'absolute', left: svgLeft, top: svgTop, width: svgW, height: svgH, overflow: 'visible' }}>
+        <svg width={svgW} height={svgH} style={{ overflow: 'visible' }}>
+          <path d={arcD} fill="none" stroke={trackColor} strokeWidth={strokeW} strokeLinecap="round"
+            pathLength={100} strokeDasharray="100" strokeDashoffset={0} opacity={trackO} />
+        </svg>
+      </div>
+      <div style={{ position: 'absolute', left: svgLeft, top: svgTop, width: svgW, height: svgH, overflow: 'visible' }}>
+        <svg width={svgW} height={svgH} style={{ overflow: 'visible' }}>
+          <path d={arcD} fill="none" stroke={arcColor} strokeWidth={strokeW} strokeLinecap="round"
+            pathLength={100} strokeDasharray="100" strokeDashoffset={dash} opacity={0.94} />
+        </svg>
+      </div>
       {/* 进度端点圆点滑块（双层：外圈光晕 + 内层填充） */}
       <div style={{ position: 'absolute', left: sx - sliderR, top: sy - sliderR, width: sliderR * 2, height: sliderR * 2, opacity: prog }}>
         <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: glowColor, filter: 'blur(16px)', opacity: glowO }} />
@@ -417,7 +444,7 @@ export const T7_06: React.FC = () => {
         position: 'absolute', left: cx, top: cy + 60, transform: 'translateX(-50%)',
         fontSize: labelSize, fontWeight: 400, color: labelColor, opacity: labelO, lineHeight: 1,
         letterSpacing: 2, whiteSpace: 'nowrap',
-      }}>{labelText}</div>
+      }}>{renderKeyParts(labelText, hl)}</div>
     </div>
   );
 };

@@ -104,8 +104,8 @@ const EffectInspector: React.FC<{ effect: MotionEffectInstance; definition: Effe
   const resetProps = React.useCallback(() => {
     const defaults: Record<string, unknown> = {};
     for (const [key, prop] of Object.entries(definition.props)) defaults[key] = prop.default;
-    // 重置 = 还原到当前生效默认：内容回内置，样式键回用户全局默认（若有）
-    updateEffect(effect.instanceId, { props: mergeUserStyleDefaults(effect.componentId, defaults) });
+    // 重置 = 还原到当前生效默认：内容回内置，样式/布局键回用户全局默认（若有）
+    updateEffect(effect.instanceId, { props: mergeUserStyleDefaults(effect.componentId, defaults, undefined, { definition }) });
     showMessage('已还原默认样式');
   }, [definition, effect.instanceId, effect.componentId, updateEffect, showMessage]);
 
@@ -122,7 +122,7 @@ const EffectInspector: React.FC<{ effect: MotionEffectInstance; definition: Effe
     }
     const next = { ...readUserStyleDefaults(), [effect.componentId]: styles };
     saveUserStyleDefaults(next);
-    showMessage(`已将 ${definition.id} 当前全部属性（含位置与缩放）存为本机默认，新放置的实例将完整还原`);
+    showMessage(`已将 ${definition.id} 的样式与位置/缩放存为本机默认（文字内容不受影响），新放置的实例将沿用`);
   }, [definition, config, effect, showMessage]);
 
   const handleApplySame = React.useCallback(() => {

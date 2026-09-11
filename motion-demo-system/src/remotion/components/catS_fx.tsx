@@ -4,17 +4,20 @@ import { COLORS, FONT_STACK } from '../theme';
 import { useEnter, useEnterOpacity, useBreath, useGrow, useCount, atFrames } from '../anim';
 import { useConfigKey, useConfigList } from '../config';
 import { measureText, weightNum } from '../measure';
-import { parseKeyText, shadeHex, stripKeyText, tint } from './shared';
+import { parseKeyText, shadeHex, stripKeyText, tint, renderKeyParts, WrappedText } from './shared';
 
 // FX 系列卡片框架色（边框/底色，文案色已全部可配置）
 const GOLD = '#d0df67', CREAM = '#e9f4f1';
 
 const base: React.CSSProperties = { position: 'absolute', fontFamily: FONT_STACK, whiteSpace: 'nowrap' };
 const TX: React.FC<{ x: number; y: number; size: number; color: string; text: string; weight?: number;
-  opacity?: number; spacing?: number; maxWidth?: number }> =
-  ({ x, y, size, color, text, weight = 400, opacity = 1, spacing = 0, maxWidth }) => (
+  opacity?: number; spacing?: number; maxWidth?: number;
+  /** 重点文字颜色：文本含 {{重点}} 标记时用该色绘制重点片段。 */
+  hl?: string }> =
+  ({ x, y, size, color, text, weight = 400, opacity = 1, spacing = 0, maxWidth, hl }) => (
     <div style={{ ...base, left: x, top: y, fontSize: size, fontWeight: weight, color, opacity,
-      letterSpacing: spacing, whiteSpace: maxWidth ? 'normal' : 'nowrap', lineHeight: 1.3, maxWidth }}>{text}</div>
+      letterSpacing: spacing, whiteSpace: maxWidth ? 'normal' : 'nowrap', lineHeight: 1.3, maxWidth }}>
+      {renderKeyParts(text, hl)}</div>
   );
 
 /**
@@ -113,6 +116,7 @@ export const FX_03: React.FC = () => {
   const enSize = useConfigKey('fx-03', 'enSize') as number;
   const enColor = useConfigKey('fx-03', 'enColor') as string;
   const cn = useConfigKey('fx-03', 'cnText') as string;
+  const hl = useConfigKey('fx-03', 'hlColor') as string;
   const cnSize = useConfigKey('fx-03', 'cnSize') as number;
   const cnColor = useConfigKey('fx-03', 'cnColor') as string;
   const accent = useConfigKey('fx-03', 'accent') as string;
@@ -129,7 +133,7 @@ export const FX_03: React.FC = () => {
         <div style={{ color: accent, fontSize: 22, fontWeight: 800, lineHeight: 1 }}>!</div>
       </div>
       <TX x={104} y={20} size={enSize} color={enColor} text={en} weight={600} spacing={3} />
-      <TX x={104} y={46} size={cnSize} color={cnColor} text={cn} weight={700} />
+      <TX x={104} y={46} size={cnSize} color={cnColor} text={cn} weight={700} hl={hl} />
     </div>
   );
 };
@@ -139,6 +143,7 @@ export const FX_04: React.FC = () => {
   const frame = useCurrentFrame();
   const title = useEnter(frame, 0, 26, 18);
   const tag = useConfigKey('fx-04', 'tagText') as string;
+  const hl = useConfigKey('fx-04', 'hlColor') as string;
   const tagSize = useConfigKey('fx-04', 'tagSize') as number;
   const tagColor = useConfigKey('fx-04', 'tagColor') as string;
   const bg = useConfigKey('fx-04', 'bgColor') as string;
@@ -157,10 +162,11 @@ export const FX_04: React.FC = () => {
   const posScale = (useConfigKey('fx-04', 'scale') as number) ?? 100;
   return (
     <div style={{ position: 'absolute', left: posX, top: posY, transformOrigin: 'top left', transform: `scale(${posScale / 100})` }}>
+      {/* 外框描边跟随顶部标签颜色（tagColor），标签改色时整体色调保持一致 */}
       <div style={{ position: 'absolute', left: 0, top: 0, width: cardW, height: cardH, borderRadius: 18,
-        border: `2px solid ${GOLD}`, background: bg, opacity: title.opacity }} />
-      <TX x={pad} y={26} size={tagSize} color={tagColor} text={tag} opacity={title.opacity} />
-      <TX x={pad + 4} y={64} size={titleSize} color={titleColor} text={titleText} weight={700} opacity={title.opacity} />
+        border: `2px solid ${tagColor}`, background: bg, opacity: title.opacity }} />
+      <TX x={pad} y={26} size={tagSize} color={tagColor} text={tag} opacity={title.opacity} hl={hl} />
+      <TX x={pad + 4} y={64} size={titleSize} color={titleColor} text={titleText} weight={700} opacity={title.opacity} hl={hl} />
       {items.map((it, i) => {
         const o = useEnterOpacity(frame, atFrames(it, i, 26, 10));
         const col = it.color || GOLD;
@@ -233,7 +239,7 @@ export const FX_05: React.FC = () => {
       <div style={{ position: 'absolute', left: boxX + 6, top: boxY, width: 3, height: boxH, background: theme }} />
       {/* 顶部胶囊：实心主题色底，黑色文字，flex 垂直居中自动包裹文字 */}
       <div style={{ position: 'absolute', left: 26, top: 0, height: capsuleH, display: 'flex', alignItems: 'center', padding: '0 22px', borderRadius: capsuleH / 2, background: theme }}>
-        <span style={{ fontFamily: FONT_STACK, fontSize: tagSize, fontWeight: weightNum('Bold'), color: '#000000', whiteSpace: 'nowrap', lineHeight: 1 }}>{tag}</span>
+        <span style={{ fontFamily: FONT_STACK, fontSize: tagSize, fontWeight: weightNum('Bold'), color: '#000000', whiteSpace: 'nowrap', lineHeight: 1 }}>{renderKeyParts(tag, hlColor)}</span>
       </div>
       {/* 主标题（支持 {{重点文字}} 高亮） */}
       <HLTX x={26} y={title1Y} size={titleSize} color={titleColor} text={t1} hlColor={hlColor} hlSize={hlSize} weight={700} />
@@ -254,6 +260,7 @@ export const FX_06: React.FC = () => {
   const frame = useCurrentFrame();
   const title = useEnter(frame, 0, 26, 18);
   const tag = useConfigKey('fx-06', 'tagText') as string;
+  const hl = useConfigKey('fx-06', 'hlColor') as string;
   const tagSize = useConfigKey('fx-06', 'tagSize') as number;
   const tagColor = useConfigKey('fx-06', 'tagColor') as string;
   const theme = useConfigKey('fx-06', 'themeColor') as string;
@@ -287,8 +294,8 @@ export const FX_06: React.FC = () => {
         border: `2px solid ${theme}`, background: bg, opacity: title.opacity }} />
       <div style={{ position: 'absolute', left: 34, top: 26, width: 34, height: 2, background: theme }} />
       {/* 顶部标签：置于横线右侧，不与横线重叠 */}
-      <TX x={lineEnd + 12} y={16} size={tagSize} color={tagColor} text={tag} opacity={title.opacity} />
-      <TX x={34} y={62} size={titleSize} color={titleColor} text={titleText} weight={700} opacity={titleO} />
+      <TX x={lineEnd + 12} y={16} size={tagSize} color={tagColor} text={tag} opacity={title.opacity} hl={hl} />
+      <TX x={34} y={62} size={titleSize} color={titleColor} text={titleText} weight={700} opacity={titleO} hl={hl} />
       {steps.map((r, i) => {
         const o = useEnterOpacity(frame, atFrames(r, i, 30, 14));
         return (
@@ -299,7 +306,7 @@ export const FX_06: React.FC = () => {
           </div>
         );
       })}
-      <TX x={34} y={footY} size={footSize} color={footColor} text={foot} opacity={title.opacity * 0.7} />
+      <TX x={34} y={footY} size={footSize} color={footColor} text={foot} opacity={title.opacity * 0.7} hl={hl} />
     </div>
   );
 };
@@ -309,6 +316,7 @@ export const FX_07: React.FC = () => {
   const frame = useCurrentFrame();
   const title = useEnter(frame, 0, 26, 18);
   const tag = useConfigKey('fx-07', 'tagText') as string;
+  const hl = useConfigKey('fx-07', 'hlColor') as string;
   const tagSize = useConfigKey('fx-07', 'tagSize') as number;
   const tagColor = useConfigKey('fx-07', 'tagColor') as string;
   const theme = useConfigKey('fx-07', 'themeColor') as string;
@@ -347,19 +355,22 @@ export const FX_07: React.FC = () => {
         border: `2px solid ${theme}`, background: bg, opacity: title.opacity }} />
       <div style={{ position: 'absolute', left: innerLeft, top: 26, width: 34, height: 2, background: theme }} />
       {/* 顶部标签：置于横线右侧，不与横线重叠 */}
-      <TX x={lineEnd + 12} y={16} size={tagSize} color={tagColor} text={tag} opacity={title.opacity} />
-      <TX x={innerLeft} y={62} size={titleSize} color={titleColor} text={titleText} weight={700} opacity={titleO} />
+      <TX x={lineEnd + 12} y={16} size={tagSize} color={tagColor} text={tag} opacity={title.opacity} hl={hl} />
+      <TX x={innerLeft} y={62} size={titleSize} color={titleColor} text={titleText} weight={700} opacity={titleO} hl={hl} />
       {cards.map((c, i) => {
         const o = useEnterOpacity(frame, atFrames(c, i, 30, 12));
         const cx = innerLeft + (i % cols) * (cw + gx), cy = cardsY + Math.floor(i / cols) * (ch + gy);
         return (
           <div key={i} style={{ position: 'absolute', left: cx, top: cy, width: cw, height: ch, borderRadius: 8, border: `2px solid ${theme}`, opacity: o, background: tint(theme, 0.05), boxSizing: 'border-box', padding: '18px 18px' }}>
             <div style={{ fontFamily: FONT_STACK, fontSize: ctSize, fontWeight: 700, color: ctColor, whiteSpace: 'nowrap', lineHeight: 1.2 }}>{c.t}</div>
-            <div style={{ marginTop: 12, fontFamily: FONT_STACK, fontSize: cdSize, color: cdColor, lineHeight: 1.4, whiteSpace: 'normal', opacity: o * 0.82 }}>{c.d}</div>
+            <WrappedText
+              text={String(c.d ?? '')} size={cdSize} maxWidth={cw - 36} baseWeight="Regular" lineHeight={1.4}
+              style={{ marginTop: 12, fontFamily: FONT_STACK, fontSize: cdSize, color: cdColor, opacity: o * 0.82 }}
+            />
           </div>
         );
       })}
-      <TX x={innerLeft} y={footY} size={footSize} color={footColor} text={foot} opacity={title.opacity * 0.7} />
+      <TX x={innerLeft} y={footY} size={footSize} color={footColor} text={foot} opacity={title.opacity * 0.7} hl={hl} />
     </div>
   );
 };
@@ -369,6 +380,7 @@ export const FX_08: React.FC = () => {
   const frame = useCurrentFrame();
   const title = useEnter(frame, 0, 26, 18);
   const tag = useConfigKey('fx-08', 'tagText') as string;
+  const hl = useConfigKey('fx-08', 'hlColor') as string;
   const tagSize = useConfigKey('fx-08', 'tagSize') as number;
   const tagColor = useConfigKey('fx-08', 'tagColor') as string;
   const bg = useConfigKey('fx-08', 'bgColor') as string;
@@ -398,8 +410,8 @@ export const FX_08: React.FC = () => {
         border: `2px solid ${GOLD}`, background: bg, opacity: title.opacity }} />
       <div style={{ position: 'absolute', left: innerLeft, top: 26, width: 34, height: 2, background: GOLD }} />
       {/* 顶部标签：置于横线右侧，不与横线重叠 */}
-      <TX x={lineEnd + 12} y={16} size={tagSize} color={tagColor} text={tag} opacity={title.opacity} />
-      <TX x={innerLeft} y={62} size={titleSize} color={titleColor} text={titleText} weight={700} opacity={titleO} />
+      <TX x={lineEnd + 12} y={16} size={tagSize} color={tagColor} text={tag} opacity={title.opacity} hl={hl} />
+      <TX x={innerLeft} y={62} size={titleSize} color={titleColor} text={titleText} weight={700} opacity={titleO} hl={hl} />
       {bars.map((b, i) => {
         const grow = useGrow(frame, atFrames(b, i, 24, 12));
         const o = useEnterOpacity(frame, atFrames(b, i, 24, 12) + 2);
@@ -427,6 +439,7 @@ export const FX_09: React.FC = () => {
   const m = useEnter(frame, 0, 26, 18);
   const bg = useConfigKey('fx-09', 'bgColor') as string;
   const tag = useConfigKey('fx-09', 'tagText') as string;
+  const hl = useConfigKey('fx-09', 'hlColor') as string;
   const tagSize = useConfigKey('fx-09', 'tagSize') as number;
   const tagColor = useConfigKey('fx-09', 'tagColor') as string;
   const sub = useConfigKey('fx-09', 'subText') as string;
@@ -457,10 +470,10 @@ export const FX_09: React.FC = () => {
       {/* 顶部颜色标题：左侧同色竖线，与标签等高，标签不折行 */}
       <div style={{ position: 'absolute', left: 46, top: 44, display: 'flex', alignItems: 'center', gap: 16 }}>
         <div style={{ width: 4, height: tagSize, borderRadius: 2, background: tagColor }} />
-        <div style={{ color: tagColor, fontSize: tagSize, fontWeight: 700, letterSpacing: 6, whiteSpace: 'nowrap', lineHeight: 1 }}>{tag}</div>
+        <div style={{ color: tagColor, fontSize: tagSize, fontWeight: 700, letterSpacing: 6, whiteSpace: 'nowrap', lineHeight: 1 }}>{renderKeyParts(tag, hl)}</div>
       </div>
       {/* 副标题：不折行 */}
-      <div style={{ position: 'absolute', left: 46, top: 96, color: subColor, fontSize: subSize, whiteSpace: 'nowrap' }}>{sub}</div>
+      <div style={{ position: 'absolute', left: 46, top: 96, color: subColor, fontSize: subSize, whiteSpace: 'nowrap' }}>{renderKeyParts(sub, hl)}</div>
       <div style={{ position: 'absolute', left: 40, top: 150, fontSize: numSize, fontWeight: 900, lineHeight: 1, whiteSpace: 'nowrap',
         backgroundImage: `linear-gradient(180deg, ${shadeHex(numColor, 0)} 0%, ${shadeHex(numColor, -18)} 30%, ${shadeHex(numColor, -38)} 55%, ${shadeHex(numColor, -60)} 100%)`,
         WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent',
@@ -470,7 +483,7 @@ export const FX_09: React.FC = () => {
       {/* 加号：位于数字右侧，垂直方向与数字中上部对齐 */}
       <div style={{ position: 'absolute', left: 40 + numW + 16, top: 150 + numSize * 0.16, fontSize: plusSize, fontWeight: 500, color: plusColor, whiteSpace: 'nowrap', lineHeight: 1 }}>{plus}</div>
       {/* 底部说明：不折行 */}
-      <div style={{ position: 'absolute', left: 46, top: 300, color: sourceColor, fontSize: sourceSize, opacity: oat, whiteSpace: 'nowrap' }}>{source}</div>
+      <div style={{ position: 'absolute', left: 46, top: 300, color: sourceColor, fontSize: sourceSize, opacity: oat, whiteSpace: 'nowrap' }}>{renderKeyParts(source, hl)}</div>
     </div>
   );
 };

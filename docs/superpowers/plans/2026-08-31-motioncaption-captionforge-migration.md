@@ -621,6 +621,10 @@ Commit: `feat: generate captionforge motion skill`
 
 ### Task 10: Add Tauri and Transparent MOV Export
 
+> **Status: TERMINATED (2026-09-10) — 不再实施（剩余部分）。**
+> 已落地部分：Tauri 2 外壳（`src-tauri/`）、`src/tauri/bridge.ts`、内置 ffmpeg、透明导出（VP9 `yuva420p` WebM，见 `src/export/transparentExport.ts`）。
+> 终止部分：ProRes 4444 MOV 转封装（Step 3）与 Node/Remotion sidecar 回退（Step 6）——透明 WebM 已满足叠加素材需求，sidecar 方案随 2026-09-07 计划 Task 14 一并终止。以下步骤仅作历史参考。
+
 **Files:**
 - Create: `src-tauri/Cargo.toml`
 - Create: `src-tauri/tauri.conf.json`
@@ -669,6 +673,9 @@ Commit: `feat: export transparent captionforge movies`
 ---
 
 ### Task 11: End-to-End Acceptance and Cutover
+
+> **Status: TERMINATED (2026-09-10) — 不再实施。**
+> 原因：不产出 `docs/migration/end-to-end-acceptance.md`；产品名保持 **MotionCaption**，不做标题切换，旧 CaptionForge 检出/备份保持原状、不归档、不删除。以下步骤仅作历史参考。
 
 **Files:**
 - Create: `docs/migration/end-to-end-acceptance.md`

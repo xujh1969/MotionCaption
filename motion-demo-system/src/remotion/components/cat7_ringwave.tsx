@@ -3,6 +3,7 @@ import { useCurrentFrame, interpolate } from 'remotion';
 import { FONT, itemProgress, panelBox, donutPath, polar, polygonPoints, countValue, parseNums } from './cardKit';
 import { easeOutExpo, atFrames } from '../anim';
 import { useConfigKey, useConfigList } from '../config';
+import { renderKeyParts, WrappedText } from './shared';
 
 /**
  * t7-09 环形占比饼图（分段按数组顺序生长 + 中心数字计数）
@@ -47,6 +48,7 @@ export const T7_09: React.FC = () => {
   const centerNum = useConfigKey('t7-09', 'centerNum') as number;
   const centerUnit = useConfigKey('t7-09', 'centerUnit') as string;
   const centerDesc = useConfigKey('t7-09', 'centerDesc') as string;
+  const hl = useConfigKey('t7-09', 'hlColor') as string;
   const legendSize = useConfigKey('t7-09', 'legendSize') as number;
   const legendGap = (useConfigKey('t7-09', 'legendGap') as number) ?? 28;
   const segMs = useConfigKey('t7-09', 'segMs') as number;
@@ -107,10 +109,13 @@ export const T7_09: React.FC = () => {
             marginLeft: 4, fontSize: numSize * 0.42, fontWeight: 700, color: borderColor, lineHeight: 1,
           }}>{centerUnit}</span>
         </div>
-        <div style={{
-          position: 'absolute', left: 0, top: cy + numSize * 0.34, width: W, textAlign: 'center',
-          fontSize: descSize, color: descColor,
-        }}>{centerDesc}</div>
+        <WrappedText
+          text={String(centerDesc ?? '')} size={descSize} maxWidth={W} baseWeight="Regular" hlColor={hl}
+          style={{
+            position: 'absolute', left: 0, top: cy + numSize * 0.34, width: W, textAlign: 'center',
+            fontSize: descSize, color: descColor,
+          }}
+        />
         {/* 图例：固定在圆环下方 legendGap 处，框随内容延展 */}
         <div style={{
           position: 'absolute', left: 0, top: HNeeded - 12 - legendSize, width: W, display: 'flex',

@@ -5,10 +5,18 @@ import { AgentDraftSchema } from '../project/schema';
 import { serializeProject, type ParseProjectResult } from '../project/serialize';
 import type { MotionEffectInstance, MotionProject, SubtitleCue } from '../project/types';
 import { parseSRT } from '../subtitle/parse';
+import {
+  exportTransparentMov,
+  TransparentExportCancelledError,
+} from '../export/transparentExport';
 import { useEditorStore } from '../store/editorStore';
-import { AiOrchestrationDialog, resolveLlmRuntime } from './AiOrchestrationDialog';
+import { AiOrchestrationDialog } from './AiOrchestrationDialog';
 import { SkillSyncDialog } from './SkillSyncDialog';
-import { resolveNativeBridge, type NativeBridge } from '../tauri/bridge';
+import {
+  resolveNativeBridge,
+  subscribeTransparentEncodeProgress,
+  type NativeBridge,
+} from '../tauri/bridge';
 import { describeSkillComponent, diffComponentSkill, type ComponentManifest, type ComponentSkillDiff } from '../skill/sync';
 import { effectRegistry } from '../effects/registry';
 import { readUserStyleDefaults } from '../effects/stylePrefs';
@@ -308,6 +316,12 @@ const downloadText = (filename: string, contents: string): void => {
 export const EditorApp: React.FC = () => {
   const [videoSource, setVideoSource] = useState<VideoSource | null>(null);
   const [message, setMessage] = useState<string | null>(null);
+  /** Cancellation switch for the running transparent export. */
+  const transparentExportSignal = React.useRef<{ aborted: boolean } | null>(null);
+  /** Frame directory of the currently running native ffmpeg encode. */
+  const lastEncodeDir = React.useRef<string | null>(null);
+  const [transparentExportActive, setTransparentExportActive] = useState(false);
+  // 应用内 AI 编排保留为内部能力（工具栏暂不提供入口，见 Toolbar）；运行时可空。
   const [aiDialogOpen, setAiDialogOpen] = useState(false);
   const [llmRuntime, setLlmRuntime] = useState<{ provider: import('../llm/provider').LlmProvider; profileName: string } | null>(null);
   const [libraryCollapsed, setLibraryCollapsed] = useState(() => (
@@ -361,6 +375,73 @@ export const EditorApp: React.FC = () => {
     return () => { active = false; };
   }, []);
 
+  /** 逐帧渲染 PNG → 原生 ffmpeg 合成透明 VP9/WebM（仅桌面端）。 */
+  const handleExportTransparent = React.useCallback(() => {
+    if (!nativeBridge) return;
+    void (async () => {
+      const signal = { aborted: false };
+      try {
+        const { save } = await import('@tauri-apps/plugin-dialog');
+        const destination = await save({
+          title: '导出透明字幕视频',
+          defaultPath: 'motioncaption-transparent.mov',
+          filters: [{ name: 'MOV（ProRes 4444 透明通道）', extensions: ['mov'] }],
+        });
+        if (!destination) return;
+        const totalFrames = project.video.durationInFrames;
+        transparentExportSignal.current = signal;
+        setTransparentExportActive(true);
+        // ffmpeg runs off the main thread and reports percent via native events.
+        const unlisten = await subscribeTransparentEncodeProgress(({ percent, dir }) => {
+          lastEncodeDir.current = dir;
+          if (!signal.aborted) setMessage(`透明导出：ffmpeg 合成中 ${Math.round(percent)}%…`);
+        });
+        try {
+          setMessage(`透明导出：渲染帧 0/${totalFrames}（0%）…`);
+          await exportTransparentMov(
+            project,
+            nativeBridge,
+            destination,
+            ({ frame, totalFrames: total, phase }) => {
+              if (phase === 'rendering') {
+                setMessage(`透明导出：渲染帧 ${frame}/${total}（${Math.round((frame / total) * 100)}%）…`);
+              } else if (phase === 'encoding') {
+                setMessage('透明导出：ffmpeg 合成中 0%…');
+              }
+            },
+            signal,
+          );
+          setMessage(`透明导出完成：${destination}（ProRes 4444，可直接拖入剪映 / Premiere / AE 叠加）`);
+        } finally {
+          unlisten();
+          setTransparentExportActive(false);
+          transparentExportSignal.current = null;
+          lastEncodeDir.current = null;
+        }
+      } catch (error) {
+        if (signal.aborted || error instanceof TransparentExportCancelledError) {
+          setMessage('透明导出已取消。');
+        } else {
+          setMessage(`透明导出失败：${error instanceof Error ? error.message : String(error)}`);
+        }
+        setTransparentExportActive(false);
+        transparentExportSignal.current = null;
+      }
+    })();
+  }, [nativeBridge, project]);
+
+  /** Cancels the running transparent export (render loop or native ffmpeg). */
+  const cancelTransparentExport = React.useCallback(() => {
+    const signal = transparentExportSignal.current;
+    if (!signal || signal.aborted) return;
+    signal.aborted = true;
+    const encodeDir = lastEncodeDir.current;
+    if (encodeDir) {
+      void nativeBridge?.abortTransparentEncode(encodeDir).catch(() => undefined);
+    }
+    setMessage('正在取消透明导出…');
+  }, [nativeBridge]);
+
   const openSkillSync = () => {
     setSkillSyncOpen(true);
     if (!nativeBridge) return;
@@ -383,11 +464,13 @@ export const EditorApp: React.FC = () => {
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       const { selectedInstanceId, selectInstance, deleteEffect } = useEditorStore.getState();
-      if (shouldDeselectOnKey(event.key, aiDialogOpen)) {
+      // 任一弹窗打开时，Escape / Delete 交给弹窗，不作用于舞台选择。
+      const dialogOpen = aiDialogOpen || skillSyncOpen;
+      if (shouldDeselectOnKey(event.key, dialogOpen)) {
         selectInstance(null);
         return;
       }
-      if (shouldDeleteSelectedOnKey(event, aiDialogOpen) && selectedInstanceId) {
+      if (shouldDeleteSelectedOnKey(event, dialogOpen) && selectedInstanceId) {
         // The selected effect instance owns Delete/Backspace when focus is not
         // inside a text control — remove it exactly like the inspector button.
         event.preventDefault();
@@ -396,7 +479,7 @@ export const EditorApp: React.FC = () => {
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [aiDialogOpen]);
+  }, [aiDialogOpen, skillSyncOpen]);
 
   useEffect(() => connectPlayerEnded(
     effectsPlayerRef.current as EndedEventSource | null,
@@ -496,13 +579,56 @@ export const EditorApp: React.FC = () => {
     setMessage(result.message);
   };
 
-  const saveProject = () => {
-    try {
-      downloadText('captionforge-project.json', serializeProject(useEditorStore.getState().project));
-      setMessage('工程已保存。');
-    } catch (error) {
-      setMessage(error instanceof Error ? error.message : '工程保存失败。');
+  /**
+   * Desktop: native save dialog + fs write (WebView2 cannot download blobs).
+   * Browser: blob + anchor download into the downloads folder.
+   */
+  const saveTextFile = React.useCallback(async (filename: string, contents: string): Promise<boolean> => {
+    if (nativeBridge) {
+      const destination = await nativeBridge.saveTextFile(filename, contents);
+      return destination !== null;
     }
+    downloadText(filename, contents);
+    return true;
+  }, [nativeBridge]);
+
+  const saveProject = () => {
+    void (async () => {
+      try {
+        const saved = await saveTextFile(
+          'captionforge-project.json',
+          serializeProject(useEditorStore.getState().project),
+        );
+        if (saved) setMessage('工程已保存。');
+      } catch (error) {
+        setMessage(error instanceof Error ? error.message : '工程保存失败。');
+      }
+    })();
+  };
+
+  /** 导出默认样式：桌面端走原生保存对话框，网页端 Blob 下载。 */
+  const handleExportStyleDefaults = () => {
+    const styleDefaults = readUserStyleDefaults();
+    if (!Object.keys(styleDefaults).length) {
+      setMessage('还没有保存过任何默认样式：先在组件属性面板点「存为默认样式」。');
+      return;
+    }
+    const payload = {
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      styleDefaults,
+    };
+    void (async () => {
+      try {
+        const saved = await saveTextFile(
+          'motioncaption-style-defaults.json',
+          JSON.stringify(payload, null, 2),
+        );
+        if (saved) setMessage('默认样式已导出。');
+      } catch (error) {
+        setMessage(error instanceof Error ? error.message : '默认样式导出失败。');
+      }
+    })();
   };
 
   const syncVideoFrame = (media: HTMLVideoElement) => {
@@ -522,22 +648,32 @@ export const EditorApp: React.FC = () => {
         onImportSubtitle={(file) => void readSubtitle(file)}
         onOpenProject={(file) => void readProject(file)}
         onSaveProject={saveProject}
+        onExportStyleDefaults={handleExportStyleDefaults}
         onImportAgent={(file) => void readAgentSequence(file)}
-        onOpenAiOrchestration={() => {
-          setLlmRuntime(resolveLlmRuntime(nativeBridge));
-          setAiDialogOpen(true);
-        }}
         onOpenSkillSync={openSkillSync}
+        canExportTransparent={!!nativeBridge}
+        onExportTransparent={handleExportTransparent}
       />
       {message && (
         <div className="workspace-notice" role="status" data-workspace-notice>
           <span className="workspace-notice-text">{message}</span>
-          <button
-            type="button"
-            className="workspace-notice-dismiss"
-            aria-label="关闭提示"
-            onClick={() => setMessage(null)}
-          >×</button>
+          {transparentExportActive && (
+            <button
+              type="button"
+              className="workspace-notice-action"
+              data-testid="cancel-transparent-export"
+              aria-label="取消导出"
+              onClick={cancelTransparentExport}
+            >取消导出</button>
+          )}
+          {!transparentExportActive && (
+            <button
+              type="button"
+              className="workspace-notice-dismiss"
+              aria-label="关闭提示"
+              onClick={() => setMessage(null)}
+            >×</button>
+          )}
         </div>
       )}
       <ComponentLibrary
@@ -576,19 +712,18 @@ export const EditorApp: React.FC = () => {
         </div>
       </section>
       <InspectorPanel collapsed={inspectorCollapsed} onToggle={() => setInspectorCollapsed((value) => !value)} />
-      {(() => {
-        return (
-          <AiOrchestrationDialog
-            open={aiDialogOpen}
-            onClose={() => setAiDialogOpen(false)}
-            provider={llmRuntime?.provider ?? null}
-            modelLabel={llmRuntime?.profileName ?? '未配置'}
-            project={project}
-            selectedInstanceId={selectedInstanceId}
-            replaceEffects={replaceEffects}
-          />
-        );
-      })()}
+      <AiOrchestrationDialog
+        open={aiDialogOpen}
+        onClose={() => {
+          setAiDialogOpen(false);
+          setLlmRuntime(null);
+        }}
+        provider={llmRuntime?.provider ?? null}
+        modelLabel={llmRuntime?.profileName ?? '未配置'}
+        project={project}
+        selectedInstanceId={selectedInstanceId}
+        replaceEffects={replaceEffects}
+      />
       <SkillSyncDialog
         open={skillSyncOpen}
         onClose={() => setSkillSyncOpen(false)}

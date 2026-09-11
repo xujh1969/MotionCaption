@@ -2,6 +2,7 @@ import React from 'react';
 import { useCurrentFrame } from 'remotion';
 import { CANVAS } from '../theme';
 import { useConfigKey } from '../config';
+import { measureText } from '../measure';
 
 /**
  * 视频舞台：1920×1080，默认深蓝色渐变背景（代替底层视频）。
@@ -83,6 +84,105 @@ export function parseKeyText(text: string): KeyTextPart[] {
 /** 去掉 {{}} 标记，返回纯文本（用于宽度测量、导出等不需要高亮信息的场合） */
 export function stripKeyText(text: string): string {
   return String(text ?? '').replace(/\{\{([^}]+)\}\}/g, '$1');
+}
+
+/**
+ * 按宽度手动折行（替代浏览器 white-space:normal 的原生折行）。
+ *
+ * 为什么必须手动折行：导出路径（@remotion/web-renderer）不是截图，而是把 DOM
+ * 重新手绘到 canvas；跨多个内联元素的段落断行由它自行模拟，与浏览器布局存在
+ * 差异，导致导出与预览断行位置不一致（t1-08 实测错位）。手动断行后，预览与
+ * 导出调用同一个 measureText（同一 canvas、同一字体状态），断行结果完全一致。
+ *
+ * 断行规则：CJK 字符可任意断；连续拉丁/数字视为整词不切断；行首空格丢弃。
+ * 返回行数组，每行是着色片段序列（hl 标记重点片段）。
+ */
+/**
+ * 手动折行文本块（现成调用点）：预览与导出共用同一 measureText 断行，
+ * 因此断点必然一致，不会出现「导出重新断行」的错位。
+ * 传入带 {{重点}} 标记的文本；hlColor 给定时高亮片段用该色绘制。
+ * 样式通过 style 透传（字号/字重/颜色/阴影等由调用方决定）。
+ */
+export const WrappedText: React.FC<{
+  text: string;
+  size: number;
+  maxWidth: number;
+  baseWeight?: 'Heavy' | 'Bold' | 'Regular';
+  hlColor?: string;
+  lineHeight?: number | string;
+  style?: React.CSSProperties;
+}> = ({ text, size, maxWidth, baseWeight = 'Regular', hlColor, lineHeight, style }) => (
+  <div style={style}>
+    {wrapKeySpansToLines(parseKeyText(text), size, maxWidth, baseWeight).map((line, li) => (
+      <div key={li} style={{ whiteSpace: 'nowrap', lineHeight }}>
+        {line.map((seg, si) => (seg.hl && hlColor ? (
+          <span key={si} style={{ color: hlColor }}>{seg.t}</span>
+        ) : (
+          <span key={si}>{seg.t}</span>
+        )))}
+      </div>
+    ))}
+  </div>
+);
+
+export function wrapKeySpansToLines(
+  parts: KeyTextPart[],
+  size: number,
+  maxWidth: number,
+  /** 普通片段的字重（高亮片段固定按 Bold 测量），默认 Regular。 */
+  baseWeight: 'Heavy' | 'Bold' | 'Regular' = 'Regular',
+): KeyTextPart[][] {
+  const measure = (t: string, hl: boolean) => measureText(t, size, hl ? 'Bold' : baseWeight);
+  // 拆 token：连续拉丁/数字整词，其余字符逐个
+  const toks: KeyTextPart[] = [];
+  for (const p of parts) {
+    let word = '';
+    const flush = () => {
+      if (word) {
+        toks.push({ t: word, hl: p.hl });
+        word = '';
+      }
+    };
+    for (const ch of p.t) {
+      if (/[A-Za-z0-9]/.test(ch)) {
+        word += ch;
+        continue;
+      }
+      flush();
+      toks.push({ t: ch, hl: p.hl });
+    }
+    flush();
+  }
+  const lines: KeyTextPart[][] = [[]];
+  let width = 0;
+  for (const tok of toks) {
+    const isSpace = /^\s$/.test(tok.t);
+    const w = measure(tok.t, tok.hl);
+    if (width + w > maxWidth && lines[lines.length - 1].length > 0) {
+      lines.push([]);
+      width = 0;
+      if (isSpace) continue; // 丢弃行首空格
+    } else if (isSpace && width === 0) {
+      continue;
+    }
+    lines[lines.length - 1].push(tok);
+    width += w;
+  }
+  return lines;
+}
+
+/**
+ * 渲染支持 {{重点文字}} 的文本节点：普通片段继承基色，
+ * 重点片段用 hlColor 绘制。文本无 {{}} 标记或未传 hlColor 时原样返回纯文本。
+ * 供各组件的文本渲染点统一接入重点文字能力。
+ */
+export function renderKeyParts(text: string, hlColor?: string): React.ReactNode {
+  if (!hlColor || !text || !text.includes('{{')) return text;
+  return parseKeyText(text).map((p, i) =>
+    p.hl
+      ? <span key={i} style={{ color: hlColor }}>{p.t}</span>
+      : <React.Fragment key={i}>{p.t}</React.Fragment>
+  );
 }
 
 /* ==================== 颜色工具 ==================== */

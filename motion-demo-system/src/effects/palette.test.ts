@@ -99,13 +99,25 @@ describe('stylePrefs pure helpers', () => {
     expect(values).toEqual({ titleSize: 44, titleColor: '#fff' });
   });
 
-  it('collectInstanceSnapshot keeps content and layout keys (posX/posY/scale)', () => {
+  it('collectInstanceSnapshot keeps style and layout keys but never content', () => {
     const values = collectInstanceSnapshot(fx05, {
       title1: '自定义标题', tags: '[{"label":"A"}]', titleSize: 44, titleColor: '#fff', posX: 100, posY: 200, scale: 120,
     });
     expect(values).toEqual({
-      title1: '自定义标题', tags: '[{"label":"A"}]', titleSize: 44, titleColor: '#fff', posX: 100, posY: 200, scale: 120,
+      titleSize: 44, titleColor: '#fff', posX: 100, posY: 200, scale: 120,
     });
+  });
+
+  it('mergeUserStyleDefaults never applies content keys when definition is given', () => {
+    const defaults: UserStyleDefaults = { 'fx-05': { titleColor: '#ff0000', title1: '旧文案污染', posX: 8 } };
+    const merged = mergeUserStyleDefaults(
+      'fx-05',
+      { titleColor: '#000', title1: '内置文案', posX: 0 },
+      defaults,
+      { definition: fx05 },
+    );
+    // 样式键并入；内容键（title1）与未知键不入，posX 属于 layout 照常并入
+    expect(merged).toEqual({ titleColor: '#ff0000', title1: '内置文案', posX: 8 });
   });
 
   it('mergeUserStyleDefaults overrides only recorded keys', () => {

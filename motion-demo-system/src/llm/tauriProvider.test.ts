@@ -10,6 +10,12 @@ const bridgeOf = (overrides: Partial<NativeBridge> = {}): NativeBridge => ({
   scanComponentSkill: vi.fn(async () => ({ libraryVersion: 1, components: [], aiProposals: [] })),
   applyComponentSkill: vi.fn(async () => {}),
   exportComponentSkill: vi.fn(async () => 3),
+  beginTransparentExport: vi.fn(async () => 'C:\\Temp\\motioncaption-alpha-test'),
+  writeTransparentFrame: vi.fn(async () => {}),
+  finishTransparentExport: vi.fn(async () => {}),
+  abortTransparentEncode: vi.fn(async () => {}),
+  cancelTransparentExport: vi.fn(async () => {}),
+  saveTextFile: vi.fn(async () => null),
   ...overrides,
 });
 

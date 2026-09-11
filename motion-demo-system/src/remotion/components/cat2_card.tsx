@@ -4,7 +4,7 @@ import { COLORS, FONT_STACK } from '../theme';
 import { useEnter, useEnterOpacity, useBreath, useGrow } from '../anim';
 import { useConfigKey } from '../config';
 import { weightNum } from '../measure';
-import { tint } from './shared';
+import { tint, WrappedText, parseKeyText, wrapKeySpansToLines } from './shared';
 
 const cardBase: React.CSSProperties = {
   position: 'absolute',
@@ -33,6 +33,7 @@ export const T2_01: React.FC = () => {
   const textColor = useConfigKey('t2-01', 'titleColor') as string;
   const bStart = useConfigKey('t2-01', 'borderStart') as string;
   const bEnd = useConfigKey('t2-01', 'borderEnd') as string;
+  const hl = useConfigKey('t2-01', 'hlColor') as string;
   const textW = 560;
   const pad = 24;
   const radius = 8;
@@ -52,8 +53,17 @@ export const T2_01: React.FC = () => {
         left: 0, top: 0, width: textW, padding: pad, paddingTop: pad + 10,
         opacity: tOpacity,
       }}>
+        {/* 手动折行：预览与导出共用同一 measureText 断行，避免导出时断行漂移（长文案实测错位） */}
         <div style={{ fontSize: textSize, fontWeight: 700, color: textColor, lineHeight: 1.25 }}>
-          {text}
+          {wrapKeySpansToLines(parseKeyText(text), textSize, textW - pad * 2, 'Bold').map((line, li) => (
+            <div key={li} style={{ whiteSpace: 'nowrap' }}>
+              {line.map((seg, si) => (
+                seg.hl
+                  ? <span key={si} style={{ color: hl }}>{seg.t}</span>
+                  : <span key={si}>{seg.t}</span>
+              ))}
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -70,6 +80,7 @@ export const T2_02: React.FC = () => {
   const tagColor = useConfigKey('t2-02', 'accentColor') as string;
   const titleSize = useConfigKey('t2-02', 'titleSize') as number;
   const borderColor = useConfigKey('t2-02', 'lineColor') as string;
+  const hl = useConfigKey('t2-02', 'hlColor') as string;
   const tagB = useBreath(frame, 1, 1, 0.05);
   const padL = 48;
   const gap = 12; // 标签与主标题间距
@@ -92,12 +103,16 @@ export const T2_02: React.FC = () => {
         boxShadow: `0 0 8px ${tint(borderColor, 0.2)}`,
         opacity: card.opacity, transform: `scale(${card.scale})`,
       }}>
-        <div style={{ fontSize: tagSize, fontWeight: 700, color: tagColor, letterSpacing: 2, opacity: tagO * (0.9 + (tagB - 1) * 0.3) }}>
-          {useConfigKey('t2-02', 'tagText')}
-        </div>
-        <div style={{ fontSize: titleSize, fontWeight: 900, color: COLORS.textPrimary, marginTop: gap, opacity: titleO }}>
-          {useConfigKey('t2-02', 'titleText')}
-        </div>
+        <WrappedText
+          text={useConfigKey('t2-02', 'tagText') as string}
+          size={tagSize} maxWidth={420} baseWeight="Bold" hlColor={hl} lineHeight={1.35}
+          style={{ fontSize: tagSize, fontWeight: 700, color: tagColor, letterSpacing: 2, opacity: tagO * (0.9 + (tagB - 1) * 0.3) }}
+        />
+        <WrappedText
+          text={useConfigKey('t2-02', 'titleText') as string}
+          size={titleSize} maxWidth={420} baseWeight="Heavy" hlColor={hl} lineHeight={1.35}
+          style={{ fontSize: titleSize, fontWeight: 900, color: COLORS.textPrimary, marginTop: gap, opacity: titleO }}
+        />
       </div>
     </div>
   );
@@ -114,6 +129,7 @@ export const T2_03: React.FC = () => {
   const titleColor = useConfigKey('t2-03', 'titleColor') as string;
   const descSize = useConfigKey('t2-03', 'subSize') as number;
   const bgColor = useConfigKey('t2-03', 'accentColor') as string;
+  const hl = useConfigKey('t2-03', 'hlColor') as string;
   const pad = 32;
   const innerW = 560;
   const cardH = 'auto' as const;
@@ -127,10 +143,16 @@ export const T2_03: React.FC = () => {
         padding: pad, borderRadius: 12, background: bgColor,
         opacity: card.opacity, transform: `scale(${card.scale})`,
       }}>
-        <div style={{ fontSize: titleSize, fontWeight: 900, color: titleColor, opacity: t }}>{useConfigKey('t2-03', 'titleText')}</div>
-        <div style={{ fontSize: descSize, fontWeight: 400, color: COLORS.textSecondary, marginTop: 16, opacity: d, lineHeight: 1.5 }}>
-          {useConfigKey('t2-03', 'descText')}
-        </div>
+        <WrappedText
+          text={useConfigKey('t2-03', 'titleText') as string}
+          size={titleSize} maxWidth={innerW} baseWeight="Heavy" hlColor={hl} lineHeight={1.35}
+          style={{ fontSize: titleSize, fontWeight: 900, color: titleColor, opacity: t }}
+        />
+        <WrappedText
+          text={useConfigKey('t2-03', 'descText') as string}
+          size={descSize} maxWidth={innerW} baseWeight="Regular" hlColor={hl} lineHeight={1.5}
+          style={{ fontSize: descSize, fontWeight: 400, color: COLORS.textSecondary, marginTop: 16, opacity: d }}
+        />
       </div>
     </div>
   );

@@ -150,6 +150,75 @@ describe('editor store formal effects', () => {
   });
 });
 
+describe('editor store component preview', () => {
+  it('mounts a transient preview instance without touching project.effects', () => {
+    const store = createEditorStore(project());
+    store.getState().selectInstance('formal');
+    useFrame(store, 30);
+
+    store.getState().startComponentPreview('t1-01');
+
+    const preview = store.getState().componentPreview;
+    expect(preview).not.toBeNull();
+    expect(preview?.effect).toMatchObject({
+      instanceId: 'preview-t1-01',
+      componentId: 't1-01',
+      startFrame: 0,
+      durationInFrames: 90,
+    });
+    expect(preview?.endFrame).toBe(90);
+    // 试播不进入工程数据，也不抢占选中态。
+    expect(store.getState().project.effects).toHaveLength(1);
+    expect(store.getState().project.effects[0].instanceId).toBe('formal');
+    expect(store.getState().selectedInstanceId).toBeNull();
+  });
+
+  it('keeps the main timeline frozen: currentFrame and isPlaying untouched', () => {
+    const store = createEditorStore(project());
+    useFrame(store, 280);
+
+    store.getState().startComponentPreview('t1-01');
+
+    // 试播在独立叠加层时钟上播放，播放头留在原地、时间线不进入播放态。
+    expect(store.getState().currentFrame).toBe(280);
+    expect(store.getState().isPlaying).toBe(false);
+    expect(store.getState().componentPreview?.effect.startFrame).toBe(0);
+  });
+
+  it('clears the preview explicitly and on project replacement', () => {
+    const store = createEditorStore(project());
+    store.getState().startComponentPreview('t1-01');
+    expect(store.getState().componentPreview).not.toBeNull();
+
+    store.getState().clearComponentPreview();
+    expect(store.getState().componentPreview).toBeNull();
+
+    store.getState().startComponentPreview('t1-01');
+    store.getState().replaceEffects([]);
+    expect(store.getState().componentPreview).toBeNull();
+  });
+
+  it('clears the preview when an effect is formally added', () => {
+    const store = createEditorStore(project());
+    store.getState().startComponentPreview('t1-01');
+    expect(store.getState().componentPreview).not.toBeNull();
+
+    store.getState().addEffect('t1-01', 0);
+    expect(store.getState().componentPreview).toBeNull();
+  });
+
+  it('fails atomically for an unknown component id', () => {
+    const store = createEditorStore(project());
+    expect(() => store.getState().startComponentPreview('no-such-component')).toThrow();
+    expect(store.getState().componentPreview).toBeNull();
+  });
+});
+
+/** editorStore 的 currentFrame 需要通过 set 直接驱动（无 setCurrentFrame 之外的入口）。 */
+function useFrame(store: ReturnType<typeof createEditorStore>, frame: number): void {
+  (store as unknown as { setState: (partial: Record<string, unknown>) => void }).setState({ currentFrame: frame });
+}
+
 describe('editor store effect updates', () => {
   it('updates one instance without sharing nested props with another instance', () => {
     const first = effect('first');

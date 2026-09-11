@@ -1,12 +1,12 @@
 import React from 'react';
 import { useCurrentFrame, interpolate } from 'remotion';
-import { easeOutExpo } from '../anim';
+import { easeOutExpo, atFrames } from '../anim';
 import {
   FONT, itemProgress, shell, SHADOW_T4_03, SHADOW_CYAN, SHADOW_STEP,
   breathPulse, countValue,
 } from './cardKit';
 import { useConfigKey, useConfigList } from '../config';
-import { withAlpha } from './shared';
+import { withAlpha, renderKeyParts, stripKeyText } from './shared';
 
 /**
  * t4-03 ~ t4-09：横向卡片组（数组顺序渐亮入场）
@@ -22,6 +22,7 @@ export const T4_03: React.FC = () => {
   const titleText = useConfigKey('t4-03', 'titleText') as string;
   const titleSize = useConfigKey('t4-03', 'titleSize') as number;
   const titleColor = useConfigKey('t4-03', 'titleColor') as string;
+  const hl = useConfigKey('t4-03', 'hlColor') as string;
   const cardW = useConfigKey('t4-03', 'cardW') as number;
   const cardH = useConfigKey('t4-03', 'cardH') as number;
   const radius = useConfigKey('t4-03', 'radius') as number;
@@ -55,14 +56,14 @@ export const T4_03: React.FC = () => {
         position: 'absolute', left: 0, top: 0, width: rowW, textAlign: 'center',
         fontSize: kickerSize, fontWeight: 700, color: kickerColor, letterSpacing: 4,
         opacity: head, whiteSpace: 'nowrap', textShadow: '0 3px 12px rgba(0,0,0,0.45)',
-      }}>{kickerText}</div>
+      }}>{renderKeyParts(kickerText, hl)}</div>
       {/* 主标题 */}
       <div style={{
         position: 'absolute', left: 0, top: titleY, width: rowW, textAlign: 'center',
         fontSize: titleSize, fontWeight: 800, color: titleColor,
         opacity: head, whiteSpace: 'nowrap', lineHeight: 1,
         textShadow: '0 4px 16px rgba(0,0,0,0.5)',
-      }}>{titleText}</div>
+      }}>{renderKeyParts(titleText, hl)}</div>
       {/* 卡片行 + 连接箭头 */}
       <div style={{ position: 'absolute', left: 0, top: rowY, display: 'flex', alignItems: 'center' }}>
         {items.map((it, i) => {
@@ -267,7 +268,7 @@ export const T4_06: React.FC = () => {
               }}>{it.label ?? ''}</div>
               <div style={{
                 marginTop: gapSub, fontSize: subSize, fontWeight: 400, color: subColor,
-                lineHeight: 1.1, overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '100%',
+                lineHeight: 1.1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '100%',
               }}>{it.subLabel ?? ''}</div>
             </div>
           );
@@ -355,7 +356,7 @@ export const T4_07: React.FC = () => {
                 }}>{it.title ?? ''}</div>
                 <div style={{
                   marginTop: gapDesc, fontSize: descSize, fontWeight: 400, color: descColor,
-                  lineHeight: 1.15, maxWidth: '100%', overflow: 'hidden', textOverflow: 'ellipsis',
+                  lineHeight: 1.15, whiteSpace: 'nowrap', maxWidth: '100%', overflow: 'hidden', textOverflow: 'ellipsis',
                 }}>{it.desc ?? ''}</div>
               </div>
             </React.Fragment>
@@ -421,7 +422,7 @@ export const T4_08: React.FC = () => {
                 }}>{it.title ?? ''}</div>
                 <div style={{
                   marginTop: 10, fontSize: descSize, fontWeight: 400, color: descColor, lineHeight: 1.2,
-                  overflow: 'hidden', textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
                 }}>{it.desc ?? ''}</div>
               </div>
             </div>
@@ -492,6 +493,136 @@ export const T4_09: React.FC = () => {
             </div>
           );
         })}
+      </div>
+    </div>
+  );
+};
+
+/* ---------------- t4-10 胶囊拖拽进度条（多阶段渐变填充·底部安全区） ---------------- */
+export const T4_10: React.FC = () => {
+  const frame = useCurrentFrame();
+  const raw = useConfigList('t4-10', 'items') as { label?: string; at?: string }[];
+  const items = raw.length > 0 ? raw : [
+    { label: '分镜' }, { label: '素材' }, { label: '画面' }, { label: '拼装' },
+  ];
+  const stageSize = useConfigKey('t4-10', 'stageSize') as number;
+  const stageColor = useConfigKey('t4-10', 'stageColor') as string;
+  const doneColor = useConfigKey('t4-10', 'doneColor') as string;
+  const activeColor = useConfigKey('t4-10', 'activeColor') as string;
+  const hl = useConfigKey('t4-10', 'hlColor') as string;
+  const trackW = useConfigKey('t4-10', 'trackW') as number;
+  const trackH = useConfigKey('t4-10', 'trackH') as number;
+  const trackColor = useConfigKey('t4-10', 'trackColor') as string;
+  const gradA = useConfigKey('t4-10', 'gradA') as string;
+  const gradB = useConfigKey('t4-10', 'gradB') as string;
+  const gradC = useConfigKey('t4-10', 'gradC') as string;
+  const capW = useConfigKey('t4-10', 'capW') as number;
+  const capH = useConfigKey('t4-10', 'capH') as number;
+  const capBg = useConfigKey('t4-10', 'capBg') as string;
+  const capBorder = useConfigKey('t4-10', 'capBorder') as string;
+  const capTextSize = useConfigKey('t4-10', 'capTextSize') as number;
+  const capTextColor = useConfigKey('t4-10', 'capTextColor') as string;
+  const capLabelRaw = (useConfigKey('t4-10', 'capLabel') as string) ?? '';
+  const dotColor = useConfigKey('t4-10', 'dotColor') as string;
+  const dragMs = useConfigKey('t4-10', 'dragMs') as number;
+  const scale = useConfigKey('t4-10', 'scale') as number;
+  const posX = (useConfigKey('t4-10', 'posX') as number) ?? 140;
+  const posY = (useConfigKey('t4-10', 'posY') as number) ?? 860;
+
+  const n = items.length;
+  const dragFrames = Math.max(12, Math.round((dragMs / 1000) * 30));
+  // 各阶段到达帧：at（秒）优先，缺省按拖拽总时长均摊；强制单调不减
+  const arrive = items.map((it, i) => atFrames(it, i, 12, n > 1 ? dragFrames / (n - 1) : 0));
+  for (let i = 1; i < arrive.length; i += 1) arrive[i] = Math.max(arrive[i], arrive[i - 1]);
+  // 胶囊中心行程：[capW/2, trackW - capW/2]（首尾停靠不越出轨道）
+  const padHalf = capW / 2;
+  const span = Math.max(0, trackW - capW);
+  const stageX = (i: number) => (n === 1 ? span / 2 : (span * i) / (n - 1)) + padHalf;
+  // 胶囊当前位置：到达帧之间分段线性 + 段内 ease-out；首帧前停靠最左（渐变为 0）
+  let capX = 0;
+  if (frame >= arrive[arrive.length - 1]) {
+    capX = stageX(n - 1);
+  } else if (frame >= arrive[0]) {
+    for (let i = 0; i < n - 1; i += 1) {
+      if (frame >= arrive[i] && frame < arrive[i + 1]) {
+        const t = (frame - arrive[i]) / Math.max(1, arrive[i + 1] - arrive[i]);
+        const eased = 1 - (1 - t) ** 3;
+        capX = stageX(i) + (stageX(i + 1) - stageX(i)) * eased;
+        break;
+      }
+    }
+  }
+  // 当前激活阶段 = 最后一个已到达的阶段
+  let activeIdx = -1;
+  for (let i = 0; i < n; i += 1) if (frame >= arrive[i]) activeIdx = i;
+  // 胶囊文字：capLabel 有值时显示固定文本（如 "Auto"），否则跟随当前激活阶段名
+  const stageLabel = stripKeyText(items[Math.max(0, activeIdx)]?.label ?? '');
+  const capText = stripKeyText(capLabelRaw).length > 0 ? stripKeyText(capLabelRaw) : stageLabel;
+  // 文本宽度估算：全角≈字号、半角≈0.6 字号
+  const cjkWidth = (text: string, size: number) => {
+    let w = 0;
+    for (const ch of text) w += ch.charCodeAt(0) > 0x2e80 ? size * 1.02 : size * 0.6;
+    return Math.ceil(w);
+  };
+  const capTextW = cjkWidth(capText, capTextSize);
+  const capBoxW = Math.max(capW, capTextW + 10 + 10 + 44 + 4);
+  const glowPulse = 0.55 + 0.45 * Math.sin((frame / 18) * Math.PI);
+  const trackY = Math.round(stageSize * 1.5) + 12;
+  const groupOpacity = interpolate(frame, [0, 10], [0, 1], {
+    easing: easeOutExpo, extrapolateLeft: 'clamp', extrapolateRight: 'clamp',
+  });
+
+  return (
+    <div style={{
+      position: 'absolute', left: posX, top: posY,
+      transformOrigin: 'top left', transform: `scale(${scale / 100})`, fontFamily: FONT,
+    }}>
+      <div style={{ opacity: groupOpacity }}>
+        {/* 阶段文字：随胶囊到达依次点亮 */}
+        {items.map((it, i) => {
+          const w = cjkWidth(stripKeyText(it.label ?? ''), stageSize);
+          const cx = Math.min(Math.max(stageX(i), w / 2), trackW - w / 2);
+          const color = i < activeIdx ? doneColor : i === activeIdx ? activeColor : stageColor;
+          return (
+            <div key={`s${i}`} style={{
+              position: 'absolute', left: cx - w / 2, top: 0, width: w,
+              textAlign: 'center', fontSize: stageSize, fontWeight: 600, lineHeight: 1.2,
+              color, whiteSpace: 'nowrap',
+            }}>{renderKeyParts(it.label ?? '', hl)}</div>
+          );
+        })}
+        {/* 底轨 */}
+        <div style={{
+          position: 'absolute', left: 0, top: trackY, width: trackW, height: trackH,
+          borderRadius: 999, background: trackColor, opacity: 0.5,
+        }} />
+        {/* 渐变填充条：宽度 = 胶囊位置，渐变锚定整条轨道不随宽度重排 */}
+        <div style={{
+          position: 'absolute', left: 0, top: trackY, width: Math.max(0, capX), height: trackH,
+          borderRadius: 999, overflow: 'hidden',
+          boxShadow: capX > 0 ? '0 0 12px rgba(177,76,255,0.35)' : 'none',
+        }}>
+          <div style={{
+            width: trackW, height: '100%', borderRadius: 999,
+            background: `linear-gradient(90deg, ${gradA}, ${gradB}, ${gradC})`,
+          }} />
+        </div>
+        {/* 胶囊标签：骑在轨道上随进度移动，右侧黄色指示点呼吸发光 */}
+        <div style={{
+          position: 'absolute', left: Math.max(0, capX - capBoxW / 2),
+          top: trackY + trackH / 2 - capH / 2, width: capBoxW, height: capH,
+          borderRadius: 999, background: capBg, border: `1px solid ${capBorder}`,
+          boxShadow: '0 4px 14px rgba(0,0,0,0.3)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+        }}>
+          <span style={{
+            fontSize: capTextSize, fontWeight: 700, color: capTextColor, whiteSpace: 'nowrap',
+          }}>{renderKeyParts(capText, hl)}</span>
+          <span style={{
+            width: 10, height: 10, borderRadius: '50%', background: dotColor, flex: '0 0 auto',
+            boxShadow: `0 0 ${(8 * glowPulse).toFixed(1)}px rgba(255,212,71,0.6)`,
+          }} />
+        </div>
       </div>
     </div>
   );

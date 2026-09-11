@@ -4,7 +4,7 @@ import { COLORS, FONT_STACK } from '../theme';
 import { useEnter, useEnterOpacity, useBreath, easeOutExpo, atFrames } from '../anim';
 import { useConfigKey, useConfigList } from '../config';
 import { weightNum, measureText } from '../measure';
-import { tint } from './shared';
+import { tint, renderKeyParts, WrappedText } from './shared';
 
 const base: React.CSSProperties = { position: 'absolute', fontFamily: FONT_STACK, whiteSpace: 'nowrap' };
 
@@ -12,14 +12,26 @@ interface TextProps {
   x: number; y: number; size: number; weight?: 'Heavy' | 'Bold' | 'Regular';
   color: string; text: string; opacity?: number; translateY?: number; letterSpacing?: number;
   maxWidth?: number; wrap?: boolean; lineHeight?: number;
+  /** 重点文字颜色：文本含 {{重点}} 标记时用该色绘制重点片段。 */
+  hl?: string;
 }
-export const T: React.FC<TextProps> = ({ x, y, size, weight = 'Heavy', color, text, opacity = 1, translateY = 0, letterSpacing = 0, maxWidth, wrap = false, lineHeight }) => (
-  <div style={{ ...base, left: x, top: y, fontSize: size, fontWeight: weightNum(weight), color,
-    whiteSpace: wrap ? 'normal' : 'nowrap', maxWidth, lineHeight,
-    opacity, transform: `translateY(${translateY}px)`, letterSpacing, textShadow: '0 3px 12px rgba(0,0,0,0.45)' }}>
-    {text}
-  </div>
-);
+export const T: React.FC<TextProps> = ({ x, y, size, weight = 'Heavy', color, text, opacity = 1, translateY = 0, letterSpacing = 0, maxWidth, wrap = false, lineHeight, hl }) => {
+  const shared: React.CSSProperties = {
+    ...base, left: x, top: y, fontSize: size, fontWeight: weightNum(weight), color,
+    opacity, transform: `translateY(${translateY}px)`, letterSpacing,
+    textShadow: '0 3px 12px rgba(0,0,0,0.45)',
+  };
+  // 多行正文改为手动折行：浏览器原生折行在导出重绘器里断点会漂移。
+  if (wrap && maxWidth) {
+    return (
+      <WrappedText
+        text={text} size={size} maxWidth={maxWidth} baseWeight={weight} hlColor={hl}
+        lineHeight={lineHeight ?? 1.35} style={shared}
+      />
+    );
+  }
+  return <div style={{ ...shared, whiteSpace: 'nowrap', maxWidth, lineHeight }}>{renderKeyParts(text, hl)}</div>;
+};
 
 /* ---------------- t4-01 模块内四步横向流程 ---------------- */
 export const T4_01: React.FC = () => {
@@ -32,6 +44,7 @@ export const T4_01: React.FC = () => {
   const accent = useConfigKey('t4-01', 'accentColor') as string;
   const titleColor = useConfigKey('t4-01', 'titleColor') as string;
   const titleText = useConfigKey('t4-01', 'titleText') as string;
+  const hl = useConfigKey('t4-01', 'hlColor') as string;
   const list = steps.length > 0 ? steps : [{ n: '01', t: '步骤', d: '-' }];
   const posX = (useConfigKey('t4-01', 'posX') as number) ?? 130;
   const posY = (useConfigKey('t4-01', 'posY') as number) ?? 240;
@@ -67,7 +80,7 @@ export const T4_01: React.FC = () => {
   return (
     <div style={{ position: 'absolute', left: posX, top: posY, transformOrigin: 'top left', transform: `scale(${configScale / 100})` }}>
       <T x={0} y={0} size={titleSize} weight="Heavy" color={COLORS.textPrimary} text={titleText}
-        opacity={title.opacity} translateY={title.translateY} />
+        opacity={title.opacity} translateY={title.translateY} hl={hl} />
       {/* 贯穿各序号的下方主线 */}
       <div style={{
         position: 'absolute', left: line0, top: lineY, width: lineW, height: lineH,
@@ -113,6 +126,7 @@ export const T5_01: React.FC = () => {
   const accent = useConfigKey('t5-01', 'accentColor') as string;
   const titleColor = useConfigKey('t5-01', 'titleColor') as string;
   const titleText = useConfigKey('t5-01', 'titleText') as string;
+  const hl = useConfigKey('t5-01', 'hlColor') as string;
   const posX = (useConfigKey('t5-01', 'posX') as number) ?? 130;
   const posY = (useConfigKey('t5-01', 'posY') as number) ?? 220;
   const configScale = (useConfigKey('t5-01', 'scale') as number) ?? 100;
@@ -133,7 +147,7 @@ export const T5_01: React.FC = () => {
   return (
     <div style={{ position: 'absolute', left: posX, top: posY, transformOrigin: 'top left', transform: `scale(${configScale / 100})` }}>
       <T x={0} y={0} size={titleSize} weight="Heavy" color={COLORS.textPrimary} text={titleText}
-        opacity={title.opacity} translateY={title.translateY} />
+        opacity={title.opacity} translateY={title.translateY} hl={hl} />
       {items.map((it, i) => {
         const o = useEnterOpacity(frame, atFrames(it, i, 18, 16));
         const markerB = useBreath(frame, 1 + i * 0.2, 1, 0.08);
@@ -149,9 +163,11 @@ export const T5_01: React.FC = () => {
               <div style={{ fontFamily: FONT_STACK, fontSize: rowTitle, fontWeight: weightNum('Bold'),
                 color: titleColor, whiteSpace: 'nowrap', lineHeight: 1, textShadow: '0 3px 12px rgba(0,0,0,0.45)' }}>{it.t}</div>
             </div>
-            <div style={{ marginLeft: 26, marginTop: 10, fontSize: descSize, fontWeight: weightNum('Regular'),
-              color: descColor, lineHeight: 1.5, whiteSpace: 'normal', maxWidth: 530,
-              textShadow: '0 3px 12px rgba(0,0,0,0.45)' }}>{it.d}</div>
+            <WrappedText
+              text={String(it.d ?? '')} size={descSize} maxWidth={530} baseWeight="Regular" lineHeight={1.5}
+              style={{ marginLeft: 26, marginTop: 10, fontSize: descSize, fontWeight: weightNum('Regular'),
+                color: descColor, textShadow: '0 3px 12px rgba(0,0,0,0.45)' }}
+            />
           </div>
         );
       })}
@@ -171,6 +187,7 @@ export const T5_02: React.FC = () => {
   const descSize = useConfigKey('t5-02', 'descSize') as number;
   const descColor = useConfigKey('t5-02', 'descColor') as string;
   const titleText = useConfigKey('t5-02', 'titleText') as string;
+  const hl = useConfigKey('t5-02', 'hlColor') as string;
   const fallback = useConfigKey('t5-02', 'accentColor') as string;
   const posX = (useConfigKey('t5-02', 'posX') as number) ?? 130;
   const posY = (useConfigKey('t5-02', 'posY') as number) ?? 240;
@@ -183,7 +200,7 @@ export const T5_02: React.FC = () => {
   return (
     <div style={{ position: 'absolute', left: posX, top: posY, transformOrigin: 'top left', transform: `scale(${configScale / 100})` }}>
       <T x={0} y={0} size={titleSize} weight="Heavy" color={COLORS.textPrimary} text={titleText}
-        opacity={title.opacity} translateY={title.translateY} />
+        opacity={title.opacity} translateY={title.translateY} hl={hl} />
       {items.map((it, i) => {
         const o = useEnterOpacity(frame, atFrames(it, i, 18, 16));
         const cB = useBreath(frame, 1 + i * 0.2, 1, 0.1);
@@ -200,9 +217,11 @@ export const T5_02: React.FC = () => {
             <div style={{ position: 'absolute', left: titleX, top: titleTop, fontFamily: FONT_STACK,
               fontSize: rowTitle, fontWeight: weightNum('Bold'), color: tColor, lineHeight: 1,
               whiteSpace: 'nowrap', textShadow: '0 3px 12px rgba(0,0,0,0.45)' }}>{it.t}</div>
-            <div style={{ position: 'absolute', left: titleX, top: lineH + 12, fontSize: descSize,
-              fontWeight: weightNum('Regular'), color: descColor, lineHeight: 1.5, whiteSpace: 'normal',
-              maxWidth: 410, textShadow: '0 3px 12px rgba(0,0,0,0.45)' }}>{it.d}</div>
+            <WrappedText
+              text={String(it.d ?? '')} size={descSize} maxWidth={410} baseWeight="Regular" lineHeight={1.5}
+              style={{ position: 'absolute', left: titleX, top: lineH + 12, fontSize: descSize,
+                fontWeight: weightNum('Regular'), color: descColor, textShadow: '0 3px 12px rgba(0,0,0,0.45)' }}
+            />
           </div>
         );
       })}
@@ -223,6 +242,7 @@ export const T5_03: React.FC = () => {
   const accent = useConfigKey('t5-03', 'accentColor') as string;
   const titleColor = useConfigKey('t5-03', 'titleColor') as string;
   const titleText = useConfigKey('t5-03', 'titleText') as string;
+  const hl = useConfigKey('t5-03', 'hlColor') as string;
   const posX = (useConfigKey('t5-03', 'posX') as number) ?? 130;
   const posY = (useConfigKey('t5-03', 'posY') as number) ?? 200;
   const configScale = (useConfigKey('t5-03', 'scale') as number) ?? 100;
@@ -243,7 +263,7 @@ export const T5_03: React.FC = () => {
   return (
     <div style={{ position: 'absolute', left: posX, top: posY, transformOrigin: 'top left', transform: `scale(${configScale / 100})` }}>
       <T x={0} y={0} size={titleSize} weight="Heavy" color={COLORS.textPrimary} text={titleText}
-        opacity={title.opacity} translateY={title.translateY} />
+        opacity={title.opacity} translateY={title.translateY} hl={hl} />
       {items.map((it, i) => {
         const d = atFrames(it, i, 18, 14);
         const numO = useEnterOpacity(frame, d);
@@ -257,7 +277,10 @@ export const T5_03: React.FC = () => {
             </div>
             <div style={{ position: 'absolute', left: 54, top: 0, opacity: tO, width: 700 }}>
               <div style={{ fontSize: rowTitle, fontWeight: 700, color: titleColor, whiteSpace: 'nowrap', lineHeight: 1 }}>{it.t}</div>
-              <div style={{ fontSize: descSize, fontWeight: 400, color: descColor, marginTop: 10, opacity: dO, whiteSpace: 'normal', lineHeight: 1.4 }}>{it.d}</div>
+              <WrappedText
+                text={String(it.d ?? '')} size={descSize} maxWidth={descW} baseWeight="Regular" lineHeight={1.4}
+                style={{ fontSize: descSize, fontWeight: 400, color: descColor, marginTop: 10, opacity: dO }}
+              />
             </div>
           </div>
         );
@@ -335,17 +358,18 @@ export const T5_04: React.FC = () => {
   const accent = useConfigKey('t5-04', 'accentColor') as string;
   const valColor = useConfigKey('t5-04', 'subColor') as string;
   const titleText = useConfigKey('t5-04', 'titleText') as string;
+  const hl = useConfigKey('t5-04', 'hlColor') as string;
   const posX = (useConfigKey('t5-04', 'posX') as number) ?? 130;
   const posY = (useConfigKey('t5-04', 'posY') as number) ?? 240;
   const configScale = (useConfigKey('t5-04', 'scale') as number) ?? 100;
   const keyW = 170;    // Key 列固定宽度
   const valMaxW = 1200; // Value 显示区域宽度（400 → 800 → 1200）
-  const rowGap = 48;   // 条目间预留空隙
+  const rowGap = Math.round(fieldSize * 0.8); // 条目间空隙约 0.8 倍字段字号（原固定 48 相对默认 25px 字号过大）
   const valLH = 1.35;  // Value 行高
   return (
     <div style={{ position: 'absolute', left: posX, top: posY, width: keyW + valMaxW, transformOrigin: 'top left', transform: `scale(${configScale / 100})` }}>
       <T x={0} y={0} size={titleSize} weight="Heavy" color={COLORS.textPrimary} text={titleText}
-        opacity={title.opacity} translateY={title.translateY} />
+        opacity={title.opacity} translateY={title.translateY} hl={hl} />
       {/* 瀑布排列：常规流逐行堆叠，由浏览器按实际内容计算高度，上面文字换行不会挤占下面条目 */}
       {rows.map((r, i) => {
         const d = atFrames(r, i, 18, 10);
@@ -354,7 +378,10 @@ export const T5_04: React.FC = () => {
         return (
           <div key={i} style={{ marginTop: i === 0 ? titleSize + 56 : rowGap }}>
             <span style={{ display: 'inline-block', width: keyW, verticalAlign: 'top', lineHeight: valLH, fontSize: fieldSize, fontWeight: 700, color: accent, opacity: kO }}>{r.k}</span>
-            <span style={{ display: 'inline-block', maxWidth: valMaxW, verticalAlign: 'top', whiteSpace: 'normal', lineHeight: valLH, fontSize: fieldSize, fontWeight: 400, color: valColor, opacity: vO }}>{r.v}</span>
+            <WrappedText
+              text={String(r.v ?? '')} size={fieldSize} maxWidth={valMaxW} baseWeight="Regular" lineHeight={valLH}
+              style={{ display: 'inline-block', verticalAlign: 'top', fontSize: fieldSize, fontWeight: 400, color: valColor, opacity: vO }}
+            />
           </div>
         );
       })}
@@ -368,6 +395,7 @@ export const T5_06: React.FC = () => {
   const items = useConfigList('t5-06', 'items') as { label: string; title: string; color?: string }[];
   const list = items.length > 0 ? items : [{ label: '01 / 标签', title: '条目标题', color: '#FF5580' }];
   const titleText = useConfigKey('t5-06', 'titleText') as string;
+  const hl = useConfigKey('t5-06', 'hlColor') as string;
   const titleSize = useConfigKey('t5-06', 'titleSize') as number;
   const titleColor = useConfigKey('t5-06', 'titleColor') as string;
   const labelSize = useConfigKey('t5-06', 'labelSize') as number;
@@ -397,7 +425,7 @@ export const T5_06: React.FC = () => {
     <div style={{ position: 'absolute', left: posX, top: posY, transform: `scale(${scale / 100})`, transformOrigin: 'top left' }}>
       <div style={{ fontSize: titleSize, fontWeight: 700, color: titleColor,
         opacity: titleO, transform: `translateY(${titleY}px)`, textShadow: SH_TITLE, whiteSpace: 'nowrap', lineHeight: 1 }}>
-        {titleText}
+        {renderKeyParts(titleText, hl)}
       </div>
       <div style={{ position: 'absolute', left: 0, top: rowTop, display: 'flex', gap: itemGap, alignItems: 'flex-start' }}>
         {list.map((n, i) => {
@@ -413,8 +441,10 @@ export const T5_06: React.FC = () => {
               {/* 上一行：红色标签 */}
               <div style={{ fontSize: labelSize, fontWeight: 600, color: c, textShadow: SH, whiteSpace: 'nowrap' }}>{n.label ?? ''}</div>
               {/* 下一行：条目标题（允许换行） */}
-              <div style={{ marginTop: labelGap, fontSize: itemSize, fontWeight: 700, color: itemColor,
-                textShadow: SH, whiteSpace: 'normal', lineHeight: 1.3 }}>{n.title ?? ''}</div>
+              <WrappedText
+                text={String(n.title ?? '')} size={itemSize} maxWidth={colW} baseWeight="Bold" lineHeight={1.3}
+                style={{ marginTop: labelGap, fontSize: itemSize, fontWeight: 700, color: itemColor, textShadow: SH }}
+              />
               {/* 标题下方装饰横线（呼吸伸缩：宽度随正弦先缩后放 + 玫红→淡紫渐变） */}
               <div style={{ marginTop: lineGap, width: lineW * breath, height: lineH, borderRadius: lineH / 2,
                 background: `linear-gradient(90deg, ${c}, ${lineColor2})`,
@@ -431,6 +461,7 @@ export const T5_06: React.FC = () => {
 export const T4_02: React.FC = () => {
   const frame = useCurrentFrame();
   const titleText = useConfigKey('t4-02', 'titleText') as string;
+  const hl = useConfigKey('t4-02', 'hlColor') as string;
   const titleSize = useConfigKey('t4-02', 'titleSize') as number;
   const titleColor = useConfigKey('t4-02', 'titleColor') as string;
   const frameColor = useConfigKey('t4-02', 'frameColor') as string;
@@ -484,7 +515,7 @@ export const T4_02: React.FC = () => {
         position: 'absolute', left: TITLE_X, top: TITLE_Y, fontSize: titleSize, fontWeight: 400,
         color: titleColor, opacity: titleO, transform: `translateY(${titleY}px)`,
         textShadow: '0 0 12px rgba(180,200,224,0.25)', letterSpacing: 2, whiteSpace: 'nowrap',
-      }}>{titleText}</div>
+      }}>{renderKeyParts(titleText, hl)}</div>
       {/* 主时间轴线（固定渐变，从左侧向右侧截断生长） */}
       <div style={{ position: 'absolute', left: LINE_X1, top: LINE_Y - 4, width: lineW * lineP, height: 8, overflow: 'hidden' }}>
         <div style={{ width: lineW, height: 8, background: gradient, opacity: 0.92, borderRadius: 4 }} />

@@ -4,17 +4,19 @@ import { COLORS, FONT_STACK } from '../theme';
 import { easeOutExpo, useEnter, useEnterOpacity, useBreath, useGrowDown, useGrow, useCount, atFrames } from '../anim';
 import { useConfigKey, useConfigList, useEffectClipLength } from '../config';
 import { weightNum, measureText } from '../measure';
-import { tint, mixColor } from './shared';
+import { tint, mixColor, renderKeyParts, stripKeyText, WrappedText } from './shared';
 
 const base: React.CSSProperties = { position: 'absolute', fontFamily: FONT_STACK, whiteSpace: 'nowrap' };
 const T: React.FC<{ x: number; y: number; size: number; weight?: 'Heavy' | 'Bold' | 'Regular';
   color: string; text: string; opacity?: number; translateY?: number; letterSpacing?: number;
-  maxWidth?: number; wrap?: boolean; lineHeight?: number }> = ({
-  x, y, size, weight = 'Heavy', color, text, opacity = 1, translateY = 0, letterSpacing = 0, maxWidth, wrap = false, lineHeight }) => (
+  maxWidth?: number; wrap?: boolean; lineHeight?: number;
+  /** 重点文字颜色：文本含 {{重点}} 标记时用该色绘制重点片段。 */
+  hl?: string }> = ({
+  x, y, size, weight = 'Heavy', color, text, opacity = 1, translateY = 0, letterSpacing = 0, maxWidth, wrap = false, lineHeight, hl }) => (
   <div style={{ ...base, left: x, top: y, fontSize: size, fontWeight: weightNum(weight), color,
     whiteSpace: wrap ? 'normal' : 'nowrap', maxWidth, lineHeight,
     opacity, transform: `translateY(${translateY}px)`, letterSpacing, textShadow: '0 3px 12px rgba(0,0,0,0.45)' }}>
-    {text}
+    {renderKeyParts(text, hl)}
   </div>
 );
 
@@ -36,6 +38,7 @@ export const T6_01: React.FC = () => {
   const descSize = useConfigKey('t6-01', 'descSize') as number;
   const descColor = useConfigKey('t6-01', 'descColor') as string;
   const titleText = useConfigKey('t6-01', 'titleText') as string;
+  const hl = useConfigKey('t6-01', 'hlColor') as string;
   const nodeGap = 148;
   const lastH = 64 + 64;
   const totalH = list.length * nodeGap + lastH;
@@ -45,7 +48,7 @@ export const T6_01: React.FC = () => {
   return (
     <div style={{ position: 'absolute', left: posX, top: posY, transformOrigin: 'top left', transform: `scale(${scale / 100})` }}>
       <T x={0} y={0} size={titleSize} weight="Heavy" color={COLORS.textPrimary} text={titleText}
-        opacity={title.opacity} translateY={title.translateY} />
+        opacity={title.opacity} translateY={title.translateY} hl={hl} />
       <div style={{
         position: 'absolute', left: 22, top: trackTop, width: 3, height: totalH * lineP,
         background: tint(accent, 0.3), transformOrigin: 'top',
@@ -92,6 +95,7 @@ export const T6_02: React.FC = () => {
   const descSize = useConfigKey('t6-02', 'descSize') as number;
   const descColor = useConfigKey('t6-02', 'descColor') as string;
   const titleText = useConfigKey('t6-02', 'titleText') as string;
+  const hl = useConfigKey('t6-02', 'hlColor') as string;
   const nodeW = 130, gapH = 90;      // 节点宽130、间距90
   const descGap = 10;                // 节点标题与说明的间距
   const nodeH = nodeTitle + descGap + descSize + 32; // 卡片高度随字号自适应（上下各16px留白）
@@ -102,7 +106,7 @@ export const T6_02: React.FC = () => {
   return (
     <div style={{ position: 'absolute', left: posX, top: posY, transformOrigin: 'top left', transform: `scale(${scale / 100})` }}>
       <T x={0} y={0} size={titleSize} weight="Heavy" color={COLORS.textPrimary} text={titleText}
-        opacity={title.opacity} translateY={title.translateY} />
+        opacity={title.opacity} translateY={title.translateY} hl={hl} />
       {list.map((n, i) => (
         <div key={i} style={{
           position: 'absolute', left: startX + i * (nodeW + gapH), top: nodeTop, width: nodeW, height: nodeH,
@@ -110,8 +114,8 @@ export const T6_02: React.FC = () => {
           boxSizing: 'border-box', opacity: nodeO[i],
           display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
         }}>
-          <div style={{ fontSize: nodeTitle, fontWeight: 700, color: nodeColor, lineHeight: 1 }}>{n.t}</div>
-          <div style={{ fontSize: descSize, fontWeight: 400, color: descColor, lineHeight: 1, marginTop: descGap }}>{n.d}</div>
+          <div style={{ fontSize: nodeTitle, fontWeight: 700, color: nodeColor, lineHeight: 1, whiteSpace: 'nowrap' }}>{n.t}</div>
+          <div style={{ fontSize: descSize, fontWeight: 400, color: descColor, lineHeight: 1, marginTop: descGap, whiteSpace: 'nowrap' }}>{n.d}</div>
         </div>
       ))}
       {list.slice(0, -1).map((_, i) => {
@@ -154,6 +158,7 @@ export const T6_03: React.FC = () => {
   const numColor = useConfigKey('t6-03', 'titleColor') as string;
   const titleText = useConfigKey('t6-03', 'titleText') as string;
   const descText = useConfigKey('t6-03', 'descText') as string;
+  const hl = useConfigKey('t6-03', 'hlColor') as string;
   const descSize = useConfigKey('t6-03', 'descSize') as number;
   const descColor = useConfigKey('t6-03', 'descColor') as string;
   const barW = 570;
@@ -169,7 +174,7 @@ export const T6_03: React.FC = () => {
   return (
     <div style={{ position: 'absolute', left: posX, top: posY, width: 570, transformOrigin: 'top left', transform: `scale(${scale / 100})` }}>
       <T x={0} y={0} size={titleSize} weight="Heavy" color={COLORS.textPrimary} text={titleText}
-        opacity={title.opacity} translateY={title.translateY} />
+        opacity={title.opacity} translateY={title.translateY} hl={hl} />
       <div style={{ position: 'absolute', left: 0, top: barTop, width: barW, height: 14, borderRadius: 7, background: COLORS.track, opacity: bgO }} />
       <div style={{
         position: 'absolute', left: 0, top: barTop, width: pctW, height: 14, borderRadius: 7,
@@ -177,7 +182,10 @@ export const T6_03: React.FC = () => {
       }} />
       <div style={{ position: 'absolute', left: 0, top: barTop + 30, width: barW, display: 'flex', alignItems: 'flex-end' }}>
         <span style={{ fontSize: numSize, fontWeight: 700, color: numColor, opacity: numO, whiteSpace: 'nowrap', textShadow: '0 3px 12px rgba(0,0,0,0.45)' }}>{num}%</span>
-        <span style={{ fontSize: descSize, fontWeight: 400, color: descColor, marginLeft: 24, opacity: descO, whiteSpace: 'normal', maxWidth: 550 - numSize * 2 }}>{descText}</span>
+        <WrappedText
+          text={String(descText ?? '')} size={descSize} maxWidth={550 - numSize * 2} baseWeight="Regular" hlColor={hl}
+          style={{ fontSize: descSize, fontWeight: 400, color: descColor, marginLeft: 24, opacity: descO }}
+        />
       </div>
     </div>
   );
@@ -193,6 +201,7 @@ export const T6_04: React.FC = () => {
   const titleSize = useConfigKey('t6-04', 'titleSize') as number;
   const titleColor = useConfigKey('t6-04', 'titleColor') as string;
   const titleText = useConfigKey('t6-04', 'titleText') as string;
+  const hl = useConfigKey('t6-04', 'hlColor') as string;
   const inText = useConfigKey('t6-04', 'inText') as string;
   const inSize = useConfigKey('t6-04', 'inSize') as number;
   const inColor = useConfigKey('t6-04', 'inColor') as string;
@@ -257,7 +266,7 @@ export const T6_04: React.FC = () => {
       padding: `12px ${pillPadH}px`, borderRadius: 999,
       border: `1.5px solid ${tint(color, 0.75)}`, background: tint(color, 0.1),
       letterSpacing: 2, textShadow: shadow,
-    }}>{text}</div>
+    }}>{renderKeyParts(text, hl)}</div>
   );
   return (
     <div style={{ position: 'absolute', left: posX, top: posY, fontFamily: FONT_STACK, whiteSpace: 'nowrap', transformOrigin: 'top left', transform: `scale(${scale / 100})` }}>
@@ -266,7 +275,7 @@ export const T6_04: React.FC = () => {
         position: 'absolute', left: 0, top: 0, transform: `translate(-50%, ${title.translateY}px)`,
         fontSize: titleSize, fontWeight: weightNum('Heavy'), color: titleColor,
         opacity: title.opacity, textShadow: shadow,
-      }}>{titleText}</div>
+      }}>{renderKeyParts(titleText, hl)}</div>
       {/* 输入节点胶囊 */}
       <div style={{
         position: 'absolute', left: 0, top: inTop, transform: `translate(-50%, ${inO.translateY}px)`,
@@ -274,7 +283,7 @@ export const T6_04: React.FC = () => {
         lineHeight: 1, padding: `${pillPadV}px ${pillPadH}px`, borderRadius: 999,
         background: 'rgba(255,255,255,0.08)', border: '1.5px solid rgba(255,255,255,0.28)',
         letterSpacing: 2, textShadow: shadow,
-      }}>{inText}</div>
+      }}>{renderKeyParts(inText, hl)}</div>
       {/* 主干竖线 */}
       <div style={{
         position: 'absolute', left: -1.5, top: trunkTop, width: 3,
@@ -311,6 +320,7 @@ export const T6_05: React.FC = () => {
   const posY = (useConfigKey('t6-05', 'posY') as number) ?? 40;
   const scale = (useConfigKey('t6-05', 'scale') as number) ?? 100;
   const stepText = useConfigKey('t6-05', 'stepText') as string;
+  const hl = useConfigKey('t6-05', 'hlColor') as string;
   const stepSize = useConfigKey('t6-05', 'stepSize') as number;
   const sloganText = useConfigKey('t6-05', 'sloganText') as string;
   const sloganSize = useConfigKey('t6-05', 'sloganSize') as number;
@@ -352,10 +362,10 @@ export const T6_05: React.FC = () => {
       <div style={{ position: 'absolute', left: 80, top: hLineTop, width: 4, height: hLineH, background: accent, opacity: headerO }} />
       {/* STEP 标签 */}
       <T x={110} y={stepTop} size={stepSize} weight="Bold" color={accent}
-        text={stepText} opacity={headerO} letterSpacing={8} lineHeight={1} />
+        text={stepText} opacity={headerO} letterSpacing={8} lineHeight={1} hl={hl} />
       {/* 副标题 */}
       <T x={110} y={subTop} size={sloganSize} weight="Regular" color={sloganColor}
-        text={sloganText} opacity={sloganO} lineHeight={1} />
+        text={sloganText} opacity={sloganO} lineHeight={1} hl={hl} />
       {/* 主垂直时间轴（从序号1开始向下生长，尾部渐变透明） */}
       <div style={{
         position: 'absolute', left: 113.5, top: lineTop, width: 3, height: lineH,
@@ -414,6 +424,7 @@ export const T6_06: React.FC = () => {
   const titleSize = useConfigKey('t6-06', 'titleSize') as number;
   const titleColor = useConfigKey('t6-06', 'titleColor') as string;
   const titleText = useConfigKey('t6-06', 'titleText') as string;
+  const hl = useConfigKey('t6-06', 'hlColor') as string;
   const stepNumSize = useConfigKey('t6-06', 'stepNumSize') as number;
   const stepNumColor = useConfigKey('t6-06', 'stepNumColor') as string;
   const stepLabelSize = useConfigKey('t6-06', 'stepLabelSize') as number;
@@ -447,7 +458,7 @@ export const T6_06: React.FC = () => {
         position: 'absolute', left: 40, top: 140, fontSize: titleSize, fontWeight: 700,
         color: titleColor, opacity: titleP, transform: `translateY(${titleY}px)`,
         textShadow: SH, whiteSpace: 'nowrap',
-      }}>{titleText}</div>
+      }}>{renderKeyParts(titleText, hl)}</div>
       {/* 步骤序列（锚点 y:360，水平间距 stepGap） */}
       <div style={{ position: 'absolute', left: 40, top: 360, display: 'flex', alignItems: 'center', gap: stepGap }}>
         {list.map((s, i) => {
@@ -475,7 +486,7 @@ export const T6_06: React.FC = () => {
       <div style={{
         position: 'absolute', left: 50, top: 585, fontSize: footerSize, fontWeight: 400,
         color: footerColor, opacity: footP, textShadow: SH, whiteSpace: 'nowrap',
-      }}>{footerText}</div>
+      }}>{renderKeyParts(footerText, hl)}</div>
     </div>
   );
 };
@@ -494,6 +505,7 @@ export const T6_07: React.FC = () => {
   const posY = (useConfigKey('t6-07', 'posY') as number) ?? 160;
   const scale = (useConfigKey('t6-07', 'scale') as number) ?? 100;
   const titleText = useConfigKey('t6-07', 'titleText') as string;
+  const hl = useConfigKey('t6-07', 'hlColor') as string;
   const titleSize = (useConfigKey('t6-07', 'titleSize') as number) ?? 50;
   const titleColor = (useConfigKey('t6-07', 'titleColor') as string) ?? '#FFFFFF';
   const boxSize = (useConfigKey('t6-07', 'boxSize') as number) ?? 96;
@@ -560,15 +572,18 @@ export const T6_07: React.FC = () => {
   // 单条 ease-out 过渡系数
   const easeOutCubic = (v: number) => 1 - Math.pow(1 - Math.max(0, Math.min(1, v)), 3);
 
+  // 根容器必须给出真实尺寸：导出重绘器对「尺寸为 0 的容器」不应用 opacity，
+  // 末段淡出会整体失效（子元素全 absolute 时容器盒为 0×0）。
   return (
     <div style={{ position: 'absolute', left: posX, top: posY, fontFamily: FONT_STACK,
+      width: 820, height: listTop + (n - 1) * rowPitch + boxSize,
       transformOrigin: 'top left', transform: `scale(${scale / 100})`, opacity: groupOp }}>
       {hasTitle && (
         <div style={{
           position: 'absolute', left: textX, top: 0, fontSize: titleSize, fontWeight: 700,
           color: titleColor, whiteSpace: 'nowrap', lineHeight: 1.1, letterSpacing: 1,
           opacity: groupIn, textShadow: '0 3px 12px rgba(0,0,0,0.45)',
-        }}>{titleText}</div>
+        }}>{renderKeyParts(titleText, hl)}</div>
       )}
       {/* 连接线：整轨淡痕 + 红色已走段 */}
       <div style={{
@@ -604,7 +619,7 @@ export const T6_07: React.FC = () => {
         const cy = rowY + boxSize / 2;
         // 超宽文本按比例缩号（不小于 0.5x），避免侵入画面中央人物区
         const maxW = 760;
-        const rawW = measureText(label, size, 'Bold');
+        const rawW = measureText(stripKeyText(label), size, 'Bold');
         const shrink = rawW > maxW ? Math.max(0.5, maxW / rawW) : 1;
         const tSize = size * shrink;
         const glow = past ? 0 : (i === 0 ? 1 : aIn);

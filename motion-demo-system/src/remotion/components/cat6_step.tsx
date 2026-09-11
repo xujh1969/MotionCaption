@@ -104,7 +104,7 @@ export const T6_08: React.FC = () => {
               }}>{it.title ?? ''}</div>
               <div style={{
                 marginTop: textGap, fontSize: descSize, fontWeight: 400, color: descColor, lineHeight: 1.2,
-                overflow: 'hidden', textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
               }}>{it.desc ?? ''}</div>
             </div>
           </div>

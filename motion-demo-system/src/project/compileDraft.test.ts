@@ -4,6 +4,12 @@ import { createEffectRegistry, effectRegistry } from '../effects/registry';
 import type { EffectDefinition } from '../effects/types';
 import type { AgentDraft, MotionEffectInstance, MotionProject } from './types';
 import { compileAgentDraft } from './compileDraft';
+import { defaultConfig } from '../remotion/config';
+
+// t1-01 的默认缩放（可能被 bake 用户默认更新），不硬编码。
+const T101_SCALE = (typeof defaultConfig('t1-01').scale === 'number' ? defaultConfig('t1-01').scale as number : 100) / 100;
+// preset 分区落位时缩放钳制在 100% 以内（fitScale，与 transformFor/boxFor 一致）
+const T101_PLACE_SCALE = Math.min(T101_SCALE, 1);
 
 const project: MotionProject = {
   kind: 'captionforge.project', schemaVersion: 1,
@@ -151,7 +157,7 @@ describe('compileAgentDraft', () => {
     expect(effects[0]).toMatchObject({
       instanceId: 'new-1', sceneId: 'scene-1', startFrame: 25, durationInFrames: 65,
       track: 1, sourceCueIds: ['cue-1', 'cue-2'], props: { titleText: '第一句' },
-      transform: { x: 0, y: 0, scale: 1, rotation: 0 },
+      transform: { x: 0, y: 0, scale: T101_PLACE_SCALE, rotation: 0 },
     });
     expect(effects[0].props).toHaveProperty('titleColor');
     expect(effects[1].track).toBe(2);
@@ -256,12 +262,12 @@ describe('compileAgentDraft', () => {
       }],
     };
 
-    // 落位 = 画布右下角 - 规划包络；包络由 config 默认锚点推导（可能被 bake 更新），不硬编码。
+    // 落位 = 画布右下角 - 规划包络×落位缩放（fitScale 钳制）；包络与缩放由 config 默认锚点推导，不硬编码。
     const { width, height } = effectRegistry.get('t1-01').layout.footprint;
     expect(compileAgentDraft(project, placedDraft, { registry: effectRegistry })[0].transform).toEqual({
-      x: 1920 - width,
-      y: 1080 - height,
-      scale: 1,
+      x: 1920 - width * T101_PLACE_SCALE,
+      y: 1080 - height * T101_PLACE_SCALE,
+      scale: T101_PLACE_SCALE,
       rotation: 0,
     });
   });
@@ -366,7 +372,7 @@ describe('compileAgentDraft', () => {
       }],
     }, { userStyleDefaults: { 't1-01': { posX: 4000, posY: 4000 } } });
     const { width, height } = effectRegistry.get('t1-01').layout.footprint;
-    expect(clamped[0].transform.x).toBe(Math.max(0, 1920 - width));
-    expect(clamped[0].transform.y).toBe(Math.max(0, 1080 - height));
+    expect(clamped[0].transform.x).toBe(Math.max(0, 1920 - width * T101_SCALE));
+    expect(clamped[0].transform.y).toBe(Math.max(0, 1080 - height * T101_SCALE));
   });
 });

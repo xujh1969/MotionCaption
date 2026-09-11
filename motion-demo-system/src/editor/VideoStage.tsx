@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Player, type PlayerRef } from '@remotion/player';
 import { ProjectComposition, sortEffectsForComposition } from '../composition/ProjectComposition';
+import { EffectInstanceFrame } from '../composition/EffectInstanceFrame';
 import { effectRegistry } from '../effects/registry';
 import type { MotionEffectInstance, MotionProject, SubtitleCue } from '../project/types';
 import { cueFrameInterval } from '../project/cueTiming';
@@ -12,6 +13,15 @@ export interface VideoSource {
   name: string;
   url: string;
 }
+
+/** 试播叠加层内容：单个临时实例，带 data-effect-root 供选择层/QA 探测。 */
+export const PreviewOverlayComposition: React.FC<{ effect: MotionEffectInstance }> = ({ effect }) => (
+  <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
+    <div data-effect-root={effect.instanceId} style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
+      <EffectInstanceFrame effect={effect} />
+    </div>
+  </div>
+);
 
 export function editableEffectsAtFrame(
   effects: readonly MotionEffectInstance[],
@@ -126,7 +136,10 @@ export const VideoStage: React.FC<VideoStageProps> = ({
   const selectedId = useEditorStore((state) => state.selectedInstanceId);
   const selectInstance = useEditorStore((state) => state.selectInstance);
   const updateEffect = useEditorStore((state) => state.updateEffect);
+  const componentPreview = useEditorStore((state) => state.componentPreview);
+  const clearComponentPreview = useEditorStore((state) => state.clearComponentPreview);
   const stageRef = useRef<HTMLDivElement>(null);
+  const previewPlayerRef = useRef<PlayerRef>(null);
   const [stageSize, setStageSize] = useState({ width: video.width, height: video.height });
   const [instanceRects, setInstanceRects] = useState<Record<string, InstanceRect>>({});
   const project = { kind: 'captionforge.project' as const, schemaVersion: 1 as const, video, cues, effects };
@@ -148,6 +161,17 @@ export const VideoStage: React.FC<VideoStageProps> = ({
   useEffect(() => {
     if (!isPlaying || videoSource) playerRef.current?.seekTo(currentFrame);
   }, [currentFrame, isPlaying, playerRef, videoSource]);
+
+  // 试播用独立叠加层播放器：自己的 3 秒时钟播完一遍即清除。
+  // 主时间线完全不动——播放头、参考视频、isPlaying 都保持原状（静止演示）。
+  useEffect(() => {
+    const player = previewPlayerRef.current;
+    if (!componentPreview || !player) return undefined;
+    const onEnded = () => clearComponentPreview();
+    player.addEventListener('ended', onEnded);
+    void player.play();
+    return () => player.removeEventListener('ended', onEnded);
+  }, [clearComponentPreview, componentPreview]);
 
   useEffect(() => {
     const stage = stageRef.current;
@@ -214,6 +238,24 @@ export const VideoStage: React.FC<VideoStageProps> = ({
         className="remotion-player stage-effects-layer"
         style={{ width: '100%', height: '100%' }}
       />
+      {/* 组件试播叠加层：独立时钟在静止画面上演示组件动效，播完自动清除。 */}
+      {componentPreview && (
+        <Player
+          ref={previewPlayerRef}
+          component={PreviewOverlayComposition}
+          inputProps={{ effect: componentPreview.effect }}
+          durationInFrames={componentPreview.effect.durationInFrames}
+          fps={video.fps}
+          compositionWidth={video.width}
+          compositionHeight={video.height}
+          controls={false}
+          loop={false}
+          autoPlay
+          acknowledgeRemotionLicense
+          className="remotion-player component-preview-player"
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
+        />
+      )}
       {editorMode && visibleCues.length > 0 && (
         <div
           className="editor-subtitle-layer"

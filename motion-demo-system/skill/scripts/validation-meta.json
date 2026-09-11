@@ -260,9 +260,15 @@
           "semanticRole": "label",
           "type": "text"
         },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#FF6B6B",
+          "required": true,
+          "type": "color"
+        },
         "posX": {
           "agentEditable": false,
-          "default": 130,
+          "default": 129.99610537507255,
           "max": 1920,
           "min": 0,
           "required": true,
@@ -270,7 +276,7 @@
         },
         "posY": {
           "agentEditable": false,
-          "default": 260,
+          "default": 258.85666925284016,
           "max": 1080,
           "min": 0,
           "required": true,
@@ -278,7 +284,7 @@
         },
         "scale": {
           "agentEditable": false,
-          "default": 100,
+          "default": 137.48327277540352,
           "max": 200,
           "min": 20,
           "required": true,
@@ -304,6 +310,12 @@
         "bgColor": {
           "agentEditable": false,
           "default": "#231815aa",
+          "required": true,
+          "type": "color"
+        },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
           "required": true,
           "type": "color"
         },
@@ -386,7 +398,7 @@
         },
         "tagText": {
           "agentEditable": true,
-          "default": "顶部标签放在这里",
+          "default": "核心能力评估",
           "required": true,
           "semanticRole": "label",
           "type": "text"
@@ -407,7 +419,7 @@
         },
         "titleText": {
           "agentEditable": true,
-          "default": "大标题在此可编辑",
+          "default": "模型综合表现一览",
           "required": true,
           "semanticRole": "title",
           "type": "text"
@@ -495,7 +507,7 @@
           "agentEditableItemFields": [
             "t"
           ],
-          "default": "[{\"t\":\"小标签一\"},{\"t\":\"小标签二\"},{\"t\":\"小标签三\"}]",
+          "default": "[{\"t\":\"字幕驱动\"},{\"t\":\"AI 编排\"},{\"t\":\"一键成片\"}]",
           "listFieldsKeys": [
             "t"
           ],
@@ -513,7 +525,7 @@
         },
         "tagText": {
           "agentEditable": true,
-          "default": "标签标签",
+          "default": "AI 动效工坊",
           "required": true,
           "semanticRole": "label",
           "type": "text"
@@ -526,14 +538,14 @@
         },
         "title1": {
           "agentEditable": true,
-          "default": "这是我的主标题",
+          "default": "{{一句话}}讲清核心卖点",
           "required": true,
           "semanticRole": "title",
           "type": "text"
         },
         "title2": {
           "agentEditable": true,
-          "default": "标题的第二行",
+          "default": "观众三秒就记住重点",
           "required": true,
           "semanticRole": "title",
           "type": "text"
@@ -608,14 +620,20 @@
         },
         "footText": {
           "agentEditable": true,
-          "default": "补充说明1234567890",
+          "default": "全程无需人工剪辑",
           "required": true,
           "semanticRole": "body",
           "type": "text"
         },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
         "nColor": {
           "agentEditable": false,
-          "default": "#d0df67",
+          "default": "#4CC9F0",
           "required": true,
           "type": "color"
         },
@@ -629,7 +647,7 @@
         },
         "posX": {
           "agentEditable": false,
-          "default": 130,
+          "default": 103.92125457771775,
           "max": 1920,
           "min": 0,
           "required": true,
@@ -637,7 +655,7 @@
         },
         "posY": {
           "agentEditable": false,
-          "default": 240,
+          "default": 239.9994138625226,
           "max": 1080,
           "min": 0,
           "required": true,
@@ -645,7 +663,7 @@
         },
         "scale": {
           "agentEditable": false,
-          "default": 100,
+          "default": 121.45369742900898,
           "max": 200,
           "min": 20,
           "required": true,
@@ -671,7 +689,7 @@
         },
         "tagColor": {
           "agentEditable": false,
-          "default": "#d0df67",
+          "default": "#4CC9F0",
           "required": true,
           "type": "color"
         },
@@ -685,7 +703,7 @@
         },
         "tagText": {
           "agentEditable": true,
-          "default": "顶部标签",
+          "default": "工作流",
           "required": true,
           "semanticRole": "label",
           "type": "text"
@@ -698,7 +716,7 @@
         },
         "themeColor": {
           "agentEditable": false,
-          "default": "#d0df67",
+          "default": "#4CC9F0",
           "required": true,
           "type": "color"
         },
@@ -718,7 +736,7 @@
         },
         "titleText": {
           "agentEditable": true,
-          "default": "大标题在此可编辑",
+          "default": "三步完成视频组装",
           "required": true,
           "semanticRole": "title",
           "type": "text"
@@ -763,7 +781,7 @@
             "t",
             "d"
           ],
-          "default": "[{\"t\":\"小标题1\",\"d\":\"小标题1说明放在这里\"},{\"t\":\"小标题2\",\"d\":\"小标题2说明放在这里\"},{\"t\":\"小标题3\",\"d\":\"小标题3说明放在这里\"},{\"t\":\"小标题4\",\"d\":\"小标题4说明放在这里\"}]",
+          "default": "[{\"t\":\"字幕识别\",\"d\":\"口播语音自动转字幕\"},{\"t\":\"智能编排\",\"d\":\"按语义挑选合适组件\"},{\"t\":\"风格统一\",\"d\":\"全局默认样式管理\"},{\"t\":\"透明导出\",\"d\":\"叠加素材拿来即用\"}]",
           "listFieldsKeys": [
             "t",
             "d",
@@ -795,7 +813,7 @@
         },
         "ctSize": {
           "agentEditable": false,
-          "default": 24,
+          "default": 26,
           "max": 56,
           "min": 16,
           "required": true,
@@ -817,14 +835,20 @@
         },
         "footText": {
           "agentEditable": true,
-          "default": "补充说明1234567890",
+          "default": "从口播到成片只需几分钟",
           "required": true,
           "semanticRole": "body",
           "type": "text"
         },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
         "posX": {
           "agentEditable": false,
-          "default": 130,
+          "default": 57.4206888000425,
           "max": 1920,
           "min": 0,
           "required": true,
@@ -832,7 +856,7 @@
         },
         "posY": {
           "agentEditable": false,
-          "default": 240,
+          "default": 239.999749517012,
           "max": 1080,
           "min": 0,
           "required": true,
@@ -840,7 +864,7 @@
         },
         "scale": {
           "agentEditable": false,
-          "default": 100,
+          "default": 115.18519776797622,
           "max": 200,
           "min": 20,
           "required": true,
@@ -848,7 +872,7 @@
         },
         "tagColor": {
           "agentEditable": false,
-          "default": "#d0df67",
+          "default": "#4CC9F0",
           "required": true,
           "type": "color"
         },
@@ -862,14 +886,14 @@
         },
         "tagText": {
           "agentEditable": true,
-          "default": "顶部标签",
+          "default": "能力全景",
           "required": true,
           "semanticRole": "label",
           "type": "text"
         },
         "themeColor": {
           "agentEditable": false,
-          "default": "#d0df67",
+          "default": "#4CC9F0",
           "required": true,
           "type": "color"
         },
@@ -889,7 +913,7 @@
         },
         "titleText": {
           "agentEditable": true,
-          "default": "大标题在此可编辑",
+          "default": "一个工具覆盖全流程",
           "required": true,
           "semanticRole": "title",
           "type": "text"
@@ -920,7 +944,7 @@
             "g",
             "n"
           ],
-          "default": "[{\"n\":\"小标题一\",\"g\":\"80\",\"color\":\"#9357a0\"},{\"n\":\"小标题二\",\"g\":\"50\",\"color\":\"#3f63ae\"},{\"n\":\"小标题三\",\"g\":\"73\",\"color\":\"#f5d859\"},{\"n\":\"小标题四\",\"g\":\"60\",\"color\":\"#8cc453\"}]",
+          "default": "[{\"n\":\"需求拆解\",\"g\":\"90\",\"color\":\"#9357a0\"},{\"n\":\"组件开发\",\"g\":\"75\",\"color\":\"#3f63ae\"},{\"n\":\"联调测试\",\"g\":\"60\",\"color\":\"#f5d859\"},{\"n\":\"正式发布\",\"g\":\"40\",\"color\":\"#8cc453\"}]",
           "listFieldsKeys": [
             "n",
             "g",
@@ -944,6 +968,12 @@
           "min": 14,
           "required": true,
           "type": "number"
+        },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
         },
         "nColor": {
           "agentEditable": false,
@@ -999,7 +1029,7 @@
         },
         "tagText": {
           "agentEditable": true,
-          "default": "顶部标签",
+          "default": "完成度",
           "required": true,
           "semanticRole": "label",
           "type": "text"
@@ -1020,7 +1050,7 @@
         },
         "titleText": {
           "agentEditable": true,
-          "default": "大标题在此可编辑",
+          "default": "项目里程碑进度",
           "required": true,
           "semanticRole": "title",
           "type": "text"
@@ -1048,6 +1078,12 @@
         "bgColor": {
           "agentEditable": false,
           "default": "rgba(0,0,0,0.5)",
+          "required": true,
+          "type": "color"
+        },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#8B7FD4",
           "required": true,
           "type": "color"
         },
@@ -1218,9 +1254,15 @@
           "semanticRole": "label",
           "type": "text"
         },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
         "posX": {
           "agentEditable": false,
-          "default": 123.86319375200185,
+          "default": 119.51347161757909,
           "max": 1920,
           "min": 0,
           "required": true,
@@ -1228,7 +1270,7 @@
         },
         "posY": {
           "agentEditable": false,
-          "default": 95.61367233531695,
+          "default": 202.08532713929958,
           "max": 1080,
           "min": 0,
           "required": true,
@@ -1236,7 +1278,7 @@
         },
         "scale": {
           "agentEditable": false,
-          "default": 100,
+          "default": 128.60497925198197,
           "max": 200,
           "min": 20,
           "required": true,
@@ -1316,6 +1358,12 @@
         ]
       },
       "props": {
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
         "lineColor": {
           "agentEditable": false,
           "default": "#4CC9F0",
@@ -1337,7 +1385,7 @@
         },
         "posX": {
           "agentEditable": false,
-          "default": 140,
+          "default": 139.99665020943755,
           "max": 1920,
           "min": 0,
           "required": true,
@@ -1345,7 +1393,7 @@
         },
         "posY": {
           "agentEditable": false,
-          "default": 220,
+          "default": 219.99861334388325,
           "max": 1080,
           "min": 0,
           "required": true,
@@ -1360,7 +1408,7 @@
         },
         "scale": {
           "agentEditable": false,
-          "default": 100,
+          "default": 124.9620668535336,
           "max": 200,
           "min": 20,
           "required": true,
@@ -1405,6 +1453,12 @@
         ]
       },
       "props": {
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
         "noteText": {
           "agentEditable": true,
           "default": "核心技术亮点",
@@ -1414,7 +1468,7 @@
         },
         "posX": {
           "agentEditable": false,
-          "default": 130,
+          "default": 129.99640224996946,
           "max": 1920,
           "min": 0,
           "required": true,
@@ -1422,7 +1476,7 @@
         },
         "posY": {
           "agentEditable": false,
-          "default": 180,
+          "default": 179.99023894828832,
           "max": 1080,
           "min": 0,
           "required": true,
@@ -1430,7 +1484,7 @@
         },
         "scale": {
           "agentEditable": false,
-          "default": 100,
+          "default": 151.08671498319183,
           "max": 200,
           "min": 20,
           "required": true,
@@ -1515,9 +1569,15 @@
           "semanticRole": "title",
           "type": "text"
         },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
         "posX": {
           "agentEditable": false,
-          "default": 130,
+          "default": 129.99648112799764,
           "max": 1920,
           "min": 0,
           "required": true,
@@ -1525,7 +1585,7 @@
         },
         "posY": {
           "agentEditable": false,
-          "default": 180,
+          "default": 179.99421302605313,
           "max": 1080,
           "min": 0,
           "required": true,
@@ -1533,7 +1593,7 @@
         },
         "scale": {
           "agentEditable": false,
-          "default": 100,
+          "default": 127.15502248306771,
           "max": 200,
           "min": 20,
           "required": true,
@@ -1605,6 +1665,12 @@
           "semanticRole": "title",
           "type": "text"
         },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
         "lineColor": {
           "agentEditable": false,
           "default": "#4CC9F0",
@@ -1613,7 +1679,7 @@
         },
         "posX": {
           "agentEditable": false,
-          "default": 130,
+          "default": 129.99468058271896,
           "max": 1920,
           "min": 0,
           "required": true,
@@ -1621,7 +1687,7 @@
         },
         "posY": {
           "agentEditable": false,
-          "default": 200,
+          "default": 199.9978133770106,
           "max": 1080,
           "min": 0,
           "required": true,
@@ -1629,7 +1695,7 @@
         },
         "scale": {
           "agentEditable": false,
-          "default": 100,
+          "default": 141.04977270192776,
           "max": 200,
           "min": 20,
           "required": true,
@@ -1715,6 +1781,12 @@
           "semanticRole": "label",
           "type": "text"
         },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
         "lineColor": {
           "agentEditable": false,
           "default": "#4CC9F0",
@@ -1723,7 +1795,7 @@
         },
         "posX": {
           "agentEditable": false,
-          "default": 130,
+          "default": 129.99340858380182,
           "max": 1920,
           "min": 0,
           "required": true,
@@ -1731,7 +1803,7 @@
         },
         "posY": {
           "agentEditable": false,
-          "default": 200,
+          "default": 199.98933184578482,
           "max": 1080,
           "min": 0,
           "required": true,
@@ -1739,7 +1811,7 @@
         },
         "scale": {
           "agentEditable": false,
-          "default": 100,
+          "default": 150.86574758551916,
           "max": 200,
           "min": 20,
           "required": true,
@@ -1812,6 +1884,12 @@
           "semanticRole": "body",
           "type": "text"
         },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
         "kickerColor": {
           "agentEditable": false,
           "default": "rgba(255,255,255,0.28)",
@@ -1835,7 +1913,7 @@
         },
         "posX": {
           "agentEditable": false,
-          "default": 130,
+          "default": 129.99349040594478,
           "max": 1920,
           "min": 0,
           "required": true,
@@ -1843,7 +1921,7 @@
         },
         "posY": {
           "agentEditable": false,
-          "default": 200,
+          "default": 199.9973241377277,
           "max": 1080,
           "min": 0,
           "required": true,
@@ -1851,7 +1929,7 @@
         },
         "scale": {
           "agentEditable": false,
-          "default": 100,
+          "default": 150.23432873020715,
           "max": 200,
           "min": 20,
           "required": true,
@@ -1865,7 +1943,7 @@
         },
         "titleGap": {
           "agentEditable": false,
-          "default": 44,
+          "default": 12,
           "max": 200,
           "min": 0,
           "required": true,
@@ -1938,7 +2016,7 @@
         },
         "posX": {
           "agentEditable": false,
-          "default": 130,
+          "default": 129.99776232000494,
           "max": 1920,
           "min": 0,
           "required": true,
@@ -1946,7 +2024,7 @@
         },
         "posY": {
           "agentEditable": false,
-          "default": 180,
+          "default": 179.99632001510022,
           "max": 1080,
           "min": 0,
           "required": true,
@@ -1954,7 +2032,7 @@
         },
         "scale": {
           "agentEditable": false,
-          "default": 100,
+          "default": 117.26810481751251,
           "max": 200,
           "min": 20,
           "required": true,
@@ -2026,6 +2104,12 @@
           "semanticRole": "body",
           "type": "text"
         },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
         "noteText": {
           "agentEditable": true,
           "default": "数据统计周期：2026全年",
@@ -2035,7 +2119,7 @@
         },
         "posX": {
           "agentEditable": false,
-          "default": 130,
+          "default": 78.28528557647073,
           "max": 1920,
           "min": 0,
           "required": true,
@@ -2043,7 +2127,7 @@
         },
         "posY": {
           "agentEditable": false,
-          "default": 300,
+          "default": 299.99574977193294,
           "max": 1080,
           "min": 0,
           "required": true,
@@ -2051,7 +2135,7 @@
         },
         "scale": {
           "agentEditable": false,
-          "default": 100,
+          "default": 118.04261126219089,
           "max": 200,
           "min": 20,
           "required": true,
@@ -2115,9 +2199,15 @@
           "semanticRole": "body",
           "type": "text"
         },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
         "posX": {
           "agentEditable": false,
-          "default": 130,
+          "default": 129.99791175239847,
           "max": 1920,
           "min": 0,
           "required": true,
@@ -2125,7 +2215,7 @@
         },
         "posY": {
           "agentEditable": false,
-          "default": 240,
+          "default": 239.9992370839776,
           "max": 1080,
           "min": 0,
           "required": true,
@@ -2133,7 +2223,7 @@
         },
         "scale": {
           "agentEditable": false,
-          "default": 100,
+          "default": 116.11493982498797,
           "max": 200,
           "min": 20,
           "required": true,
@@ -2176,6 +2266,12 @@
           "required": true,
           "type": "color"
         },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
         "lineColor": {
           "agentEditable": false,
           "default": "#4CC9F0",
@@ -2184,7 +2280,7 @@
         },
         "posX": {
           "agentEditable": false,
-          "default": 130,
+          "default": 129.99196080498,
           "max": 1920,
           "min": 0,
           "required": true,
@@ -2192,7 +2288,7 @@
         },
         "posY": {
           "agentEditable": false,
-          "default": 220,
+          "default": 219.9967550187375,
           "max": 1080,
           "min": 0,
           "required": true,
@@ -2200,7 +2296,7 @@
         },
         "scale": {
           "agentEditable": false,
-          "default": 100,
+          "default": 124.28620366636079,
           "max": 200,
           "min": 20,
           "required": true,
@@ -2277,6 +2373,12 @@
           "required": true,
           "semanticRole": "body",
           "type": "text"
+        },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
         },
         "posX": {
           "agentEditable": false,
@@ -2374,6 +2476,12 @@
           "required": true,
           "semanticRole": "body",
           "type": "text"
+        },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
         },
         "noteColor": {
           "agentEditable": false,
@@ -2501,6 +2609,12 @@
           "required": true,
           "semanticRole": "body",
           "type": "text"
+        },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
         },
         "posX": {
           "agentEditable": false,
@@ -2644,6 +2758,12 @@
           "required": true,
           "type": "number"
         },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
         "labelL": {
           "agentEditable": true,
           "default": "优化前",
@@ -2758,6 +2878,12 @@
           "min": 16,
           "required": true,
           "type": "number"
+        },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
         },
         "posX": {
           "agentEditable": false,
@@ -3118,7 +3244,8 @@
             "titleB",
             "pointsB",
             "borderB",
-            "at"
+            "at",
+            "atB"
           ],
           "required": true,
           "semanticRole": "items",
@@ -3288,11 +3415,17 @@
         },
         "descSize": {
           "agentEditable": false,
-          "default": 19,
+          "default": 22,
           "max": 56,
           "min": 16,
           "required": true,
           "type": "number"
+        },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
         },
         "numSize": {
           "agentEditable": false,
@@ -3304,7 +3437,7 @@
         },
         "posX": {
           "agentEditable": false,
-          "default": 130,
+          "default": 58.25164584274917,
           "max": 1920,
           "min": 0,
           "required": true,
@@ -3312,7 +3445,7 @@
         },
         "posY": {
           "agentEditable": false,
-          "default": 240,
+          "default": 217.69239264288828,
           "max": 1080,
           "min": 0,
           "required": true,
@@ -3320,7 +3453,7 @@
         },
         "scale": {
           "agentEditable": false,
-          "default": 100,
+          "default": 109.10511404060337,
           "max": 200,
           "min": 20,
           "required": true,
@@ -3385,7 +3518,7 @@
       "layout": {
         "exclusive": false,
         "footprint": {
-          "height": 540,
+          "height": 486.94149320582835,
           "width": 960
         },
         "preferredZones": [
@@ -3427,6 +3560,12 @@
           "required": true,
           "type": "color"
         },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
         "lineC1": {
           "agentEditable": false,
           "default": "#36d8f0",
@@ -3464,7 +3603,7 @@
         },
         "posX": {
           "agentEditable": false,
-          "default": 70,
+          "default": 85.24734945715765,
           "max": 1920,
           "min": 0,
           "required": true,
@@ -3472,7 +3611,7 @@
         },
         "posY": {
           "agentEditable": false,
-          "default": 320,
+          "default": 593.0585067941716,
           "max": 1080,
           "min": 0,
           "required": true,
@@ -3494,7 +3633,7 @@
         },
         "scale": {
           "agentEditable": false,
-          "default": 35,
+          "default": 49.47343271308565,
           "max": 70,
           "min": 20,
           "required": true,
@@ -3508,7 +3647,7 @@
         },
         "titleSize": {
           "agentEditable": false,
-          "default": 38,
+          "default": 64,
           "max": 80,
           "min": 20,
           "required": true,
@@ -3578,6 +3717,12 @@
           "min": 16,
           "required": true,
           "type": "number"
+        },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
         },
         "items": {
           "agentEditable": true,
@@ -4636,6 +4781,199 @@
       "version": 1
     },
     {
+      "id": "t4-10",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 220,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "activeColor": {
+          "agentEditable": false,
+          "default": "#ffffff",
+          "required": true,
+          "type": "color"
+        },
+        "capBg": {
+          "agentEditable": false,
+          "default": "rgba(20,24,40,0.85)",
+          "required": true,
+          "type": "color"
+        },
+        "capBorder": {
+          "agentEditable": false,
+          "default": "rgba(255,255,255,0.2)",
+          "required": true,
+          "type": "color"
+        },
+        "capH": {
+          "agentEditable": false,
+          "default": 40,
+          "max": 80,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        },
+        "capLabel": {
+          "agentEditable": true,
+          "default": "Auto",
+          "required": true,
+          "semanticRole": "label",
+          "type": "text"
+        },
+        "capTextColor": {
+          "agentEditable": false,
+          "default": "#ffffff",
+          "required": true,
+          "type": "color"
+        },
+        "capTextSize": {
+          "agentEditable": false,
+          "default": 28,
+          "max": 60,
+          "min": 12,
+          "required": true,
+          "type": "number"
+        },
+        "capW": {
+          "agentEditable": false,
+          "default": 140,
+          "max": 320,
+          "min": 80,
+          "required": true,
+          "type": "number"
+        },
+        "doneColor": {
+          "agentEditable": false,
+          "default": "#c7d2ff",
+          "required": true,
+          "type": "color"
+        },
+        "dotColor": {
+          "agentEditable": false,
+          "default": "#ffd447",
+          "required": true,
+          "type": "color"
+        },
+        "dragMs": {
+          "agentEditable": false,
+          "default": 2400,
+          "max": 8000,
+          "min": 600,
+          "required": true,
+          "type": "number"
+        },
+        "gradA": {
+          "agentEditable": false,
+          "default": "#b14cff",
+          "required": true,
+          "type": "color"
+        },
+        "gradB": {
+          "agentEditable": false,
+          "default": "#ff8a3d",
+          "required": true,
+          "type": "color"
+        },
+        "gradC": {
+          "agentEditable": false,
+          "default": "#ffd447",
+          "required": true,
+          "type": "color"
+        },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
+        "items": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "label"
+          ],
+          "default": "[{\"label\":\"分镜\",\"at\":\"\"},{\"label\":\"素材\",\"at\":\"\"},{\"label\":\"画面\",\"at\":\"\"},{\"label\":\"拼装\",\"at\":\"\"}]",
+          "listFieldsKeys": [
+            "label",
+            "at"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 140,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 860,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "stageColor": {
+          "agentEditable": false,
+          "default": "#8a93a6",
+          "required": true,
+          "type": "color"
+        },
+        "stageSize": {
+          "agentEditable": false,
+          "default": 36,
+          "max": 72,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "trackColor": {
+          "agentEditable": false,
+          "default": "rgba(255,255,255,0.12)",
+          "required": true,
+          "type": "color"
+        },
+        "trackH": {
+          "agentEditable": false,
+          "default": 10,
+          "max": 28,
+          "min": 4,
+          "required": true,
+          "type": "number"
+        },
+        "trackW": {
+          "agentEditable": false,
+          "default": 1260,
+          "max": 1760,
+          "min": 400,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {
+        "maxItems": 5,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
       "id": "t5-01",
       "layout": {
         "exclusive": false,
@@ -4668,6 +5006,12 @@
           "required": true,
           "type": "number"
         },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
         "items": {
           "agentEditable": true,
           "agentEditableItemFields": [
@@ -4686,7 +5030,7 @@
         },
         "posX": {
           "agentEditable": false,
-          "default": 71.7101609948055,
+          "default": 71.79636650556968,
           "max": 1920,
           "min": 0,
           "required": true,
@@ -4694,7 +5038,7 @@
         },
         "posY": {
           "agentEditable": false,
-          "default": 102.13281179182007,
+          "default": 102.13022151127788,
           "max": 1080,
           "min": 0,
           "required": true,
@@ -4702,7 +5046,7 @@
         },
         "scale": {
           "agentEditable": false,
-          "default": 100,
+          "default": 113.9188392683409,
           "max": 200,
           "min": 20,
           "required": true,
@@ -4780,6 +5124,12 @@
         "doneColor": {
           "agentEditable": false,
           "default": "#06D6A0",
+          "required": true,
+          "type": "color"
+        },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
           "required": true,
           "type": "color"
         },
@@ -4915,6 +5265,12 @@
           "required": true,
           "type": "number"
         },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
         "items": {
           "agentEditable": true,
           "agentEditableItemFields": [
@@ -4943,7 +5299,7 @@
         },
         "posX": {
           "agentEditable": false,
-          "default": 130,
+          "default": 129.99869073453627,
           "max": 1920,
           "min": 0,
           "required": true,
@@ -4951,7 +5307,7 @@
         },
         "posY": {
           "agentEditable": false,
-          "default": 200,
+          "default": 199.997485230086,
           "max": 1080,
           "min": 0,
           "required": true,
@@ -4959,7 +5315,7 @@
         },
         "scale": {
           "agentEditable": false,
-          "default": 100,
+          "default": 110.10355962948206,
           "max": 200,
           "min": 20,
           "required": true,
@@ -5015,6 +5371,12 @@
       },
       "props": {
         "accentColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
+        "hlColor": {
           "agentEditable": false,
           "default": "#4CC9F0",
           "required": true,
@@ -5234,6 +5596,12 @@
           "required": true,
           "type": "number"
         },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
         "itemColor": {
           "agentEditable": false,
           "default": "#FFFFFF",
@@ -5410,6 +5778,12 @@
           "required": true,
           "type": "number"
         },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
         "nodeColor": {
           "agentEditable": false,
           "default": "#FFFFFF",
@@ -5541,6 +5915,12 @@
           "required": true,
           "type": "number"
         },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
         "nodeColor": {
           "agentEditable": false,
           "default": "#FFFFFF",
@@ -5657,6 +6037,12 @@
           "semanticRole": "body",
           "type": "text"
         },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
         "lineColor": {
           "agentEditable": false,
           "default": "#4CC9F0",
@@ -5759,6 +6145,12 @@
           "semanticRole": "label",
           "type": "text"
         },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
         "inColor": {
           "agentEditable": false,
           "default": "#FFFFFF",
@@ -5782,7 +6174,7 @@
         },
         "posX": {
           "agentEditable": false,
-          "default": 392,
+          "default": 400.02925207574765,
           "max": 1920,
           "min": 0,
           "required": true,
@@ -5790,7 +6182,7 @@
         },
         "posY": {
           "agentEditable": false,
-          "default": 230,
+          "default": 229.99251390377165,
           "max": 1080,
           "min": 0,
           "required": true,
@@ -5798,7 +6190,7 @@
         },
         "scale": {
           "agentEditable": false,
-          "default": 80,
+          "default": 114.73476958730173,
           "max": 200,
           "min": 20,
           "required": true,
@@ -5869,6 +6261,12 @@
           "min": 14,
           "required": true,
           "type": "number"
+        },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
         },
         "nodeColor": {
           "agentEditable": false,
@@ -6031,6 +6429,12 @@
           "semanticRole": "body",
           "type": "text"
         },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
         "posX": {
           "agentEditable": false,
           "default": 0,
@@ -6175,6 +6579,12 @@
           "min": 56,
           "required": true,
           "type": "number"
+        },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
         },
         "items": {
           "agentEditable": true,
@@ -6545,6 +6955,12 @@
           "required": true,
           "type": "number"
         },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
         "items": {
           "agentEditable": true,
           "agentEditableItemFields": [
@@ -6654,6 +7070,12 @@
           "min": 24,
           "required": true,
           "type": "number"
+        },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
         },
         "lineColor": {
           "agentEditable": false,
@@ -6785,6 +7207,12 @@
           "semanticRole": "label",
           "type": "text"
         },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
         "nameColor": {
           "agentEditable": false,
           "default": "#E6E6E6",
@@ -6895,6 +7323,12 @@
         ]
       },
       "props": {
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
         "legendColor": {
           "agentEditable": false,
           "default": "#FFFFFF",
@@ -7045,6 +7479,12 @@
           "required": true,
           "type": "color"
         },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
+        },
         "nameColor": {
           "agentEditable": false,
           "default": "#E6E6E6",
@@ -7153,6 +7593,12 @@
         "glowColor": {
           "agentEditable": false,
           "default": "#88ffbb",
+          "required": true,
+          "type": "color"
+        },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
           "required": true,
           "type": "color"
         },
@@ -7354,6 +7800,12 @@
           "min": 200,
           "required": true,
           "type": "number"
+        },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
         },
         "items": {
           "agentEditable": true,
@@ -7737,6 +8189,12 @@
           "min": 14,
           "required": true,
           "type": "number"
+        },
+        "hlColor": {
+          "agentEditable": false,
+          "default": "#4CC9F0",
+          "required": true,
+          "type": "color"
         },
         "innerR": {
           "agentEditable": false,

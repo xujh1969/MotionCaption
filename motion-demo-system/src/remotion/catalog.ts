@@ -67,6 +67,7 @@ export const CATALOG: ComponentDef[] = [
   { id: 't4-07', name: '横向递进箭头串联步骤卡片(序号+描述)', category: 'flow-track', component: C4C.T4_07 },
   { id: 't4-08', name: '横向图标标题卡片(图标呼吸光)', category: 'flow-track', component: C4C.T4_08 },
   { id: 't4-09', name: '横向标签徽章卡片(关键词快闪)', category: 'flow-track', component: C4C.T4_09 },
+  { id: 't4-10', name: '底部胶囊拖拽进度条(阶段渐变填充)', category: 'flow-track', component: C4C.T4_10 },
   // 第五大类 列表
   { id: 't5-01', name: '圆点标记竖向清单', category: 'list-item', component: C4.T5_01 },
   { id: 't5-02', name: '三色状态标签条目清单', category: 'list-item', component: C4.T5_02 },

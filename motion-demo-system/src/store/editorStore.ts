@@ -24,6 +24,14 @@ export type EffectUpdate = Partial<Pick<
   transform?: Partial<MotionEffectInstance['transform']>;
 };
 
+/** 点击组件库触发的试播：临时实例在独立叠加层播放器里自播一遍，
+ * 不进入工程数据，也不推动主时间线（播放头/参考视频保持原位静止）。 */
+export interface ComponentPreviewState {
+  effect: MotionEffectInstance;
+  /** 预览自身时钟的结束帧（exclusive），到达后由视图层清除叠加层。 */
+  endFrame: number;
+}
+
 export interface EditorStoreState {
   project: MotionProject;
   selectedInstanceId: string | null;
@@ -31,6 +39,10 @@ export interface EditorStoreState {
   isPlaying: boolean;
   previewBackground: PreviewBackground;
   hiddenTimelineTrackIds: TimelineTrackId[];
+  /** 试播实例（点击组件库产生），与 project.effects 完全隔离。 */
+  componentPreview: ComponentPreviewState | null;
+  startComponentPreview: (componentId: string) => void;
+  clearComponentPreview: () => void;
   setVideoMetadata: (video: MotionProject['video']) => void;
   setCues: (cues: SubtitleCue[]) => void;
   replaceEffects: (effects: readonly MotionEffectInstance[]) => void;
@@ -95,6 +107,54 @@ const createInstanceId = (): string => {
   return `effect-${Date.now()}-${fallbackInstance}`;
 };
 
+/** addEffect 与组件试播共用的实例构造：内置默认 + 用户默认样式 + 画布钳制。 */
+const buildInstanceFromDefaults = (
+  componentId: string,
+  project: MotionProject,
+  instanceId: string,
+  startFrame: number,
+  durationInFrames: number,
+): MotionEffectInstance => {
+  const definition = effectRegistry.get(componentId);
+  const defaults = mergeUserStyleDefaults(
+    componentId,
+    structuredClone(Object.fromEntries(
+      Object.entries(definition.props).map(([key, prop]) => [key, prop.default]),
+    )),
+    undefined,
+    { definition },
+  );
+  const requestedScale = typeof defaults.scale === 'number' ? defaults.scale / 100 : 1;
+  const scale = Math.max(0.05, Math.min(
+    requestedScale,
+    project.video.width / definition.layout.footprint.width,
+    project.video.height / definition.layout.footprint.height,
+  ));
+  return {
+    instanceId,
+    componentId,
+    componentVersion: definition.version,
+    sourceCueIds: [],
+    startFrame,
+    durationInFrames,
+    track: 0,
+    zIndex: 1,
+    props: defaults,
+    transform: {
+      x: Math.min(
+        Math.max(0, typeof defaults.posX === 'number' ? defaults.posX : 0),
+        Math.max(0, project.video.width),
+      ),
+      y: Math.min(
+        Math.max(0, typeof defaults.posY === 'number' ? defaults.posY : 0),
+        Math.max(0, project.video.height),
+      ),
+      scale,
+      rotation: 0,
+    },
+  };
+};
+
 const stateCreator = (initialProject: MotionProject) => (
   set: (updater: Partial<EditorStoreState> | ((state: EditorStoreState) => Partial<EditorStoreState>)) => void,
   get: () => EditorStoreState,
@@ -132,6 +192,7 @@ const stateCreator = (initialProject: MotionProject) => (
       project: { ...state.project, video: { ...video }, effects },
       currentFrame: 0,
       isPlaying: false,
+      componentPreview: null,
     };
   }),
   setCues: (cues) => set((state) => ({
@@ -144,10 +205,11 @@ const stateCreator = (initialProject: MotionProject) => (
     set((state) => ({
       project: { ...state.project, effects: effects.map(cloneEffect) },
       selectedInstanceId: null,
+      componentPreview: null,
     }));
   },
   addEffect: (componentId, atFrame) => {
-    const definition = effectRegistry.get(componentId);
+    effectRegistry.get(componentId);
     const instanceId = createInstanceId();
     set((state) => {
       if (state.project.effects.length >= MAX_EFFECT_INSTANCES) {
@@ -157,51 +219,41 @@ const stateCreator = (initialProject: MotionProject) => (
       const requestedFrame = Number.isFinite(atFrame) ? Math.round(atFrame) : 0;
       const startFrame = Math.min(projectDuration - 1, Math.max(0, requestedFrame));
       const durationInFrames = Math.min(projectDuration - startFrame, Math.max(1, Math.round(state.project.video.fps * 3)));
-      const defaults = mergeUserStyleDefaults(
-        componentId,
-        structuredClone(Object.fromEntries(
-          Object.entries(definition.props).map(([key, prop]) => [key, prop.default]),
-        )),
-      );
-      const requestedScale = typeof defaults.scale === 'number' ? defaults.scale / 100 : 1;
-      const scale = Math.max(0.05, Math.min(
-        requestedScale,
-        state.project.video.width / definition.layout.footprint.width,
-        state.project.video.height / definition.layout.footprint.height,
-      ));
-      const transform = {
-        x: Math.min(
-          Math.max(0, typeof defaults.posX === 'number' ? defaults.posX : 0),
-          Math.max(0, state.project.video.width),
-        ),
-        y: Math.min(
-          Math.max(0, typeof defaults.posY === 'number' ? defaults.posY : 0),
-          Math.max(0, state.project.video.height),
-        ),
-        scale,
-        rotation: 0,
-      };
       const candidate = { startFrame, durationInFrames };
       const track = firstFreeTrack(candidate, state.project.effects);
       if (track === null) throw new Error('No timeline track is available.');
-      const effect: MotionEffectInstance = {
-        instanceId,
-        componentId,
-        componentVersion: definition.version,
-        sourceCueIds: [],
-        ...candidate,
-        track,
-        zIndex: Math.max(0, ...state.project.effects.map(({ zIndex }) => zIndex)) + 1,
-        props: defaults,
-        transform,
-      };
+      const effect = buildInstanceFromDefaults(componentId, state.project, instanceId, startFrame, durationInFrames);
+      effect.track = track;
+      effect.zIndex = Math.max(0, ...state.project.effects.map(({ zIndex }) => zIndex)) + 1;
       return {
         project: { ...state.project, effects: [...state.project.effects, effect] },
         selectedInstanceId: instanceId,
+        // 用户已转入正式编辑，试播叠加层即时收场。
+        componentPreview: null,
       };
     });
     return instanceId;
   },
+  componentPreview: null,
+  // 试播用独立时钟：实例固定从 0 帧播 3 秒，主时间线（currentFrame/isPlaying）不动。
+  startComponentPreview: (componentId) => {
+    effectRegistry.get(componentId);
+    set((state) => {
+      const durationInFrames = Math.max(1, Math.round(state.project.video.fps * 3));
+      const effect = buildInstanceFromDefaults(
+        componentId,
+        state.project,
+        `preview-${componentId}`,
+        0,
+        durationInFrames,
+      );
+      return {
+        componentPreview: { effect, endFrame: durationInFrames },
+        selectedInstanceId: null,
+      };
+    });
+  },
+  clearComponentPreview: () => set({ componentPreview: null }),
   selectInstance: (selectedInstanceId) => set({ selectedInstanceId }),
   applySameStyle: (instanceId) => {
     const { effects } = get().project;
@@ -337,6 +389,7 @@ const stateCreator = (initialProject: MotionProject) => (
         currentFrame: 0,
         isPlaying: false,
         hiddenTimelineTrackIds: [],
+        componentPreview: null,
       });
     }
     return result;

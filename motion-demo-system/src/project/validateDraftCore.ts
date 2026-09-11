@@ -66,7 +66,10 @@ const boxFor = (
   video: AgentInput['video'],
 ): Box => {
   const defaultScale = definition.props.scale?.default;
-  const scale = typeof defaultScale === 'number' ? defaultScale / 100 : 1;
+  const rawScale = typeof defaultScale === 'number' ? defaultScale / 100 : 1;
+  // auto 分区按默认缩放；显式 preset 分区缩放钳制在 100% 以内（与 compileDraft.transformFor
+  // 的 fitScale 一致）：footprint 是规划包络，超出会破坏「对角 preset 永不碰撞」的编排保证。
+  const scale = preset === 'auto' ? rawScale : Math.min(rawScale, 1);
   const width = preset === 'full-width' ? video.width : definition.layout.footprint.width * scale;
   const height = definition.layout.footprint.height * scale;
   const defaultX = definition.props.posX?.default;

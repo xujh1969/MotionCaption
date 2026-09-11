@@ -16,7 +16,7 @@ describe('unified workspace panels', () => {
   it('groups all 61 registry entries with inline category separators', () => {
     const groups = groupEffectDefinitions(effectRegistry.list(), '');
 
-    expect(groups.flatMap(({ definitions }) => definitions)).toHaveLength(61);
+    expect(groups.flatMap(({ definitions }) => definitions)).toHaveLength(62);
     expect(groups.map(({ label }) => label)).toEqual([
       '零、特效FX',
       '一、极简纯文字+细线条',
@@ -69,7 +69,7 @@ describe('unified workspace panels', () => {
     const markup = renderToStaticMarkup(<ComponentLibrary />);
     const componentItems = markup.match(/data-component-id=/g) ?? [];
 
-    expect(componentItems).toHaveLength(61);
+    expect(componentItems).toHaveLength(62);
     expect(markup).toContain('data-category-id="text-line"');
     expect(markup).toContain('placeholder="名称或编号"');
     expect(markup).not.toContain('<select');
@@ -94,16 +94,21 @@ describe('unified workspace panels', () => {
       onLoadVideo={() => undefined}
       onOpenProject={() => undefined}
       onSaveProject={() => undefined}
+      onExportStyleDefaults={() => undefined}
       onImportAgent={() => undefined}
-      onOpenAiOrchestration={() => undefined}
     />);
 
     expect(markup).toContain('载入视频');
     expect(markup).toContain('导入 Agent JSON');
-    expect(markup).toContain('AI 编排');
+    // 编排改由外部 Agent + Skill 完成，工具栏不再提供应用内 AI 入口
+    expect(markup).not.toContain('AI 编排');
     expect(markup).toContain('棋盘');
     expect(markup).toContain('toolbar-brand');
     expect(markup).toContain('MotionCaption');
+    // 版本号来自 package.json（vite define 注入），格式固定为 vX.Y.Z
+    expect(markup).toMatch(/>v\d+\.\d+\.\d+</);
+    // 「同步组件 Skill」入口暂时隐藏（Toolbar 的 SHOW_SKILL_SYNC = false）
+    expect(markup).not.toContain('同步组件 Skill');
     expect(markup).not.toContain('空工程 · 无参考视频');
     expect(markup).not.toContain('组件实验室');
   });

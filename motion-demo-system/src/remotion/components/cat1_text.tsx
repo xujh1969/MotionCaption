@@ -4,7 +4,7 @@ import { COLORS, FONT_STACK } from '../theme';
 import { useEnter, useBreath, useEnterOpacity, useGrow, useGrowDown, useGrowCenter } from '../anim';
 import { useConfigKey, useConfigList } from '../config';
 import { weightNum, measureText } from '../measure';
-import { tint } from './shared';
+import { tint, renderKeyParts, stripKeyText, wrapKeySpansToLines, WrappedText } from './shared';
 
 const baseStyle: React.CSSProperties = {
   position: 'absolute',
@@ -30,36 +30,49 @@ interface TextProps {
   maxWidth?: number;
   /** 显式行高（倍数）。缺省 wrap=1.35、单行=浏览器默认（不可靠，依赖行高做定位时必须显式给出）。 */
   lineHeight?: number;
+  /** 重点文字颜色：文本含 {{重点}} 标记时用该色绘制重点片段。 */
+  hl?: string;
 }
 
 const T: React.FC<TextProps> = ({
   x, y, size, weight = 'Heavy', color, align = 'left', text, opacity = 1,
-  translateY = 0, scale = 1, letterSpacing = 0, wrap = false, autoShrink = false, maxWidth, lineHeight,
+  translateY = 0, scale = 1, letterSpacing = 0, wrap = false, autoShrink = false, maxWidth, lineHeight, hl,
 }) => {
-  const fitted = autoShrink && maxWidth && text
-    ? Math.max(0.5, Math.min(1, maxWidth / Math.max(1, measureText(text, size, weight))))
+  const plain = stripKeyText(text);
+  const fitted = autoShrink && maxWidth && plain
+    ? Math.max(0.5, Math.min(1, maxWidth / Math.max(1, measureText(plain, size, weight))))
     : 1;
+  const shared: React.CSSProperties = {
+    ...baseStyle,
+    left: x,
+    top: y,
+    fontSize: size * fitted,
+    fontWeight: weightNum(weight),
+    color,
+    textAlign: align,
+    opacity,
+    transform: `translateY(${translateY}px) scale(${scale})`,
+    transformOrigin: align === 'right' ? 'right top' : 'left top',
+    letterSpacing,
+    textShadow: '0 3px 12px rgba(0,0,0,0.45)',
+  };
+  // 多行正文改为手动折行：浏览器原生折行在导出重绘器里断点会漂移（长文案实测错位）。
+  if (wrap && !autoShrink && maxWidth) {
+    return (
+      <WrappedText
+        text={text}
+        size={size}
+        maxWidth={maxWidth}
+        baseWeight={weight}
+        hlColor={hl}
+        lineHeight={lineHeight ?? 1.35}
+        style={shared}
+      />
+    );
+  }
   return (
-    <div
-      style={{
-        ...baseStyle,
-        left: x,
-        top: y,
-        fontSize: size * fitted,
-        fontWeight: weightNum(weight),
-        color,
-        textAlign: align,
-        whiteSpace: wrap && !autoShrink ? 'normal' : 'nowrap',
-        maxWidth,
-        lineHeight: lineHeight ?? (wrap && !autoShrink ? 1.35 : undefined),
-        opacity,
-        transform: `translateY(${translateY}px) scale(${scale})`,
-        transformOrigin: align === 'right' ? 'right top' : 'left top',
-        letterSpacing,
-        textShadow: '0 3px 12px rgba(0,0,0,0.45)',
-      }}
-    >
-      {text}
+    <div style={{ ...shared, whiteSpace: 'nowrap', maxWidth }}>
+      {renderKeyParts(text, hl)}
     </div>
   );
 };
@@ -83,6 +96,7 @@ export const T1_01: React.FC = () => {
   const enText = useConfigKey('t1-01', 'enText') as string;
   const titleText = useConfigKey('t1-01', 'titleText') as string;
   const subText = useConfigKey('t1-01', 'subText') as string;
+  const hl = useConfigKey('t1-01', 'hlColor') as string;
   const x = 1790;
   // 统一行间距：英文标签到主标题、主标题到副标题的距离保持一致
   const G = 24;
@@ -95,13 +109,13 @@ export const T1_01: React.FC = () => {
   return (
     <div style={{ position: 'absolute', left: posX, top: posY, width: 570, transformOrigin: 'top left', transform: `scale(${scale / 100})` }}>
       <T x={0} y={0} size={tagSize} weight="Bold" color={subColor} align="right"
-        text={tagText} opacity={tag.opacity * breath} translateY={tag.translateY} letterSpacing={4} />
+        text={tagText} opacity={tag.opacity * breath} translateY={tag.translateY} letterSpacing={4} hl={hl} />
       <T x={0} y={enY} size={enSize} weight="Bold" color={accent} align="right"
         text={enText} opacity={en.opacity} translateY={en.translateY} letterSpacing={2} />
       <T x={0} y={titleY} size={titleSize} weight="Heavy" color={titleColor} align="right"
-        text={titleText} opacity={title.opacity} translateY={title.translateY} scale={title.scale} autoShrink maxWidth={570} />
+        text={titleText} opacity={title.opacity} translateY={title.translateY} scale={title.scale} autoShrink maxWidth={570} hl={hl} />
       <T x={0} y={subY} size={subSize} weight="Regular" color={subColor} align="right"
-        text={subText} opacity={sub.opacity} translateY={sub.translateY} wrap maxWidth={570} />
+        text={subText} opacity={sub.opacity} translateY={sub.translateY} wrap maxWidth={570} hl={hl} />
     </div>
   );
 };
@@ -111,6 +125,7 @@ export const T1_02: React.FC = () => {
   const frame = useCurrentFrame();
   const quote = useConfigKey('t1-02', 'quoteText') as string;
   const note = useConfigKey('t1-02', 'noteText') as string;
+  const hl = useConfigKey('t1-02', 'hlColor') as string;
   const qSize = useConfigKey('t1-02', 'subSize') as number;
   const qColor = useConfigKey('t1-02', 'titleColor') as string;
   const nSize = useConfigKey('t1-02', 'titleSize') as number;
@@ -133,9 +148,9 @@ export const T1_02: React.FC = () => {
         opacity: 0.9, transformOrigin: 'top', boxShadow: `0 0 8px ${tint(lineColor, 0.5)}`,
       }} />
       <T x={50} y={0} size={qSize} weight="Bold" color={qColor}
-        text={quote} opacity={qOpacity} wrap maxWidth={qMaxW} />
+        text={quote} opacity={qOpacity} wrap maxWidth={qMaxW} hl={hl} />
       <T x={50} y={quoteBlockH + 20} size={nSize} weight="Regular" color={COLORS.textSecondary}
-        text={note} opacity={nOpacity * (1 + (breath - 1) * 0.3)} wrap maxWidth={qMaxW} />
+        text={note} opacity={nOpacity * (1 + (breath - 1) * 0.3)} wrap maxWidth={qMaxW} hl={hl} />
     </div>
   );
 };
@@ -151,6 +166,7 @@ export const T1_03: React.FC = () => {
   const noteColor = useConfigKey('t1-03', 'subColor') as string;
   const noteText = useConfigKey('t1-03', 'noteText') as string;
   const titleText = useConfigKey('t1-03', 'titleText') as string;
+  const hl = useConfigKey('t1-03', 'hlColor') as string;
   const titleY = Math.round(noteSize + 26);
   const posX = (useConfigKey('t1-03', 'posX') as number) ?? 130;
   const posY = (useConfigKey('t1-03', 'posY') as number) ?? 180;
@@ -158,9 +174,9 @@ export const T1_03: React.FC = () => {
   return (
     <div style={{ position: 'absolute', left: posX, top: posY, width: 590, transformOrigin: 'top left', transform: `scale(${scale / 100})` }}>
       <T x={0} y={0} size={noteSize} weight="Regular" color={noteColor}
-        text={noteText} opacity={note.opacity} translateY={note.translateY} />
+        text={noteText} opacity={note.opacity} translateY={note.translateY} hl={hl} />
       <T x={0} y={titleY} size={titleSize} weight="Heavy" color={titleColor}
-        text={titleText} opacity={title.opacity} translateY={title.translateY} scale={title.scale} autoShrink maxWidth={590} />
+        text={titleText} opacity={title.opacity} translateY={title.translateY} scale={title.scale} autoShrink maxWidth={590} hl={hl} />
     </div>
   );
 };
@@ -179,6 +195,7 @@ export const T1_04: React.FC = () => {
   const tagText = useConfigKey('t1-04', 'tagText') as string;
   const titleText = useConfigKey('t1-04', 'titleText') as string;
   const descText = useConfigKey('t1-04', 'descText') as string;
+  const hl = useConfigKey('t1-04', 'hlColor') as string;
   const titleY = Math.round(tagSize + 22);
   const posX = (useConfigKey('t1-04', 'posX') as number) ?? 130;
   const posY = (useConfigKey('t1-04', 'posY') as number) ?? 180;
@@ -186,11 +203,11 @@ export const T1_04: React.FC = () => {
   return (
     <div style={{ position: 'absolute', left: posX, top: posY, width: 590, transformOrigin: 'top left', transform: `scale(${scale / 100})` }}>
       <T x={0} y={0} size={tagSize} weight="Bold" color={tagColor}
-        text={tagText} opacity={tag.opacity} translateY={tag.translateY} letterSpacing={2} />
+        text={tagText} opacity={tag.opacity} translateY={tag.translateY} letterSpacing={2} hl={hl} />
       <T x={0} y={titleY} size={titleSize} weight="Heavy" color={titleColor}
-        text={titleText} opacity={title.opacity} translateY={title.translateY} scale={title.scale} autoShrink maxWidth={590} />
+        text={titleText} opacity={title.opacity} translateY={title.translateY} scale={title.scale} autoShrink maxWidth={590} hl={hl} />
       <T x={0} y={titleY + titleSize + 34} size={descSize} weight="Regular" color={COLORS.textSecondary}
-        text={descText} opacity={desc.opacity} translateY={desc.translateY} wrap maxWidth={590} />
+        text={descText} opacity={desc.opacity} translateY={desc.translateY} wrap maxWidth={590} hl={hl} />
     </div>
   );
 };
@@ -200,11 +217,12 @@ export const T1_05: React.FC = () => {
   const frame = useCurrentFrame();
   const title = useConfigKey('t1-05', 'titleText') as string;
   const desc = useConfigKey('t1-05', 'descText') as string;
+  const hl = useConfigKey('t1-05', 'hlColor') as string;
   const titleSize = useConfigKey('t1-05', 'titleSize') as number;
   const titleColor = useConfigKey('t1-05', 'titleColor') as string;
   const descSize = useConfigKey('t1-05', 'subSize') as number;
   const lineColor = useConfigKey('t1-05', 'lineColor') as string;
-  const w = Math.max(200, Math.round(measureText(title, titleSize, 'Heavy')));
+  const w = Math.max(200, Math.round(measureText(stripKeyText(title), titleSize, 'Heavy')));
   const tOpacity = useEnterOpacity(frame, 0);
   const dOpacity = useEnterOpacity(frame, 15);
   const lineP = useGrow(frame, 25);
@@ -215,8 +233,8 @@ export const T1_05: React.FC = () => {
   const scale = (useConfigKey('t1-05', 'scale') as number) ?? 100;
   return (
     <div style={{ position: 'absolute', left: posX, top: posY, width: 590, transformOrigin: 'top left', transform: `scale(${scale / 100})` }}>
-      <T x={0} y={0} size={titleSize} weight="Heavy" color={titleColor} text={title} opacity={tOpacity} autoShrink maxWidth={590} />
-      <T x={0} y={titleSize + 22} size={descSize} weight="Regular" color={COLORS.textSecondary} text={desc} opacity={dOpacity} wrap maxWidth={590} />
+      <T x={0} y={0} size={titleSize} weight="Heavy" color={titleColor} text={title} opacity={tOpacity} autoShrink maxWidth={590} hl={hl} />
+      <T x={0} y={titleSize + 22} size={descSize} weight="Regular" color={COLORS.textSecondary} text={desc} opacity={dOpacity} wrap maxWidth={590} hl={hl} />
       {/* 单条渐变线，从左向右延展，渐变方向：左侧实色 → 右侧透明 */}
       <div style={{
         position: 'absolute', left: 0, top: lineTop, width: w * lineP, height: 3,
@@ -241,6 +259,7 @@ export const T1_06: React.FC = () => {
   const enText = useConfigKey('t1-06', 'enText') as string;
   const titleText = useConfigKey('t1-06', 'titleText') as string;
   const descText = useConfigKey('t1-06', 'descText') as string;
+  const hl = useConfigKey('t1-06', 'hlColor') as string;
   const p1 = useGrowCenter(frame, 38);
   const breath = useBreath(frame, 1, 1, 0.045);
   const w = 400;
@@ -252,9 +271,9 @@ export const T1_06: React.FC = () => {
       <T x={0} y={0} size={enSize} weight="Bold" color={enColor}
         text={enText} opacity={en.opacity} translateY={en.translateY} letterSpacing={3} />
       <T x={0} y={22} size={titleSize} weight="Heavy" color={COLORS.textPrimary}
-        text={titleText} opacity={title.opacity} translateY={title.translateY} scale={title.scale} autoShrink maxWidth={570} />
+        text={titleText} opacity={title.opacity} translateY={title.translateY} scale={title.scale} autoShrink maxWidth={570} hl={hl} />
       <T x={0} y={titleSize + 56} size={descSize} weight="Regular" color={COLORS.textSecondary}
-        text={descText} opacity={desc.opacity} translateY={desc.translateY} wrap maxWidth={570} />
+        text={descText} opacity={desc.opacity} translateY={desc.translateY} wrap maxWidth={570} hl={hl} />
       {/* 单条渐变线，从左侧生长，渐变方向：左侧实色 → 右侧透明 */}
       <div style={{
         position: 'absolute', left: 0, top: titleSize + 118, width: w * p1, height: 3,
@@ -279,6 +298,7 @@ export const T1_07: React.FC = () => {
   const descSize = useConfigKey('t1-07', 'descSize') as number;
   const topText = useConfigKey('t1-07', 'topText') as string;
   const descText = useConfigKey('t1-07', 'descText') as string;
+  const hl = useConfigKey('t1-07', 'hlColor') as string;
   const kickerY = kickerSize + 34;
   const titleGap = (useConfigKey('t1-07', 'titleGap') as number) ?? 44;
   const posX = (useConfigKey('t1-07', 'posX') as number) ?? 130;
@@ -291,10 +311,10 @@ export const T1_07: React.FC = () => {
         text={kickerText} opacity={bg} letterSpacing={4} />
       {/* 第二行：主标题（与第一行分离，避免重叠；显式行高 1.2 保证定位可计算） */}
       <T x={0} y={kickerY} size={topSize} weight="Heavy" color={topColor}
-        text={topText} opacity={title.opacity} translateY={title.translateY} scale={title.scale} autoShrink maxWidth={570} lineHeight={1.2} />
+        text={topText} opacity={title.opacity} translateY={title.translateY} scale={title.scale} autoShrink maxWidth={570} lineHeight={1.2} hl={hl} />
       {/* 第三行：辅助说明小字（字号显著更小，与主标题之间留 titleGap 间距） */}
       <T x={0} y={kickerY + topSize * 1.2 + titleGap} size={descSize} weight="Regular" color={COLORS.textSecondary}
-        text={descText} opacity={desc.opacity} translateY={desc.translateY} wrap maxWidth={570} />
+        text={descText} opacity={desc.opacity} translateY={desc.translateY} wrap maxWidth={570} hl={hl} />
     </div>
   );
 };
@@ -314,6 +334,7 @@ export const T1_08: React.FC = () => {
   const tagText = useConfigKey('t1-08', 'tagText') as string;
   const titleText = useConfigKey('t1-08', 'titleText') as string;
   const bodyText = useConfigKey('t1-08', 'bodyText') as string;
+  const hl = useConfigKey('t1-08', 'hlColor') as string;
   // 解析 {{重点文本}}，被框选的文字用「重点文本颜色」绘制
   const parts: { t: string; hl: boolean }[] = [];
   const re = /\{\{([^}]+)\}\}/g;
@@ -330,19 +351,22 @@ export const T1_08: React.FC = () => {
   return (
     <div style={{ position: 'absolute', left: posX, top: posY, width: 590, transformOrigin: 'top left', transform: `scale(${scale / 100})` }}>
       <T x={0} y={0} size={tagSize} weight="Bold" color={tagColor}
-        text={tagText} opacity={tag.opacity} translateY={tag.translateY} letterSpacing={3} />
+        text={tagText} opacity={tag.opacity} translateY={tag.translateY} letterSpacing={3} hl={hl} />
       <T x={0} y={48} size={titleSize} weight="Heavy" color={COLORS.textPrimary}
-        text={titleText} opacity={title.opacity} translateY={title.translateY} scale={title.scale} autoShrink maxWidth={570} />
-      <div style={{ position: 'absolute', left: 0, top: titleSize + 96, opacity: body, width: 590, lineHeight: 1.5 }}>
-        <span style={{ fontSize: bodySize, fontWeight: 400, color: COLORS.textSecondary, whiteSpace: 'normal' }}>
-          {parts.map((p, idx) =>
-            p.hl ? (
-              <b key={idx} style={{ color: hlColor, opacity: 0.9 * bBreath }}>{p.t}</b>
-            ) : (
-              <span key={idx}>{p.t}</span>
-            )
-          )}
-        </span>
+        text={titleText} opacity={title.opacity} translateY={title.translateY} scale={title.scale} autoShrink maxWidth={570} hl={hl} />
+      {/* 正文手动折行：预览与导出走同一 measureText 断行，避免导出时排版漂移 */}
+      <div style={{ position: 'absolute', left: 0, top: titleSize + 96, opacity: body, width: 590 }}>
+        {wrapKeySpansToLines(parts, bodySize, 590).map((line, li) => (
+          <div key={li} style={{ lineHeight: 1.5, whiteSpace: 'nowrap' }}>
+            {line.map((seg, si) =>
+              seg.hl ? (
+                <b key={si} style={{ fontSize: bodySize, color: hlColor, opacity: 0.9 * bBreath }}>{seg.t}</b>
+              ) : (
+                <span key={si} style={{ fontSize: bodySize, fontWeight: 400, color: COLORS.textSecondary }}>{seg.t}</span>
+              )
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -360,15 +384,16 @@ export const T1_09: React.FC = () => {
   const noteColor = useConfigKey('t1-09', 'accentColor') as string;
   const bodyText = useConfigKey('t1-09', 'bodyText') as string;
   const noteText = useConfigKey('t1-09', 'noteText') as string;
+  const hl = useConfigKey('t1-09', 'hlColor') as string;
   const posX = (useConfigKey('t1-09', 'posX') as number) ?? 130;
   const posY = (useConfigKey('t1-09', 'posY') as number) ?? 300;
   const scale = (useConfigKey('t1-09', 'scale') as number) ?? 100;
   return (
     <div style={{ position: 'absolute', left: posX, top: posY, width: 590, transformOrigin: 'top left', transform: `scale(${scale / 100})` }}>
       <T x={0} y={0} size={bodySize} weight="Bold" color={bodyColor}
-        text={bodyText} opacity={body.opacity} translateY={body.translateY} wrap maxWidth={560} />
+        text={bodyText} opacity={body.opacity} translateY={body.translateY} wrap maxWidth={560} hl={hl} />
       <T x={0} y={bodySize + 150} size={noteSize} weight="Regular" color={noteColor}
-        text={noteText} opacity={note * (0.9 + (breath - 1) * 0.3)} />
+        text={noteText} opacity={note * (0.9 + (breath - 1) * 0.3)} hl={hl} />
     </div>
   );
 };

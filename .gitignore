@@ -15,6 +15,9 @@ coverage/
 # Local test media assets (large, user's own test material — never commit)
 /tests/
 
+# 剪映透明导出验证素材（含 ~160MB 的 .mov，只作本机验证用）
+jianying-alpha-test/
+
 # Superpowers transient files only; plans and reports remain tracked.
 .superpowers/
 .superpowers/**/tmp/
