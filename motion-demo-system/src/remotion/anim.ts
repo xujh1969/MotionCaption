@@ -1,7 +1,13 @@
-import { Easing, interpolate } from 'remotion';
+import { interpolate } from 'remotion';
 
-// 规范 0.4：按文档加载的浏览器无法联机时可回退。入场用极致缓出(EaseOutExpo)
-export const easeOutExpo = Easing.out(Easing.exp);
+/**
+ * 规范 0.4：按文档加载的浏览器无法联机时可回退。入场用极致缓出(EaseOutExpo)。
+ *
+ * 不能用 Remotion 的 Easing.out(Easing.exp)：它等价于 1 - 2^(-10t)，t=1 时只有
+ * 0.99902 而永远到不了 1 —— 计数动画会停在 round(target × 0.99902)，4 位数比
+ * 设定值小 5~10（9876 → 9866）。按标准定义补上端点：t>=1 时精确为 1。
+ */
+export const easeOutExpo = (t: number): number => (t >= 1 ? 1 : 1 - Math.pow(2, -10 * t));
 
 // 呼吸动画：正弦韵律 1.5s（InOutSine 无限往复）
 export function useBreath(frame: number, speed = 1, base = 1, amp = 0.04): number {

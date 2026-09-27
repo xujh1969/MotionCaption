@@ -12,7 +12,7 @@
 
 - Divide the cue list into scene roles first (opening / chapter title, grouped parallel points, single metric emphasis, warning / conclusion, closing) and pick a component family per role; only then choose a concrete id.
 - Prefer merging 2-6 consecutive cues that each state one parallel point into ONE list / card / flow scene (`fx-04`, `fx-06`, `fx-07`, `t5-*`, `t7-05`) over emitting a single-title scene per line. A merged scene cites every cue it draws from in `sourceCueIds`.
-- **Sync item entrances to the narration.** In list / card / flow / timeline components (flow cards `t4-01` through `t4-10`, timeline stages like `t4-02`, checklists `t5-*`, steps `t6-*`, bars `fx-08` …), each item that visualizes one cited cue gets a numeric `at` = (its cue start − earliest cited cue start) / 1000, 1 decimal. Items then appear exactly when their cue is spoken instead of one uniform sweep. Multi-step progress narratives ("第一步…第二步…", "先…再…最后…") are the strongest case: pick a t4-* flow component and fill every step's `at`.
+- **Sync item entrances to the narration.** In list / card / flow / timeline components (flow cards `t4-01` through `t4-11`, timeline stages like `t4-02`, checklists `t5-*`, steps `t6-*`, bars `fx-08` …), each item that visualizes one cited cue gets a numeric `at` = (its cue start − earliest cited cue start) / 1000, 1 decimal. Items then appear exactly when their cue is spoken instead of one uniform sweep. Multi-step progress narratives ("第一步…第二步…", "先…再…最后…") are the strongest case: pick a t4-* flow component and fill every step's `at`.
 - Reserve single-title components (`fx-01`, `fx-02`, `fx-05`, `t1-*`, `t2-02`) for openings, chapter turns, and strong emphasis — not for every cue.
 
 ## Display copy discipline

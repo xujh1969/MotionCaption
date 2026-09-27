@@ -68,6 +68,7 @@ export const CATALOG: ComponentDef[] = [
   { id: 't4-08', name: '横向图标标题卡片(图标呼吸光)', category: 'flow-track', component: C4C.T4_08 },
   { id: 't4-09', name: '横向标签徽章卡片(关键词快闪)', category: 'flow-track', component: C4C.T4_09 },
   { id: 't4-10', name: '底部胶囊拖拽进度条(阶段渐变填充)', category: 'flow-track', component: C4C.T4_10 },
+  { id: 't4-11', name: '网格圆环序号步骤(环形渐变描边·数组扩展)', category: 'flow-track', component: C4C.T4_11 },
   // 第五大类 列表
   { id: 't5-01', name: '圆点标记竖向清单', category: 'list-item', component: C4.T5_01 },
   { id: 't5-02', name: '三色状态标签条目清单', category: 'list-item', component: C4.T5_02 },
@@ -75,6 +76,7 @@ export const CATALOG: ComponentDef[] = [
   { id: 't5-04', name: '双列Key-Value信息清单', category: 'list-item', component: C4.T5_04 },
   { id: 't5-05', name: '侧边竖向堆叠标签卡片组', category: 'list-item', component: C4.T5_05 },
   { id: 't5-06', name: '横向多列标签标题列表', category: 'list-item', component: C4.T5_06 },
+  { id: 't5-07', name: '纵向图标要点列表(线框图标描边·数组扩展)', category: 'list-item', component: C4.T5_07 },
   // 第六大类 时间线流向
   { id: 't6-01', name: '竖向时间轴时间线', category: 'timeline-flow', component: C6.T6_01 },
   { id: 't6-02', name: '多节点横向箭头数据流', category: 'timeline-flow', component: C6.T6_02 },
@@ -96,4 +98,5 @@ export const CATALOG: ComponentDef[] = [
   { id: 't7-09', name: '环形占比饼图(分段依次生长)', category: 'mini-chart', component: C7R.T7_09 },
   { id: 't7-10', name: '迷你波形图(实时波动HUD)', category: 'mini-chart', component: C7R.T7_10 },
   { id: 't7-11', name: '进度雷达图(多维能力评分)', category: 'mini-chart', component: C7R.T7_11 },
+  { id: 't7-12', name: '漏斗转化流程(分层梯形·两侧标注)', category: 'mini-chart', component: C7.T7_12 },
 ];

@@ -3,8 +3,8 @@ import { Easing, useCurrentFrame, interpolate } from 'remotion';
 import { COLORS, FONT_STACK } from '../theme';
 import { useEnter, useEnterOpacity, useBreath, useCount, useGrow, easeOutExpo, atFrames } from '../anim';
 import { useConfigKey, useConfigList } from '../config';
-import { weightNum } from '../measure';
-import { tint, renderKeyParts } from './shared';
+import { weightNum, measureText } from '../measure';
+import { tint, shadeHex, renderKeyParts, withAlpha, stripKeyText, WrappedText } from './shared';
 
 const base: React.CSSProperties = { position: 'absolute', fontFamily: FONT_STACK, whiteSpace: 'nowrap' };
 const T: React.FC<{ x: number; y: number; size: number; weight?: 'Heavy' | 'Bold' | 'Regular';
@@ -445,6 +445,178 @@ export const T7_06: React.FC = () => {
         fontSize: labelSize, fontWeight: 400, color: labelColor, opacity: labelO, lineHeight: 1,
         letterSpacing: 2, whiteSpace: 'nowrap',
       }}>{renderKeyParts(labelText, hl)}</div>
+    </div>
+  );
+};
+
+/* ---------------- t7-12 漏斗转化图表（分层梯形·两侧标注·用户图标飘落） ---------------- */
+export const T7_12: React.FC = () => {
+  const frame = useCurrentFrame();
+  const raw = useConfigList('t7-12', 'layers') as {
+    innerText?: string; leftLabel?: string; rightTitle?: string; rightDesc?: string;
+    color?: string; at?: string;
+  }[];
+  const layers = raw.length > 0 ? raw : [{
+    innerText: '有效触达', leftLabel: '阶段一', rightTitle: '认知扩圈',
+    rightDesc: '场景内容与达人测评覆盖目标人群。',
+  }];
+  const funnelW = useConfigKey('t7-12', 'funnelW') as number;
+  const layerH = useConfigKey('t7-12', 'layerH') as number;
+  const layerGap = useConfigKey('t7-12', 'layerGap') as number;
+  const taper = useConfigKey('t7-12', 'taper') as number;
+  const colorA = useConfigKey('t7-12', 'colorA') as string;
+  const colorB = useConfigKey('t7-12', 'colorB') as string;
+  const innerSize = useConfigKey('t7-12', 'innerSize') as number;
+  const leftSize = useConfigKey('t7-12', 'leftSize') as number;
+  const titleSize = useConfigKey('t7-12', 'titleSize') as number;
+  const descSize = useConfigKey('t7-12', 'descSize') as number;
+  const titleColor = useConfigKey('t7-12', 'titleColor') as string;
+  const descColor = useConfigKey('t7-12', 'descColor') as string;
+  const leftWidth = useConfigKey('t7-12', 'leftWidth') as number;
+  const rightWidth = useConfigKey('t7-12', 'rightWidth') as number;
+  const sideGap = useConfigKey('t7-12', 'sideGap') as number;
+  const growMs = useConfigKey('t7-12', 'growMs') as number;
+  const fallMs = useConfigKey('t7-12', 'fallMs') as number;
+  const iconCount = Math.max(0, Math.round(useConfigKey('t7-12', 'iconCount') as number));
+  const iconColor = useConfigKey('t7-12', 'iconColor') as string;
+  const scale = useConfigKey('t7-12', 'scale') as number;
+  const posX = (useConfigKey('t7-12', 'posX') as number) ?? 160;
+  const posY = (useConfigKey('t7-12', 'posY') as number) ?? 120;
+
+  const n = layers.length;
+  const growFrames = Math.max(8, Math.round((growMs / 1000) * 30));
+  const fallFrames = Math.max(12, Math.round((fallMs / 1000) * 30));
+  // 每层宽度：顶层 funnelW，逐层 × taper 收窄（漏斗上宽下窄）
+  const widths = layers.map((_, i) => funnelW * Math.pow(taper, i));
+  // 圆台造型：顶/底各有一个扁椭圆（纵向半径 eH 全组件统一，保证层距均匀）
+  const eH = Math.max(8, Math.round(funnelW * 0.05));
+  const pitch = layerH + 2 * eH + layerGap;
+  const layerY = (i: number) => i * pitch;
+  const leftCapW = Math.max(90, leftWidth - 70);
+  const cx = leftWidth + sideGap + funnelW / 2;   // 漏斗中心线（组件内 X）
+  const dotX = cx + funnelW / 2 + sideGap;        // 右侧圆点固定列（右列对齐不随层宽漂移）
+  const clampOpt = { easing: easeOutExpo, extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const };
+
+  // 各层入场帧（at 秒优先，缺省均摊）
+  const arrives = layers.map((it, i) => atFrames(it, i, 8, 12));
+  // 当前层 = 最后一个已完成生长的层（发光增强到 0.45）
+  let activeIdx = -1;
+  for (let i = 0; i < n; i += 1) if (frame >= arrives[i] + growFrames) activeIdx = i;
+  const pulse = 0.5 + 0.5 * Math.sin((frame / 45) * Math.PI * 2);
+
+  // 用户图标：从漏斗上口上方飘落汇入，错开依次落下，落入口部后消失
+  const d0 = arrives[0] ?? 8;
+  const icons = Array.from({ length: iconCount }, (_, k) => {
+    const start = d0 + (k * fallFrames) / Math.max(1, iconCount);
+    const p = interpolate(frame, [start, start + fallFrames], [0, 1], clampOpt);
+    const o = p < 0.72 ? 1 : Math.max(0, 1 - (p - 0.72) / 0.28);
+    const jitter = (k % 2 === 0 ? -1 : 1) * (8 + k * 7);
+    return { key: `u${k}`, x: cx + jitter, y: -84 * (1 - p), o };
+  });
+
+  return (
+    <div style={{
+      position: 'absolute', left: posX, top: posY,
+      transformOrigin: 'top left', transform: `scale(${scale / 100})`, fontFamily: FONT_STACK,
+    }}>
+      {/* 用户图标（纯 div 拼装：圆头 + 圆顶肩，避开 SVG 多图形限制） */}
+      {icons.map((ic) => (
+        <div key={ic.key} style={{
+          position: 'absolute', left: ic.x - 19, top: ic.y, width: 38, height: 40, opacity: ic.o * 0.9,
+        }}>
+          <div style={{ position: 'absolute', left: 10, top: 0, width: 18, height: 18, borderRadius: '50%', background: iconColor }} />
+          <div style={{ position: 'absolute', left: 1, top: 22, width: 36, height: 18, borderRadius: '18px 18px 4px 4px', background: iconColor }} />
+        </div>
+      ))}
+      {layers.map((it, i) => {
+        const d = arrives[i];
+        const w = widths[i];
+        const wNext = i + 1 < n ? widths[i + 1] : w * taper;
+        const yTop = layerY(i);
+        const ly = yTop + eH + layerH / 2;
+        const colorRaw = stripKeyText(it.color ?? '');
+        const fill = colorRaw.length > 0 ? colorRaw : (i % 2 === 0 ? colorA : colorB);
+        const grow = interpolate(frame, [d, d + growFrames], [0, 1], clampOpt);
+        const sx = 0.6 + 0.4 * grow;   // 由窄扩宽
+        const glowA = frame < d + growFrames || i === activeIdx ? 0.45 : 0.2 + 0.15 * pulse;
+        // 层内文字 / 左标注 / 右标注依次淡入
+        const pIn = interpolate(frame, [d + growFrames * 0.5, d + growFrames * 0.5 + 10], [0, 1], clampOpt);
+        const pLeft = interpolate(frame, [d + growFrames * 0.7, d + growFrames * 0.7 + 10], [0, 1], clampOpt);
+        const pDot = interpolate(frame, [d + growFrames * 0.8, d + growFrames * 0.8 + 8], [0, 1], clampOpt);
+        const pTitle = interpolate(frame, [d + growFrames * 0.9, d + growFrames * 0.9 + 10], [0, 1], clampOpt);
+        const pDesc = interpolate(frame, [d + growFrames, d + growFrames + 12], [0, 1], clampOpt);
+        // 梯形（SVG polygon，包围盒 = 上边宽 × 层高）：上边 w、下边 wNext
+        const svgH = layerH + 2 * eH;
+        const points = `0,${eH} ${w},${eH} ${(w + wNext) / 2},${eH + layerH} ${(w - wNext) / 2},${eH + layerH}`;
+        const x0 = cx - w / 2;
+        const lineW = Math.max(0, dotX - (cx + w / 2) - 8);
+        // 右侧文本块高度（标题 + 说明实际行数），按层中心垂直居中，避免与相邻层文字重叠
+        const descLines = Math.max(1, Math.ceil(measureText(stripKeyText(it.rightDesc ?? ''), descSize, 'Regular') / Math.max(80, rightWidth - 24)));
+        const blockH = titleSize * 1.15 + 12 + descLines * descSize * 1.4;
+        return (
+          <React.Fragment key={`f${i}`}>
+            {/* 左侧阶段胶囊 + 引线 */}
+            <div style={{
+              position: 'absolute', left: 0, top: ly - 22, width: leftCapW, height: 44,
+              borderRadius: 40, background: 'rgba(20,20,30,0.75)', display: 'flex',
+              alignItems: 'center', justifyContent: 'center', opacity: pLeft,
+            }}>
+              <span style={{ fontSize: leftSize, color: '#FFFFFF', whiteSpace: 'nowrap' }}>
+                {stripKeyText(it.leftLabel ?? '')}
+              </span>
+            </div>
+            <div style={{
+              position: 'absolute', left: leftCapW + 4, top: ly,
+              width: Math.max(0, cx - w / 2 - leftCapW - 8), height: 1,
+              background: 'rgba(255,255,255,0.3)', opacity: pLeft,
+            }} />
+            {/* 漏斗层（圆台：底面暗椭圆 + 侧面梯形 + 顶面亮椭圆，生长 = 由窄扩宽 + 向下展开） */}
+            <div style={{ position: 'absolute', left: x0, top: yTop, width: w, height: svgH, opacity: grow }}>
+              <div style={{ position: 'absolute', inset: 0, transform: `scale(${sx.toFixed(3)}, ${grow.toFixed(3)})`, transformOrigin: '50% 0' }}>
+                <svg width={w} height={svgH} style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible' }}>
+                  <ellipse cx={w / 2} cy={eH + layerH} rx={wNext / 2} ry={eH} fill={shadeHex(fill, 0.35)} />
+                </svg>
+                <svg width={w} height={svgH} style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', filter: `drop-shadow(0 0 14px ${withAlpha(fill, glowA)})` }}>
+                  <polygon points={points} fill={fill} opacity={0.72} />
+                </svg>
+                <svg width={w} height={svgH} style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible' }}>
+                  <ellipse cx={w / 2} cy={eH} rx={w / 2} ry={eH} fill={tint(fill, 0.28)} />
+                </svg>
+              </div>
+              <div style={{
+                position: 'absolute', left: 0, top: eH, width: w, height: layerH, display: 'flex',
+                alignItems: 'center', justifyContent: 'center', opacity: pIn,
+              }}>
+                <span style={{
+                  fontSize: innerSize, fontWeight: 700, color: '#FFFFFF', whiteSpace: 'nowrap',
+                  textShadow: '0 2px 6px rgba(0,0,0,0.35)',
+                }}>{stripKeyText(it.innerText ?? '')}</span>
+              </div>
+            </div>
+            {/* 右侧圆点 + 标题 + 说明 */}
+            <div style={{
+              position: 'absolute', left: cx + w / 2 + 4, top: ly, width: lineW, height: 1,
+              background: 'rgba(255,255,255,0.3)', opacity: pDot,
+            }} />
+            <div style={{
+              position: 'absolute', left: dotX, top: ly - 4, width: 8, height: 8, borderRadius: '50%',
+              background: fill, boxShadow: `0 0 8px ${withAlpha(fill, 0.4)}`, opacity: pDot,
+            }} />
+            <div style={{ position: 'absolute', left: dotX + 20, top: ly - blockH / 2, width: rightWidth - 20 }}>
+              <div style={{
+                fontSize: titleSize, fontWeight: 700, color: titleColor, lineHeight: 1.15,
+                whiteSpace: 'nowrap', textShadow: '0 2px 6px rgba(0,0,0,0.35)', opacity: pTitle,
+              }}>{stripKeyText(it.rightTitle ?? '')}</div>
+              <div style={{ marginTop: 12, opacity: pDesc }}>
+                <WrappedText
+                  text={it.rightDesc ?? ''} size={descSize} maxWidth={rightWidth - 24} baseWeight="Regular" lineHeight={1.4}
+                  style={{ fontSize: descSize, color: withAlpha(descColor, 0.7), textShadow: '0 2px 6px rgba(0,0,0,0.35)' }}
+                />
+              </div>
+            </div>
+          </React.Fragment>
+        );
+      })}
     </div>
   );
 };

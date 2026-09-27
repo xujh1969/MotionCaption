@@ -4,7 +4,7 @@ import { COLORS, FONT_STACK } from '../theme';
 import { useEnter, useEnterOpacity, useBreath, easeOutExpo, atFrames } from '../anim';
 import { useConfigKey, useConfigList } from '../config';
 import { weightNum, measureText } from '../measure';
-import { tint, renderKeyParts, WrappedText } from './shared';
+import { tint, renderKeyParts, WrappedText, withAlpha, stripKeyText } from './shared';
 
 const base: React.CSSProperties = { position: 'absolute', fontFamily: FONT_STACK, whiteSpace: 'nowrap' };
 
@@ -561,6 +561,105 @@ export const T4_02: React.FC = () => {
               fontSize: enSize, fontWeight: 400, color: enColor, opacity: lO * 0.82, whiteSpace: 'nowrap',
               letterSpacing: 3, lineHeight: 1,
             }}>{n.en}</div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+/* ---------------- t5-07 纵向图标要点列表（线框图标描边绘制·数组扩展） ---------------- */
+
+/** 内置线框图标（72×72 viewBox，单 path 多子路径，支持描边绘制动画） */
+const T5_07_ICONS: Record<string, string> = {
+  layerStack: 'M36 10 L62 22 L36 34 L10 22 Z M10 30 L36 42 L62 30 M10 40 L36 52 L62 40',
+  bubbleChat: 'M14 14 H58 A6 6 0 0 1 64 20 V42 A6 6 0 0 1 58 48 H30 L18 60 V48 H14 A6 6 0 0 1 8 42 V20 A6 6 0 0 1 14 14 Z',
+  foldMap: 'M12 14 L28 8 L44 14 L60 8 V54 L44 60 L28 54 L12 60 Z M28 8 V54 M44 14 V60',
+};
+
+export const T5_07: React.FC = () => {
+  const frame = useCurrentFrame();
+  const raw = useConfigList('t5-07', 'items') as { icon?: string; title?: string; desc?: string; at?: string }[];
+  const items = raw.length > 0 ? raw : [{ icon: 'layerStack', title: '本地高速推理', desc: '模型本地运行，降低云端依赖与调用成本。' }];
+  const iconSize = useConfigKey('t5-07', 'iconSize') as number;
+  const iconStroke = useConfigKey('t5-07', 'iconStroke') as number;
+  const iconColor = useConfigKey('t5-07', 'iconColor') as string;
+  const titleSize = useConfigKey('t5-07', 'titleSize') as number;
+  const titleColor = useConfigKey('t5-07', 'titleColor') as string;
+  const descSize = useConfigKey('t5-07', 'descSize') as number;
+  const descColor = useConfigKey('t5-07', 'descColor') as string;
+  const gapIcon = useConfigKey('t5-07', 'gapIcon') as number;
+  const gapTitle = useConfigKey('t5-07', 'gapTitle') as number;
+  const vGap = useConfigKey('t5-07', 'vGap') as number;
+  const descWidth = useConfigKey('t5-07', 'descWidth') as number;
+  const drawMs = useConfigKey('t5-07', 'drawMs') as number;
+  const scale = useConfigKey('t5-07', 'scale') as number;
+  const posX = (useConfigKey('t5-07', 'posX') as number) ?? 100;
+  const posY = (useConfigKey('t5-07', 'posY') as number) ?? 140;
+
+  const drawFrames = Math.max(8, Math.round((drawMs / 1000) * 30));
+  const clampOpt = { easing: easeOutExpo, extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const };
+  // 条目块高（标题 + 间距 + 描述实际行数），纵向按实际高度累积排布
+  const blockHs = items.map((it) => {
+    const descLines = Math.max(1, Math.ceil(measureText(stripKeyText(it.desc ?? ''), descSize, 'Regular') / Math.max(80, descWidth)));
+    return titleSize * 1.15 + gapTitle + descLines * descSize * 1.4;
+  });
+  const yTop = (i: number) => blockHs.slice(0, i).reduce((a, b) => a + b, 0) + i * vGap;
+
+  // 各条目入场帧（at 秒优先，缺省均摊）；当前条目 = 最后一个完成图标绘制的条目
+  const arrives = items.map((it, i) => atFrames(it, i, 8, 14));
+  let activeIdx = -1;
+  for (let i = 0; i < items.length; i += 1) if (frame >= arrives[i] + drawFrames) activeIdx = i;
+  const pulse = 0.5 + 0.5 * Math.sin((frame / 45) * Math.PI * 2);
+
+  return (
+    <div style={{
+      position: 'absolute', left: posX, top: posY,
+      transformOrigin: 'top left', transform: `scale(${scale / 100})`, fontFamily: FONT_STACK,
+    }}>
+      {items.map((it, i) => {
+        const d = arrives[i];
+        const blockH = blockHs[i];
+        const iconPath = T5_07_ICONS[stripKeyText(it.icon ?? '')] ?? T5_07_ICONS.layerStack;
+        // 图标描边绘制（stroke-dashoffset），同步微光点亮
+        const pIcon = interpolate(frame, [d, d + drawFrames], [0, 1], clampOpt);
+        const iconO = Math.min(1, pIcon * 3);
+        const glowA = frame < d + drawFrames || i === activeIdx ? 0.45 : 0.28 + 0.17 * pulse;
+        const glowPx = frame < d + drawFrames || i === activeIdx ? 14 : 8;
+        // 标题：图标绘制完成后自上方轻落淡入（0.2 → 1）；描述随后淡入至 0.72
+        const pTitle = interpolate(frame, [d + drawFrames, d + drawFrames + 10], [0, 1], clampOpt);
+        const pDesc = interpolate(frame, [d + drawFrames + 6, d + drawFrames + 18], [0, 1], clampOpt);
+        return (
+          <div key={`v${i}`} style={{
+            position: 'absolute', left: 0, top: yTop(i),
+            width: iconSize + gapIcon + descWidth, height: blockH,
+            display: 'flex', alignItems: 'flex-start',
+          }}>
+            <div style={{
+              position: 'relative', width: iconSize, height: iconSize, flex: '0 0 auto',
+              opacity: iconO, filter: `drop-shadow(0 0 ${glowPx}px ${withAlpha(iconColor, glowA)})`,
+            }}>
+              <svg width={iconSize} height={iconSize} viewBox="0 0 72 72"
+                style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible' }}>
+                <path d={iconPath} fill="none" stroke={iconColor} strokeWidth={iconStroke}
+                  strokeLinecap="round" strokeLinejoin="round"
+                  pathLength={100} strokeDasharray="100" strokeDashoffset={100 - 100 * pIcon} />
+              </svg>
+            </div>
+            <div style={{ marginLeft: gapIcon, width: descWidth }}>
+              <div style={{
+                fontSize: titleSize, fontWeight: 700, color: titleColor, lineHeight: 1.15,
+                whiteSpace: 'nowrap', textShadow: '0 2px 6px rgba(0,0,0,0.4)',
+                opacity: 0.2 + 0.8 * pTitle,
+                transform: `translateY(${((1 - pTitle) * -12).toFixed(2)}px)`,
+              }}>{stripKeyText(it.title ?? '')}</div>
+              <div style={{ marginTop: gapTitle, opacity: pDesc * 0.72 }}>
+                <WrappedText
+                  text={it.desc ?? ''} size={descSize} maxWidth={descWidth} baseWeight="Regular" lineHeight={1.4}
+                  style={{ fontSize: descSize, color: descColor }}
+                />
+              </div>
+            </div>
           </div>
         );
       })}

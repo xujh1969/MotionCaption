@@ -92,6 +92,7 @@ canvas。下列特性已实测会导致「预览正常、导出走样」，新�
 | 多行文本交给浏览器折行（`whiteSpace:'normal'` + 多个内联元素） | 断行位置漂移、排版错位（t1-08 / t2-01 实测，折行点落在 `{{高亮}}` 边界时最明显） | 用 `WrappedText`（`components/shared.tsx`）：`<WrappedText text size maxWidth baseWeight hlColor lineHeight style/>`，内部按 `measureText` 手动断行、每行 `nowrap`；只有单行语义的文本才用 `whiteSpace:'nowrap'` |
 | 单行省略语义（`overflow:hidden` + `ellipsis`）却漏写 `whiteSpace:'nowrap'` | 长文案下意外折行、与预览行数不一致（t4-06 / t4-07 / t4-08 / t6-02 / t6-08） | 补 `whiteSpace:'nowrap'` |
 | 同一个父元素下放多个 SVG 图形（多个 `path`/`circle`，或并列多个 `<svg>`） | **只渲染第一个**，其余全部消失（t7-03 三段弧只剩一段、t7-06 进度弧丢失、t7-04 第二条折线丢失） | 每个图形元素各自包一层容器（`<div>` 内只放一个 `<svg>`，`<svg>` 内只放一个图形） |
+| 同一容器内多个 `<svg>` 未各自绝对定位（svg 默认 inline，会流式排列） | 多个 svg **并排铺开**而非叠加，图形位置全乱（t4-11 双半弧、t7-12 圆台三件套实测）；且预览与导出**一致地错**，parity 门禁抓不到这种错 | 每个 `<svg>` 加 `position:'absolute', left:0, top:0`（需要偏移时显式写 left/top），参照 t7-06 每条弧独立容器的写法 |
 | 把 `opacity` 放在**尺寸为 0 的容器**上（无 `width/height`、子元素全 `position:absolute`） | 该透明度完全不生效，子元素以自身 alpha 绘制（t6-07 末段整组淡出失效，差异 26.1） | 给容器显式 `width/height`（内容包围盒即可），或把透明度下放到每个子元素 |
 | `boxShadow` 带 `inset` | 直接被跳过（内发光整体消失，控制台有警告） | 改为外层元素辉光补偿 |
 | 视觉状态依赖运行时 `measureText` 结果（如"光点扫到第几步"） | 两条链路各自测量，状态漂移（t4-01） | 用纯帧驱动（`atFrames` + 固定间隔），不把测量结果当状态 |

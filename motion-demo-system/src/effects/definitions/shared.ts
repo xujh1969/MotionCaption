@@ -82,6 +82,12 @@ const selectionMetadata: Record<string, SelectionMetadata> = {
 
   't4-10': { suitableFor: ['Multi-stage pipeline, project progress, or phase hand-off shown as a bottom-zone capsule slider sweeping a gradient fill across 2-5 stage labels.'], avoidFor: ['Avoid dense metrics, charts, long sentences, and more than 5 stages.'], minItems: 2, maxItems: 5, motion: '胶囊标签沿底部轨道自左向右拖拽（紫→橙→黄渐变条同步延展，每段 ease-out），阶段文字依次点亮：已过=浅蓝白、当前=白色、未到=灰色，黄色指示点呼吸发光。胶囊内为固定文字（capLabel，如 "Auto"），留空则跟随当前激活阶段名。' },
 
+  't4-11': { suitableFor: ['Multi-step plans, product feature lists, or process nodes shown as a numbered 2-row grid placed in the side safe zone.'], avoidFor: ['Avoid long paragraphs, dense metrics, charts, and more than 6 items.'], minItems: 2, maxItems: 6, motion: '条目按数组顺序依次入场：渐变圆环顺时针描边画出（约1.2s，ease-out），环完成后序号淡入，标题在环绘制70%时自右向左浮入（0.2→1）；完成后圆环带 0.2~0.4 呼吸辉光，两行之间有细分隔线。' },
+
+  't7-12': { suitableFor: ['Conversion funnels, marketing pipelines, or user journey decay shown as a layered funnel chart with side annotations.'], avoidFor: ['Avoid processes without funnel semantics, timelines, charts of other shapes, and more than 5 layers.'], minItems: 2, maxItems: 5, motion: '漏斗层按数组顺序自上而下逐层生长（由窄扩宽+向下展开，约1s），层内文字、左侧阶段胶囊、右侧圆点/标题/说明依次淡入；多个用户图标从上方飘落汇入漏斗上口；完成后各层带 0.2~0.35 呼吸辉光（当前层 0.45）。' },
+
+  't5-07': { suitableFor: ['Product advantages, capability checklists, or key value points shown as a vertical list with stroked line icons.'], avoidFor: ['Avoid paragraphs beyond two lines per item, dense metrics, and more than 4 items.'], minItems: 2, maxItems: 4, motion: '条目按数组顺序依次入场：线框图标描边画出（约0.7s）并点亮微光，随后小标题自上方轻落淡入（0.2→1），描述再淡入至 0.72；当前条目图标呼吸辉光增强（0.28~0.45 循环）。' },
+
   't5-01': { suitableFor: ['Vertical capability or item list with 2-3 items.'], avoidFor: ['Avoid charts, long paragraphs, and more than 3 items.'], minItems: 2, maxItems: 3 },
   't5-02': { suitableFor: ['Status-tagged task list with 2-3 items.'], avoidFor: ['Avoid charts, long paragraphs, and more than 3 items.'], minItems: 2, maxItems: 3 },
   't5-03': { suitableFor: ['Numbered optimization directions with 2-3 items.'], avoidFor: ['Avoid charts, long paragraphs, and more than 3 items.'], minItems: 2, maxItems: 3 },

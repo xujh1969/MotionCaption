@@ -6,7 +6,7 @@ import {
   breathPulse, countValue,
 } from './cardKit';
 import { useConfigKey, useConfigList } from '../config';
-import { withAlpha, renderKeyParts, stripKeyText } from './shared';
+import { withAlpha, renderKeyParts, stripKeyText, WrappedText } from './shared';
 
 /**
  * t4-03 ~ t4-09：横向卡片组（数组顺序渐亮入场）
@@ -624,6 +624,132 @@ export const T4_10: React.FC = () => {
           }} />
         </div>
       </div>
+    </div>
+  );
+};
+
+/* ---------------- t4-11 网格圆环序号步骤（环形渐变描边·数组扩展） ---------------- */
+export const T4_11: React.FC = () => {
+  const frame = useCurrentFrame();
+  const raw = useConfigList('t4-11', 'items') as { num?: string; label?: string; at?: string }[];
+  const items = raw.length > 0 ? raw : [{ num: '01', label: '环境搭建' }];
+  const circleSize = useConfigKey('t4-11', 'circleSize') as number;
+  const ringWidth = useConfigKey('t4-11', 'ringWidth') as number;
+  const strokeA = useConfigKey('t4-11', 'strokeA') as string;
+  const strokeB = useConfigKey('t4-11', 'strokeB') as string;
+  const numSize = useConfigKey('t4-11', 'numSize') as number;
+  const numColor = useConfigKey('t4-11', 'numColor') as string;
+  const titleSize = useConfigKey('t4-11', 'titleSize') as number;
+  const titleColor = useConfigKey('t4-11', 'titleColor') as string;
+  const titleOffsetX = useConfigKey('t4-11', 'titleOffsetX') as number;
+  const titleWidth = useConfigKey('t4-11', 'titleWidth') as number;
+  const cols = Math.max(1, Math.round(useConfigKey('t4-11', 'cols') as number));
+  const hGap = useConfigKey('t4-11', 'hGap') as number;
+  const vGap = useConfigKey('t4-11', 'vGap') as number;
+  const lineColor = useConfigKey('t4-11', 'lineColor') as string;
+  const lineOpacity = useConfigKey('t4-11', 'lineOpacity') as number;
+  const drawMs = useConfigKey('t4-11', 'drawMs') as number;
+  const scale = useConfigKey('t4-11', 'scale') as number;
+  const posX = (useConfigKey('t4-11', 'posX') as number) ?? 80;
+  const posY = (useConfigKey('t4-11', 'posY') as number) ?? 160;
+
+  const drawFrames = Math.max(6, Math.round((drawMs / 1000) * 30));
+  const itemW = circleSize + titleOffsetX + titleWidth;
+  const rowH = circleSize + vGap;
+  const firstRowCols = Math.min(items.length, cols);
+  const rowWidth = firstRowCols * itemW + (firstRowCols - 1) * hGap;
+
+  // 圆环几何：左右两个半弧各包一层容器（导出重绘器要求每个 <svg> 只含一个图形）。
+  // 视觉上的「左青右紫水平渐变」用两个纯色半弧拼成；顺时针描边 = 右半先画满、左半接力。
+  const r = circleSize / 2;
+  const pad = ringWidth / 2 + 2;
+  const svgS = circleSize + pad * 2;
+  const arcR = `M ${pad + r} ${pad} A ${r} ${r} 0 0 1 ${pad + r} ${pad + circleSize}`;
+  const arcL = `M ${pad + r} ${pad + circleSize} A ${r} ${r} 0 0 1 ${pad + r} ${pad}`;
+
+  return (
+    <div style={{
+      position: 'absolute', left: posX, top: posY,
+      transformOrigin: 'top left', transform: `scale(${scale / 100})`, fontFamily: FONT,
+    }}>
+      {items.length > cols && (
+        <div style={{
+          position: 'absolute', left: 0, top: circleSize + vGap / 2,
+          width: rowWidth, height: 1, background: lineColor, opacity: lineOpacity,
+        }} />
+      )}
+      {items.map((it, i) => {
+        const d = atFrames(it, i, 8, 10);
+        const x = (i % cols) * (itemW + hGap);
+        const y = Math.floor(i / cols) * rowH;
+        // 圆环描边进度（顺时针：右半先画满，左半接力）
+        const pArc = interpolate(frame, [d, d + drawFrames], [0, 1], {
+          easing: easeOutExpo, extrapolateLeft: 'clamp', extrapolateRight: 'clamp',
+        });
+        const pR = Math.max(0, Math.min(1, pArc * 2));
+        const pL = Math.max(0, Math.min(1, pArc * 2 - 1));
+        const ringO = Math.min(1, pArc * 4);
+        // 序号：圆环绘制完成后淡入
+        const pNum = interpolate(frame, [d + drawFrames, d + drawFrames + 8], [0, 1], {
+          easing: easeOutExpo, extrapolateLeft: 'clamp', extrapolateRight: 'clamp',
+        });
+        // 标题：圆环绘制到 70% 时自右向左浮入（0.2 → 1）
+        const pT = interpolate(frame, [d + drawFrames * 0.7, d + drawFrames * 0.7 + 12], [0, 1], {
+          easing: easeOutExpo, extrapolateLeft: 'clamp', extrapolateRight: 'clamp',
+        });
+        // 未入场条目整组保持透明（标题起步透明度 0.2 需要入口门控）
+        const gate = interpolate(frame, [d, d + 2], [0, 1], {
+          easing: easeOutExpo, extrapolateLeft: 'clamp', extrapolateRight: 'clamp',
+        });
+        // 呼吸辉光：绘制中的条目增强（激活态 0.5），完成后 0.2~0.4 循环脉动
+        const drawing = frame < d + drawFrames;
+        const pulse = 0.5 + 0.5 * Math.sin((frame / 45) * Math.PI * 2);
+        const glowA = drawing ? 0.5 : 0.2 + 0.2 * pulse;
+        const glowPx = drawing ? 16 : 10;
+        return (
+          <div key={`g${i}`} style={{
+            position: 'absolute', left: x, top: y, width: itemW, height: circleSize,
+            display: 'flex', alignItems: 'center',
+          }}>
+            <div style={{
+              position: 'relative', width: circleSize, height: circleSize, flex: '0 0 auto',
+              opacity: ringO, filter: `drop-shadow(0 0 ${glowPx}px ${withAlpha(strokeA, glowA)})`,
+            }}>
+              <div style={{ position: 'absolute', left: -pad, top: -pad, width: svgS, height: svgS }}>
+                <svg width={svgS} height={svgS} style={{ position: 'absolute', left: -pad, top: -pad, overflow: 'visible' }}>
+                  <path d={arcR} fill="none" stroke={strokeB} strokeWidth={ringWidth} strokeLinecap="round"
+                    pathLength={100} strokeDasharray="100" strokeDashoffset={100 - 100 * pR} />
+                </svg>
+              </div>
+              <div style={{ position: 'absolute', left: -pad, top: -pad, width: svgS, height: svgS }}>
+                <svg width={svgS} height={svgS} style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible' }}>
+                  <path d={arcL} fill="none" stroke={strokeA} strokeWidth={ringWidth} strokeLinecap="round"
+                    pathLength={100} strokeDasharray="100" strokeDashoffset={100 - 100 * pL} />
+                </svg>
+              </div>
+              <div style={{
+                position: 'absolute', inset: 0, display: 'flex',
+                alignItems: 'center', justifyContent: 'center', opacity: pNum,
+              }}>
+                <span style={{
+                  fontSize: numSize, fontWeight: 700, color: numColor, lineHeight: 1,
+                  textShadow: `0 0 6px ${withAlpha(numColor, 0.25)}`,
+                }}>{stripKeyText(it.num ?? '') || String(i + 1).padStart(2, '0')}</span>
+              </div>
+            </div>
+            <div style={{
+              marginLeft: titleOffsetX, width: titleWidth, flex: '0 0 auto',
+              opacity: gate * (0.2 + 0.8 * pT),
+              transform: `translateX(${((1 - pT) * 12).toFixed(2)}px)`,
+            }}>
+              <WrappedText
+                text={it.label ?? ''} size={titleSize} maxWidth={titleWidth} baseWeight="Bold" lineHeight={1.2}
+                style={{ fontSize: titleSize, fontWeight: 700, color: titleColor, textShadow: '0 2px 8px rgba(0,0,0,0.4)' }}
+              />
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };

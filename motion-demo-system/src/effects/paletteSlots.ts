@@ -83,6 +83,11 @@ const SLOT_MAP: ComponentSlotMap = {
   't4-09': { hlColor: 'emphasis', borderColor: 'border', textColor: 'title', cardBg: 'bg' },
   // 渐变三色（gradA/gradB/gradC）语义上是一体渐变，不做槽位映射以免破坏渐变
   't4-10': { stageColor: 'label', doneColor: 'body', activeColor: 'title', capTextColor: 'title', capBg: 'bg', capBorder: 'border', dotColor: 'emphasis', hlColor: 'emphasis' },
+  // t4-11 的 strokeA/strokeB 是圆环渐变双端（左青右紫一体渐变），不映射；lineColor 为半透明分隔线，保持原值
+  't4-11': { numColor: 'accent', titleColor: 'title' },
+  // t7-12 的 colorA/colorB 为漏斗层交替主色（青紫一体），不映射；iconColor 为半透明淡紫，保持原值
+  't7-12': { titleColor: 'title', descColor: 'body' },
+  't5-07': { iconColor: 'accent', titleColor: 'title', descColor: 'body' },
   't5-01': { hlColor: 'emphasis', titleColor: 'title', accentColor: 'accent', descColor: 'body' },
   't5-03': { hlColor: 'emphasis', titleColor: 'title', accentColor: 'accent', descColor: 'body' },
   't5-04': { hlColor: 'emphasis', titleColor: 'title', accentColor: 'accent', subColor: 'body' },
