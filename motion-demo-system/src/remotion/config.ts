@@ -1029,6 +1029,29 @@ export const CONFIGS: Record<string, PropDef[]> = {
     mkNum('posY', '顶部位置Y', 277.3053846795486, 0, 1080, 1, 'px'),
     mkNum('scale', '整体缩放', 79.25876876720763, 20, 200, 1, '%'),
   ],
+  // ================= 第五大类 列表条目（续） =================
+  't5-11': [
+    mkList('items', '气泡条目', JSON.stringify([
+      { title: '星动智谷', desc: '智能制造产业园：总投资40亿，入驻企业150家', diameter: 560, bgColor: 'rgba(40,40,40,0.75)', at: 0 },
+      { title: '皓域创研院', desc: '产学研平台，联合5所高校', diameter: 340, bgColor: 'rgba(40,40,40,0.75)', at: 0.8 },
+      { title: 'Innov8 基金', desc: '文化科技专项基金—已投12个文创项目', diameter: 400, bgColor: '#725cf0', at: 1.6 },
+    ]), [
+      { key: 'title', label: '标题', placeholder: '气泡标题', default: '气泡标题', sizeKey: 'titleSize' },
+      { key: 'desc', label: '描述', placeholder: '说明文案', default: '说明文案', multiline: true, sizeKey: 'descSize' },
+      { key: 'diameter', label: '直径', placeholder: '420', default: '420' },
+      { key: 'bgColor', label: '气泡填充色', placeholder: 'rgba(40,40,40,0.75)', default: 'rgba(40,40,40,0.75)', kind: 'color' },
+      { key: 'at', label: '出现时间(秒)', placeholder: '留空=匀速', default: '' },
+    ], ['title', 'desc']),
+    mkNum('titleSize', '标题字号(基准)', 44, 20, 80),
+    mkNum('descSize', '描述字号(基准)', 26, 14, 48),
+    mkNum('descOpacity', '描述透明度', 85, 30, 100),
+    mkNum('innerPad', '气泡内边距', 36, 12, 80),
+    mkNum('titleGap', '标题与描述间距', 14, 4, 48),
+    mkColor('glowColor', '气泡辉光色', '#725cf0'),
+    mkNum('posX', '左位置X', 120, 0, 1920, 1, 'px'),
+    mkNum('posY', '顶部位置Y', 80, 0, 1080, 1, 'px'),
+    mkNum('scale', '整体缩放', 100, 20, 200, 1, '%'),
+  ],
   // ================= 第六大类 时间线流向 =================
   't6-01': [
     mkText('titleText', '时间线标题文案', '产品演进时间线', 'titleSize', 'titleColor', undefined, 'hlColor'),
@@ -2377,6 +2400,15 @@ export const DEFAULTS: Record<string, ConfigState> = {
     colW: 340, colGap: 20, barMaxH: 280, barOpacity: 85,
     dividerColor: 'rgba(255,255,255,0.25)',
     posX: 314.248322632071, posY: 277.3053846795486, scale: 79.25876876720763,
+  },
+  't5-11': {
+    items: JSON.stringify([
+      { title: '星动智谷', desc: '智能制造产业园：总投资40亿，入驻企业150家', diameter: 560, bgColor: 'rgba(40,40,40,0.75)', at: 0 },
+      { title: '皓域创研院', desc: '产学研平台，联合5所高校', diameter: 340, bgColor: 'rgba(40,40,40,0.75)', at: 0.8 },
+      { title: 'Innov8 基金', desc: '文化科技专项基金—已投12个文创项目', diameter: 400, bgColor: '#725cf0', at: 1.6 },
+    ]),
+    titleSize: 44, descSize: 26, descOpacity: 85, innerPad: 36, titleGap: 14,
+    glowColor: '#725cf0', posX: 120, posY: 80, scale: 100,
   },
   't6-01': {
     titleText: '产品演进时间线', accentColor: '#4CC9F0', titleSize: 54,

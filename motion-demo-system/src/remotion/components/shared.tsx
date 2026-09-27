@@ -155,10 +155,13 @@ export function wrapKeySpansToLines(
   }
   const lines: KeyTextPart[][] = [[]];
   let width = 0;
+  // 中文避头尾：句读标点不允许出现在行首（如「…成本\n。」），
+  // 触发断行时该标点悬挂在上一行末尾，允许该行略超 maxWidth 一个标点宽。
+  const noLineStart = /^[。，、；：！？）》」』"'.,!?%)]$/;
   for (const tok of toks) {
     const isSpace = /^\s$/.test(tok.t);
     const w = measure(tok.t, tok.hl);
-    if (width + w > maxWidth && lines[lines.length - 1].length > 0) {
+    if (width + w > maxWidth && lines[lines.length - 1].length > 0 && !noLineStart.test(tok.t)) {
       lines.push([]);
       width = 0;
       if (isSpace) continue; // 丢弃行首空格

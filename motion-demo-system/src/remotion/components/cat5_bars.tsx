@@ -47,10 +47,16 @@ export const T5_10: React.FC = () => {
   const textBlockH = titleH + 20 + descH + 60 + numH; // 标题→描述20、描述→序号60
   const contH = textBlockH + 30 + barMaxH;            // 序号→柱区30
 
-  // 退场：最后 750ms 从右向左依次淡出
+  // 退场：最后 750ms 从右向左依次淡出。
+  // MIN_HOLD：每栏入场完成后至少停留 3.2s 才开始退场——组件库缩略图按 5s 渲染、
+  // 截取第 138 帧，退场若紧贴片段末尾会把后入场的栏目截成残影甚至完全消失。
   const outDur = 23;
+  const MIN_HOLD = 96;
   const outStagger = outDur / Math.max(1, n);
-  const outStart = (i: number) => durationInFrames - outDur + (n - 1 - i) * outStagger;
+  const outStart = (i: number) => Math.max(
+    arrives[i] + 33 + MIN_HOLD,
+    durationInFrames - outDur + (n - 1 - i) * outStagger,
+  );
 
   return (
     <div style={{

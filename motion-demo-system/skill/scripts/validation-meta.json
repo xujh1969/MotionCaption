@@ -6406,7 +6406,7 @@
         },
         "posX": {
           "agentEditable": false,
-          "default": 100,
+          "default": 54.36943353507044,
           "max": 1920,
           "min": 0,
           "required": true,
@@ -6414,7 +6414,7 @@
         },
         "posY": {
           "agentEditable": false,
-          "default": 80,
+          "default": 77.82876418237694,
           "max": 1080,
           "min": 0,
           "required": true,
@@ -6422,7 +6422,7 @@
         },
         "scale": {
           "agentEditable": false,
-          "default": 100,
+          "default": 75.02340957513965,
           "max": 200,
           "min": 20,
           "required": true,
@@ -6546,7 +6546,7 @@
         },
         "posX": {
           "agentEditable": false,
-          "default": 60,
+          "default": 314.248322632071,
           "max": 1920,
           "min": 0,
           "required": true,
@@ -6554,7 +6554,7 @@
         },
         "posY": {
           "agentEditable": false,
-          "default": 60,
+          "default": 277.3053846795486,
           "max": 1080,
           "min": 0,
           "required": true,
@@ -6562,7 +6562,7 @@
         },
         "scale": {
           "agentEditable": false,
-          "default": 100,
+          "default": 79.25876876720763,
           "max": 200,
           "min": 20,
           "required": true,
@@ -6579,6 +6579,114 @@
           "default": 42,
           "max": 72,
           "min": 24,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {
+        "maxItems": 6,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t5-11",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "descOpacity": {
+          "agentEditable": false,
+          "default": 85,
+          "max": 100,
+          "min": 30,
+          "required": true,
+          "type": "number"
+        },
+        "descSize": {
+          "agentEditable": false,
+          "default": 26,
+          "max": 48,
+          "min": 14,
+          "required": true,
+          "type": "number"
+        },
+        "glowColor": {
+          "agentEditable": false,
+          "default": "#725cf0",
+          "required": true,
+          "type": "color"
+        },
+        "innerPad": {
+          "agentEditable": false,
+          "default": 36,
+          "max": 80,
+          "min": 12,
+          "required": true,
+          "type": "number"
+        },
+        "items": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "title",
+            "desc"
+          ],
+          "default": "[{\"title\":\"星动智谷\",\"desc\":\"智能制造产业园：总投资40亿，入驻企业150家\",\"diameter\":560,\"bgColor\":\"rgba(40,40,40,0.75)\",\"at\":0},{\"title\":\"皓域创研院\",\"desc\":\"产学研平台，联合5所高校\",\"diameter\":340,\"bgColor\":\"rgba(40,40,40,0.75)\",\"at\":0.8},{\"title\":\"Innov8 基金\",\"desc\":\"文化科技专项基金—已投12个文创项目\",\"diameter\":400,\"bgColor\":\"#725cf0\",\"at\":1.6}]",
+          "listFieldsKeys": [
+            "title",
+            "desc",
+            "diameter",
+            "bgColor",
+            "at"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 120,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 80,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "titleGap": {
+          "agentEditable": false,
+          "default": 14,
+          "max": 48,
+          "min": 4,
+          "required": true,
+          "type": "number"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 44,
+          "max": 80,
+          "min": 20,
           "required": true,
           "type": "number"
         }

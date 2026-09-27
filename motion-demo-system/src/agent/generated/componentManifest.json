@@ -2056,7 +2056,7 @@
         }
       },
       "id": "t5-07",
-      "motionFeel": "条目按数组顺序依次入场：线框图标描边画出（约0.7s）并点亮微光，随后小标题自上方轻落淡入（0.2→1），描述再淡入至 0.72；当前条目图标呼吸辉光增强（0.28~0.45 循环）。",
+      "motionFeel": "交替推进节奏：条目的线框图标描边画出与小标题同时起点亮（标题自上方轻落淡入 0.2→1），约 0.27s 后该条目的描述淡入至 0.72，随后才轮到下一条目的图标+标题，依此形成「图标标题 → 说明 → 图标标题 → 说明」的节奏；每条 at 独立控制；当前条目图标呼吸辉光增强（0.28~0.45 循环）。",
       "name": "纵向图标要点列表(线框图标描边·数组扩展)",
       "planning": {
         "exclusive": false,
@@ -2325,6 +2325,78 @@
       ],
       "suitableFor": [
         "Sequential step-by-step flows such as investment research methodology, industry value chains, or business logic breakdowns, placed at the screen side without covering the presenter."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid strictly ordered timelines, more than 6 bubbles, and long descriptions beyond three lines inside a bubble."
+      ],
+      "capacity": {
+        "maxItems": 6,
+        "minItems": 2
+      },
+      "category": "list-item",
+      "componentVersion": 1,
+      "content": {
+        "items": {
+          "constraints": "2-6 items; all listed item fields are required strings",
+          "default": [
+            {
+              "desc": "智能制造产业园：总投资40亿，入驻企业150家",
+              "title": "星动智谷"
+            },
+            {
+              "desc": "产学研平台，联合5所高校",
+              "title": "皓域创研院"
+            },
+            {
+              "desc": "文化科技专项基金—已投12个文创项目",
+              "title": "Innov8 基金"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "desc",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "title",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 6,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        }
+      },
+      "id": "t5-11",
+      "motionFeel": "气泡按数组顺序依次出现，每个 at 独立控制：圆形由中心向外缩放浮现并淡入，随后标题淡入、描述跟进；激活气泡呼吸缩放（1.0~1.04）且外发光 0.25~0.4 循环，已完成的弱光效静止；结尾 700ms 逆序缩小淡出。",
+      "name": "气泡集群模块(大小差异化圆形气泡·数组扩展)",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t5-11.md",
+      "selectionSummary": "气泡集群模块(大小差异化圆形气泡·数组扩展)",
+      "semanticFamilies": [
+        "items"
+      ],
+      "suitableFor": [
+        "Multi-entity ecosystems such as business sectors, project clusters, partner networks, or industrial matrices shown as sized bubbles at the screen side."
       ]
     },
     {

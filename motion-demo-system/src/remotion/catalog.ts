@@ -5,6 +5,7 @@ import * as C3C from './components/cat3_cards';
 import * as C4 from './components/cat4_5';
 import * as C4C from './components/cat4_cards';
 import * as C5B from './components/cat5_bars';
+import * as C5U from './components/cat5_bubble';
 import * as C6 from './components/cat6_timeline';
 import * as C6S from './components/cat6_step';
 import * as C7 from './components/cat7_chart';
@@ -81,6 +82,7 @@ export const CATALOG: ComponentDef[] = [
   { id: 't5-08', name: '2×2网格编号横线标题(渐变横线生长·数组扩展)', category: 'list-item', component: C4.T5_08 },
   { id: 't5-09', name: '三栏科技背景卡片(顶部粒子地形·数组扩展)', category: 'list-item', component: C4.T5_09 },
   { id: 't5-10', name: '五栏递进柱状时序(底部渐暗增长柱·数组扩展)', category: 'list-item', component: C5B.T5_10 },
+  { id: 't5-11', name: '气泡集群模块(大小差异化圆形气泡·数组扩展)', category: 'list-item', component: C5U.T5_11 },
   // 第六大类 时间线流向
   { id: 't6-01', name: '竖向时间轴时间线', category: 'timeline-flow', component: C6.T6_01 },
   { id: 't6-02', name: '多节点横向箭头数据流', category: 'timeline-flow', component: C6.T6_02 },

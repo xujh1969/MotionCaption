@@ -599,6 +599,9 @@ export const T5_07: React.FC = () => {
 
   const drawFrames = Math.max(8, Math.round((drawMs / 1000) * 30));
   const clampOpt = { easing: easeOutExpo, extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const };
+  // 说明文字相对本条目「图标 + 标题」的延后帧数（约 0.27s）：形成
+  // 图标标题 → 说明 → 下一条图标标题 → 下一条说明 的交替推进节奏。
+  const DESC_DELAY = 8;
   // 条目块高（标题 + 间距 + 描述实际行数），纵向按实际高度累积排布
   const blockHs = items.map((it) => {
     const descLines = Math.max(1, Math.ceil(measureText(stripKeyText(it.desc ?? ''), descSize, 'Regular') / Math.max(80, descWidth)));
@@ -621,14 +624,15 @@ export const T5_07: React.FC = () => {
         const d = arrives[i];
         const blockH = blockHs[i];
         const iconPath = T5_07_ICONS[stripKeyText(it.icon ?? '')] ?? T5_07_ICONS.layerStack;
-        // 图标描边绘制（stroke-dashoffset），同步微光点亮
+        // 交替节奏：本条目的「图标 + 标题」同一时刻起点亮，说明文字随后跟进，
+        // 再轮到下一条目的图标 + 标题 —— 即 图标标题 → 说明 → 图标标题 → 说明 …
         const pIcon = interpolate(frame, [d, d + drawFrames], [0, 1], clampOpt);
         const iconO = Math.min(1, pIcon * 3);
         const glowA = frame < d + drawFrames || i === activeIdx ? 0.45 : 0.28 + 0.17 * pulse;
         const glowPx = frame < d + drawFrames || i === activeIdx ? 14 : 8;
-        // 标题：图标绘制完成后自上方轻落淡入（0.2 → 1）；描述随后淡入至 0.72
-        const pTitle = interpolate(frame, [d + drawFrames, d + drawFrames + 10], [0, 1], clampOpt);
-        const pDesc = interpolate(frame, [d + drawFrames + 6, d + drawFrames + 18], [0, 1], clampOpt);
+        // 标题与图标同时起始（自上方轻落淡入 0.2 → 1）；说明延后约 0.27s 再淡入至 0.72
+        const pTitle = interpolate(frame, [d, d + 12], [0, 1], clampOpt);
+        const pDesc = interpolate(frame, [d + DESC_DELAY, d + DESC_DELAY + 12], [0, 1], clampOpt);
         return (
           <div key={`v${i}`} style={{
             position: 'absolute', left: 0, top: yTop(i),
