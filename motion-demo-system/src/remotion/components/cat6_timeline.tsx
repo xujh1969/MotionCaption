@@ -4,7 +4,7 @@ import { COLORS, FONT_STACK } from '../theme';
 import { easeOutExpo, useEnter, useEnterOpacity, useBreath, useGrowDown, useGrow, useCount, atFrames } from '../anim';
 import { useConfigKey, useConfigList, useEffectClipLength } from '../config';
 import { weightNum, measureText } from '../measure';
-import { tint, mixColor, renderKeyParts, stripKeyText, WrappedText } from './shared';
+import { tint, mixColor, ringSegmentPaths, renderKeyParts, stripKeyText, WrappedText, withAlpha } from './shared';
 
 const base: React.CSSProperties = { position: 'absolute', fontFamily: FONT_STACK, whiteSpace: 'nowrap' };
 const T: React.FC<{ x: number; y: number; size: number; weight?: 'Heavy' | 'Bold' | 'Regular';
@@ -646,6 +646,162 @@ export const T6_07: React.FC = () => {
               textShadow: glow > 0 ? `0 0 14px ${tint(activeColor, 0.22 * glow)}` : undefined,
             }}>{label}</div>
           </div>
+        );
+      })}
+    </div>
+  );
+};
+
+/* ---------------- t6-09 横向时序步骤（底部连线圆形序号·数组扩展） ---------------- */
+export const T6_09: React.FC = () => {
+  const frame = useCurrentFrame();
+  const raw = useConfigList('t6-09', 'items') as { num?: string; title?: string; desc?: string; at?: string }[];
+  const items = raw.length > 0 ? raw : [{ num: '01', title: '立项启动', desc: '目标与里程碑对齐。' }];
+  const titleSize = useConfigKey('t6-09', 'titleSize') as number;
+  const descSize = useConfigKey('t6-09', 'descSize') as number;
+  const titleColor = useConfigKey('t6-09', 'titleColor') as string;
+  const descColor = useConfigKey('t6-09', 'descColor') as string;
+  const descWidth = useConfigKey('t6-09', 'descWidth') as number;
+  const titleDescGap = useConfigKey('t6-09', 'titleDescGap') as number;
+  const textToCircle = useConfigKey('t6-09', 'textToCircle') as number;
+  const circleSize = useConfigKey('t6-09', 'circleSize') as number;
+  const circleStroke = useConfigKey('t6-09', 'circleStroke') as number;
+  const numSize = useConfigKey('t6-09', 'numSize') as number;
+  const numColor = useConfigKey('t6-09', 'numColor') as string;
+  const lineH = useConfigKey('t6-09', 'lineH') as number;
+  const lineColorA = useConfigKey('t6-09', 'lineColorA') as string;
+  const lineColorB = useConfigKey('t6-09', 'lineColorB') as string;
+  const timelineW = useConfigKey('t6-09', 'timelineW') as number;
+  const drawMs = useConfigKey('t6-09', 'drawMs') as number;
+  const lineGrowMs = useConfigKey('t6-09', 'lineGrowMs') as number;
+  const particleCount = Math.max(0, Math.round(useConfigKey('t6-09', 'particleCount') as number));
+  const scale = useConfigKey('t6-09', 'scale') as number;
+  const posX = (useConfigKey('t6-09', 'posX') as number) ?? 80;
+  const posY = (useConfigKey('t6-09', 'posY') as number) ?? 80;
+
+  const n = items.length;
+  const drawFrames = Math.max(8, Math.round((drawMs / 1000) * 30));
+  const lineFrames = Math.max(8, Math.round((lineGrowMs / 1000) * 30));
+  const clampOpt = { easing: easeOutExpo, extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const };
+  const r = circleSize / 2;
+  const pad = circleStroke / 2 + 2;
+  const svgS = circleSize + pad * 2;
+  // 圆心均匀分布：首尾圆心各内收一个文本半宽，保证首尾文本块不超出画布
+  const cx = (i: number) => (n === 1 ? descWidth / 2 : descWidth / 2 + (i * (timelineW - descWidth)) / (n - 1));
+  // 文本块高度（标题 + 间距 + 描述实际行数），圆心 y = 最高文本块 + textToCircle
+  const textHs = items.map((it) => {
+    const descLines = Math.max(1, Math.ceil(measureText(stripKeyText(it.desc ?? ''), descSize, 'Regular') / Math.max(80, descWidth)));
+    return titleSize * 1.15 + titleDescGap + descLines * descSize * 1.4;
+  });
+  const circleY = Math.max(...textHs) + textToCircle;
+  const lineStart = cx(0) + r;
+  const lineLen = Math.max(0, cx(n - 1) - r - lineStart);
+  // 段渐变按全线位置插值，保证多段连在一起时颜色连续
+  const segGrad = (i: number) => {
+    const t0 = Math.max(0, Math.min(1, (cx(i) + r - lineStart) / lineLen));
+    const t1 = Math.max(0, Math.min(1, (cx(i + 1) - r - lineStart) / lineLen));
+    return `linear-gradient(90deg, ${mixColor(lineColorA, lineColorB, t0)}, ${mixColor(lineColorA, lineColorB, t1)})`;
+  };
+
+  // 各条目入场帧（at 秒优先，缺省均摊）；当前条目 = 最后一个完成圆环绘制的条目
+  const arrives = items.map((it, i) => atFrames(it, i, 8, 14));
+  let activeIdx = -1;
+  for (let i = 0; i < n; i += 1) if (frame >= arrives[i] + drawFrames) activeIdx = i;
+  const pulse = 0.5 + 0.5 * Math.sin((frame / 45) * Math.PI * 2);
+  // 流动粒子：全部圆环亮起后沿整线单向流动
+  const allDone = n < 2 || frame >= arrives[n - 1];
+
+  return (
+    <div style={{
+      position: 'absolute', left: posX, top: posY, width: timelineW + circleSize,
+      height: circleY + r + pad + 60,
+      transformOrigin: 'top left', transform: `scale(${scale / 100})`, fontFamily: FONT_STACK,
+    }}>
+      {/* 连线段（每段独立容器 + 生长裁剪；渐变按全线位置插值保证颜色连续） */}
+      {items.map((_, i) => {
+        if (i === 0) return null;
+        const d = arrives[i];
+        // 连线在圆环开始前自左向右长到位（线爬过去 → 圆亮起）
+        const pLine = interpolate(frame, [Math.max(d - lineFrames, arrives[i - 1]), d], [0, 1], clampOpt);
+        const segStart = cx(i - 1) + r;
+        const segLen = cx(i) - r - segStart;
+        if (segLen <= 0) return null;
+        return (
+          <div key={`l${i}`} style={{
+            position: 'absolute', left: segStart, top: circleY - lineH / 2,
+            width: segLen * pLine, height: lineH, overflow: 'hidden', opacity: 0.75,
+          }}>
+            <div style={{ width: segLen, height: '100%', background: segGrad(i - 1) }} />
+          </div>
+        );
+      })}
+      {/* 流动粒子（纯帧驱动，沿整线单向流动） */}
+      {Array.from({ length: particleCount }, (_, k) => {
+        const p = ((frame / 90) + k / Math.max(1, particleCount)) % 1;
+        const o = allDone ? (p < 0.06 || p > 0.94 ? 0 : 0.9) : 0;
+        return (
+          <div key={`pt${k}`} style={{
+            position: 'absolute', left: lineStart + p * lineLen - 3, top: circleY - 3,
+            width: 6, height: 6, borderRadius: '50%', background: tint(lineColorA, 0.4),
+            boxShadow: `0 0 8px ${withAlpha(lineColorA, 0.6)}`, opacity: o,
+          }} />
+        );
+      })}
+      {items.map((it, i) => {
+        const d = arrives[i];
+        const cxi = cx(i);
+        // 圆环描边（顺时针 8 段）；序号、标题同步淡入，描述紧随
+        const pArc = interpolate(frame, [d, d + drawFrames], [0, 1], clampOpt);
+        const ringO = Math.min(1, pArc * 4);
+        const pNum = interpolate(frame, [d, d + 10], [0, 1], clampOpt);
+        const pTitle = interpolate(frame, [d, d + 10], [0, 1], clampOpt);
+        const pDesc = interpolate(frame, [d + 6, d + 18], [0, 1], clampOpt);
+        const glowA = frame < d + drawFrames || i === activeIdx ? 0.45 : 0.3 + 0.15 * pulse;
+        const glowPx = frame < d + drawFrames || i === activeIdx ? 16 : 8;
+        const numText = stripKeyText(it.num ?? '') || String(i + 1).padStart(2, '0');
+        return (
+          <React.Fragment key={`s${i}`}>
+            {/* 文本块（圆心上方，水平居中） */}
+            <div style={{ position: 'absolute', left: cxi - descWidth / 2, top: 0, width: descWidth, textAlign: 'center' }}>
+              <div style={{
+                fontSize: titleSize, fontWeight: 700, color: titleColor, lineHeight: 1.15,
+                whiteSpace: 'nowrap', textShadow: '0 2px 6px rgba(0,0,0,0.4)', opacity: pTitle,
+              }}>{stripKeyText(it.title ?? '')}</div>
+              <div style={{ marginTop: titleDescGap, opacity: pDesc * 0.72 }}>
+                <WrappedText
+                  text={it.desc ?? ''} size={descSize} maxWidth={descWidth} baseWeight="Regular" lineHeight={1.4}
+                  style={{ fontSize: descSize, color: descColor }}
+                />
+              </div>
+            </div>
+            {/* 圆环（双半弧叠加 + 序号，入场缩放） */}
+            <div style={{
+              position: 'absolute', left: cxi - r, top: circleY - r, width: circleSize, height: circleSize,
+              opacity: ringO, filter: `drop-shadow(0 0 ${glowPx}px ${withAlpha(lineColorA, glowA)})`,
+            }}>
+              <div style={{ position: 'absolute', inset: 0, transform: `scale(${(0.7 + 0.3 * pArc).toFixed(3)})`, transformOrigin: 'center' }}>
+                {ringSegmentPaths(r, pad, 8).map((seg, k) => {
+                  // 段 k 的局部绘制进度 = 总进度 × 段数 − 段序号
+                  const local = Math.max(0, Math.min(1, pArc * 8 - k));
+                  return (
+                    <svg key={k} width={svgS} height={svgS} style={{ position: 'absolute', left: -pad, top: -pad, overflow: 'visible' }}>
+                      <path d={seg.d} fill="none" stroke={mixColor(lineColorA, lineColorB, seg.t)} strokeWidth={circleStroke}
+                        strokeLinecap="butt" pathLength={100} strokeDasharray="100" strokeDashoffset={100 - 100 * local} />
+                    </svg>
+                  );
+                })}
+              </div>
+              <div style={{
+                position: 'absolute', inset: 0, display: 'flex',
+                alignItems: 'center', justifyContent: 'center', opacity: pNum,
+              }}>
+                <span style={{
+                  fontSize: numSize, fontWeight: 700, color: numColor, lineHeight: 1,
+                  textShadow: `0 0 6px ${withAlpha(numColor, 0.3)}`,
+                }}>{numText}</span>
+              </div>
+            </div>
+          </React.Fragment>
         );
       })}
     </div>

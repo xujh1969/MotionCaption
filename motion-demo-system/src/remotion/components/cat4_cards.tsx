@@ -6,7 +6,7 @@ import {
   breathPulse, countValue,
 } from './cardKit';
 import { useConfigKey, useConfigList } from '../config';
-import { withAlpha, renderKeyParts, stripKeyText, WrappedText } from './shared';
+import { mixColor, ringSegmentPaths, withAlpha, renderKeyParts, stripKeyText, WrappedText } from './shared';
 
 /**
  * t4-03 ~ t4-09：横向卡片组（数组顺序渐亮入场）
@@ -659,13 +659,12 @@ export const T4_11: React.FC = () => {
   const firstRowCols = Math.min(items.length, cols);
   const rowWidth = firstRowCols * itemW + (firstRowCols - 1) * hGap;
 
-  // 圆环几何：左右两个半弧各包一层容器（导出重绘器要求每个 <svg> 只含一个图形）。
-  // 视觉上的「左青右紫水平渐变」用两个纯色半弧拼成；顺时针描边 = 右半先画满、左半接力。
+  // 圆环几何：8 段弧逼近青→紫连续渐变（SVG 渐变导出重绘器不支持）；
+  // 每段独立 <svg> 绝对定位叠加，顺时针描边 = 各段按总进度依次画出。
   const r = circleSize / 2;
   const pad = ringWidth / 2 + 2;
   const svgS = circleSize + pad * 2;
-  const arcR = `M ${pad + r} ${pad} A ${r} ${r} 0 0 1 ${pad + r} ${pad + circleSize}`;
-  const arcL = `M ${pad + r} ${pad + circleSize} A ${r} ${r} 0 0 1 ${pad + r} ${pad}`;
+  const ringSegs = ringSegmentPaths(r, pad, 8);
 
   return (
     <div style={{
@@ -682,12 +681,10 @@ export const T4_11: React.FC = () => {
         const d = atFrames(it, i, 8, 10);
         const x = (i % cols) * (itemW + hGap);
         const y = Math.floor(i / cols) * rowH;
-        // 圆环描边进度（顺时针：右半先画满，左半接力）
+        // 圆环描边进度（顺时针：8 段弧按总进度依次画出）
         const pArc = interpolate(frame, [d, d + drawFrames], [0, 1], {
           easing: easeOutExpo, extrapolateLeft: 'clamp', extrapolateRight: 'clamp',
         });
-        const pR = Math.max(0, Math.min(1, pArc * 2));
-        const pL = Math.max(0, Math.min(1, pArc * 2 - 1));
         const ringO = Math.min(1, pArc * 4);
         // 序号：圆环绘制完成后淡入
         const pNum = interpolate(frame, [d + drawFrames, d + drawFrames + 8], [0, 1], {
@@ -715,18 +712,16 @@ export const T4_11: React.FC = () => {
               position: 'relative', width: circleSize, height: circleSize, flex: '0 0 auto',
               opacity: ringO, filter: `drop-shadow(0 0 ${glowPx}px ${withAlpha(strokeA, glowA)})`,
             }}>
-              <div style={{ position: 'absolute', left: -pad, top: -pad, width: svgS, height: svgS }}>
-                <svg width={svgS} height={svgS} style={{ position: 'absolute', left: -pad, top: -pad, overflow: 'visible' }}>
-                  <path d={arcR} fill="none" stroke={strokeB} strokeWidth={ringWidth} strokeLinecap="round"
-                    pathLength={100} strokeDasharray="100" strokeDashoffset={100 - 100 * pR} />
-                </svg>
-              </div>
-              <div style={{ position: 'absolute', left: -pad, top: -pad, width: svgS, height: svgS }}>
-                <svg width={svgS} height={svgS} style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible' }}>
-                  <path d={arcL} fill="none" stroke={strokeA} strokeWidth={ringWidth} strokeLinecap="round"
-                    pathLength={100} strokeDasharray="100" strokeDashoffset={100 - 100 * pL} />
-                </svg>
-              </div>
+              {ringSegs.map((seg, k) => {
+                // 段 k 的局部绘制进度 = 总进度 × 段数 − 段序号
+                const local = Math.max(0, Math.min(1, pArc * ringSegs.length - k));
+                return (
+                  <svg key={k} width={svgS} height={svgS} style={{ position: 'absolute', left: -pad, top: -pad, overflow: 'visible' }}>
+                    <path d={seg.d} fill="none" stroke={mixColor(strokeA, strokeB, seg.t)} strokeWidth={ringWidth}
+                      strokeLinecap="butt" pathLength={100} strokeDasharray="100" strokeDashoffset={100 - 100 * local} />
+                  </svg>
+                );
+              })}
               <div style={{
                 position: 'absolute', inset: 0, display: 'flex',
                 alignItems: 'center', justifyContent: 'center', opacity: pNum,

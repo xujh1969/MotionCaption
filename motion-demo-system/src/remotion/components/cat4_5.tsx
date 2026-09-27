@@ -4,7 +4,7 @@ import { COLORS, FONT_STACK } from '../theme';
 import { useEnter, useEnterOpacity, useBreath, easeOutExpo, atFrames } from '../anim';
 import { useConfigKey, useConfigList } from '../config';
 import { weightNum, measureText } from '../measure';
-import { tint, renderKeyParts, WrappedText, withAlpha, stripKeyText } from './shared';
+import { tint, mixColor, ringSegmentPaths, renderKeyParts, WrappedText, withAlpha, stripKeyText } from './shared';
 
 const base: React.CSSProperties = { position: 'absolute', fontFamily: FONT_STACK, whiteSpace: 'nowrap' };
 
@@ -658,6 +658,302 @@ export const T5_07: React.FC = () => {
                   text={it.desc ?? ''} size={descSize} maxWidth={descWidth} baseWeight="Regular" lineHeight={1.4}
                   style={{ fontSize: descSize, color: descColor }}
                 />
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+/* ---------------- t5-08 2×2网格编号横线标题（渐变横线生长·数组扩展） ---------------- */
+export const T5_08: React.FC = () => {
+  const frame = useCurrentFrame();
+  const raw = useConfigList('t5-08', 'items') as { num?: string; title?: string; desc?: string; at?: string }[];
+  const items = raw.length > 0 ? raw : [{ num: '01', title: '模块标题', desc: '模块说明文案。' }];
+  const numSize = useConfigKey('t5-08', 'numSize') as number;
+  const numColor = useConfigKey('t5-08', 'numColor') as string;
+  const titleSize = useConfigKey('t5-08', 'titleSize') as number;
+  const titleColor = useConfigKey('t5-08', 'titleColor') as string;
+  const descSize = useConfigKey('t5-08', 'descSize') as number;
+  const descColor = useConfigKey('t5-08', 'descColor') as string;
+  const numTitleGap = useConfigKey('t5-08', 'numTitleGap') as number;
+  const titleLineGap = useConfigKey('t5-08', 'titleLineGap') as number;
+  const lineDescGap = useConfigKey('t5-08', 'lineDescGap') as number;
+  const itemWidth = useConfigKey('t5-08', 'itemWidth') as number;
+  const lineH = useConfigKey('t5-08', 'lineH') as number;
+  const lineCapW = useConfigKey('t5-08', 'lineCapW') as number;
+  const lineCapH = useConfigKey('t5-08', 'lineCapH') as number;
+  const lineColorA = useConfigKey('t5-08', 'lineColorA') as string;
+  const lineColorB = useConfigKey('t5-08', 'lineColorB') as string;
+  const hGap = useConfigKey('t5-08', 'hGap') as number;
+  const vGap = useConfigKey('t5-08', 'vGap') as number;
+  const growMs = useConfigKey('t5-08', 'growMs') as number;
+  const scale = useConfigKey('t5-08', 'scale') as number;
+  const posX = (useConfigKey('t5-08', 'posX') as number) ?? 120;
+  const posY = (useConfigKey('t5-08', 'posY') as number) ?? 100;
+
+  const cols = 2; // 固定 2 列网格，超出自动换行
+  const lineFrames = Math.max(8, Math.round((growMs / 1000) * 30));
+  const clampOpt = { easing: easeOutExpo, extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const };
+  const headH = Math.max(numSize, titleSize) * 1.15;
+  // 条目块高：编号标题行 + 间距 + 横线 + 间距 + 描述实际行数
+  const blockHs = items.map((it) => {
+    const descLines = Math.max(1, Math.ceil(measureText(stripKeyText(it.desc ?? ''), descSize, 'Regular') / Math.max(80, itemWidth)));
+    return headH + titleLineGap + Math.max(lineH, lineCapH) + lineDescGap + descLines * descSize * 1.4;
+  });
+  // 每行取最高块，纵向按行累积（两列对齐不重叠）
+  const rowMax: number[] = [];
+  for (let i = 0; i < items.length; i += cols) rowMax.push(Math.max(...blockHs.slice(i, i + cols)));
+  const rowY = (row: number) => rowMax.slice(0, row).reduce((a, b) => a + b, 0) + row * vGap;
+
+  // 各条目入场帧（at 秒优先，缺省均摊）；当前条目 = 最后一个完成横线生长的条目
+  const arrives = items.map((it, i) => atFrames(it, i, 8, 14));
+  let activeIdx = -1;
+  for (let i = 0; i < items.length; i += 1) if (frame >= arrives[i] + 6 + lineFrames) activeIdx = i;
+  const pulse = 0.5 + 0.5 * Math.sin((frame / 45) * Math.PI * 2);
+
+  return (
+    <div style={{
+      position: 'absolute', left: posX, top: posY,
+      transformOrigin: 'top left', transform: `scale(${scale / 100})`, fontFamily: FONT_STACK,
+    }}>
+      {items.map((it, i) => {
+        const d = arrives[i];
+        const x = (i % cols) * (itemWidth + hGap);
+        const y = rowY(Math.floor(i / cols));
+        const blockH = blockHs[i];
+        const numText = stripKeyText(it.num ?? '') || String(i + 1).padStart(2, '0');
+        // 阶段 1：编号淡入 + 轻微上移；阶段 2：标题淡入 + 横线自左向右生长；阶段 3：描述淡入
+        const pNum = interpolate(frame, [d, d + 12], [0, 1], clampOpt);
+        const pTitle = interpolate(frame, [d + 6, d + 18], [0, 1], clampOpt);
+        const pLine = interpolate(frame, [d + 6, d + 6 + lineFrames], [0, 1], clampOpt);
+        const pDesc = interpolate(frame, [d + 6 + lineFrames, d + 18 + lineFrames], [0, 1], clampOpt);
+        const isHot = frame < d + 6 + lineFrames || i === activeIdx;
+        const glowA = isHot ? 0.4 : 0.25 + 0.15 * pulse;
+        const glowPx = isHot ? 10 : 6;
+        return (
+          <div key={`q${i}`} style={{ position: 'absolute', left: x, top: y, width: itemWidth, height: blockH }}>
+            {/* 编号 + 小标题（基线对齐） */}
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: numTitleGap }}>
+              <span style={{
+                fontSize: numSize, fontWeight: 700, color: numColor, lineHeight: 1,
+                textShadow: `0 0 6px ${withAlpha(numColor, 0.3)}`, opacity: pNum,
+                transform: `translateY(${((1 - pNum) * 12).toFixed(2)}px)`,
+              }}>{numText}</span>
+              <span style={{
+                fontSize: titleSize, fontWeight: 700, color: titleColor, lineHeight: 1.15,
+                whiteSpace: 'nowrap', textShadow: '0 2px 6px rgba(0,0,0,0.4)', opacity: pTitle,
+              }}>{stripKeyText(it.title ?? '')}</span>
+            </div>
+            {/* 渐变横线：左端粗实块 + 细线自左向右生长（外层裁剪防渐变重排，参照 t4-02） */}
+            <div style={{ position: 'absolute', left: 0, top: headH + titleLineGap, width: itemWidth, height: Math.max(lineH, lineCapH) }}>
+              <div style={{
+                position: 'absolute', left: 0, top: (Math.max(lineH, lineCapH) - lineH) / 2,
+                width: itemWidth * pLine, height: lineH, overflow: 'hidden',
+              }}>
+                <div style={{
+                  width: itemWidth, height: '100%', opacity: 0.8,
+                  background: `linear-gradient(90deg, ${lineColorA}, ${lineColorB})`,
+                }} />
+              </div>
+              <div style={{
+                position: 'absolute', left: 0, top: (Math.max(lineH, lineCapH) - lineCapH) / 2,
+                width: Math.min(lineCapW, itemWidth * pLine), height: lineCapH, borderRadius: 2,
+                background: lineColorA, opacity: 0.9,
+                boxShadow: `0 0 ${glowPx}px ${withAlpha(lineColorA, glowA)}`,
+              }} />
+            </div>
+            {/* 描述正文 */}
+            <div style={{
+              position: 'absolute', left: 0, top: headH + titleLineGap + Math.max(lineH, lineCapH) + lineDescGap,
+              width: itemWidth, opacity: pDesc * 0.7,
+            }}>
+              <WrappedText
+                text={it.desc ?? ''} size={descSize} maxWidth={itemWidth} baseWeight="Regular" lineHeight={1.4}
+                style={{ fontSize: descSize, color: descColor }}
+              />
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+/* ---------------- t5-09 三栏科技背景卡片（顶部粒子地形·数组扩展） ---------------- */
+export const T5_09: React.FC = () => {
+  const frame = useCurrentFrame();
+  const raw = useConfigList('t5-09', 'items') as { title?: string; desc?: string; preset?: string; at?: string }[];
+  const items = raw.length > 0 ? raw : [{ title: '算力底座', desc: '大规模并行计算集群支撑。', preset: 'waveTerrain' }];
+  const cardW = useConfigKey('t5-09', 'cardW') as number;
+  const particleH = useConfigKey('t5-09', 'particleH') as number;
+  const cardGap = useConfigKey('t5-09', 'cardGap') as number;
+  const cardRadius = useConfigKey('t5-09', 'cardRadius') as number;
+  const strokeW = useConfigKey('t5-09', 'strokeW') as number;
+  const colorA = useConfigKey('t5-09', 'colorA') as string;
+  const colorB = useConfigKey('t5-09', 'colorB') as string;
+  const bottomBg = useConfigKey('t5-09', 'bottomBg') as string;
+  const titleSize = useConfigKey('t5-09', 'titleSize') as number;
+  const titleColor = useConfigKey('t5-09', 'titleColor') as string;
+  const descSize = useConfigKey('t5-09', 'descSize') as number;
+  const descColor = useConfigKey('t5-09', 'descColor') as string;
+  const padV = useConfigKey('t5-09', 'padV') as number;
+  const padH = useConfigKey('t5-09', 'padH') as number;
+  const gapTitle = useConfigKey('t5-09', 'gapTitle') as number;
+  const drawMs = useConfigKey('t5-09', 'drawMs') as number;
+  const particleMs = useConfigKey('t5-09', 'particleMs') as number;
+  const scale = useConfigKey('t5-09', 'scale') as number;
+  const posX = (useConfigKey('t5-09', 'posX') as number) ?? 100;
+  const posY = (useConfigKey('t5-09', 'posY') as number) ?? 80;
+
+  const drawFrames = Math.max(8, Math.round((drawMs / 1000) * 30));
+  const spawnFrames = Math.max(8, Math.round((particleMs / 1000) * 30));
+  const clampOpt = { easing: easeOutExpo, extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const };
+  // 文字区高度按最大描述行数取齐，三栏等高
+  const textHs = items.map((it) => {
+    const descLines = Math.max(1, Math.ceil(measureText(stripKeyText(it.desc ?? ''), descSize, 'Regular') / Math.max(80, cardW - padH * 2)));
+    return titleSize * 1.15 + gapTitle + descLines * descSize * 1.4 + padV * 2;
+  });
+  const textMaxH = Math.max(...textHs);
+  const cardH = particleH + textMaxH;
+  // 确定性伪随机（纯种子函数，预览/导出两条链路一致）
+  const rnd = (k: number, s: number) => Math.abs(Math.sin((k + 1) * (s * 12.9898 + 78.233)) * 43758.5453) % 1;
+
+  // 各卡片入场帧（at 秒优先，缺省均摊）；当前卡片 = 最后一个完成展开的卡片
+  const arrives = items.map((it, i) => atFrames(it, i, 8, 14));
+  let activeIdx = -1;
+  for (let i = 0; i < items.length; i += 1) if (frame >= arrives[i] + drawFrames) activeIdx = i;
+  const pulse = 0.5 + 0.5 * Math.sin((frame / 45) * Math.PI * 2);
+
+  return (
+    <div style={{
+      position: 'absolute', left: posX, top: posY,
+      transformOrigin: 'top left', transform: `scale(${scale / 100})`, fontFamily: FONT_STACK,
+    }}>
+      {items.map((it, i) => {
+        const d = arrives[i];
+        const x = i * (cardW + cardGap);
+        const preset = stripKeyText(it.preset ?? '') || 'waveTerrain';
+        // 阶段 1：容器淡入 + 上浮（渐变描边随容器出现）；阶段 2：粒子地形依次浮现；
+        // 阶段 3：标题淡入 → 描述淡入
+        const cardO = interpolate(frame, [d, d + 14], [0, 1], clampOpt);
+        const rise = interpolate(frame, [d, d + 14], [14, 0], clampOpt);
+        const pSpawn = interpolate(frame, [d + 8, d + 8 + spawnFrames], [0, 1], clampOpt);
+        const pTitle = interpolate(frame, [d + 8 + spawnFrames * 0.5, d + 18 + spawnFrames * 0.5], [0, 1], clampOpt);
+        const pDesc = interpolate(frame, [d + 8 + spawnFrames, d + 20 + spawnFrames], [0, 1], clampOpt);
+        const isHot = frame < d + drawFrames + spawnFrames || i === activeIdx;
+        const glowA = isHot ? 0.42 : 0.25 + 0.17 * pulse;
+        const glowPx = isHot ? 12 : 6;
+        const innerR = Math.max(1, cardRadius - strokeW);
+        return (
+          <div key={`c${i}`} style={{
+            position: 'absolute', left: x, top: rise, width: cardW, height: cardH, opacity: cardO,
+          }}>
+            {/* 渐变描边外框（渐变背景 + 内层挖空 strokeW） */}
+            <div style={{
+              position: 'absolute', inset: 0, borderRadius: cardRadius, padding: strokeW,
+              background: `linear-gradient(135deg, ${colorA}, ${colorB})`,
+              boxShadow: `0 0 ${glowPx}px ${withAlpha(colorA, glowA)}`,
+            }}>
+              <div style={{ width: '100%', height: '100%', borderRadius: innerR, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+                {/* 上半：粒子地形（发光波浪曲线 + 垂落光柱 + 闪烁粒子 + 底部光晕） */}
+                <div style={{ position: 'relative', height: particleH, overflow: 'hidden', background: 'rgba(8,12,28,0.6)' }}>
+                  {/* 底部光晕带 */}
+                  <div style={{
+                    position: 'absolute', left: 0, bottom: 0, width: '100%', height: particleH * 0.4,
+                    background: `linear-gradient(180deg, ${withAlpha(colorA, 0)}, ${withAlpha(colorA, 0.16)})`,
+                  }} />
+                  {/* 波浪曲线：主（青、粗）+ 副（紫、细），相位不同、随帧流动 */}
+                  {[
+                    { base: 0.62, amp: 0.15, freq: 6.3, speed: 1.3, ph: i * 2.1, sharp: preset === 'peakTerrain', color: colorA, w: 2.5, o: 0.9 },
+                    { base: 0.44, amp: preset === 'bubbleTerrain' ? 0.08 : 0.12, freq: 8.8, speed: -0.9, ph: i * 1.4 + 2, sharp: false, color: colorB, w: 1.5, o: 0.6 },
+                  ].map((wv, wi) => {
+                    const N = 24;
+                    let d = '';
+                    for (let k = 0; k <= N; k += 1) {
+                      const fx = k / N;
+                      let wv1 = Math.sin(fx * wv.freq + wv.ph + (frame / 30) * wv.speed)
+                        + 0.5 * Math.sin(fx * wv.freq * 2.3 - (frame / 30) * wv.speed * 0.7 + wv.ph * 2);
+                      if (wv.sharp) wv1 = Math.sign(wv1) * Math.pow(Math.abs(wv1), 0.65);
+                      const y = particleH * wv.base - wv1 * particleH * wv.amp;
+                      d += `${k === 0 ? 'M' : 'L'} ${(fx * cardW).toFixed(1)} ${y.toFixed(1)} `;
+                    }
+                    const spawnW = Math.max(0, Math.min(1, pSpawn * 2 - wi));
+                    return (
+                      <svg key={`w${wi}`} width={cardW} height={particleH}
+                        style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', opacity: spawnW }}>
+                        <path d={d} fill="none" stroke={wv.color} strokeWidth={wv.w} opacity={wv.o}
+                          style={{ filter: `drop-shadow(0 0 6px ${withAlpha(wv.color, 0.6)})` }} />
+                      </svg>
+                    );
+                  })}
+                  {/* 沿主波浪分布的粒子点列（粒子波浪质感，随曲线起伏） */}
+                  {Array.from({ length: 18 }, (_, k) => {
+                    const fx = k / 17;
+                    let wv1 = Math.sin(fx * 6.3 + i * 2.1 + (frame / 30) * 1.3)
+                      + 0.5 * Math.sin(fx * 6.3 * 2.3 - (frame / 30) * 0.91 + i * 4.2);
+                    if (preset === 'peakTerrain') wv1 = Math.sign(wv1) * Math.pow(Math.abs(wv1), 0.65);
+                    const py = particleH * 0.62 - wv1 * particleH * 0.15 + (rnd(k, 7) - 0.5) * 10;
+                    const spawnP = Math.max(0, Math.min(1, pSpawn * 18 - k));
+                    return (
+                      <div key={`wp${k}`} style={{
+                        position: 'absolute', left: fx * cardW, top: py, width: 2.5, height: 2.5, borderRadius: '50%',
+                        background: mixColor(colorA, colorB, fx), opacity: 0.75 * spawnP,
+                        boxShadow: `0 0 4px ${withAlpha(colorA, 0.5)}`,
+                      }} />
+                    );
+                  })}
+                  {/* 垂落光柱：顶端亮点 + 向下渐隐的细柱（bubble 预设更少） */}
+                  {Array.from({ length: preset === 'bubbleTerrain' ? 7 : 12 }, (_, k) => {
+                    const bx = 14 + ((k + 0.5) / 12) * (cardW - 28) + (rnd(k, 3) - 0.5) * 18;
+                    const len = particleH * (0.3 + rnd(k, 4) * 0.42);
+                    const topY = particleH * (0.06 + rnd(k, 5) * 0.18) + Math.sin(frame * 0.02 + k) * 3;
+                    const spawn = Math.max(0, Math.min(1, pSpawn * 12 - k));
+                    return (
+                      <React.Fragment key={`lb${k}`}>
+                        <div style={{
+                          position: 'absolute', left: bx, top: topY, width: 2, height: len, opacity: 0.8 * spawn,
+                          background: `linear-gradient(180deg, ${withAlpha(colorA, 0.85)}, ${withAlpha(colorA, 0)})`,
+                        }} />
+                        <div style={{
+                          position: 'absolute', left: bx - 1.5, top: topY - 1.5, width: 3, height: 3, borderRadius: '50%',
+                          background: colorA, boxShadow: `0 0 6px ${withAlpha(colorA, 0.7)}`, opacity: spawn,
+                        }} />
+                      </React.Fragment>
+                    );
+                  })}
+                  {/* 闪烁粒子点（带光晕，缓慢漂移） */}
+                  {Array.from({ length: 18 }, (_, k) => {
+                    const dx = 8 + rnd(k, 1) * (cardW - 16);
+                    const dy = particleH * 0.08 + rnd(k, 2) * (particleH * 0.6)
+                      + Math.sin(frame * 0.03 + k * 2.1) * 4;
+                    const sz = 2 + rnd(k, 6) * 2.5;
+                    const tw = 0.3 + 0.7 * (0.5 + 0.5 * Math.sin(frame * 0.16 + k * 1.7));
+                    const spawnD = Math.max(0, Math.min(1, pSpawn * 18 - k));
+                    return (
+                      <div key={`d${k}`} style={{
+                        position: 'absolute', left: dx, top: dy, width: sz, height: sz, borderRadius: '50%',
+                        background: mixColor(colorA, colorB, dx / cardW),
+                        boxShadow: `0 0 5px ${withAlpha(colorA, 0.55)}`, opacity: tw * spawnD,
+                      }} />
+                    );
+                  })}
+                </div>
+                {/* 下半：黑底文字区 */}
+                <div style={{ position: 'relative', flex: 1, background: bottomBg, padding: `${padV}px ${padH}px` }}>
+                  <div style={{
+                    fontSize: titleSize, fontWeight: 700, color: titleColor, lineHeight: 1.15,
+                    whiteSpace: 'nowrap', textShadow: '0 2px 8px rgba(0,0,0,0.5)', opacity: pTitle,
+                  }}>{stripKeyText(it.title ?? '')}</div>
+                  <div style={{ marginTop: gapTitle, opacity: pDesc * 0.7 }}>
+                    <WrappedText
+                      text={it.desc ?? ''} size={descSize} maxWidth={cardW - padH * 2} baseWeight="Regular" lineHeight={1.4}
+                      style={{ fontSize: descSize, color: descColor }}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>

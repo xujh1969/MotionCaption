@@ -4,6 +4,7 @@ import * as C3 from './components/cat3_data';
 import * as C3C from './components/cat3_cards';
 import * as C4 from './components/cat4_5';
 import * as C4C from './components/cat4_cards';
+import * as C5B from './components/cat5_bars';
 import * as C6 from './components/cat6_timeline';
 import * as C6S from './components/cat6_step';
 import * as C7 from './components/cat7_chart';
@@ -77,6 +78,9 @@ export const CATALOG: ComponentDef[] = [
   { id: 't5-05', name: '侧边竖向堆叠标签卡片组', category: 'list-item', component: C4.T5_05 },
   { id: 't5-06', name: '横向多列标签标题列表', category: 'list-item', component: C4.T5_06 },
   { id: 't5-07', name: '纵向图标要点列表(线框图标描边·数组扩展)', category: 'list-item', component: C4.T5_07 },
+  { id: 't5-08', name: '2×2网格编号横线标题(渐变横线生长·数组扩展)', category: 'list-item', component: C4.T5_08 },
+  { id: 't5-09', name: '三栏科技背景卡片(顶部粒子地形·数组扩展)', category: 'list-item', component: C4.T5_09 },
+  { id: 't5-10', name: '五栏递进柱状时序(底部渐暗增长柱·数组扩展)', category: 'list-item', component: C5B.T5_10 },
   // 第六大类 时间线流向
   { id: 't6-01', name: '竖向时间轴时间线', category: 'timeline-flow', component: C6.T6_01 },
   { id: 't6-02', name: '多节点横向箭头数据流', category: 'timeline-flow', component: C6.T6_02 },
@@ -86,6 +90,7 @@ export const CATALOG: ComponentDef[] = [
   { id: 't6-06', name: '多步骤向上浮动递进时间线', category: 'timeline-flow', component: C6.T6_06 },
   { id: 't6-07', name: '有序序号步骤列表·焦点滚动切换', category: 'timeline-flow', component: C6.T6_07 },
   { id: 't6-08', name: '纵向堆叠序号步骤卡片(连接线延伸)', category: 'timeline-flow', component: C6S.T6_08 },
+  { id: 't6-09', name: '横向时序步骤(底部连线圆形序号·数组扩展)', category: 'timeline-flow', component: C6.T6_09 },
   // 第七大类 迷你图表
   { id: 't7-01', name: '标题+竖向柱状图', category: 'mini-chart', component: C7.T7_01 },
   { id: 't7-02', name: '横向条形对比图', category: 'mini-chart', component: C7.T7_02 },

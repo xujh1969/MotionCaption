@@ -185,8 +185,8 @@ Use this table to shortlist component ids before reading the per-category index 
 | Opening / chapter title | fx-01, fx-02, fx-05, t1-01, t1-06, t2-02 |
 | Quote / remark / warning / conclusion | t1-02, t1-09, t2-01, fx-03 |
 | Single number / metric | t3-01, t3-02, fx-09, t6-03, t7-06 |
-| Several parallel points (merge into one scene) | fx-04, fx-06, fx-07, t3-06, t4-04, t4-05, t4-08, t4-09, t4-11, t5-01, t5-02, t5-03, t5-04, t5-05, t5-06, t5-07, t7-05 |
-| Process / steps / timeline | t4-01, t4-02, t4-03, t4-06, t4-07, t4-11, t6-01, t6-02, t6-04, t6-05, t6-06, t6-07, t6-08 |
+| Several parallel points (merge into one scene) | fx-04, fx-06, fx-07, t3-06, t4-04, t4-05, t4-08, t4-09, t4-11, t5-01, t5-02, t5-03, t5-04, t5-05, t5-06, t5-07, t5-08, t5-09, t7-05 |
+| Process / steps / timeline | t4-01, t4-02, t4-03, t4-06, t4-07, t4-11, t6-01, t6-02, t6-04, t6-05, t6-06, t6-07, t6-08, t6-09 |
 | Chart / share / comparison | t3-03, t7-01, t7-02, t7-03, t7-04, t7-12, fx-08 |
 
 ${sections.join('\n\n')}
@@ -199,8 +199,8 @@ const atTimingProps = new Set([
   't3-04:rows', 't3-05:items', 't3-06:groups',
   't4-01:steps', 't4-02:nodes', 't4-03:items', 't4-04:items', 't4-05:items', 't4-06:items',
   't4-07:items', 't4-08:items', 't4-09:items', 't4-10:items', 't4-11:items',
-  't5-01:items', 't5-02:items', 't5-03:items', 't5-04:items', 't5-05:cards', 't5-06:items', 't5-07:items',
-  't6-01:nodes', 't6-02:nodes', 't6-05:nodes', 't6-06:steps', 't6-07:items', 't6-08:items',
+  't5-01:items', 't5-02:items', 't5-03:items', 't5-04:items', 't5-05:cards', 't5-06:items', 't5-07:items', 't5-08:items', 't5-09:items',
+  't6-01:nodes', 't6-02:nodes', 't6-05:nodes', 't6-06:steps', 't6-07:items', 't6-08:items', 't6-09:items',
   't7-01:items', 't7-02:nodes', 't7-03:segs', 't7-05:cards',
   't7-07:items', 't7-08:items', 't7-09:items', 't7-11:items', 't7-12:layers',
 ]);

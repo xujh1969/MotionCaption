@@ -28,8 +28,8 @@ Use this table to shortlist component ids before reading the per-category index 
 | Opening / chapter title | fx-01, fx-02, fx-05, t1-01, t1-06, t2-02 |
 | Quote / remark / warning / conclusion | t1-02, t1-09, t2-01, fx-03 |
 | Single number / metric | t3-01, t3-02, fx-09, t6-03, t7-06 |
-| Several parallel points (merge into one scene) | fx-04, fx-06, fx-07, t3-06, t4-04, t4-05, t4-08, t4-09, t4-11, t5-01, t5-02, t5-03, t5-04, t5-05, t5-06, t5-07, t7-05 |
-| Process / steps / timeline | t4-01, t4-02, t4-03, t4-06, t4-07, t4-11, t6-01, t6-02, t6-04, t6-05, t6-06, t6-07, t6-08 |
+| Several parallel points (merge into one scene) | fx-04, fx-06, fx-07, t3-06, t4-04, t4-05, t4-08, t4-09, t4-11, t5-01, t5-02, t5-03, t5-04, t5-05, t5-06, t5-07, t5-08, t5-09, t7-05 |
+| Process / steps / timeline | t4-01, t4-02, t4-03, t4-06, t4-07, t4-11, t6-01, t6-02, t6-04, t6-05, t6-06, t6-07, t6-08, t6-09 |
 | Chart / share / comparison | t3-03, t7-01, t7-02, t7-03, t7-04, t7-12, fx-08 |
 
 ## card-glow
@@ -65,7 +65,7 @@ Use this table to shortlist component ids before reading the per-category index 
 | t4-08 | 横向图标标题卡片(图标呼吸光) |  卡片逐个渐亮（0.18→1.0，每张约 480ms），点亮后图标带 1400ms 周期的呼吸光，未入场无光效。 | Parallel capability, feature, or value-point inventory with 2-4 cards, each with an icon, a title, and a short line. | Avoid sequential cause-effect processes, metrics, charts, and more than 4 cards. | [reference](references/components/t4-08.md) |
 | t4-09 | 横向标签徽章卡片(关键词快闪) |  胶囊标签自左向右快速渐亮（0.18→1.0，每个约 380ms），前置小圆点同步点亮。 | Short keyword, feature tag, or concept highlights with 2-5 badges and no subtitles. | Avoid long sentences, paragraphs, metrics, processes, and more than 5 badges. | [reference](references/components/t4-09.md) |
 | t4-10 | 底部胶囊拖拽进度条(阶段渐变填充) |  胶囊标签沿底部轨道自左向右拖拽（紫→橙→黄渐变条同步延展，每段 ease-out），阶段文字依次点亮：已过=浅蓝白、当前=白色、未到=灰色，黄色指示点呼吸发光。胶囊内为固定文字（capLabel，如 "Auto"），留空则跟随当前激活阶段名。 | Multi-stage pipeline, project progress, or phase hand-off shown as a bottom-zone capsule slider sweeping a gradient fill across 2-5 stage labels. | Avoid dense metrics, charts, long sentences, and more than 5 stages. | [reference](references/components/t4-10.md) |
-| t4-11 | 网格圆环序号步骤(环形渐变描边·数组扩展) |  条目按数组顺序依次入场：渐变圆环顺时针描边画出（约1.2s，ease-out），环完成后序号淡入，标题在环绘制70%时自右向左浮入（0.2→1）；完成后圆环带 0.2~0.4 呼吸辉光，两行之间有细分隔线。 | Multi-step plans, product feature lists, or process nodes shown as a numbered 2-row grid placed in the side safe zone. | Avoid long paragraphs, dense metrics, charts, and more than 6 items. | [reference](references/components/t4-11.md) |
+| t4-11 | 网格圆环序号步骤(环形渐变描边·数组扩展) |  条目按数组顺序依次入场：渐变圆环（青→紫连续渐变）顺时针描边画出（约1.2s，ease-out），环完成后序号淡入，标题在环绘制70%时自右向左浮入（0.2→1）；完成后圆环带 0.2~0.4 呼吸辉光，两行之间有细分隔线。 | Multi-step plans, product feature lists, or process nodes shown as a numbered 2-row grid placed in the side safe zone. | Avoid long paragraphs, dense metrics, charts, and more than 6 items. | [reference](references/components/t4-11.md) |
 
 ## list-item
 
@@ -78,6 +78,9 @@ Use this table to shortlist component ids before reading the per-category index 
 | t5-05 | 侧边竖向堆叠标签卡片组 |  — | Parallel status or label cards with 2-3 cards. | Avoid charts, long paragraphs, and more than 3 cards. | [reference](references/components/t5-05.md) |
 | t5-06 | 横向多列标签标题列表 |  — | Multi-column issue list with 2-3 items. | Avoid charts, long paragraphs, and more than 3 items. | [reference](references/components/t5-06.md) |
 | t5-07 | 纵向图标要点列表(线框图标描边·数组扩展) |  条目按数组顺序依次入场：线框图标描边画出（约0.7s）并点亮微光，随后小标题自上方轻落淡入（0.2→1），描述再淡入至 0.72；当前条目图标呼吸辉光增强（0.28~0.45 循环）。 | Product advantages, capability checklists, or key value points shown as a vertical list with stroked line icons. | Avoid paragraphs beyond two lines per item, dense metrics, and more than 4 items. | [reference](references/components/t5-07.md) |
+| t5-08 | 2×2网格编号横线标题(渐变横线生长·数组扩展) |  条目按数组顺序在 2 列网格中依次入场：编号淡入上浮，标题跟进，渐变横线自左向右生长（约0.8s，左端粗实块发光），描述最后淡入至 0.7；当前条目横线呼吸辉光增强（0.25~0.4 循环）。 | Four-module solution overviews, product capabilities, or staged points shown as a 2-column numbered grid with gradient rules. | Avoid more than 4 items, long paragraphs beyond two lines, and dense metrics. | [reference](references/components/t5-08.md) |
+| t5-09 | 三栏科技背景卡片(顶部粒子地形·数组扩展) |  卡片按数组顺序依次入场：容器淡入上浮（渐变描边随现），顶部粒子地形依次浮现——发光波浪曲线随帧流动、垂落光柱带顶端亮点、粒子点闪烁漂移、底部光晕；标题淡入后描述跟进至 0.7；当前卡片外框呼吸辉光增强（0.25~0.42 循环）。 | Three core capabilities, tech modules, or solution pillars shown as equal cards with an animated particle terrain on top. | Avoid more than 3 cards, long paragraphs beyond two lines, and dense metrics. | [reference](references/components/t5-09.md) |
+| t5-10 | 五栏递进柱状时序(底部渐暗增长柱·数组扩展) |  按数组顺序依次点亮，每条 at 独立控制：标题先亮起（当前条目标题呼吸外发光），随后描述与序号淡入，柱块先从左向右拉伸再自下向上生长到位、分割线缓缓显现；全部完成后稳定停留，结尾 750ms 从右向左依次淡出。 | Sequential step-by-step flows such as investment research methodology, industry value chains, or business logic breakdowns, placed at the screen side without covering the presenter. | Avoid more than 6 columns, non-sequential parallel items, and long paragraphs beyond three lines. | [reference](references/components/t5-10.md) |
 
 ## mini-chart
 
@@ -136,3 +139,4 @@ Use this table to shortlist component ids before reading the per-category index 
 | t6-06 | 多步骤向上浮动递进时间线 |  — | Iterative multi-step process with 2-4 steps. | Avoid unrelated prose, metrics, charts, and more than 4 steps. | [reference](references/components/t6-06.md) |
 | t6-07 | 有序序号步骤列表·焦点滚动切换 |  左侧安全区步骤列表（序号方块+连接线+步骤文本）：首条即高亮，之后每条目在自身时段渐入放大成当前焦点（前一条目同步缩小变白），连接线红色段逐段下行，末段整体 600ms 淡出。 | Vertical ordered steps where each step is narrated in its own cue and should be highlighted one by one (focus-scroll stepper). | Avoid scalar summaries, unordered lists, metric charts, and more than 5 items. | [reference](references/components/t6-07.md) |
 | t6-08 | 纵向堆叠序号步骤卡片(连接线延伸) |  条目自上而下依次渐亮（0.18→1.0，每条约 420ms），序号块随进度点亮（当前红、已过转灰），垂向连接线红色段同步向下延伸。 | Many ordered steps that no longer fit horizontally; use 2-5 vertical stack entries narrated one by one. | Avoid unordered lists, scalar summaries, metric charts, and more than 5 entries. | [reference](references/components/t6-08.md) |
+| t6-09 | 横向时序步骤(底部连线圆形序号·数组扩展) |  条目按数组顺序依次入场：连线先行自左向右生长到位，渐变圆环（青→紫连续渐变）顺时针描边（约0.7s），序号、标题、描述同步淡入；全部亮起后蓝色光点沿线上单向流动，当前圆环呼吸辉光增强（0.3~0.45 循环）。 | Stage flows, development timelines, or project milestones shown as a horizontal circle-numbered sequence with a gradient connector. | Avoid more than 5 steps, long paragraphs beyond two lines, and dense metrics. | [reference](references/components/t6-09.md) |

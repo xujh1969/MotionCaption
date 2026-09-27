@@ -88,6 +88,12 @@ const SLOT_MAP: ComponentSlotMap = {
   // t7-12 的 colorA/colorB 为漏斗层交替主色（青紫一体），不映射；iconColor 为半透明淡紫，保持原值
   't7-12': { titleColor: 'title', descColor: 'body' },
   't5-07': { iconColor: 'accent', titleColor: 'title', descColor: 'body' },
+  // t5-08 的 lineColorA/lineColorB 为横线渐变双端，不映射
+  't5-08': { numColor: 'accent', titleColor: 'title', descColor: 'body' },
+  // t6-09 的 lineColorA/lineColorB 为圆环与连线渐变双端，不映射
+  't6-09': { numColor: 'accent', titleColor: 'title', descColor: 'body' },
+  // t5-09 的 colorA/colorB 为卡片描边与粒子渐变双端，不映射；bottomBg 为半透明黑底，保持原值
+  't5-09': { titleColor: 'title', descColor: 'body' },
   't5-01': { hlColor: 'emphasis', titleColor: 'title', accentColor: 'accent', descColor: 'body' },
   't5-03': { hlColor: 'emphasis', titleColor: 'title', accentColor: 'accent', descColor: 'body' },
   't5-04': { hlColor: 'emphasis', titleColor: 'title', accentColor: 'accent', subColor: 'body' },

@@ -417,7 +417,7 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
                         onPointerCancel={end}
                         onLostPointerCapture={end}
                       />
-                      <span className="timeline-block-label">{effectRegistry.get(effect.componentId).name}</span>
+                      <span className="timeline-block-label">{effect.componentId} {effectRegistry.get(effect.componentId).name}</span>
                       <button
                         type="button"
                         className="timeline-handle end"

@@ -289,3 +289,27 @@ export function shadeHex(hex: string, pct: number): string {
   const h = '#' + ((1 << 24) | (c(p.r) << 16) | (c(p.g) << 8) | c(p.b)).toString(16).slice(1);
   return withAlpha(h, p.a);
 }
+
+/**
+ * 圆环分段路径：顺时针、从顶部起把整环均分为 segments 段。
+ * SVG 渐变（linearGradient）在导出重绘器中不受支持，连续渐变圆环用
+ * 「多段弧 + mixColor 逐段插值」逼近；每段一个独立 <svg>（绝对定位叠加）。
+ * 返回 t 为该段在整环渐变中的插值系数（取段中点，0→1）。
+ */
+export function ringSegmentPaths(r: number, pad: number, segments = 8): { d: string; t: number }[] {
+  const c = r + pad;
+  const pt = (k: number) => {
+    const a = -Math.PI / 2 + (k / segments) * Math.PI * 2;
+    return { x: c + r * Math.cos(a), y: c + r * Math.sin(a) };
+  };
+  const out: { d: string; t: number }[] = [];
+  for (let k = 0; k < segments; k += 1) {
+    const p = pt(k);
+    const q = pt(k + 1);
+    out.push({
+      d: `M ${p.x.toFixed(2)} ${p.y.toFixed(2)} A ${r} ${r} 0 0 1 ${q.x.toFixed(2)} ${q.y.toFixed(2)}`,
+      t: (k + 0.5) / segments,
+    });
+  }
+  return out;
+}

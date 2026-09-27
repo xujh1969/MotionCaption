@@ -1488,7 +1488,7 @@
         }
       },
       "id": "t4-11",
-      "motionFeel": "条目按数组顺序依次入场：渐变圆环顺时针描边画出（约1.2s，ease-out），环完成后序号淡入，标题在环绘制70%时自右向左浮入（0.2→1）；完成后圆环带 0.2~0.4 呼吸辉光，两行之间有细分隔线。",
+      "motionFeel": "条目按数组顺序依次入场：渐变圆环（青→紫连续渐变）顺时针描边画出（约1.2s，ease-out），环完成后序号淡入，标题在环绘制70%时自右向左浮入（0.2→1）；完成后圆环带 0.2~0.4 呼吸辉光，两行之间有细分隔线。",
       "name": "网格圆环序号步骤(环形渐变描边·数组扩展)",
       "planning": {
         "exclusive": false,
@@ -2078,6 +2078,253 @@
       ],
       "suitableFor": [
         "Product advantages, capability checklists, or key value points shown as a vertical list with stroked line icons."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid more than 4 items, long paragraphs beyond two lines, and dense metrics."
+      ],
+      "capacity": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "category": "list-item",
+      "componentVersion": 1,
+      "content": {
+        "items": {
+          "constraints": "2-4 items; all listed item fields are required strings",
+          "default": [
+            {
+              "desc": "多模态理解与生成，覆盖文本、图像与语音场景。",
+              "num": "01",
+              "title": "核心能力"
+            },
+            {
+              "desc": "开箱即用的接入方式，十分钟完成环境搭建与联调。",
+              "num": "02",
+              "title": "极速部署"
+            },
+            {
+              "desc": "模块化架构按需组合，随业务规模平滑扩容。",
+              "num": "03",
+              "title": "弹性扩展"
+            },
+            {
+              "desc": "数据全链路加密，权限与审计体系完备。",
+              "num": "04",
+              "title": "安全可控"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "desc",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "num",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "title",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 4,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        }
+      },
+      "id": "t5-08",
+      "motionFeel": "条目按数组顺序在 2 列网格中依次入场：编号淡入上浮，标题跟进，渐变横线自左向右生长（约0.8s，左端粗实块发光），描述最后淡入至 0.7；当前条目横线呼吸辉光增强（0.25~0.4 循环）。",
+      "name": "2×2网格编号横线标题(渐变横线生长·数组扩展)",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t5-08.md",
+      "selectionSummary": "2×2网格编号横线标题(渐变横线生长·数组扩展)",
+      "semanticFamilies": [
+        "items"
+      ],
+      "suitableFor": [
+        "Four-module solution overviews, product capabilities, or staged points shown as a 2-column numbered grid with gradient rules."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid more than 3 cards, long paragraphs beyond two lines, and dense metrics."
+      ],
+      "capacity": {
+        "maxItems": 3,
+        "minItems": 2
+      },
+      "category": "list-item",
+      "componentVersion": 1,
+      "content": {
+        "items": {
+          "constraints": "2-3 items; all listed item fields are required strings",
+          "default": [
+            {
+              "desc": "大规模并行计算集群，支撑训练与推理负载。",
+              "title": "算力底座"
+            },
+            {
+              "desc": "采集、清洗到入库的全链路自动编排。",
+              "title": "数据流水线"
+            },
+            {
+              "desc": "实时指标监测与异常自动预警。",
+              "title": "智能分析"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "desc",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "title",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 3,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        }
+      },
+      "id": "t5-09",
+      "motionFeel": "卡片按数组顺序依次入场：容器淡入上浮（渐变描边随现），顶部粒子地形依次浮现——发光波浪曲线随帧流动、垂落光柱带顶端亮点、粒子点闪烁漂移、底部光晕；标题淡入后描述跟进至 0.7；当前卡片外框呼吸辉光增强（0.25~0.42 循环）。",
+      "name": "三栏科技背景卡片(顶部粒子地形·数组扩展)",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t5-09.md",
+      "selectionSummary": "三栏科技背景卡片(顶部粒子地形·数组扩展)",
+      "semanticFamilies": [
+        "items"
+      ],
+      "suitableFor": [
+        "Three core capabilities, tech modules, or solution pillars shown as equal cards with an animated particle terrain on top."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid more than 6 columns, non-sequential parallel items, and long paragraphs beyond three lines."
+      ],
+      "capacity": {
+        "maxItems": 6,
+        "minItems": 2
+      },
+      "category": "list-item",
+      "componentVersion": 1,
+      "content": {
+        "items": {
+          "constraints": "2-6 items; all listed item fields are required strings",
+          "default": [
+            {
+              "desc": "分析全球及区域经济走势、政策导向、行业周期等，判断市场整体环境和潜在影响。",
+              "num": "01",
+              "title": "宏观经济评估"
+            },
+            {
+              "desc": "聚焦特定行业发展前景、竞争格局、技术创新及市场规模，识别高增长赛道。",
+              "num": "02",
+              "title": "行业深度研究"
+            },
+            {
+              "desc": "评估目标企业的财务状况、管理团队、核心竞争力、估值水平，洞察内在价值。",
+              "num": "03",
+              "title": "企业价值分析"
+            },
+            {
+              "desc": "识别市场、信用、操作等各类风险因素，并进行量化评估，制定应对策略。",
+              "num": "04",
+              "title": "风险识别与量化"
+            },
+            {
+              "desc": "结合投资目标与风险偏好，构建多元化投资组合，实现收益与风险的最佳平衡。",
+              "num": "05",
+              "title": "投资组合优化"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "desc",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "num",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "title",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 6,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        }
+      },
+      "id": "t5-10",
+      "motionFeel": "按数组顺序依次点亮，每条 at 独立控制：标题先亮起（当前条目标题呼吸外发光），随后描述与序号淡入，柱块先从左向右拉伸再自下向上生长到位、分割线缓缓显现；全部完成后稳定停留，结尾 750ms 从右向左依次淡出。",
+      "name": "五栏递进柱状时序(底部渐暗增长柱·数组扩展)",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t5-10.md",
+      "selectionSummary": "五栏递进柱状时序(底部渐暗增长柱·数组扩展)",
+      "semanticFamilies": [
+        "items"
+      ],
+      "suitableFor": [
+        "Sequential step-by-step flows such as investment research methodology, industry value chains, or business logic breakdowns, placed at the screen side without covering the presenter."
       ]
     },
     {
@@ -4961,6 +5208,91 @@
       ],
       "suitableFor": [
         "Many ordered steps that no longer fit horizontally; use 2-5 vertical stack entries narrated one by one."
+      ]
+    },
+    {
+      "avoidFor": [
+        "Avoid more than 5 steps, long paragraphs beyond two lines, and dense metrics."
+      ],
+      "capacity": {
+        "maxItems": 5,
+        "minItems": 2
+      },
+      "category": "timeline-flow",
+      "componentVersion": 1,
+      "content": {
+        "items": {
+          "constraints": "2-5 items; all listed item fields are required strings",
+          "default": [
+            {
+              "desc": "目标与里程碑对齐，资源到位。",
+              "num": "01",
+              "title": "立项启动"
+            },
+            {
+              "desc": "技术选型与系统蓝图敲定。",
+              "num": "02",
+              "title": "架构设计"
+            },
+            {
+              "desc": "核心模块开发与集成联调。",
+              "num": "03",
+              "title": "研发攻坚"
+            },
+            {
+              "desc": "灰度验证后全量交付。",
+              "num": "04",
+              "title": "发布上线"
+            }
+          ],
+          "itemFields": [
+            {
+              "key": "desc",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "num",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "key": "title",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "maxItems": 5,
+          "minItems": 2,
+          "required": true,
+          "role": "content",
+          "semanticRole": "items",
+          "type": "list"
+        }
+      },
+      "id": "t6-09",
+      "motionFeel": "条目按数组顺序依次入场：连线先行自左向右生长到位，渐变圆环（青→紫连续渐变）顺时针描边（约0.7s），序号、标题、描述同步淡入；全部亮起后蓝色光点沿线上单向流动，当前圆环呼吸辉光增强（0.3~0.45 循环）。",
+      "name": "横向时序步骤(底部连线圆形序号·数组扩展)",
+      "planning": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ],
+        "roles": [
+          "items"
+        ]
+      },
+      "referencePath": "references/components/t6-09.md",
+      "selectionSummary": "横向时序步骤(底部连线圆形序号·数组扩展)",
+      "semanticFamilies": [
+        "items"
+      ],
+      "suitableFor": [
+        "Stage flows, development timelines, or project milestones shown as a horizontal circle-numbered sequence with a gradient connector."
       ]
     }
   ],

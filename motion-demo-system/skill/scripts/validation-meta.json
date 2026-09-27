@@ -5012,7 +5012,7 @@
         },
         "hGap": {
           "agentEditable": false,
-          "default": 220,
+          "default": 117,
           "max": 420,
           "min": 60,
           "required": true,
@@ -5042,7 +5042,7 @@
         },
         "lineOpacity": {
           "agentEditable": false,
-          "default": 0.6,
+          "default": 1,
           "max": 1,
           "min": 0,
           "required": true,
@@ -5064,7 +5064,7 @@
         },
         "posX": {
           "agentEditable": false,
-          "default": 80,
+          "default": 78.65939820174705,
           "max": 1920,
           "min": 0,
           "required": true,
@@ -5072,7 +5072,7 @@
         },
         "posY": {
           "agentEditable": false,
-          "default": 160,
+          "default": 158.6542939527611,
           "max": 1080,
           "min": 0,
           "required": true,
@@ -5080,7 +5080,7 @@
         },
         "ringWidth": {
           "agentEditable": false,
-          "default": 2,
+          "default": 4,
           "max": 8,
           "min": 1,
           "required": true,
@@ -5088,7 +5088,7 @@
         },
         "scale": {
           "agentEditable": false,
-          "default": 100,
+          "default": 55.08835608066248,
           "max": 200,
           "min": 20,
           "required": true,
@@ -5130,7 +5130,7 @@
         },
         "titleWidth": {
           "agentEditable": false,
-          "default": 420,
+          "default": 271,
           "max": 720,
           "min": 160,
           "required": true,
@@ -5138,7 +5138,7 @@
         },
         "vGap": {
           "agentEditable": false,
-          "default": 240,
+          "default": 187,
           "max": 420,
           "min": 80,
           "required": true,
@@ -6023,7 +6023,7 @@
         },
         "posX": {
           "agentEditable": false,
-          "default": 100,
+          "default": 100.00219488085561,
           "max": 1920,
           "min": 0,
           "required": true,
@@ -6031,7 +6031,7 @@
         },
         "posY": {
           "agentEditable": false,
-          "default": 140,
+          "default": 140.00102173765043,
           "max": 1080,
           "min": 0,
           "required": true,
@@ -6039,7 +6039,7 @@
         },
         "scale": {
           "agentEditable": false,
-          "default": 100,
+          "default": 83.72445626898788,
           "max": 200,
           "min": 20,
           "required": true,
@@ -6061,7 +6061,7 @@
         },
         "vGap": {
           "agentEditable": false,
-          "default": 160,
+          "default": 112,
           "max": 300,
           "min": 60,
           "required": true,
@@ -6070,6 +6070,521 @@
       },
       "selection": {
         "maxItems": 4,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t5-08",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "descColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "descSize": {
+          "agentEditable": false,
+          "default": 28,
+          "max": 48,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "growMs": {
+          "agentEditable": false,
+          "default": 800,
+          "max": 1600,
+          "min": 400,
+          "required": true,
+          "type": "number"
+        },
+        "hGap": {
+          "agentEditable": false,
+          "default": 140,
+          "max": 300,
+          "min": 60,
+          "required": true,
+          "type": "number"
+        },
+        "items": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "num",
+            "title",
+            "desc"
+          ],
+          "default": "[{\"num\":\"01\",\"title\":\"核心能力\",\"desc\":\"多模态理解与生成，覆盖文本、图像与语音场景。\",\"at\":\"\"},{\"num\":\"02\",\"title\":\"极速部署\",\"desc\":\"开箱即用的接入方式，十分钟完成环境搭建与联调。\",\"at\":\"\"},{\"num\":\"03\",\"title\":\"弹性扩展\",\"desc\":\"模块化架构按需组合，随业务规模平滑扩容。\",\"at\":\"\"},{\"num\":\"04\",\"title\":\"安全可控\",\"desc\":\"数据全链路加密，权限与审计体系完备。\",\"at\":\"\"}]",
+          "listFieldsKeys": [
+            "num",
+            "title",
+            "desc",
+            "at"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "itemWidth": {
+          "agentEditable": false,
+          "default": 634,
+          "max": 900,
+          "min": 400,
+          "required": true,
+          "type": "number"
+        },
+        "lineCapH": {
+          "agentEditable": false,
+          "default": 10,
+          "max": 24,
+          "min": 4,
+          "required": true,
+          "type": "number"
+        },
+        "lineCapW": {
+          "agentEditable": false,
+          "default": 64,
+          "max": 160,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        },
+        "lineColorA": {
+          "agentEditable": false,
+          "default": "#33eaff",
+          "required": true,
+          "type": "color"
+        },
+        "lineColorB": {
+          "agentEditable": false,
+          "default": "#884cff",
+          "required": true,
+          "type": "color"
+        },
+        "lineDescGap": {
+          "agentEditable": false,
+          "default": 27,
+          "max": 48,
+          "min": 4,
+          "required": true,
+          "type": "number"
+        },
+        "lineH": {
+          "agentEditable": false,
+          "default": 4,
+          "max": 10,
+          "min": 2,
+          "required": true,
+          "type": "number"
+        },
+        "numColor": {
+          "agentEditable": false,
+          "default": "#33eaff",
+          "required": true,
+          "type": "color"
+        },
+        "numSize": {
+          "agentEditable": false,
+          "default": 56,
+          "max": 96,
+          "min": 32,
+          "required": true,
+          "type": "number"
+        },
+        "numTitleGap": {
+          "agentEditable": false,
+          "default": 27,
+          "max": 60,
+          "min": 8,
+          "required": true,
+          "type": "number"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 120.00448178450424,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 100.00234860739411,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 66.02002742375022,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleLineGap": {
+          "agentEditable": false,
+          "default": 20,
+          "max": 40,
+          "min": 4,
+          "required": true,
+          "type": "number"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 44,
+          "max": 80,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        },
+        "vGap": {
+          "agentEditable": false,
+          "default": 118,
+          "max": 360,
+          "min": 80,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {
+        "maxItems": 4,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t5-09",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "bottomBg": {
+          "agentEditable": false,
+          "default": "rgba(0,0,0,0.75)",
+          "required": true,
+          "type": "color"
+        },
+        "cardGap": {
+          "agentEditable": false,
+          "default": 36,
+          "max": 80,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "cardRadius": {
+          "agentEditable": false,
+          "default": 24,
+          "max": 48,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "cardW": {
+          "agentEditable": false,
+          "default": 480,
+          "max": 640,
+          "min": 360,
+          "required": true,
+          "type": "number"
+        },
+        "colorA": {
+          "agentEditable": false,
+          "default": "#33eaff",
+          "required": true,
+          "type": "color"
+        },
+        "colorB": {
+          "agentEditable": false,
+          "default": "#884cff",
+          "required": true,
+          "type": "color"
+        },
+        "descColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "descSize": {
+          "agentEditable": false,
+          "default": 28,
+          "max": 48,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "drawMs": {
+          "agentEditable": false,
+          "default": 700,
+          "max": 1500,
+          "min": 400,
+          "required": true,
+          "type": "number"
+        },
+        "gapTitle": {
+          "agentEditable": false,
+          "default": 16,
+          "max": 48,
+          "min": 4,
+          "required": true,
+          "type": "number"
+        },
+        "items": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "title",
+            "desc"
+          ],
+          "default": "[{\"title\":\"算力底座\",\"desc\":\"大规模并行计算集群，支撑训练与推理负载。\",\"preset\":\"waveTerrain\",\"at\":\"\"},{\"title\":\"数据流水线\",\"desc\":\"采集、清洗到入库的全链路自动编排。\",\"preset\":\"bubbleTerrain\",\"at\":\"\"},{\"title\":\"智能分析\",\"desc\":\"实时指标监测与异常自动预警。\",\"preset\":\"peakTerrain\",\"at\":\"\"}]",
+          "listFieldsKeys": [
+            "title",
+            "desc",
+            "preset",
+            "at"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "padH": {
+          "agentEditable": false,
+          "default": 32,
+          "max": 80,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "padV": {
+          "agentEditable": false,
+          "default": 40,
+          "max": 80,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "particleH": {
+          "agentEditable": false,
+          "default": 200,
+          "max": 320,
+          "min": 120,
+          "required": true,
+          "type": "number"
+        },
+        "particleMs": {
+          "agentEditable": false,
+          "default": 900,
+          "max": 1800,
+          "min": 400,
+          "required": true,
+          "type": "number"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 80,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "strokeW": {
+          "agentEditable": false,
+          "default": 1,
+          "max": 4,
+          "min": 1,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 44,
+          "max": 80,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {
+        "maxItems": 3,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t5-10",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "barMaxH": {
+          "agentEditable": false,
+          "default": 280,
+          "max": 460,
+          "min": 140,
+          "required": true,
+          "type": "number"
+        },
+        "barOpacity": {
+          "agentEditable": false,
+          "default": 85,
+          "max": 100,
+          "min": 30,
+          "required": true,
+          "type": "number"
+        },
+        "colGap": {
+          "agentEditable": false,
+          "default": 20,
+          "max": 60,
+          "min": 8,
+          "required": true,
+          "type": "number"
+        },
+        "colW": {
+          "agentEditable": false,
+          "default": 340,
+          "max": 460,
+          "min": 220,
+          "required": true,
+          "type": "number"
+        },
+        "descSize": {
+          "agentEditable": false,
+          "default": 24,
+          "max": 44,
+          "min": 14,
+          "required": true,
+          "type": "number"
+        },
+        "dividerColor": {
+          "agentEditable": false,
+          "default": "rgba(255,255,255,0.25)",
+          "required": true,
+          "type": "color"
+        },
+        "items": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "title",
+            "desc",
+            "num"
+          ],
+          "default": "[{\"num\":\"01\",\"title\":\"宏观经济评估\",\"desc\":\"分析全球及区域经济走势、政策导向、行业周期等，判断市场整体环境和潜在影响。\",\"barColor\":\"#805cff\",\"barH\":0.22,\"at\":0},{\"num\":\"02\",\"title\":\"行业深度研究\",\"desc\":\"聚焦特定行业发展前景、竞争格局、技术创新及市场规模，识别高增长赛道。\",\"barColor\":\"#6b4fc9\",\"barH\":0.38,\"at\":0.75},{\"num\":\"03\",\"title\":\"企业价值分析\",\"desc\":\"评估目标企业的财务状况、管理团队、核心竞争力、估值水平，洞察内在价值。\",\"barColor\":\"#483680\",\"barH\":0.54,\"at\":1.5},{\"num\":\"04\",\"title\":\"风险识别与量化\",\"desc\":\"识别市场、信用、操作等各类风险因素，并进行量化评估，制定应对策略。\",\"barColor\":\"#2f2454\",\"barH\":0.72,\"at\":2.25},{\"num\":\"05\",\"title\":\"投资组合优化\",\"desc\":\"结合投资目标与风险偏好，构建多元化投资组合，实现收益与风险的最佳平衡。\",\"barColor\":\"#181430\",\"barH\":0.9,\"at\":3}]",
+          "listFieldsKeys": [
+            "num",
+            "title",
+            "desc",
+            "barColor",
+            "barH",
+            "at"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "numSize": {
+          "agentEditable": false,
+          "default": 36,
+          "max": 64,
+          "min": 18,
+          "required": true,
+          "type": "number"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 60,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 60,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 100,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#9977ff",
+          "required": true,
+          "type": "color"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 42,
+          "max": 72,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {
+        "maxItems": 6,
         "minItems": 2
       },
       "version": 1
@@ -7234,6 +7749,202 @@
           "agentEditable": false,
           "default": 46,
           "max": 110,
+          "min": 24,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {
+        "maxItems": 5,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t6-09",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "circleSize": {
+          "agentEditable": false,
+          "default": 140,
+          "max": 220,
+          "min": 90,
+          "required": true,
+          "type": "number"
+        },
+        "circleStroke": {
+          "agentEditable": false,
+          "default": 2,
+          "max": 6,
+          "min": 1,
+          "required": true,
+          "type": "number"
+        },
+        "descColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "descSize": {
+          "agentEditable": false,
+          "default": 30,
+          "max": 48,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "descWidth": {
+          "agentEditable": false,
+          "default": 340,
+          "max": 520,
+          "min": 200,
+          "required": true,
+          "type": "number"
+        },
+        "drawMs": {
+          "agentEditable": false,
+          "default": 700,
+          "max": 1500,
+          "min": 300,
+          "required": true,
+          "type": "number"
+        },
+        "items": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "num",
+            "title",
+            "desc"
+          ],
+          "default": "[{\"num\":\"01\",\"title\":\"立项启动\",\"desc\":\"目标与里程碑对齐，资源到位。\",\"at\":\"\"},{\"num\":\"02\",\"title\":\"架构设计\",\"desc\":\"技术选型与系统蓝图敲定。\",\"at\":\"\"},{\"num\":\"03\",\"title\":\"研发攻坚\",\"desc\":\"核心模块开发与集成联调。\",\"at\":\"\"},{\"num\":\"04\",\"title\":\"发布上线\",\"desc\":\"灰度验证后全量交付。\",\"at\":\"\"}]",
+          "listFieldsKeys": [
+            "num",
+            "title",
+            "desc",
+            "at"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "lineColorA": {
+          "agentEditable": false,
+          "default": "#33eaff",
+          "required": true,
+          "type": "color"
+        },
+        "lineColorB": {
+          "agentEditable": false,
+          "default": "#884cff",
+          "required": true,
+          "type": "color"
+        },
+        "lineGrowMs": {
+          "agentEditable": false,
+          "default": 800,
+          "max": 1600,
+          "min": 400,
+          "required": true,
+          "type": "number"
+        },
+        "lineH": {
+          "agentEditable": false,
+          "default": 3,
+          "max": 8,
+          "min": 1,
+          "required": true,
+          "type": "number"
+        },
+        "numColor": {
+          "agentEditable": false,
+          "default": "#33eaff",
+          "required": true,
+          "type": "color"
+        },
+        "numSize": {
+          "agentEditable": false,
+          "default": 60,
+          "max": 100,
+          "min": 32,
+          "required": true,
+          "type": "number"
+        },
+        "particleCount": {
+          "agentEditable": false,
+          "default": 3,
+          "max": 6,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 95.21717251469742,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 501.57255694022246,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 57.620189058201774,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "textToCircle": {
+          "agentEditable": false,
+          "default": 120,
+          "max": 240,
+          "min": 60,
+          "required": true,
+          "type": "number"
+        },
+        "timelineW": {
+          "agentEditable": false,
+          "default": 1560,
+          "max": 1800,
+          "min": 900,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleDescGap": {
+          "agentEditable": false,
+          "default": 16,
+          "max": 48,
+          "min": 4,
+          "required": true,
+          "type": "number"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 48,
+          "max": 80,
           "min": 24,
           "required": true,
           "type": "number"
