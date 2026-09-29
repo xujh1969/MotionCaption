@@ -238,6 +238,18 @@ export const VideoStage: React.FC<VideoStageProps> = ({
         className="remotion-player stage-effects-layer"
         style={{ width: '100%', height: '100%' }}
       />
+      {/* 画布边界：细线标出 1920×1080 可显示区域——深色/棋盘背景下组件多透明，
+          没有这条线就分不清「画布外的留白」和「画布内的空区域」。 */}
+      <div
+        data-canvas-outline
+        aria-hidden
+        style={{
+          position: 'absolute', left: fittedRect.left, top: fittedRect.top,
+          width: fittedRect.width, height: fittedRect.height,
+          border: '1px solid rgba(255,255,255,0.14)',
+          pointerEvents: 'none', zIndex: 5,
+        }}
+      />
       {/* 组件试播叠加层：独立时钟在静止画面上演示组件动效，播完自动清除。 */}
       {componentPreview && (
         <Player

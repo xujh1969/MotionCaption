@@ -6,6 +6,10 @@ import * as C4 from './components/cat4_5';
 import * as C4C from './components/cat4_cards';
 import * as C5B from './components/cat5_bars';
 import * as C5U from './components/cat5_bubble';
+import * as C5T from './components/cat5_tags';
+import * as C5S from './components/cat5_steps';
+import * as C5M from './components/cat5_metrics';
+import * as C5G from './components/cat5_grid';
 import * as C6 from './components/cat6_timeline';
 import * as C6S from './components/cat6_step';
 import * as C7 from './components/cat7_chart';
@@ -83,6 +87,10 @@ export const CATALOG: ComponentDef[] = [
   { id: 't5-09', name: '三栏科技背景卡片(顶部粒子地形·数组扩展)', category: 'list-item', component: C4.T5_09 },
   { id: 't5-10', name: '五栏递进柱状时序(底部渐暗增长柱·数组扩展)', category: 'list-item', component: C5B.T5_10 },
   { id: 't5-11', name: '气泡集群模块(大小差异化圆形气泡·数组扩展)', category: 'list-item', component: C5U.T5_11 },
+  { id: 't5-12', name: '关键词标签组(主标题+胶囊标签依次点亮·数组扩展)', category: 'list-item', component: C5T.T5_12 },
+  { id: 't5-13', name: '纵向步骤卡片(标题+选项依次高亮·数组扩展)', category: 'list-item', component: C5S.T5_13 },
+  { id: 't5-14', name: '指标结果面板(标题+纵向指标卡片·数组依次入场)', category: 'list-item', component: C5M.T5_14 },
+  { id: 't5-15', name: '2行3列网格标签卡片(主标题+网格胶囊·依次点亮·数组扩展)', category: 'list-item', component: C5G.T5_15 },
   // 第六大类 时间线流向
   { id: 't6-01', name: '竖向时间轴时间线', category: 'timeline-flow', component: C6.T6_01 },
   { id: 't6-02', name: '多节点横向箭头数据流', category: 'timeline-flow', component: C6.T6_02 },

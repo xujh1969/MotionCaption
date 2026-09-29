@@ -94,10 +94,11 @@ describe('editor store formal effects', () => {
   it('keeps preview backgrounds in transient editor state', () => {
     const store = createEditorStore(project());
 
-    expect(store.getState().previewBackground).toBe('checkerboard');
-    store.getState().setPreviewBackground('dark');
-
+    // 启动默认深色背景（棋盘格/视频模式仍可在预览工具栏切换）
     expect(store.getState().previewBackground).toBe('dark');
+    store.getState().setPreviewBackground('checkerboard');
+
+    expect(store.getState().previewBackground).toBe('checkerboard');
     expect(store.getState().project).not.toHaveProperty('previewBackground');
   });
 

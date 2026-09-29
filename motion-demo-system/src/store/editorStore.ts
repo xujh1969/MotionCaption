@@ -163,7 +163,7 @@ const stateCreator = (initialProject: MotionProject) => (
   selectedInstanceId: null,
   currentFrame: 0,
   isPlaying: false,
-  previewBackground: 'checkerboard',
+  previewBackground: 'dark',
   hiddenTimelineTrackIds: [],
   setVideoMetadata: (video) => set((state) => {
     const duration = Math.max(1, video.durationInFrames);

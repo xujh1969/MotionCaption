@@ -207,7 +207,11 @@ export async function renderOffscreenThumb(
   );
   await waitForPlayerRef(holder);
   holder.current?.seekTo(targetFrame);
+  // 两次 paint + 固定延时：Player seekTo 后需要完成内部重绘，只等一次 paint
+  // 在负载高/冷启动时会截到早期帧（表现为缩略图停留在第 0 帧附近）并被缓存。
   await nextPaint();
+  await nextPaint();
+  await new Promise<void>((resolve) => setTimeout(resolve, 150));
   return {
     host,
     cleanup: () => {
@@ -218,12 +222,18 @@ export async function renderOffscreenThumb(
 }
 
 async function captureThumbnail(componentId: string): Promise<string> {
-  const { host, cleanup } = await renderOffscreenThumb(componentId);
-  try {
-    return await rasterizeElement(host, measureCropRect(host));
-  } finally {
-    cleanup();
+  // 失败重试一次：离屏渲染偶发超时/光栅化失败时，重试通常可恢复
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    const { host, cleanup } = await renderOffscreenThumb(componentId);
+    try {
+      return await rasterizeElement(host, measureCropRect(host));
+    } catch (error) {
+      if (attempt === 1) throw error;
+    } finally {
+      cleanup();
+    }
   }
+  throw new Error('thumbnail capture failed');
 }
 
 /**

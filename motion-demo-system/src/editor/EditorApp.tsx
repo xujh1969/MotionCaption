@@ -555,7 +555,7 @@ export const EditorApp: React.FC = () => {
       return;
     }
     setVideoSource(null);
-    setPreviewBackground('checkerboard');
+    setPreviewBackground('dark');
     setMessage('工程已打开。参考视频需重新选择。');
   };
 

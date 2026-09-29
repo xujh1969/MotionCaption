@@ -30,8 +30,11 @@ import http from 'node:http';
 const projectRoot = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const BASE = 'http://127.0.0.1:8011/';
 const BASELINE_PATH = join(projectRoot, 'scripts', 'render-parity-baseline.json');
-const COLS = 5;
-const ROWS = 4;
+// 每批只渲染一个组件：diff 窗口恒为 (0,0) 的 CELL 区域，与组件数量/顺序无关。
+// 此前 5×4 网格分批时，新增组件会把后续组件的采样窗口整体推移，导致旧基线失效
+// （t5-12 加入后 t7-12 误报回归）。代价是全量截图次数 = 组件数，耗时长一些。
+const COLS = 1;
+const ROWS = 1;
 const CELL_W = 384;
 const CELL_H = 270;
 const FALLBACK_CHROME = 'C:\\Users\\AYOU\\AppData\\Local\\ms-playwright\\chromium_headless_shell-1234\\chrome-headless-shell-win64\\chrome-headless-shell.exe';

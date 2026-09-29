@@ -6698,6 +6698,711 @@
       "version": 1
     },
     {
+      "id": "t5-12",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "accentColor": {
+          "agentEditable": false,
+          "default": "#4AD1FF",
+          "required": true,
+          "type": "color"
+        },
+        "activeBg": {
+          "agentEditable": false,
+          "default": "rgba(18,38,120,0.88)",
+          "required": true,
+          "type": "color"
+        },
+        "items": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "label"
+          ],
+          "default": "[{\"label\":\"底座\",\"at\":0},{\"label\":\"双导轨\",\"at\":0.4},{\"label\":\"滚珠丝杠\",\"at\":0.8},{\"label\":\"滑台\",\"at\":1.2},{\"label\":\"伺服电机\",\"at\":1.6},{\"label\":\"线缆\",\"at\":2}]",
+          "listFieldsKeys": [
+            "label",
+            "at"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "maxWidth": {
+          "agentEditable": false,
+          "default": 1520,
+          "max": 1800,
+          "min": 400,
+          "required": true,
+          "type": "number"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 104.38852518766117,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 381.4081592855408,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "rowGap": {
+          "agentEditable": false,
+          "default": 14,
+          "max": 40,
+          "min": 6,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 81.08755615965126,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "tagGap": {
+          "agentEditable": false,
+          "default": 28,
+          "max": 64,
+          "min": 8,
+          "required": true,
+          "type": "number"
+        },
+        "tagH": {
+          "agentEditable": false,
+          "default": 56,
+          "max": 96,
+          "min": 36,
+          "required": true,
+          "type": "number"
+        },
+        "tagPadX": {
+          "agentEditable": false,
+          "default": 32,
+          "max": 64,
+          "min": 12,
+          "required": true,
+          "type": "number"
+        },
+        "tagSize": {
+          "agentEditable": false,
+          "default": 30,
+          "max": 56,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleLine1": {
+          "agentEditable": true,
+          "default": "把画面细节",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "titleLine2": {
+          "agentEditable": true,
+          "default": "转换为建模目标",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 88,
+          "max": 140,
+          "min": 40,
+          "required": true,
+          "type": "number"
+        },
+        "titleTagGap": {
+          "agentEditable": false,
+          "default": 36,
+          "max": 80,
+          "min": 12,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {
+        "maxItems": 10,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t5-13",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "accentColor": {
+          "agentEditable": false,
+          "default": "#3A8CFF",
+          "required": true,
+          "type": "color"
+        },
+        "activeBg": {
+          "agentEditable": false,
+          "default": "rgba(30,70,160,0.35)",
+          "required": true,
+          "type": "color"
+        },
+        "cardGap": {
+          "agentEditable": false,
+          "default": 24,
+          "max": 60,
+          "min": 8,
+          "required": true,
+          "type": "number"
+        },
+        "cardH": {
+          "agentEditable": false,
+          "default": 96,
+          "max": 160,
+          "min": 56,
+          "required": true,
+          "type": "number"
+        },
+        "cardTitleSize": {
+          "agentEditable": false,
+          "default": 34,
+          "max": 64,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "cardW": {
+          "agentEditable": false,
+          "default": 720,
+          "max": 1100,
+          "min": 360,
+          "required": true,
+          "type": "number"
+        },
+        "items": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "title",
+            "num"
+          ],
+          "default": "[{\"num\":\"00\",\"title\":\"基础体块\",\"at\":0},{\"num\":\"01\",\"title\":\"核心结构\",\"at\":0.7},{\"num\":\"02\",\"title\":\"形态细化\",\"at\":1.4}]",
+          "listFieldsKeys": [
+            "num",
+            "title",
+            "at"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "numSize": {
+          "agentEditable": false,
+          "default": 32,
+          "max": 60,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "numTitleGap": {
+          "agentEditable": false,
+          "default": 24,
+          "max": 60,
+          "min": 8,
+          "required": true,
+          "type": "number"
+        },
+        "padLeft": {
+          "agentEditable": false,
+          "default": 32,
+          "max": 80,
+          "min": 12,
+          "required": true,
+          "type": "number"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 127.40648172057352,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 116.70182929071012,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "radius": {
+          "agentEditable": false,
+          "default": 20,
+          "max": 48,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 75.92691910891823,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "titleCardGap": {
+          "agentEditable": false,
+          "default": 28,
+          "max": 80,
+          "min": 10,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleLine1": {
+          "agentEditable": true,
+          "default": "先做结构",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "titleLine2": {
+          "agentEditable": true,
+          "default": "再做细节",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 96,
+          "max": 150,
+          "min": 40,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {
+        "maxItems": 5,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t5-14",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "accentColor": {
+          "agentEditable": false,
+          "default": "#4CD990",
+          "required": true,
+          "type": "color"
+        },
+        "cardGap": {
+          "agentEditable": false,
+          "default": 22,
+          "max": 60,
+          "min": 8,
+          "required": true,
+          "type": "number"
+        },
+        "cardW": {
+          "agentEditable": false,
+          "default": 740,
+          "max": 1100,
+          "min": 360,
+          "required": true,
+          "type": "number"
+        },
+        "items": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "value",
+            "label"
+          ],
+          "default": "[{\"value\":\"47\",\"label\":\"网格数\",\"borderColor\":\"#4ad1ff\",\"at\":0},{\"value\":\"28,858\",\"label\":\"三角面\",\"borderColor\":\"#4ad1ff\",\"at\":0.8},{\"value\":\"48\",\"label\":\"绘制调用\",\"borderColor\":\"#4cd990\",\"at\":1.6}]",
+          "listFieldsKeys": [
+            "value",
+            "label",
+            "borderColor",
+            "at"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "labelSize": {
+          "agentEditable": false,
+          "default": 32,
+          "max": 56,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "numLabelGap": {
+          "agentEditable": false,
+          "default": 8,
+          "max": 32,
+          "min": 2,
+          "required": true,
+          "type": "number"
+        },
+        "numSize": {
+          "agentEditable": false,
+          "default": 72,
+          "max": 130,
+          "min": 32,
+          "required": true,
+          "type": "number"
+        },
+        "padX": {
+          "agentEditable": false,
+          "default": 40,
+          "max": 80,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "padY": {
+          "agentEditable": false,
+          "default": 36,
+          "max": 80,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 140,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 120,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "radius": {
+          "agentEditable": false,
+          "default": 18,
+          "max": 48,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 90,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "subTitleColor": {
+          "agentEditable": false,
+          "default": "#4CD990",
+          "required": true,
+          "type": "color"
+        },
+        "subTitleGap": {
+          "agentEditable": false,
+          "default": 32,
+          "max": 72,
+          "min": 10,
+          "required": true,
+          "type": "number"
+        },
+        "subTitleSize": {
+          "agentEditable": false,
+          "default": 42,
+          "max": 72,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "subTitleText": {
+          "agentEditable": true,
+          "default": "最终浏览器指标",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "titleCardGap": {
+          "agentEditable": false,
+          "default": 48,
+          "max": 96,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleLine1": {
+          "agentEditable": true,
+          "default": "测试完成",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "titleLine2": {
+          "agentEditable": true,
+          "default": "可以使用",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 110,
+          "max": 170,
+          "min": 48,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {
+        "maxItems": 6,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
+      "id": "t5-15",
+      "layout": {
+        "exclusive": false,
+        "footprint": {
+          "height": 540,
+          "width": 960
+        },
+        "preferredZones": [
+          "auto"
+        ]
+      },
+      "props": {
+        "accentColor": {
+          "agentEditable": false,
+          "default": "#FFC247",
+          "required": true,
+          "type": "color"
+        },
+        "activeBg": {
+          "agentEditable": false,
+          "default": "rgba(180,130,40,0.25)",
+          "required": true,
+          "type": "color"
+        },
+        "cardH": {
+          "agentEditable": false,
+          "default": 110,
+          "max": 180,
+          "min": 64,
+          "required": true,
+          "type": "number"
+        },
+        "cardW": {
+          "agentEditable": false,
+          "default": 330,
+          "max": 520,
+          "min": 200,
+          "required": true,
+          "type": "number"
+        },
+        "gapX": {
+          "agentEditable": false,
+          "default": 24,
+          "max": 60,
+          "min": 8,
+          "required": true,
+          "type": "number"
+        },
+        "gapY": {
+          "agentEditable": false,
+          "default": 22,
+          "max": 60,
+          "min": 8,
+          "required": true,
+          "type": "number"
+        },
+        "items": {
+          "agentEditable": true,
+          "agentEditableItemFields": [
+            "label"
+          ],
+          "default": "[{\"label\":\"空间比例\",\"at\":0},{\"label\":\"墙体开口\",\"at\":0.6},{\"label\":\"楼梯关系\",\"at\":1.2},{\"label\":\"家具布局\",\"at\":1.8},{\"label\":\"材质边界\",\"at\":2.4},{\"label\":\"采光方向\",\"at\":3}]",
+          "listFieldsKeys": [
+            "label",
+            "at"
+          ],
+          "required": true,
+          "semanticRole": "items",
+          "type": "list"
+        },
+        "posX": {
+          "agentEditable": false,
+          "default": 160.003480597824,
+          "max": 1920,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "posY": {
+          "agentEditable": false,
+          "default": 100.00192239839333,
+          "max": 1080,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "radius": {
+          "agentEditable": false,
+          "default": 18,
+          "max": 48,
+          "min": 0,
+          "required": true,
+          "type": "number"
+        },
+        "scale": {
+          "agentEditable": false,
+          "default": 72.18647746328571,
+          "max": 200,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "subTitleColor": {
+          "agentEditable": false,
+          "default": "#FFC247",
+          "required": true,
+          "type": "color"
+        },
+        "subTitleGap": {
+          "agentEditable": false,
+          "default": 36,
+          "max": 80,
+          "min": 10,
+          "required": true,
+          "type": "number"
+        },
+        "subTitleSize": {
+          "agentEditable": false,
+          "default": 44,
+          "max": 76,
+          "min": 20,
+          "required": true,
+          "type": "number"
+        },
+        "subTitleText": {
+          "agentEditable": true,
+          "default": "室内设计参考图",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "tagSize": {
+          "agentEditable": false,
+          "default": 36,
+          "max": 64,
+          "min": 18,
+          "required": true,
+          "type": "number"
+        },
+        "titleColor": {
+          "agentEditable": false,
+          "default": "#FFFFFF",
+          "required": true,
+          "type": "color"
+        },
+        "titleGridGap": {
+          "agentEditable": false,
+          "default": 52,
+          "max": 96,
+          "min": 16,
+          "required": true,
+          "type": "number"
+        },
+        "titleLine1": {
+          "agentEditable": true,
+          "default": "先理解空间",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "titleLine2": {
+          "agentEditable": true,
+          "default": "再进入重建",
+          "required": true,
+          "semanticRole": "title",
+          "type": "text"
+        },
+        "titleSize": {
+          "agentEditable": false,
+          "default": 104,
+          "max": 160,
+          "min": 48,
+          "required": true,
+          "type": "number"
+        }
+      },
+      "selection": {
+        "maxItems": 6,
+        "minItems": 2
+      },
+      "version": 1
+    },
+    {
       "id": "t6-01",
       "layout": {
         "exclusive": false,
